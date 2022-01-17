@@ -1,2 +1,2 @@
 # key-indicator-system
-Key Indicator tracking system for mission information
+Tracking system for Key Indicators for Conversion and other mission information
