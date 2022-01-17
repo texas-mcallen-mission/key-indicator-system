@@ -1,5 +1,5 @@
 /*
-        triggers.gs
+        triggers
         Helper functions relating to simple, time-based, and custom menu triggers. Used to create a layer of abstraction between triggers and raw functions
 
 
