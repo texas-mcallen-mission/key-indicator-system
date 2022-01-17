@@ -108,18 +108,3 @@
   
     loadAreaIDs(allSheetData);
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  

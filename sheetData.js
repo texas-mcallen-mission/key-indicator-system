@@ -741,13 +741,3 @@ function clearAllSheetDataCache() {
   let cache = CacheService.getDocumentCache();
   cache.remove('allSheetData');
 }
-
-
-
-
-
-
-
-
-
-

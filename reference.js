@@ -12,7 +12,8 @@
 Data structure
 
 
-For historical data with no recorded email, areaID is the string `${areaName} [historical]`
+The areaID is a string that uniquely identifies an area.
+It is generated from the area email. For historical data with no recorded email, it is an arbitrary preset string.
 
 
 missionData = [
