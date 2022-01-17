@@ -1,5 +1,5 @@
 /*
-        Head.gs
+        head
         Helper functions, static variables, simple triggers
 */
 
