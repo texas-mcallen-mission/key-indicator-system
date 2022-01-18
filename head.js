@@ -11,6 +11,10 @@
 //Static vars
   //let MASTER_SHEET_ID = "1P9tnkUKI2GRf--7O1rwYDF1oV8dgz2F3fa8qQGd3Jwk";
   //let FORM_ID = "1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g";
+  
+  // this is a temporary modification to try clearing an error
+  let functionGUBED = false
+
   let MAX_ROWS = 300;
   let AREAS_WITHOUT_EMAILS = ["Laredo 4C",
                               "McAllen 2C",
