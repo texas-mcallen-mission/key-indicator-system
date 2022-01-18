@@ -15,6 +15,8 @@ const outputDataDumpSheetName = "Data"
 const configPageSheetName = "config"
 
 
+
+
 // var targetZone = "HARLINGEN"
 
 /*const mainDataSheetHeader = [
@@ -201,8 +203,7 @@ function updateZoneReports() {
 
   let filesysObject = splitToDataStruct(storedZoneData.data)
 
-  Logger.log(zoneSheetData.getHeaderRow())
-  // return "done"
+
   Logger.log("making modifiedFilesysObject")
   // Logger.log(filesysObject)
   let modifiedFilesysObject = createTemplates_(filesysObject, zoneTemplateSpreadsheetId)
@@ -233,8 +234,11 @@ function updateZoneReports() {
 function updateAreaReports() {
   // return ""
   // Logger.log(areaDataSheetName)
+  let allSheetData = constructSheetData()
 
-  let storedAreaDataSheet = getSheetOrSetUp_(areaDataSheetName, areaDataHeaders)
+  let areaSheetData = allSheetData.areaFilesys
+
+  let storedAreaDataSheet = areaSheetData.sheet /*getSheetOrSetUp_(areaDataSheetName, areaDataHeaders)*/
   let storedAreaData = getSheetDataWithHeader_(storedAreaDataSheet) // was `zoneDataSheetName`
   // Logger.log(storedZoneData)
 
@@ -266,7 +270,11 @@ function updateDistrictReports() {
   // return ""
   // Logger.log(areaDataSheetName)
 
-  let storedDistrictDataSheet = getSheetOrSetUp_(districtDataSheetName, districtDataHeaders)
+  let allSheetData = constructSheetData()
+
+  let distSheetData = allSheetData.distFilesys
+
+  let storedDistrictDataSheet = distSheetData.sheet
   let storedDistrictData = getSheetDataWithHeader_(storedDistrictDataSheet) // was `zoneDataSheetName`
   // Logger.log(storedZoneData)
 
