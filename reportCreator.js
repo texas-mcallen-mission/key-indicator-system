@@ -183,7 +183,8 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
 }
 
 
-let HOTFIX_ZONE_HEADERS = ['Area Name String' , 'Parent Folder ID' , 'Zone Folder ID' , 'Sheet Report ID' , '2nd Report ID (unimp)' ]
+let HOTFIX_HEADERS = ['Folder Name String' , 'Parent Folder ID' , 'Zone Folder ID' , 'Sheet Report ID' , '2nd Report ID (unimp)' ]
+
 
 function updateZoneReports() {
   // return ""
@@ -213,7 +214,7 @@ function updateZoneReports() {
   }
   // Logger.log(zoneDataHeaders)
   
-  sendDataToDisplayV3_(HOTFIX_ZONE_HEADERS, filesysData, storedZoneDataSheet)
+  sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedZoneDataSheet)
 
   let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""])
 
@@ -250,7 +251,7 @@ function updateAreaReports() {
     filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
   }
 
-  sendDataToDisplayV3_(areaDataHeaders, filesysData, storedAreaDataSheet)
+  sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedAreaDataSheet)
 
   let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""])
 
@@ -282,7 +283,7 @@ function updateDistrictReports() {
     filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
   }
 
-  sendDataToDisplayV3_(districtDataHeaders, filesysData, storedDistrictDataSheet)
+  sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedDistrictDataSheet)
 
   let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""])
 
