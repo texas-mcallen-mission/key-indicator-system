@@ -37,11 +37,21 @@ function updateDataSheet_TimeBasedTrigger() {
 
   if (STOP_DATA_UPDATE_TRIGGER) {
     Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+    return
   }
 
   updateDataSheet();
 }
+function importContacts_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running importContacts() from a time-based trigger")
 
+  if (FREEZE_CONTACT_DATA) {
+    Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+    return
+  }
+  let allSheetData = constructSheetData()
+  importContacts(allSheetData)
+}
 
 
 

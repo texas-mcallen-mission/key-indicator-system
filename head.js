@@ -4,6 +4,8 @@
 */
 
 
+// THIS IS A TEST OF THE CONTINUOUS BROADCAST SYSTEM. BEEEEEEEP
+
 
 //Static vars
   //let MASTER_SHEET_ID = "1P9tnkUKI2GRf--7O1rwYDF1oV8dgz2F3fa8qQGd3Jwk";
@@ -22,7 +24,7 @@
 
 
   let CACHE_AREA_IDS = false; //[unimplemented] Store the list of areaIDs in the cache
-  let CACHE_SHEET_DATA = true; //Store allSheetData in the cache (the object returned by the constructSheetData() function)
+  let CACHE_SHEET_DATA = false; //Store allSheetData in the cache (the object returned by the constructSheetData() function)
   let CACHE_ORG_DATA = false; //[unimplemented] Store missionOrgData in the cache (the object returned by getMissionOrgData() function)
 
   let UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD = false; //WARNING: If set to true, loading the filesystem will take a VERY long time!
@@ -41,6 +43,7 @@
   let LOG_RESPONSE_PULLED = false;
   let LOG_DUPLICATES = false;
   let LOG_FILE_SHARING = false;
+
 
 //End
 
