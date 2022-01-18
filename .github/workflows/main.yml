@@ -1,4 +1,4 @@
-name: Deploy Script
+name: Main Branch GAS
 
 on:
   workflow_dispatch:
