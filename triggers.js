@@ -34,14 +34,24 @@ function onOpen() {
 
 function updateDataSheet_TimeBasedTrigger() {
   Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger")
+
+  if (STOP_DATA_UPDATE_TRIGGER) {
+    Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+    return
+  }
+
   updateDataSheet();
 }
+function importContacts_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running importContacts() from a time-based trigger")
 
-function updateFormData_TimeBasedTrigger() {
-  Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger")
-  updateDataSheet();
+  if (FREEZE_CONTACT_DATA) {
+    Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+    return
+  }
+  let allSheetData = constructSheetData()
+  importContacts(allSheetData)
 }
-
 
 
 
@@ -67,7 +77,6 @@ function markDuplicates_MenuTrigger_() {
   let allSheetData = constructSheetData();
   markDuplicates(allSheetData);
 }
-
 
 
 

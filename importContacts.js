@@ -1,18 +1,19 @@
 
 
-
-function importContacts()
+function importContacts(allSheetData)
 { 
+
+  if (FREEZE_CONTACT_DATA) return;
+
+  // throw "ERROR: tried to run nonfunctional version of importContacts!"
+
+
   Logger.log("Importing Contact data from Google Contacts...")
   
   let genDate = new Date();
 
-  let sheet = setSheetUp(contactDataSheetName)
-  // JUST WHILE DEBUGGING:
-  if(DEBUG = true){  //this just clears the sheet so that I don't have to keep scrolling.
-    sheet.clearContents();
-    sheet.appendRow(contactDataHeader);// Creating Header
-  }
+  let sheet = allSheetData.contact.getSheet();
+
 
   let data = [];
 
@@ -83,10 +84,10 @@ function setSheetUp(sheetName){
 /**
  * Returns true if Contact Data was not imported recently and needs to be refreshed.
  */
-function isContactDataOld() {
+function isContactDataOld(allSheetData) {
   let msOffset = 86400000; //Number of milliseconds in 24 hours
   let nowTime = new Date();
-  let genTime = getContactSheet().getRange("A2").getValue();
+  let genTime = allSheetData.contact.getSheet().getRange("A2").getValue();
   let out;
 
   try {
@@ -111,6 +112,5 @@ function getPrettyDate(){
 /**
  * 
  */
-
 
 

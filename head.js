@@ -4,6 +4,9 @@
 */
 
 
+// THIS IS A TEST OF THE CONTINUOUS BROADCAST SYSTEM. BEEEEEEEP
+// easily identifiable line for debugging purposes
+
 
 //Static vars
   //let MASTER_SHEET_ID = "1P9tnkUKI2GRf--7O1rwYDF1oV8dgz2F3fa8qQGd3Jwk";
@@ -21,25 +24,26 @@
                               "Zapata C"];
 
 
-  let CACHE_AREA_IDS = true; //Store the list of areaIDs in the cache [unimplemented]
+  let CACHE_AREA_IDS = false; //[unimplemented] Store the list of areaIDs in the cache
   let CACHE_SHEET_DATA = false; //Store allSheetData in the cache (the object returned by the constructSheetData() function)
-  let CACHE_ORG_DATA = true; //Store missionOrgData in the cache (the object returned by getMissionOrgData() function) [unimplemented]
+  let CACHE_ORG_DATA = false; //[unimplemented] Store missionOrgData in the cache (the object returned by getMissionOrgData() function)
 
   let UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD = false; //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
 
   //Debugging parameters
 
-  let DEBUG = true; //If false, all other deugging parameters are assumed to be false.
+  let DEBUG = false; //If false, all other deugging parameters are assumed to be false.
 
   let SKIP_MARKING_PULLED = false; //Stops marking Form Responses as having been pulled into the data sheet
-  let FREEZE_CONTACT_DATA = true; //Stops importing contacts
-  let STOP_DATA_UPDATE_TRIGGER = true; //Stops updateDataSheet() from triggering automatically
+  let FREEZE_CONTACT_DATA = false; //Stops importing contacts
+  let STOP_DATA_UPDATE_TRIGGER = false; //Stops updateDataSheet() from triggering automatically
 
+  let LOG_IMPORT_CONTACTS = true;
   let LOG_MERGE_DATA = false;
   let LOG_RESPONSE_PULLED = false;
   let LOG_DUPLICATES = false;
-  let LOG_FILE_SHARING = true;
+  let LOG_FILE_SHARING = false;
 
 
 //End
@@ -83,7 +87,6 @@ function logToResponse(row, log) {
   }
   getDataSheet().getRange(row,1).setValue(log);
 }
-
 
 
 
