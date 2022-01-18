@@ -336,11 +336,6 @@ function populateExtraColumnData_(allSheetData) {
     if (key == "") continue;
     formSheetData.addColumnAt_(key, i);
 
-    try {
-      let index = dataSheetData.getIndex(key);
-    } catch (e) {
-
-    }
     if (!dataSheetData.hasKey(key)) {
       dataSheetData.addColumnWithHeader_(key);
     }
