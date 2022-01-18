@@ -1,4 +1,4 @@
-name: Deploy Script
+name: CI Int Test
 
 on:
   workflow_dispatch:
