@@ -8,11 +8,11 @@ const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM"
 const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE"
 
 
-// const kicDataStoreSheetName = "Data"
+const kicDataStoreSheetName = "Data"
 
-// const templateDataDumpSheetName = "Data"
-// const outputDataDumpSheetName = "Data"
-// const configPageSheetName = "config"
+const templateDataDumpSheetName = "Data"
+const outputDataDumpSheetName = "Data"
+const configPageSheetName = "config"
 
 
 // var targetZone = "HARLINGEN"
@@ -183,6 +183,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
 }
 
 
+let HOTFIX_ZONE_HEADERS = ['Area Name String' , 'Parent Folder ID' , 'Zone Folder ID' , 'Sheet Report ID' , '2nd Report ID (unimp)' ]
 
 function updateZoneReports() {
   // return ""
@@ -193,12 +194,14 @@ function updateZoneReports() {
   
 
   let storedZoneDataSheet = zoneSheetData.sheet
+  
   let storedZoneData = getSheetDataWithHeader_(storedZoneDataSheet) // was `zoneDataSheetName`
   // Logger.log(storedZoneData)
 
   let filesysObject = splitToDataStruct(storedZoneData.data)
 
-
+  Logger.log(zoneSheetData.getHeaderRow())
+  // return "done"
   Logger.log("making modifiedFilesysObject")
   // Logger.log(filesysObject)
   let modifiedFilesysObject = createTemplates_(filesysObject, zoneTemplateSpreadsheetId)
@@ -209,7 +212,8 @@ function updateZoneReports() {
     filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
   }
   // Logger.log(zoneDataHeaders)
-  sendDataToDisplayV3_(zoneDataHeaders, filesysData, storedZoneDataSheet)
+  
+  sendDataToDisplayV3_(HOTFIX_ZONE_HEADERS, filesysData, storedZoneDataSheet)
 
   let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""])
 

@@ -58,7 +58,7 @@ function splitDataByTagEliminateDupes(referenceData, tagColumn, dupeColumn) {
     return { data: splitData, tagArray: tagList }
   }
   
-  function splitDataByTag(referenceData, tagColumn) {
+  function splitDataByTag_(referenceData, tagColumn) {
     //currently just for zones, but we'll change that once I know this thing actually works.
     let checkPosition = tagColumn // for zones
     let tagList = getUniqueFromPosition_(referenceData, checkPosition)
