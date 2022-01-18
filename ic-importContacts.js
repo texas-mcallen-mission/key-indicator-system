@@ -101,6 +101,10 @@ function importContacts(allSheetData)
 
 
 
+
+
+
+
 /**
  * Returns true if Contact Data was not imported recently and needs to be refreshed.
  */
@@ -118,6 +122,102 @@ function isContactDataOld(allSheetData) {
 
   return out;
 }
+
+
+
+
+
+
+
+
+
+/**
+ * [UNIMPLEMENTED] Parses phone number data for importContacts()
+ */
+function phoneParser(phoneData) {
+    // for(phoneData)
+  }
+// THIS NEEDS TO BE WRITTEN  
+
+
+
+
+
+
+
+/**
+ * Parses email data for importContacts()
+ */
+function emailParser(emailList) {
+  let emailAddresses = []
+  let emailDisplayNames = []
+  let emailLabelName = []
+  // this operates under the assumption that all the emails are in the same order :0
+  for(let i=0; i<emailList.length;i++){
+    emailAddresses[i] = emailList[i].getAddress()
+    emailDisplayNames[i] = emailList[i].getDisplayName()
+    emailLabelName[i] = emailList[i].getLabel()
+  }
+  return{
+    emailAddresses:emailAddresses,
+    emailDisplayNames:emailDisplayNames,
+    emailLabelNames:emailLabelName
+  }
+}
+
+
+
+
+
+
+
+
+
+// IF THIS GOES GLOBAL, THIS WILL HAVE TO CHANGE!!!
+
+function testLanguageParser(){
+  let testString = "TEST (Spanish) WORDS,TEST ENGLISH WORDS"
+  Logger.log(testString.split(","))
+  Logger.log(languageParser(true,testString))
+}
+
+
+/**
+ * Parses language data for importContacts()
+ */  
+function languageParser(multipleUnits,unitString) {
+
+  Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!')
+  // noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))
+  let defaultLanguage = "English"
+  let spanishTestString = "Spanish"
+  let spanishOutputString = "Spanish"
+  let returnData = []
+
+  if (!multipleUnits) {
+    if (unitString.includes(spanishTestString)==true) // this is going to get changed in the future to get rid of the silly 'spanish,spanish' tags.
+      returnData.push(spanishOutputString);
+    else
+      returnData.push(defaultLanguage)
+    
+  } else {
+    let unitStringSplit = unitString.split(",")
+
+    for (let testString of unitStringSplit) {
+      if(testString.includes(spanishTestString))
+        returnData.push(spanishOutputString)
+      else
+        returnData.push(defaultLanguage)
+    }
+  }
+
+  return {'languageString': returnData.toString()};
+}
+
+
+
+
+
 
 
 
