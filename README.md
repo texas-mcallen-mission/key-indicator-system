@@ -1,4 +1,4 @@
-# key-indicator-system
+# key-indicator-system  [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml)
 Tracking system for the Key Indicators for Conversion and other mission statistics.
 
 
