@@ -8,7 +8,9 @@ function parseNotes(inputString) {
           var hasVehicle = inputString.includes("Vehicle")
   
           var area = notesSplit[0].replace("Area: ","").trim()
-          Logger.log(area)
+
+          if (LOG_IMPORT_CONTACTS) Logger.log(`Parsing notes for Contact: ${area}`)
+
           var district = notesSplit[1].replace("District: ","").trim()
           var zone = notesSplit[2].replace("Zone: ", "").trim()
           let  isSeniorCouple = notesSplit[1].includes("Senior")
