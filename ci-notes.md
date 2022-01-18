@@ -19,7 +19,7 @@ The goals here are as follows:
  - the reason this is important is because we have automated triggers that amongst other things tell us when stuff breaks.
 2. be able to have the local ``.clasp.json`` file co-exist with the server version
  - this would be super handy because it would mean that CI and local CLASP wouldn't interfere with each other
- - However, if we're working exclusively off the cloud now using ``vscode.dev`` & ``github.dev``, this is a lot less of a problem.
+ - However, if we're working exclusively off the cloud now using ``vscode.dev`` & ``github.dev``d, this is a lot less of a problem.
 3. Get this stable enough that we can auto push into a live release eventually
  - side goal: implement deep error tracking & timing so that we can make a dashboard in DataStudio to monitor program health and potentially identify problem spots.  😁
 
