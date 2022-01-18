@@ -1,8 +1,8 @@
 /*
-        SheetData.gs
-        Handles sheet setup, headers, column indices, etc
+        SheetData
+        Handles sheet setup, headers, column indices, pulling and pushing data, etc.
 
-        v1.9
+        v1.10
 
         Public class methods:
 
@@ -121,7 +121,7 @@ class SheetData {
     this.nextFreeColumn = Math.max(this.nextFreeColumn, index + 1);
   }
 
-  addColumnWithHeader_(key) {
+  addColumnWithHeader_(key, header) {
     if (key == "") return;
     if (typeof this.keyToIndex[key] != 'undefined')
       throw "Data collision error!"
@@ -129,16 +129,11 @@ class SheetData {
     this.keyToIndex[key] = this.nextFreeColumn;
     this.nextFreeColumn++;
 
-    //                                                                          TODO     Add header to data sheet?
+    //                              TODO     Add header to data sheet?
   }
 
   addColumn_(key) {
-    if (key == "") return;
-    if (typeof this.keyToIndex[key] != 'undefined')
-      throw "Data collision error!"
-
-    this.keyToIndex[key] = this.nextFreeColumn;
-    this.nextFreeColumn++;
+    this.addColumnWithHeader_(key, "UNIMPLEMENTED");
   }
 
 
@@ -163,6 +158,13 @@ class SheetData {
   }
 
   /**
+   * Returns the index, starting with 0, of the header row of this sheet.
+   */
+  getHeaderRow() {
+    return this.headerRow;
+  }
+
+  /**
    * Returns the index for the column with the given key string.
    */
   getIndex(key) {
@@ -176,7 +178,7 @@ class SheetData {
    * Returns the key string for the column with the given index.
    */
   getKey(index) {
-    if (typeof this.indexToKey[index] != 'undefined')
+    if (this.hasIndex(index))
       return this.indexToKey[index];
     else
       throw `Couldn't get key from index: index '${index}' not defined in sheet '${this.tabName}'`
@@ -193,6 +195,9 @@ class SheetData {
    * Returns true if this SheetData object has a defined value for the given key.
    */
   hasKey(key) {
+    let b = this.keyToIndex;
+    let out = this.keyToIndex[key];
+    let type = typeof this.keyToIndex[key];
     return typeof this.keyToIndex[key] != 'undefined';
   }
 
@@ -200,29 +205,25 @@ class SheetData {
    * Returns the header row of this sheet.
    */
   getHeaders() {
-    let range = this.sheet.getRange(this.headerRow+1,1,1,this.sheet.getNumColumns());
+    let range = this.getSheet().getRange(this.headerRow+1,1,1,this.getSheet().getLastColumn());
     return range.getValues()[0];
   }
 
   /**
-   * Returns the data from this sheet as a two dimensional array. Does not include headers.
+   * Returns the data from this sheet as a two dimensional array. Does not include headers or rows above the header row.
    */
   getValues() {
-    let values = this.sheet.getDataRange().getValues();
+    let values = this.getSheet().getDataRange().getValues();
     for (let i = this.headerRow + 1; i > 0; i--) values.shift(); //Skip header rows
-
     return values;
   }
 
   /**
-   * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties.
+   * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Does not include headers or rows above the header row.
    */
   getData() {
     let outValues = [];
-
-    let values = this.sheet.getDataRange().getValues();
-    for (let i = this.headerRow + 1; i > 0; i--) values.shift(); //Skip header rows
-
+    let values = this.getValues();
     for (let row of values) {
       let rowObj = {};
       for (let i = 0; i < row.length; i++) {
@@ -240,7 +241,36 @@ class SheetData {
    * @param data The data to insert.
    */
   insertData(data) {
-    throw "UNIMPLEMENTED";
+    if (data.length==0) return;
+
+    let values = [];
+    let skippedKeys = new Set();
+    let maxIndex = 0;
+
+    for (let rowData of data) {
+      let arr = [];
+      for (let key in rowData) {
+
+        if (!this.hasKey(key)) {
+          skippedKeys.add(key);
+        } else {
+          arr[this.getIndex(key)] = rowData[key];
+          maxIndex = Math.max(maxIndex, this.getIndex(key));
+        }
+
+      }
+      values.push(arr);
+    }
+
+    //Force all rows to be of the same length
+    for (let arr of values)
+      if (typeof arr[maxIndex] == 'undefined')
+        arr[maxIndex] = "";
+    
+    for (let key of skippedKeys)
+      Logger.log(`Skipped key ${key} while pushing to sheet ${this.tabName}. Sheet doesn't have that key`);
+
+    this.insertValues(values);
   }
 
   /**
@@ -248,7 +278,10 @@ class SheetData {
    * @param values The values to insert.
    */
   insertValues(values) {
-    throw "UNIMPLEMENTED";
+    if (values.length==0) return;
+    this.getSheet().insertRowsBefore(this.headerRow+2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+    let range = this.getSheet().getRange(this.headerRow+2, 1, values.length, values[0].length);
+    range.setValues(values);
   }
 
   /**
@@ -263,26 +296,14 @@ class SheetData {
    */
   getAllOfKey(key) {
     let index = this.keyToIndex[key];
-
-    let values = this.sheet.getDataRange().getValues();
-    values.shift();
-    let arr = [];
-
-    for (let row = 0; row < values.length; row++) {
-      let val = values[row][index];
-      arr.push(val);
-    }
-
-    return arr;
+    return this.getAllOfIndex(index);
   }
 
   /**
    * Returns an array of all the values in the sheet for the column with the given index.
    */
   getAllOfIndex(index) {
-
-    let values = this.sheet.getDataRange().getValues();
-    values.shift();
+    let values = this.getValues();
     let arr = [];
 
     for (let row = 0; row < values.length; row++) {
@@ -706,28 +727,41 @@ function constructSheetData(forceConstruct) {
 
 function testSheetData() {
   let allSheetData = constructSheetData();
+
+  Logger.log("Data SheetData:")
   Logger.log(allSheetData.data);
+
+  Logger.log("Headers:")
   Logger.log(allSheetData.data.getHeaders());
   // Logger.log(allSheetData.data.getHeaders());
   // Logger.log(allSheetData.data.getHeaders());
   // Logger.log(allSheetData.data.getHeaders());
-  // Logger.log(allSheetData.data.getHeaders());
+
+
+  let data = allSheetData.contact.getData();
+  allSheetData.data.insertData(data);
+
+
+
+
+
+
 
 
   /*
 
-getIndex
-getKey
-hasIndex
-hasKey
-getHeaders
-getValues
-getData
-insertData
-insertValues
-getKeys
-getAllOfKey
-getAllOfIndex
+  getIndex
+  getKey
+  hasIndex
+  hasKey
+  getHeaders
+  getValues
+  getData
+  insertData
+  insertValues
+  getKeys
+  getAllOfKey
+  getAllOfIndex
 
   */
 }
@@ -736,3 +770,12 @@ function clearAllSheetDataCache() {
   let cache = CacheService.getDocumentCache();
   cache.remove('allSheetData');
 }
+
+
+
+
+
+
+
+
+
