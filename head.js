@@ -36,12 +36,11 @@
   let FREEZE_CONTACT_DATA = false; //Stops importing contacts
   let STOP_DATA_UPDATE_TRIGGER = false; //Stops updateDataSheet() from triggering automatically
 
-  let LOG_IMPORT_CONTACTS = false;
+  let LOG_IMPORT_CONTACTS = true;
   let LOG_MERGE_DATA = false;
   let LOG_RESPONSE_PULLED = false;
   let LOG_DUPLICATES = false;
   let LOG_FILE_SHARING = false;
-
 
 //End
 
