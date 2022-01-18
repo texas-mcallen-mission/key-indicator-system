@@ -497,10 +497,9 @@
   
   
       for (let key in metadata) {
-        let index = dSheetData.getIndex(key);
-        if (typeof index == 'undefined')
-          continue;
-  
+        if (!dSheetData.hasKey(key)) continue;
+
+        let index = dSheetData.getIndex(key);  
         if (row[index])
           Logger.log(`Potential data collision for metadata key '${key}'`);
         else
