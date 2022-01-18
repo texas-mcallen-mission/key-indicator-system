@@ -1,86 +1,105 @@
-
-
+/*
+        importContacts
+        Main functions for importing data into the Contact Data sheet from Google Contacts.
+*/
 
 function importContacts(allSheetData)
-{ 
-
+{
   if (FREEZE_CONTACT_DATA) return;
 
-  // throw "ERROR: tried to run nonfunctional version of importContacts!"
-
-
   Logger.log("Importing Contact data from Google Contacts...")
-  
-  let genDate = new Date();
 
-  let sheet = allSheetData.contact.getSheet();
+
+  let effectiveEmail = Session.getEffectiveUser().getEmail();
+  if (effectiveEmail != "texas.mcallen@missionary.org") {
+    throw `Tried to import contacts from an email other than the TMM office email! Email was: ${effectiveEmail}. If being used by a mission other than the Texas McAllen Mission, this needs to be manually changed by the developers. Please contact Nathaniel Gerlek at nathaniel.gerlek@gmail.com`;
+  }
+
+
+
+  //Pull in contact data from Google Contacts
+  let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+  let contacts = group.getContacts();                     // Fetches contact list of group 
 
 
   let data = [];
+  let values = [];
 
-  //pulls in contact data from Google Contacts, and gets everything ready to go.
-  let  group  = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-  let  contacts = group.getContacts();                    // Fetches contact list of group 
-
-
-  for (let  contactPEEP of contacts){
+  for (let  contact of contacts) {
 
     // I basically built this as a big single function and then broke it up into a bunch of little ones.
-    let noteData = parseNotes(contactPEEP.getNotes())  
-    let  contactEmailList = contactPEEP.getEmails();
-    emailData = emailParser(contactEmailList)
-    // Logger.log(emailData)
-    // Logger.log(emailData.emailLabelNames)
-    let roleData = roleParser(emailData.emailLabelNames,contactEmailList)
 
-    // Missionary Address Puller
-    let apartmentAddressObject = contactPEEP.getAddresses()
+    //Note Parser
+    let noteData = parseNotes(contact.getNotes());
+
+    //Email Parser
+    let  contactEmailList = contact.getEmails();
+    emailData = emailParser(contactEmailList)
+
+    //Role Parser
+    let roleData = roleParser(emailData.emailLabelNames,contactEmailList);
+
+    //Address Puller
+    let apartmentAddressObject = contact.getAddresses()
     let apartmentAddress = ""
     if(apartmentAddressObject.length>=1){
       apartmentAddress = apartmentAddressObject[0].getAddress()
     }
-    // End puller
 
+    //Language Parser
     let languageData = languageParser(noteData.hasMultipleUnits,noteData.unitString)
 
     
+    if(!noteData.isSeniorCouple || IMPORT_SENIOR_COUPLE_CONTACT_DATA){
+      
+      let contactObject = 
+      {
+        'dateContactGenerated': new Date(),
+        'areaEmail': emailData.emailAddresses[0],
+        'areaName': noteData.area,
 
-    // append contact data to data array
-    // keeps senior missionaries out of the data.  Sorry guys.
-    if(noteData.isSeniorCouple == false){
-      let row = [new Date(),emailData.emailAddresses[0],noteData.area,
-                 emailData.emailDisplayNames[1],roleData.compRoles[1],roleData.isTrainer[1],
-                 emailData.emailDisplayNames[2],roleData.compRoles[2],roleData.isTrainer[2],
-                 emailData.emailDisplayNames[3],roleData.compRoles[3],roleData.isTrainer[3],
-                noteData.district,noteData.zone,noteData.unitString,noteData.hasMultipleUnits,languageData.languages,noteData.isSeniorCouple,noteData.isSisterArea,
-                 noteData.hasVehicle,noteData.vehicleMiles,noteData.vinLast8,apartmentAddress];
+        'name1': emailData.emailDisplayNames[1],
+        'position1': roleData.compRoles[1],
+        'isTrainer1': roleData.isTrainer[1],
 
-      data.push(row);
+        'name2': emailData.emailDisplayNames[2],
+        'position2': roleData.compRoles[2],
+        'isTrainer2': roleData.isTrainer[2],
+
+        'name3': emailData.emailDisplayNames[3],
+        'position3': roleData.compRoles[3],
+        'isTrainer3': roleData.isTrainer[3],
+
+        'district': noteData.district,
+        'zone': noteData.zone,
+        'unitString': noteData.unitString,
+        'hasMultipleUnits': noteData.hasMultipleUnits,
+        'languageString': languageData.languageString,
+        'isSeniorCouple': noteData.isSeniorCouple,
+        'isSisterArea': noteData.isSisterArea,
+        'hasVehicle': noteData.hasVehicle,
+        'vehicleMiles': noteData.vehicleMiles,
+        'vinLast8': noteData.vinLast8,
+
+        'aptAddress': apartmentAddress,
+      }
+
+
+      data.push(contactObject);
     }
   }
-  //Output data to sheet
-  sheet.getRange(2,1,data.length,data[0].length).setValues(data);
+
+  
+  allSheetData.contact.insertData(data);
 
   Logger.log("Finished importing Contact data.")
 
-} // Written by Elder Robertson, TMM
-
-
-/**
- * Clears and adds a header row to the Contact Data sheet.
- * Creates the sheet if it doesn't exist.
- */
-function setSheetUp(sheetName){
-  let  ss = SpreadsheetApp.getActiveSpreadsheet();        //Get currently Active sheet
-    // Checks to see if the sheet exists or not.
-    let sheet = ss.getSheetByName(sheetName)
-    if(!sheet){
-      sheet = ss.insertSheet(sheetName)
-            sheet.appendRow(contactDataHeader);// Creating Header
-    }
-
-  return sheet
 }
+
+
+
+
+
 
 /**
  * Returns true if Contact Data was not imported recently and needs to be refreshed.
@@ -100,18 +119,9 @@ function isContactDataOld(allSheetData) {
   return out;
 }
 
-/**
- * 
- */
-function getPrettyDate(){
-    var saveDate = new Date();
-    saveDate.getUTCDate();
-    let prettyDate = Utilities.formatDate(saveDate, "GMT+1", "dd/MM/yyyy");
-    return prettyDate
-}
 
-/**
- * 
- */
+
+
+
 
 
