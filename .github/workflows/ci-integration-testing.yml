@@ -3,7 +3,7 @@ name: Deploy Script
 on:
   workflow_dispatch:
   push:
-    branches: [main] # removed develop because ideally that branch will disappear
+    branches: [ci-integration-testing]
   release:
     types: [published]
   schedule:
