@@ -1,4 +1,4 @@
-# key-indicator-system  [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) [![Bert Dev](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/ci-integration-testing.yml/badge.svg?branch=main)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/ci-integration-testing.yml)
+# key-indicator-system  [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) [![CI Int Test](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/ci-integration-testing.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/ci-integration-testing.yml)
 Tracking system for the Key Indicators for Conversion and other mission statistics.
 
 
