@@ -34,11 +34,11 @@ function onOpen() {
 
 function updateDataSheet_TimeBasedTrigger() {
   Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger")
-  updateDataSheet();
-}
 
-function updateFormData_TimeBasedTrigger() {
-  Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger")
+  if (STOP_DATA_UPDATE_TRIGGER) {
+    Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+  }
+
   updateDataSheet();
 }
 
@@ -67,7 +67,6 @@ function markDuplicates_MenuTrigger_() {
   let allSheetData = constructSheetData();
   markDuplicates(allSheetData);
 }
-
 
 
 
