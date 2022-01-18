@@ -15,6 +15,7 @@ function onOpen() {
   SpreadsheetApp.getUi().createMenu('Manual Commands')
                             .addItem('Pull Form Data', 'updateDataSheet_MenuTrigger_')
                             .addItem('Import Contacts', 'importContacts_MenuTrigger_')
+                            .addItem('Update FS','updateFS_MenuTrigger')
                             .addSubMenu(
                                 SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
                                 .addItem('onOpen', 'onOpen')
@@ -52,7 +53,11 @@ function importContacts_TimeBasedTrigger() {
   let allSheetData = constructSheetData()
   importContacts(allSheetData)
 }
+function updateFS_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateFS() from a time-based trigger")
 
+  createFS();
+}
 
 
 
@@ -65,7 +70,10 @@ function updateDataSheet_MenuTrigger_() {
   Logger.log("[TRIGGER] Running updateDataSheet() from the Manual Commands menu")
   updateDataSheet();
 }
-
+function updateFS_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu")
+  createFS();
+}
 function importContacts_MenuTrigger_() {
   Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu")
   let allSheetData = constructSheetData();
