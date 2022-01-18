@@ -17,6 +17,8 @@ function onOpen() {
                             .addItem('Import Contacts', 'importContacts_MenuTrigger_')
                             .addItem('Update FS','updateFS_MenuTrigger_')
                             .addItem('Update Area Reports','updateAreaReports_MenuTrigger_')
+                            .addItem('Update District Reports','updateDistrictReports_MenuTrigger_')
+                            .addItem('Update Zone Reports','updateZoneReports_MenuTrigger_')
                             .addSubMenu(
                                 SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
                                 .addItem('onOpen', 'onOpen')
