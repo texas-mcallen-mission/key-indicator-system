@@ -44,6 +44,46 @@ function verifySingleFilesys_(data) {
   return newData
 }
 
+function verifySingleFilesysV3_(fsObj) {
+
+  let newFsObj = fsObj
+  Logger.log(fsObj)
+  for (let i = 0; i < fsObj.name.length; i++) {
+    let nuke = false
+
+    if(isFolderReal_(fsObj.cFolderID[i]) == false){ nuke = true }
+    if(isFolderReal_(fsObj.pFolderID[i]) == false){ nuke = true }
+
+
+
+    for (document of fsObj.sheetsIDs[i]) {
+      if (isSheetReal_(document) == true) {
+        // Logger.log(["Document Exists for",fsObj.name[i],": ",document])
+      } else {
+        document = ""
+        newFsObj.sheetsIDs[i] = ""
+      }
+    }
+
+    if (nuke == true) {
+      Logger.log(["NUUUUKE", fsObj.name[i], fsObj.emails[i], fsObj.pFolderID[i], fsObj.cFolderID[i], fsObj.sheetsIDs[i]])
+      newFsObj.sheetsIDs.splice(i, 1)
+      newFsObj.emails.splice(i, 1)
+      newFsObj.pFolderID.splice(i, 1)
+      newFsObj.cFolderID.splice(i,1)
+      newFsObj.name.splice(i, 1)
+      // this is where we go and remove the whole line from the data.
+    }
+  }
+
+  // Logger.log(newFsObj)
+  // let newData = loadFSObjectIntoData_(newFsObj)
+  // Logger.log(newData)
+
+  // return newData
+  return newFsObj
+}
+
 function loadVerifyAndStoreFS_(dataSheetName, dataSheetHeaders, scopeStringForDebug) {
   let dataSheet = getSheetOrSetUp_(dataSheetName, dataSheetHeaders)
   let fsData = getSheetDataWithHeader_(dataSheet)

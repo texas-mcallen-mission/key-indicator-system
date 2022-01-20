@@ -19,7 +19,17 @@ const reportLevel = {
   */
 }
 
-
+function testVerifyV3(){
+  let allSheetData = constructSheetData()
+  Logger.log("Initializing filesystem for " + reportLevel.zone )
+  let zoneMeta = dataLoader_(allSheetData,reportLevel.zone)
+  Logger.log("Beginning Verification")
+  let updatedFSObj = verifySingleFilesysV3_(zoneMeta.fsObj)
+  Logger.log("Updating sheet")
+  let outData = getDataFromArray_(updatedFSObj,zoneMeta.sheetData)
+  sendDataToDisplayV3_(zoneMeta.splitData.header,outData,zoneMeta.sheet)
+  Logger.log("DONE")
+}
 
 // this little one-liner gets the root folder of the drive in case the reports folder is not found.
 var reportRootFolder = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
