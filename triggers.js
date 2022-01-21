@@ -11,7 +11,7 @@
 
 //                Simple triggers
 
-function onOpen() {
+function onOpen_InstallableTrigger() {
   SpreadsheetApp.getUi().createMenu('Manual Commands')
                             .addItem('Pull Form Data', 'updateDataSheet_MenuTrigger_')
                             .addItem('Import Contacts', 'importContacts_MenuTrigger_')
