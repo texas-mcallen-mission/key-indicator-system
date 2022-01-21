@@ -1,6 +1,6 @@
 /*
         triggers.gs
-        Helper functions relating to simple, time-based, and custom menu triggers. Used to create a layer of abstraction between triggers and raw functions
+        Helper functions relating to simple, installable, time-based, and custom menu triggers. Used to create a layer of abstraction between triggers and raw functions
 
 
 */
@@ -9,7 +9,7 @@
 
 
 
-//                Simple triggers
+//                Installable triggers
 
 function onOpen_InstalledTrigger() {
   SpreadsheetApp.getUi().createMenu('Manual Commands')
