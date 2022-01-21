@@ -22,7 +22,7 @@
 \ \_/ /\___  |                                                                                
  \___/     |_/                                                                                
 
-lol
+
 
 You might be wondering why a few missionaries spent a bunch of time working on a thing not *directly* related to our missionary purpose.
 
