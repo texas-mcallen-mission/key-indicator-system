@@ -3,9 +3,6 @@ Tracking system for the Key Indicators for Conversion and other mission statisti
 
 
 
-Code pushed into the ``/main`` & ``/develop`` branches will currently be automatically pushed into ``Github Main Branch`` on ``script.google.com``
-
-
 We'll be putting documentation together shortly™.
 
 Special thanks to https://github.com/ericanastas/deploy-google-app-script-action for the pre-work to allow us to have CI!
