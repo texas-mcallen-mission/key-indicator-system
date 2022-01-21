@@ -5,7 +5,7 @@
 
 function importContacts(allSheetData)
 {
-  if (FREEZE_CONTACT_DATA) return;
+  if (DBCONFIG.FREEZE_CONTACT_DATA) return;
 
   Logger.log("Importing Contact data from Google Contacts...")
 
@@ -50,7 +50,7 @@ function importContacts(allSheetData)
     let languageData = languageParser(noteData.hasMultipleUnits,noteData.unitString)
 
     
-    if(!noteData.isSeniorCouple || IMPORT_SENIOR_COUPLE_CONTACT_DATA){
+    if(!noteData.isSeniorCouple || false){
       
       let contactObject = 
       {

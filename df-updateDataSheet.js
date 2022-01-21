@@ -19,7 +19,6 @@
   */
 function updateDataSheet() {
   Logger.log("BEGINNING UPDATE")
-  if (DEBUG) Logger.log(`[DEBUG] Running in Debug Mode. Welcome, Spreadsheet Master`)
 
   let allSheetData = constructSheetData();
 
@@ -133,7 +132,7 @@ function markDuplicates(allSheetData) { //                                  TODO
       log += '\nSkipping row';
       skippedRows.push(row);
 
-      if (DEBUG && LOG_DUPLICATES) Logger.log(log);
+      if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
       continue;
     }
 
@@ -153,7 +152,7 @@ function markDuplicates(allSheetData) { //                                  TODO
       mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
 
       log += `\nFirst ocurrence, continuing.`
-      if (DEBUG && LOG_DUPLICATES) Logger.log(log);
+      if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
       continue;
     }
 
@@ -190,7 +189,7 @@ function markDuplicates(allSheetData) { //                                  TODO
       }
     }
 
-    if (DEBUG && LOG_DUPLICATES) Logger.log(log);
+    if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
   }
 
 
@@ -235,7 +234,7 @@ function pullFormDataV2(allSheetData) {
   let missionData = [];
 
   Logger.log(`[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?`)
-  if (LOG_RESPONSE_PULLED) Logger.log(`Pulling response for area: '${response.areaName}'`);
+  if (DBCONFIG.LOG_RESPONSE_PULLED) Logger.log(`Pulling response for area: '${response.areaName}'`);
 
 
   for (let response of responses) {
@@ -383,7 +382,7 @@ function mergeIntoMissionDataV2(missionData, sourceData, sourceID) {
     let areaName = missionAreaData.areaName;
     let sourceAreaData = sourceData[missionAreaData.areaID];
 
-    if (LOG_MERGE_DATA) (`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
+    if (DBCONFIG.LOG_MERGE_DATA) (`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
 
     if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
       throw `Found a form response for area '${areaName}' (${areaID}), but couldn't find that area in ${sourceID}`;
