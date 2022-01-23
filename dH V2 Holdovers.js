@@ -64,7 +64,8 @@ function verifySingleFilesysV3_(fsObj) {
 
       if (nuke == true) {
         Logger.log(["NUUUUKE", entry.name, entry.parentFolder, entry.folder, entry.sheetID1])
-        newFsObj.splice(i, 1)
+        let position = newFsObj.indexOf(entry)
+        newFsObj.splice(position, 1)
 
       }
     }

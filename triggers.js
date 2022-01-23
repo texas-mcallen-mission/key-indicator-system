@@ -21,7 +21,7 @@ function onOpen_InstallableTrigger() {
                             .addItem('Update Zone Reports','updateZoneReports_MenuTrigger_')
                             .addSubMenu(
                                 SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
-                                .addItem('onOpen', 'onOpen')
+                                .addItem('onOpen', 'onOpen_InstallableTrigger')
                                 .addItem('Mark Duplicates', 'markDuplicates_MenuTrigger_')
                             )
                             .addToUi();
