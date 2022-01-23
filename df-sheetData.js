@@ -64,6 +64,7 @@ class SheetData {
     /*  Internal functions  */
 
     function initNextFreeColumn(keyToIndex) {
+      //TODO Rewrite using addColumn() functions.
       let currentMax = 0;
       for (let key in keyToIndex) {
         let index = keyToIndex[key];
@@ -114,22 +115,25 @@ class SheetData {
 
   addColumnAt_(key, index) {
     if (key == "") return;
-    if (typeof this.keyToIndex[key] != 'undefined')
-      throw "Data collision error!"
+    if (this.hasIndex(index))
+      throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that index already has key '${this.getKey(index)}'`;
+    if (this.hasKey(key))
+      throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that key already exists at index '${this.getIndex(key)}'`;
 
     this.keyToIndex[key] = index;
     this.nextFreeColumn = Math.max(this.nextFreeColumn, index + 1);
   }
 
   addColumnWithHeader_(key, header) {
+    //TODO Implement addColumnWithHeader()
     if (key == "") return;
-    if (typeof this.keyToIndex[key] != 'undefined')
-      throw "Data collision error!"
+    if (this.hasKey(key))
+      throw `Potential data collision! Tried to add key '${key}' to sheet ${this.getTabName()}, but that key already exists at index '${this.getIndex(key)}'`;
 
     this.keyToIndex[key] = this.nextFreeColumn;
     this.nextFreeColumn++;
 
-    //                              TODO     Add header to data sheet?
+    //       TODO     Add header to data sheet?
   }
 
   addColumn_(key) {
@@ -168,20 +172,20 @@ class SheetData {
    * Returns the index for the column with the given key string.
    */
   getIndex(key) {
-    if (typeof this.keyToIndex[key] != 'undefined')
-      return this.keyToIndex[key];
-    else
+    if (!this.hasKey(key))
       throw `Couldn't get index from key: key '${key}' not found in sheet '${this.tabName}'`
+
+    return this.keyToIndex[key];
   }
 
   /**
    * Returns the key string for the column with the given index.
    */
   getKey(index) {
-    if (this.hasIndex(index))
-      return this.indexToKey[index];
-    else
+    if (!this.hasKey(index))
       throw `Couldn't get key from index: index '${index}' not defined in sheet '${this.tabName}'`
+
+    return this.indexToKey[index];
   }
 
   /**
@@ -195,9 +199,6 @@ class SheetData {
    * Returns true if this SheetData object has a defined value for the given key.
    */
   hasKey(key) {
-    let b = this.keyToIndex;
-    let out = this.keyToIndex[key];
-    let type = typeof this.keyToIndex[key];
     return typeof this.keyToIndex[key] != 'undefined';
   }
 
@@ -211,6 +212,7 @@ class SheetData {
 
   /**
    * Returns the data from this sheet as a two dimensional array. Does not include headers or rows above the header row.
+   * @returns The data from this sheet as a two dimentional array, not including header rows.
    */
   getValues() {
     let values = this.getSheet().getDataRange().getValues();
@@ -218,8 +220,10 @@ class SheetData {
     return values;
   }
 
+  
   /**
    * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Does not include headers or rows above the header row.
+   * @returns The data from this sheet as an array of objects, not including header rows.
    */
   getData() {
     let outValues = [];
@@ -232,13 +236,12 @@ class SheetData {
       }
       outValues.push(rowObj);
     }
-
     return outValues;
   }
 
   /**
-   * Inserts rows of data into the Sheet. Takes an array of row objects.
-   * @param data The data to insert.
+   * Inserts rows of data into the Sheet, formatted as an array of row objects.
+   * @param {Object} data The data to insert.
    */
   insertData(data) {
     if (data.length==0) return;
@@ -293,14 +296,16 @@ class SheetData {
 
   /**
    * Returns an array of all the values in the sheet for the given key.
+   * @returns An array containing all values for the given key.
    */
-  getAllOfKey(key) {
+   getAllOfKey(key) {
     let index = this.keyToIndex[key];
     return this.getAllOfIndex(index);
   }
 
   /**
    * Returns an array of all the values in the sheet for the column with the given index.
+   * @returns An array containing all values from the given column.
    */
   getAllOfIndex(index) {
     let values = this.getValues();
@@ -443,7 +448,7 @@ function constructSheetData(forceConstruct) {
 
   //Check the cache for allSheetData
   let cache = CacheService.getDocumentCache();
-  if (CACHE_SHEET_DATA && !forceConstruct) {
+  if (DBCONFIG.CACHE_SHEET_DATA && !forceConstruct) {
     let allSheetData_JSON = cache.get('allSheetData');
     if (allSheetData_JSON != null) {
       Logger.log(`Pulling allSheetData from cache`)
@@ -475,6 +480,7 @@ function constructSheetData(forceConstruct) {
       "RCA": "rca",
       "RC": "rc",
       "CKI": "cki",
+      "Service Hours": "serviceHrs",
       "Form Notes": "formNotes",
       "Date Contact Generated": "dateContactGenerated",
       "Name 1": "name1",
@@ -526,11 +532,9 @@ function constructSheetData(forceConstruct) {
 
 
 
-    let offset = 0
-
     let initialColumnOrders = {
 
-      //FORM RESPONSE COLUMN ORDER
+
       zoneFilesys: {
         "folderName": 0,
         "parentFolder": 1,
@@ -563,6 +567,7 @@ function constructSheetData(forceConstruct) {
       },
 
 
+      //FORM RESPONSE COLUMN ORDER 
       form: {
         "areaName": 0,
         "responsePulled": 1,
@@ -577,38 +582,36 @@ function constructSheetData(forceConstruct) {
         "rca": 10,
         "rc": 11,
         "cki": 12,
-        "formNotes": 13
+        "serviceHrs":13,
+        "formNotes": 14,
         //...additional form data (ex. baptism sources)
       },
 
       //CONTACT SHEET COLUMN ORDER
       contact: {
-        "dateContactGenerated": 0 + offset,
-        "areaEmail": 1 + offset,
-        "areaName": 2 + offset,
-
-        "name1": 3 + offset,
-        "position1": 4 + offset,
-        "isTrainer1": 5 + offset,
-        "name2": 6 + offset,
-        "position2": 7 + offset,
-        "isTrainer2": 8 + offset,
-        "name3": 9 + offset,
-        "position3": 10 + offset,
-        "isTrainer3": 11 + offset,
-
-
-        "district": 12 + offset,
-        "zone": 13 + offset,
-        "unitString": 14 + offset,
-        "hasMultipleUnits": 15 + offset,
-        "languageString": 16 + offset,
-        "isSeniorCouple": 17 + offset,
-        "isSisterArea": 18 + offset,
-        "hasVehicle": 19 + offset,
-        "vehicleMiles": 20 + offset,
-        "vinLast8": 21 + offset,
-        "aptAddress": 22 + offset
+        "dateContactGenerated": 0,
+        "areaEmail": 1,
+        "areaName": 2,
+        "name1": 3,
+        "position1": 4,
+        "isTrainer1": 5,
+        "name2": 6,
+        "position2": 7,
+        "isTrainer2": 8,
+        "name3": 9,
+        "position3": 10,
+        "isTrainer3": 11,
+        "district": 12,
+        "zone": 13,
+        "unitString": 14,
+        "hasMultipleUnits": 15,
+        "languageString": 16,
+        "isSeniorCouple": 17,
+        "isSisterArea": 18,
+        "hasVehicle": 19,
+        "vehicleMiles": 20,
+        "vinLast8": 21,
+        "aptAddress": 22,
       },
 
 
@@ -630,43 +633,44 @@ function constructSheetData(forceConstruct) {
         "rca": 11,    //form data
         "rc": 12,    //form data
         "cki": 13,    //form data
+        "serviceHrs": 14,    //form data
 
-        "name1": 14,
-        "position1": 15,
-        "isTrainer1": 16,
-        "name2": 17,
-        "position2": 18,
-        "isTrainer2": 19,
-        "name3": 20,
-        "position3": 21,
-        "isTrainer3": 22,
+        "name1": 15,
+        "position1": 16,
+        "isTrainer1": 17,
+        "name2": 18,
+        "position2": 19,
+        "isTrainer2": 20,
+        "name3": 21,
+        "position3": 22,
+        "isTrainer3": 23,
 
-        "districtLeader": 23,
-        "zoneLeader1": 24,
-        "zoneLeader2": 25,
-        "zoneLeader3": 26,
-        "stl1": 27,
-        "stl2": 28,
-        "stl3": 29,
-        "stlt1": 30,
-        "stlt2": 31,
-        "stlt3": 32,
-        "assistant1": 33,
-        "assistant2": 34,
-        "assistant3": 35,
+        "districtLeader": 24,
+        "zoneLeader1": 25,
+        "zoneLeader2": 26,
+        "zoneLeader3": 27,
+        "stl1": 28,
+        "stl2": 29,
+        "stl3": 30,
+        "stlt1": 31,
+        "stlt2": 32,
+        "stlt3": 33,
+        "assistant1": 34,
+        "assistant2": 35,
+        "assistant3": 36,
 
-        "district": 36,
-        "zone": 37,
-        "unitString": 38,
-        "hasMultipleUnits": 39,
-        "languageString": 40,
-        "isSeniorCouple": 41,
-        "isSisterArea": 42,
-        "hasVehicle": 43,
-        "vehicleMiles": 44,
-        "vinLast8": 45,
-        "aptAddress": 46,
-        "formNotes": 47    //form data
+        "district": 37,
+        "zone": 38,
+        "unitString": 39,
+        "hasMultipleUnits": 40,
+        "languageString": 41,
+        "isSeniorCouple": 42,
+        "isSisterArea": 43,
+        "hasVehicle": 44,
+        "vehicleMiles": 45,
+        "vinLast8": 46,
+        "aptAddress": 47,
+        "formNotes": 48,    //form data
         //...additional form data (ex. baptism sources)
       }
 
@@ -715,7 +719,7 @@ function constructSheetData(forceConstruct) {
     log += " '" + tabNames[sheet] + "'";
   Logger.log(log);
 
-  if (CACHE_SHEET_DATA) {
+  if (DBCONFIG.CACHE_SHEET_DATA) {
     let allSheetData_JSON = JSON.stringify(allSheetData);
     cache.put('allSheetData', allSheetData_JSON, 1800); //cache expiration time set to half an hour
   }
