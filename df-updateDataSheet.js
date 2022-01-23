@@ -298,69 +298,6 @@ function getContactDataV2(allSheetData) {
 
   return contacts;
 
-
-  /*
-
-    let contactSheet = cSheetData.getSheet();
-    let contactData = contactSheet.getDataRange().getValues();
-
-
-    let contacts = {};
-
-
-
-    //Data straight from the Contact Data sheet
-    for (let r=1; r<contactData.length; r++) {
-
-      let areaData = {};
-      let metadata = {};
-
-
-      metadata.hasContactData = true
-      metadata.dateContactGenerated = contactData[r][cSheetData.getIndex("dateContactGenerated")]
-
-
-      areaData.areaEmail = contactData[r][cSheetData.getIndex("areaEmail")]
-      areaData.areaName =  contactData[r][cSheetData.getIndex("areaName")]
-
-      areaData.name1 =      contactData[r][cSheetData.getIndex("name1")]
-      areaData.position1 =  contactData[r][cSheetData.getIndex("position1")]
-      areaData.isTrainer1 = contactData[r][cSheetData.getIndex("isTrainer1")]
-
-      areaData.name2 =      contactData[r][cSheetData.getIndex("name2")]
-      areaData.position2 =  contactData[r][cSheetData.getIndex("position2")]
-      areaData.isTrainer2 = contactData[r][cSheetData.getIndex("isTrainer2")]
-
-      areaData.name3 =      contactData[r][cSheetData.getIndex("name3")]
-      areaData.position3 =  contactData[r][cSheetData.getIndex("position3")]
-      areaData.isTrainer3 = contactData[r][cSheetData.getIndex("isTrainer3")]
-
-      areaData.district = contactData[r][cSheetData.getIndex("district")]
-      areaData.zone =     contactData[r][cSheetData.getIndex("zone")]
-
-      areaData.unitString =       contactData[r][cSheetData.getIndex("unitString")]
-      areaData.hasMultipleUnits = contactData[r][cSheetData.getIndex("hasMultipleUnits")]
-      areaData.languageString =   contactData[r][cSheetData.getIndex("languageString")]
-
-      areaData.isSeniorCouple = contactData[r][cSheetData.getIndex("isSeniorCouple")]
-      areaData.isSisterArea =   contactData[r][cSheetData.getIndex("isSisterArea")]
-        
-      areaData.hasVehicle =   contactData[r][cSheetData.getIndex("hasVehicle")]
-      areaData.vehicleMiles = contactData[r][cSheetData.getIndex("vehicleMiles")]
-      areaData.vinLast8 =     contactData[r][cSheetData.getIndex("vinLast8")]
-
-      areaData.aptAddress = contactData[r][cSheetData.getIndex("aptAddress")]
-
-      metadata.areaID =    getAreaID(allSheetData, areaData.areaName)
-
-      contacts[metadata.areaID] = {areaData: areaData, metadata: metadata};
-    }
-
-    
-
-
-    return contacts;
-    */
 }
 
 
