@@ -470,6 +470,7 @@ function constructSheetData(forceConstruct) {
       "RCA": "rca",
       "RC": "rc",
       "CKI": "cki",
+      "Service Hours": "serviceHrs",
       "Form Notes": "formNotes",
       "Date Contact Generated": "dateContactGenerated",
       "Name 1": "name1",
@@ -572,7 +573,8 @@ function constructSheetData(forceConstruct) {
         "rca": 10,
         "rc": 11,
         "cki": 12,
-        "formNotes": 13
+        "serviceHrs":13,
+        "formNotes": 14
         //...additional form data (ex. baptism sources)
       },
 
@@ -625,43 +627,44 @@ function constructSheetData(forceConstruct) {
         "rca": 11,    //form data
         "rc": 12,    //form data
         "cki": 13,    //form data
+        "serviceHrs": 14,    //form data
 
-        "name1": 14,
-        "position1": 15,
-        "isTrainer1": 16,
-        "name2": 17,
-        "position2": 18,
-        "isTrainer2": 19,
-        "name3": 20,
-        "position3": 21,
-        "isTrainer3": 22,
+        "name1": 15,
+        "position1": 16,
+        "isTrainer1": 17,
+        "name2": 18,
+        "position2": 19,
+        "isTrainer2": 20,
+        "name3": 21,
+        "position3": 22,
+        "isTrainer3": 23,
 
-        "districtLeader": 23,
-        "zoneLeader1": 24,
-        "zoneLeader2": 25,
-        "zoneLeader3": 26,
-        "stl1": 27,
-        "stl2": 28,
-        "stl3": 29,
-        "stlt1": 30,
-        "stlt2": 31,
-        "stlt3": 32,
-        "assistant1": 33,
-        "assistant2": 34,
-        "assistant3": 35,
+        "districtLeader": 24,
+        "zoneLeader1": 25,
+        "zoneLeader2": 26,
+        "zoneLeader3": 27,
+        "stl1": 28,
+        "stl2": 29,
+        "stl3": 30,
+        "stlt1": 31,
+        "stlt2": 32,
+        "stlt3": 33,
+        "assistant1": 34,
+        "assistant2": 35,
+        "assistant3": 36,
 
-        "district": 36,
-        "zone": 37,
-        "unitString": 38,
-        "hasMultipleUnits": 39,
-        "languageString": 40,
-        "isSeniorCouple": 41,
-        "isSisterArea": 42,
-        "hasVehicle": 43,
-        "vehicleMiles": 44,
-        "vinLast8": 45,
-        "aptAddress": 46,
-        "formNotes": 47    //form data
+        "district": 37,
+        "zone": 38,
+        "unitString": 39,
+        "hasMultipleUnits": 40,
+        "languageString": 41,
+        "isSeniorCouple": 42,
+        "isSisterArea": 43,
+        "hasVehicle": 44,
+        "vehicleMiles": 45,
+        "vinLast8": 46,
+        "aptAddress": 47,
+        "formNotes": 48,    //form data
         //...additional form data (ex. baptism sources)
       }
 
