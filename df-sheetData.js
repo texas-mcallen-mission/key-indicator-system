@@ -46,37 +46,19 @@ class SheetData {
 
   keyToIndex: An object whose properties are keys (strings) representing what data goes in a column (ex "areaID", "stl2", "np").
               Its values are the indices (starting with 0) of the column with that data.
+  indexToKey: The reverse of keyToIndex. An array whose value at a given index is the key corresponding to that index.
   */
 
   constructor(tabName, initialKeyToIndex, headerRow) {
 
     this.tabName = tabName;
-    this.keyToIndex = initialKeyToIndex;
     this.headerRow = headerRow;
 
-    this.nextFreeColumn = initNextFreeColumn(initialKeyToIndex);
+    this.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.tabName);
+    if (this.sheet == null) throw `Couldn't construct SheetData: no sheet found with name '${this.tabName}'`;
 
-    this.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tabName);
-    if (this.sheet == null) throw `Couldn't construct SheetData: no sheet found with name '${tabName}'`;
-
-
-
-    /*  Internal functions  */
-
-    function initNextFreeColumn(keyToIndex) {
-      //TODO Rewrite using addColumn() functions.
-      let currentMax = 0;
-      for (let key in keyToIndex) {
-        let index = keyToIndex[key];
-        if (typeof index != 'number')
-          throw new TypeError(`Index value '${index}' is not a number!`);
-
-        currentMax = Math.max(currentMax, index);
-      }
-      return currentMax + 1;
-    }
-
-
+    this.keyToIndex = initialKeyToIndex;
+    this.buildIndexToKey_();
 
   }
 
@@ -106,14 +88,21 @@ class SheetData {
 
   //Private class methods
 
-  /**
-   * Returns the index of the rightmost column which has not yet been assigned a key.
-   */
-  getNextFreeColumn_() {
-    return this.nextFreeColumn;
+
+  buildIndexToKey_() {
+    let newIndexToKey = [];
+    for (let key of this.keyToIndex) {
+      let index = this.keyToIndex[key];
+      newIndexToKey[index] = key;
+    }
+    this.indexToKey = newIndexToKey;
   }
 
-  addColumnAt_(key, index) {
+  getNextFreeColumn_() {
+    return this.indexToKey.length;
+  }
+
+  addColumnWithHeaderAt_(key, header, index) {
     if (key == "") return;
     if (this.hasIndex(index))
       throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that index already has key '${this.getKey(index)}'`;
@@ -121,23 +110,22 @@ class SheetData {
       throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that key already exists at index '${this.getIndex(key)}'`;
 
     this.keyToIndex[key] = index;
-    this.nextFreeColumn = Math.max(this.nextFreeColumn, index + 1);
+    this.indexToKey[index] = key;
   }
 
   addColumnWithHeader_(key, header) {
-    //TODO Implement addColumnWithHeader()
-    if (key == "") return;
-    if (this.hasKey(key))
-      throw `Potential data collision! Tried to add key '${key}' to sheet ${this.getTabName()}, but that key already exists at index '${this.getIndex(key)}'`;
+    let index = this.getNextFreeColumn_();
+    this.addColumnWithHeaderAt_(key, header, index);
+  }
 
-    this.keyToIndex[key] = this.nextFreeColumn;
-    this.nextFreeColumn++;
-
-    //       TODO     Add header to data sheet?
+  addColumnAt_(key, index) {
+    let header = key;   //TODO Add preset headers?
+    this.addColumnWithHeaderAt_(key, header, index);
   }
 
   addColumn_(key) {
-    this.addColumnWithHeader_(key, "UNIMPLEMENTED");
+    let index = this.getNextFreeColumn_();
+    this.addColumnAt_(key, index);
   }
 
 
@@ -709,7 +697,6 @@ function constructSheetData(forceConstruct) {
 
 
   populateExtraColumnData_(allSheetData);
-  buildIndexToKey_(allSheetData);
   //setSheetsUp_(allSheetData);
 
   //Object.freeze(allSheetData);
@@ -779,13 +766,3 @@ function clearAllSheetDataCache() {
   let cache = CacheService.getDocumentCache();
   cache.remove('allSheetData');
 }
-
-
-
-
-
-
-
-
-
-
