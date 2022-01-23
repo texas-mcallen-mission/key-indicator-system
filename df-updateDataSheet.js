@@ -17,7 +17,7 @@
 /**
   * Updates the Data sheet.
   */
-function updateDataSheet() {
+ function updateDataSheet() {
   Logger.log("BEGINNING UPDATE")
 
   let allSheetData = constructSheetData();
@@ -234,12 +234,13 @@ function pullFormDataV2(allSheetData) {
   let missionData = [];
 
   Logger.log(`[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?`)
-  if (DBCONFIG.LOG_RESPONSE_PULLED) Logger.log(`Pulling response for area: '${response.areaName}'`);
 
 
   for (let response of responses) {
     if (response.responsePulled == true || response.areaName == "")
       continue;
+
+    if (DBCONFIG.LOG_RESPONSE_PULLED) Logger.log(`Pulling response for area: '${response.areaName}'`);
 
     response.areaID = getAreaID(allSheetData, response.areaName);
 
@@ -258,9 +259,10 @@ function pullFormDataV2(allSheetData) {
 
 
   //Mark responses as having been pulled
-  if (DEBUG && SKIP_MARKING_PULLED) {
+  if (DBCONFIG.SKIP_MARKING_PULLED) {
     Logger.log(`[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: SKIP_MARKING_PULLED is set to true`)
-  } else {
+  }
+  else {
     let formSheet = fSheetData.getSheet();
     let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
     formSheet.getRange("B2").setValue(true);
@@ -290,6 +292,8 @@ function getContactDataV2(allSheetData) {
   let contacts = cSheetData.getData();
   for (let contact of contacts) {
     contact.areaID = getAreaID(allSheetData, contact.areaName);
+    if ((typeof contact.log) == 'undefined')
+      contact.log = {};
     contact.log.addedContactData = true;
     contact.log.addedContactDataTime = (new Date()).toTimeString();
   }

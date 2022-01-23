@@ -12,7 +12,6 @@ let CONFIG =
 
 
 
-
 //Debug config parameters
 
 let DBCONFIG =
@@ -22,9 +21,10 @@ let DBCONFIG =
   //WARNING: If set to true, loading the filesystem will take a VERY long time!
   UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false, 
 
+  //      WARNING: Work in progress! If you get a "... is not a function" error it's probably because pulling from the cache didn't work properly
   //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
   CACHE_AREA_IDS: false,   //[unimplemented] Cache the list of areaIDs
-  CACHE_SHEET_DATA: true,  //Cache allSheetData, the object returned by constructSheetData()
+  CACHE_SHEET_DATA: false,  //Cache allSheetData, the object returned by constructSheetData()
   CACHE_ORG_DATA: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
 

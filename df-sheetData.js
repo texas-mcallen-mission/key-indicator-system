@@ -91,7 +91,7 @@ class SheetData {
 
   buildIndexToKey_() {
     let newIndexToKey = [];
-    for (let key of this.keyToIndex) {
+    for (let key in this.keyToIndex) {
       let index = this.keyToIndex[key];
       newIndexToKey[index] = key;
     }
@@ -136,14 +136,14 @@ class SheetData {
 
 
   /**
-   * Returns the Sheet object for this sheet.
+   * Returns the Sheet object for this SheetData.
    */
   getSheet() {
     return this.sheet;
   }
 
   /**
-   * Returns the Sheet name of this sheet.
+   * Returns the name of the Sheet for this SheetData.
    */
   getTabName() {
     return this.tabName;
