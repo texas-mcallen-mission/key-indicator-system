@@ -45,13 +45,14 @@ function verifySingleFilesysV3_(fsObj) {
   Logger.log(fsObj);
   for (let i = 0; i < newFsObj.length; i++) {
     let nuke = false;
-
-    if (isFolderAccessible_(newFsObj[i].folder) == false) {
-      nuke = true;
-    }
-    if (isFolderAccessible_(newFsObj[i].parentFolder) == false) {
-      nuke = true;
-    }
+    let folderAccess = isFolderAccessible_(newFsObj[i].folder)
+    let pFolderAccess = isFolderAccessible_(newFsObj[i].parentFolder)
+    // if (isFolderAccessible_(newFsObj[i].folder) == false) {
+    //   nuke = true;
+    // }
+    // if (isFolderAccessible_(newFsObj[i].parentFolder) == false) {
+    //   nuke = true;
+    // }
 
     if (isSheetReal_(newFsObj[i].sheetID1) == true) {
       // Logger.log(["Document Exists for",fsObj.name,": ",document])
@@ -59,7 +60,7 @@ function verifySingleFilesysV3_(fsObj) {
       newFsObj[i].sheetID1 = "";
     }
 
-    if (nuke == true) {
+    if ( folderAccess == false || pFolderAccess == false) {
       Logger.log(["NUUUUKE",newFsObj[i].name,newFsObj[i].parentFolder,newFsObj[i].folder,newFsObj[i].sheetID1,]);
       newFsObj.splice(i, 1);
     }
