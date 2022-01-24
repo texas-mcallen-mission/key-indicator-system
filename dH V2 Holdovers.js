@@ -48,24 +48,23 @@ function verifySingleFilesysV3_(fsObj) {
 
   let newFsObj = fsObj
   Logger.log(fsObj)
-  for (let entry of newFsObj) {
+  for (let i = 0; i<newFsObj.length; i++) {
     let nuke = false
 
-    if (isFolderReal_(entry.folder) == false) { nuke = true }
-    if (isFolderReal_(entry.parentFolder) == false) { nuke = true }
+    if (isFolderReal_(newFsObj[i].folder) == false) { nuke = true }
+    if (isFolderReal_(newFsObj[i].parentFolder) == false) { nuke = true }
 
 
 
-    if (isSheetReal_(entry.sheetID1) == true) {
+    if (isSheetReal_(newFsObj[i].sheetID1) == true) {
       // Logger.log(["Document Exists for",fsObj.name,": ",document])
     } else {
-      entry.sheetID1 = ""
+      newFsObj[i].sheetID1 = ""
 
 
       if (nuke == true) {
-        Logger.log(["NUUUUKE", entry.name, entry.parentFolder, entry.folder, entry.sheetID1])
-        let position = newFsObj.indexOf(entry)
-        newFsObj.splice(position, 1)
+        Logger.log(["NUUUUKE", newFsObj[i].name, newFsObj[i].parentFolder, newFsObj[i].folder, newFsObj[i].sheetID1])
+        newFsObj.splice(i, 1)
 
       }
     }
@@ -212,21 +211,21 @@ function createNewFolder_(parentFolderId, name) {
 //   // Logger.log("data added")
 // }
 
-function sendReportToDisplayV3_(header, finalData, sheet) {
-  // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
-  sheet.clearContents()
-  sheet.appendRow(header)
-  if (functionGUBED == true) { Logger.log(finalData.length) }
-  Logger.log("adding Header")
-  sheet.getRange(2, 1, 1, header.length).setValues([header])
-  Logger.log("added header, adding data")
-  sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData)
-  Logger.log("data added, sorting")
-  sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
-  // going to run this one more time without a flush to see what happens when this changes.
-  // SpreadsheetApp.flush()
-  // Logger.log("data added")
-}
+// function sendReportToDisplayV3_(header, finalData, sheet) {
+//   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
+//   sheet.clearContents()
+//   sheet.appendRow(header)
+//   if (functionGUBED == true) { Logger.log(finalData.length) }
+//   Logger.log("adding Header")
+//   sheet.getRange(2, 1, 1, header.length).setValues([header])
+//   Logger.log("added header, adding data")
+//   sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData)
+//   Logger.log("data added, sorting")
+//   sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
+//   // going to run this one more time without a flush to see what happens when this changes.
+//   // SpreadsheetApp.flush()
+//   // Logger.log("data added")
+// }
 
 function getUniqueFromPositionAndReturnArray_(gimmeDatArray, position) {  // this does the same thing as above, but keeps me from needing to iterate through everything twice. 
   let uniqueDataFromPosition = []
