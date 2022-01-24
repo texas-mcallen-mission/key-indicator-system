@@ -51,8 +51,8 @@ function verifySingleFilesysV3_(fsObj) {
   for (let i = 0; i<newFsObj.length; i++) {
     let nuke = false
 
-    if (isFolderReal_(newFsObj[i].folder) == false) { nuke = true }
-    if (isFolderReal_(newFsObj[i].parentFolder) == false) { nuke = true }
+    if (isFolderAccessible_(newFsObj[i].folder) == false) { nuke = true }
+    if (isFolderAccessible_(newFsObj[i].parentFolder) == false) { nuke = true }
 
 
 
@@ -177,7 +177,7 @@ function loadFSObjectIntoData_(fsObject) {
 
 function createNewFolder_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
-  if (isFolderReal_(parentFolderId) == false) {
+  if (isFolderAccessible_(parentFolderId) == false) {
     if (functionGUBED == true) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
     // Logger.log()
 

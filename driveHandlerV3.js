@@ -40,21 +40,10 @@ function verifyFilesystem(){
   sendDataToDisplayV3_(zoneMeta.splitData.header,zoneOutData,zoneMeta.sheet)
   sendDataToDisplayV3_(distMeta.splitData.header,distOutData,distMeta.sheet)
   sendDataToDisplayV3_(areaMeta.splitData.header,areaOutData,areaMeta.sheet)
-  
+  Logger.log("DONE")
 }
 
 
-// function verifySingleFilesysWrapper(){
-//   let allSheetData = constructSheetData()
-//   Logger.log("Initializing filesystem for " + reportLevel.zone )
-//   let zoneMeta = dataLoader_(allSheetData,reportLevel.zone)
-//   Logger.log("Beginning Verification")
-//   let updatedFSObj = verifySingleFilesysV3_(zoneMeta.fsObj)
-//   Logger.log("Updating sheet")
-//   let outData = getDataFromArray_(updatedFSObj,zoneMeta.sheetData)
-//   sendDataToDisplayV3_(zoneMeta.splitData.header,outData,zoneMeta.sheet)
-//   Logger.log("DONE")
-// }
 
 // this little one-liner gets the root folder of the drive in case the reports folder is not found.
 var reportRootFolder = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
@@ -232,7 +221,7 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
 
 function createNewFolderV3_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
-  // if (isFolderReal_(parentFolderId) == false) {
+  // if (isFolderAccessible_(parentFolderId) == false) {
   //   // this was basically  a workaround to make sure that I could create folders while the subdirectory handler wasn't implemented, but I stand by the design decision and it stays.  -JR 12/30/2021
   //   if (functionGUBED == true) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
   //   // Logger.log()
@@ -282,14 +271,26 @@ function getUniqueV3_(gimmeDatArray) {
   return uniqueData
 }
 
-function isFolderReal_(folderID) {
+function isFolderAccessible_(folderID) {
   // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
   let output = true
+  let folder
+  let gone = false
   try {
-    DriveApp.getFolderById(folderID)
+    folder = DriveApp.getFolderById(folderID)
+    
+
   } catch (e) {
     output = false
+    gone = true
   }
+  if(gone == false){
+    if(folder.isTrashed() == true){
+      Logger.log("folder exists but in the bin")
+      output = false
+    } 
+  }
+  
   return output
 }
 
