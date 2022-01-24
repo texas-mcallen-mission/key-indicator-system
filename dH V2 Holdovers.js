@@ -197,20 +197,20 @@ function createNewFolder_(parentFolderId, name) {
 }
 
 
-function sendDataToDisplayV3_(header, finalData, sheet) {
-  // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
-  sheet.clearContents()
-  sheet.appendRow(header)
-  if (functionGUBED == true) { Logger.log(finalData.length) }
-  Logger.log("adding Header")
-  Logger.log(header)
-  sheet.getRange(1, 1, 1, header.length).setValues([header])
-  Logger.log("added header, adding data")
-  sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData)
-  Logger.log("Data added, sorting")
-  sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
-  // Logger.log("data added")
-}
+// function sendDataToDisplayV3_(header, finalData, sheet) {
+//   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
+//   sheet.clearContents()
+//   sheet.appendRow(header)
+//   if (functionGUBED == true) { Logger.log(finalData.length) }
+//   Logger.log("adding Header")
+//   Logger.log(header)
+//   sheet.getRange(1, 1, 1, header.length).setValues([header])
+//   Logger.log("added header, adding data")
+//   sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData)
+//   Logger.log("Data added, sorting")
+//   sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
+//   // Logger.log("data added")
+// }
 
 function sendReportToDisplayV3_(header, finalData, sheet) {
   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
