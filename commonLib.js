@@ -10,14 +10,16 @@ function sendDataToDisplayV3_(header,finalData,sheet){
   Logger.log(header)
   sheet.getRange(1,1,1,header.length).setValues([header])
   Logger.log("added header, adding data")
-  if(finalData == null){
+  if(finalData.length == 0 || typeof finalData == null){
     Logger.log("no data, skipping")
     return
+  } else {
+    sheet.getRange(2,1,finalData.length,finalData[0].length).setValues(finalData)
+    Logger.log("Data added, sorting")
+    sheet.getRange(2,1,finalData.length,header.length).sort([{column: 1, ascending:true}])
+    // Logger.log("data added")
   }
-  sheet.getRange(2,1,finalData.length,finalData[0].length).setValues(finalData)
-  Logger.log("Data added, sorting")
-  sheet.getRange(2,1,finalData.length,header.length).sort([{column: 1, ascending:true}])
-  // Logger.log("data added")
+
 }
 
 function sendReportToDisplayV3_(header,finalData,sheet){
