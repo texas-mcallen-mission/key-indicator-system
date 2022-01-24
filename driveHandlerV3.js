@@ -278,11 +278,14 @@ function isFolderAccessible_(folderID) {
   let gone = false
   try {
     folder = DriveApp.getFolderById(folderID)
+    test = DriveApp.getFolderById(folderID).getName()
     
+    folder.getDescription()
 
   } catch (e) {
     output = false
     gone = true
+    Logger.log("Folder deleted with ID " + folderID)
   }
   if(gone == false){
     if(folder.isTrashed() == true){
