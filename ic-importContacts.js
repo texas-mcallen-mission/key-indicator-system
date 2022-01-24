@@ -3,8 +3,7 @@
         Main functions for importing data into the Contact Data sheet from Google Contacts.
 */
 
-function importContacts(allSheetData)
-{
+function importContacts(allSheetData) {
   if (DBCONFIG.FREEZE_CONTACT_DATA) return;
 
   Logger.log("Importing Contact data from Google Contacts...")
@@ -25,7 +24,7 @@ function importContacts(allSheetData)
   let data = [];
   let values = [];
 
-  for (let  contact of contacts) {
+  for (let contact of contacts) {
 
     // I basically built this as a big single function and then broke it up into a bunch of little ones.
 
@@ -33,26 +32,26 @@ function importContacts(allSheetData)
     let noteData = parseNotes(contact.getNotes());
 
     //Email Parser
-    let  contactEmailList = contact.getEmails();
+    let contactEmailList = contact.getEmails();
     emailData = emailParser(contactEmailList)
 
     //Role Parser
-    let roleData = roleParser(emailData.emailLabelNames,contactEmailList);
+    let roleData = roleParser(emailData.emailLabelNames, contactEmailList);
 
     //Address Puller
     let apartmentAddressObject = contact.getAddresses()
     let apartmentAddress = ""
-    if(apartmentAddressObject.length>=1){
+    if (apartmentAddressObject.length >= 1) {
       apartmentAddress = apartmentAddressObject[0].getAddress()
     }
 
     //Language Parser
-    let languageData = languageParser(noteData.hasMultipleUnits,noteData.unitString)
+    let languageData = languageParser(noteData.hasMultipleUnits, noteData.unitString)
 
-    
-    if(!noteData.isSeniorCouple || false){
-      
-      let contactObject = 
+
+    if (!noteData.isSeniorCouple || false) {
+
+      let contactObject =
       {
         'dateContactGenerated': new Date(),
         'areaEmail': emailData.emailAddresses[0],
@@ -89,7 +88,7 @@ function importContacts(allSheetData)
     }
   }
 
-  
+
   allSheetData.contact.insertData(data);
 
   Logger.log("Finished importing Contact data.")
@@ -135,8 +134,8 @@ function isContactDataOld(allSheetData) {
  * [UNIMPLEMENTED] Parses phone number data for importContacts()
  */
 function phoneParser(phoneData) {
-    // for(phoneData)
-  }
+  // for(phoneData)
+}
 // THIS NEEDS TO BE WRITTEN  
 
 
@@ -153,15 +152,15 @@ function emailParser(emailList) {
   let emailDisplayNames = []
   let emailLabelName = []
   // this operates under the assumption that all the emails are in the same order :0
-  for(let i=0; i<emailList.length;i++){
+  for (let i = 0; i < emailList.length; i++) {
     emailAddresses[i] = emailList[i].getAddress()
     emailDisplayNames[i] = emailList[i].getDisplayName()
     emailLabelName[i] = emailList[i].getLabel()
   }
-  return{
-    emailAddresses:emailAddresses,
-    emailDisplayNames:emailDisplayNames,
-    emailLabelNames:emailLabelName
+  return {
+    emailAddresses: emailAddresses,
+    emailDisplayNames: emailDisplayNames,
+    emailLabelNames: emailLabelName
   }
 }
 
@@ -175,17 +174,17 @@ function emailParser(emailList) {
 
 // IF THIS GOES GLOBAL, THIS WILL HAVE TO CHANGE!!!
 
-function testLanguageParser(){
+function testLanguageParser() {
   let testString = "TEST (Spanish) WORDS,TEST ENGLISH WORDS"
   Logger.log(testString.split(","))
-  Logger.log(languageParser(true,testString))
+  Logger.log(languageParser(true, testString))
 }
 
 
 /**
  * Parses language data for importContacts()
- */  
-function languageParser(multipleUnits,unitString) {
+ */
+function languageParser(multipleUnits, unitString) {
 
   Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!')
   // noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))
@@ -195,23 +194,23 @@ function languageParser(multipleUnits,unitString) {
   let returnData = []
 
   if (!multipleUnits) {
-    if (unitString.includes(spanishTestString)==true) // this is going to get changed in the future to get rid of the silly 'spanish,spanish' tags.
+    if (unitString.includes(spanishTestString) == true) // this is going to get changed in the future to get rid of the silly 'spanish,spanish' tags.
       returnData.push(spanishOutputString);
     else
       returnData.push(defaultLanguage)
-    
+
   } else {
     let unitStringSplit = unitString.split(",")
 
     for (let testString of unitStringSplit) {
-      if(testString.includes(spanishTestString))
+      if (testString.includes(spanishTestString))
         returnData.push(spanishOutputString)
       else
         returnData.push(defaultLanguage)
     }
   }
 
-  return {'languageString': returnData.toString()};
+  return { 'languageString': returnData.toString() };
 }
 
 

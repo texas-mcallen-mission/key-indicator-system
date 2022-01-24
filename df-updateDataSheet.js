@@ -17,7 +17,7 @@
 /**
   * Updates the Data sheet.
   */
- function updateDataSheet() {
+function updateDataSheet() {
   Logger.log("BEGINNING UPDATE")
 
   let allSheetData = constructSheetData();

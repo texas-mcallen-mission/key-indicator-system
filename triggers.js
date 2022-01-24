@@ -22,14 +22,14 @@ function onOpen_InstallableTrigger() {
 
 function buildMenu() {
   SpreadsheetApp.getUi().createMenu('Manual Commands')
-                            .addItem('Pull Form Data', 'updateDataSheet_MenuTrigger_')
-                            .addItem('Import Contacts', 'importContacts_MenuTrigger_')
-                            .addSubMenu(
-                                SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
-                                .addItem('onOpen', 'onOpen')
-                                .addItem('Mark Duplicates', 'markDuplicates_MenuTrigger_')
-                            )
-                            .addToUi();
+    .addItem('Pull Form Data', 'updateDataSheet_MenuTrigger_')
+    .addItem('Import Contacts', 'importContacts_MenuTrigger_')
+    .addSubMenu(
+      SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
+        .addItem('onOpen', 'onOpen')
+        .addItem('Mark Duplicates', 'markDuplicates_MenuTrigger_')
+    )
+    .addToUi();
 }
 
 

@@ -28,8 +28,8 @@ function shareFileSys() {
   function getFolders(sheetData) {
     let allFoldersList = sheetData.getData(); //List of objects containing the folder data for each folder
     let allFolders = {};                      //Turn allFoldersList into an object keyed by name, rather than a list
-                                              //i.e. allZoneFolders["BROWNSVILLE"] returns Brownsville zone's folder data
-    for (let i=0; i < allFoldersList.length; i++) {
+    //i.e. allZoneFolders["BROWNSVILLE"] returns Brownsville zone's folder data
+    for (let i = 0; i < allFoldersList.length; i++) {
       let folder = allFoldersList[i];
       let name = folder.folderName;
       allFolders[name] = folder;
@@ -70,17 +70,17 @@ function shareFileSys() {
     if (LOG_FILE_SHARING) Logger.log(`zEmails: ${zEmails}`);
 
     //Remove old editors, then add new ones
-      let editorEmails = zoneFolder.getEditors().map(editor => {return editor.getEmail()}); //Get a list of Editor objects, then convert to list of emails
-      for (let editor of editorEmails) {
-        if (!zEmails.includes(editor) && !officeEmails.includes(editor)) {
-          zoneFolder.removeEditor(editor);
-        }
+    let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail() }); //Get a list of Editor objects, then convert to list of emails
+    for (let editor of editorEmails) {
+      if (!zEmails.includes(editor) && !officeEmails.includes(editor)) {
+        zoneFolder.removeEditor(editor);
       }
+    }
 
     zoneFolder.addEditors(zEmails);
-    
-    
-    
+
+
+
     zoneFolder.addEditors(officeEmails);
     Drive.Permissions.insert(
       {
@@ -96,7 +96,7 @@ function shareFileSys() {
 
 
 
-    if (LOG_FILE_SHARING) Logger.log(`Removed and re-added zone folder editors: ${zoneFolder.getEditors().map(e => {return e.getName()})}`);
+    if (LOG_FILE_SHARING) Logger.log(`Removed and re-added zone folder editors: ${zoneFolder.getEditors().map(e => { return e.getName() })}`);
 
 
     if (UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
@@ -110,8 +110,8 @@ function shareFileSys() {
         let file = zFiles.next();
         let ss = SpreadsheetApp.openById(file.getId());
         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                          ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                          );
+          ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+        );
         if (LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
 
         for (let protection of protections) {
@@ -152,11 +152,11 @@ function shareFileSys() {
       dEmails.push(distOrgData.dlArea.areaEmail);  //Add DL area email
 
       //Remove old editors (except for the ZLs and office emails), then add back the DL area email
-      let editorEmails = distFolder.getEditors().map(editor => {return editor.getEmail()}); //Get a list of Editor objects, then convert to list of emails
+      let editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail() }); //Get a list of Editor objects, then convert to list of emails
       for (let editor of editorEmails) {
         if (!dEmails.includes(editor)
-         && !zEmails.includes(editor)
-         && !officeEmails.includes(editor)) {
+          && !zEmails.includes(editor)
+          && !officeEmails.includes(editor)) {
           distFolder.removeEditor(editor);
         }
       }
@@ -170,12 +170,12 @@ function shareFileSys() {
         //      Update Spreadsheet page protections: officeEmails only
 
         let dFiles = distFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
-        
+
         while (dFiles.hasNext()) {  //for each spreadsheet file
           let ss = SpreadsheetApp.openById(dFiles.next().getId());
           let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                          ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                          );
+            ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+          );
           if (LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
 
           for (let protection of protections) {
@@ -215,12 +215,12 @@ function shareFileSys() {
         aEmails.push(areaOrgData.areaEmail);  //Add area email
 
         //Remove old editors (except for the DL, ZLs, and office emails), then add back the DL area email
-        let editorEmails = distFolder.getEditors().map(editor => {return editor.getEmail()}); //Get a list of Editor objects, then convert to list of emails
+        let editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail() }); //Get a list of Editor objects, then convert to list of emails
         for (let editor of editorEmails) {
           if (!aEmails.includes(editor)
-           && !dEmails.includes(editor)
-           && !zEmails.includes(editor)
-           && !officeEmails.includes(editor)) {
+            && !dEmails.includes(editor)
+            && !zEmails.includes(editor)
+            && !officeEmails.includes(editor)) {
             areaFolder.removeEditor(editor);
           }
         }
@@ -233,12 +233,12 @@ function shareFileSys() {
 
 
           let aFiles = areaFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
-          
+
           while (aFiles.hasNext()) {  //for each spreadsheet file
             let ss = SpreadsheetApp.openById(aFiles.next().getId());
             let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                              ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                              );
+              ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+            );
             if (LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
 
             for (let protection of protections) {
@@ -284,16 +284,16 @@ function shareFileSys() {
  */
 function silentAddEditorSE_(email, fileId) {
 
- Drive.Permissions.insert(
-   {
-     'role': 'writer',
-     'type': 'user',
-     'value': email
-   },
-   fileId,
-   {
-     'sendNotificationEmails': 'false'
-   });
+  Drive.Permissions.insert(
+    {
+      'role': 'writer',
+      'type': 'user',
+      'value': email
+    },
+    fileId,
+    {
+      'sendNotificationEmails': 'false'
+    });
 
 
 }
@@ -324,7 +324,7 @@ function silentAddEditors_(emails, fileId) {
       'role': role
     };
 
-    Drive.Permissions.insert({'fileID':fileId, 'resource':body, 'sendNotificationEmails': 'false'});
+    Drive.Permissions.insert({ 'fileID': fileId, 'resource': body, 'sendNotificationEmails': 'false' });
 
   }
 }
@@ -339,7 +339,7 @@ function insertPermission(fileId, value, type, role) {
     'fileId': fileId,
     'resource': body
   });
-  request.execute(function(resp) { });
+  request.execute(function (resp) { });
 }
 
 
@@ -352,7 +352,7 @@ function testSharing() {
 
   silentAddEditorSE_('nathaniel.gerlek@missionary.org', fileId);
 
-return;
+  return;
   let folderId = '1EfyfR5fdG1SP_z5Z3pFUG-ms4DokRWFB';
 
   silentAddEditors_(folderId, editors);

@@ -19,9 +19,9 @@ function getAreaIDV2(areaName) {
   let cache = CacheService.getDocumentCache();
   let areaIDs_JSONString = cache.get('areaIDs');
 
-  let areaIDs = areaIDs_JSONString==null ?
-                   loadAreaIDsV2() :
-                   JSON.parse(areaIDs_JSONString);
+  let areaIDs = areaIDs_JSONString == null
+    ? loadAreaIDsV2()
+    : JSON.parse(areaIDs_JSONString);
 
   if (typeof areaIDs[areaName] == 'undefined')
     throw new ReferenceError(`Unable to get areaID - couldn't find area '${areaName}'`);
@@ -93,7 +93,7 @@ function getAreaID(allSheetData, areaName) {
   if (areaIDs[areaName])
     return areaIDs[areaName];
 
-  throw(`Unable to get areaID - reloaded areaIDs but still couldn't find area ${areaName}`)
+  throw (`Unable to get areaID - reloaded areaIDs but still couldn't find area ${areaName}`)
 }
 
 
@@ -114,9 +114,9 @@ function loadAreaIDs(allSheetData) {
     let dSheetData = allSheetData.data;
     let dataVals = dSheetData.getSheet().getDataRange().getValues();
 
-    for (let r=1; r<dataVals.length; r++) { //Indexes start from 0, skipping header row
+    for (let r = 1; r < dataVals.length; r++) { //Indexes start from 0, skipping header row
       let areaName = dataVals[r][dSheetData.getIndex("areaName")];
-      if (areaName=="") {
+      if (areaName == "") {
         continue;
       }
 
@@ -124,7 +124,7 @@ function loadAreaIDs(allSheetData) {
 
       //Debugging
       if (typeof areaIDs[areaName] != "undefined" && areaIDs[areaName] != areaID) {
-        Logger.log(`Area '${areaName}' has areaID '${areaIDs[areaName]}', but on row ${r+1} has areaID '${areaID}'`)
+        Logger.log(`Area '${areaName}' has areaID '${areaIDs[areaName]}', but on row ${r + 1} has areaID '${areaID}'`)
       }
 
       if (!areaIDs[areaName])
@@ -140,7 +140,7 @@ function loadAreaIDs(allSheetData) {
   let cSheetData = allSheetData.contact;
   let contactVals = cSheetData.getSheet().getDataRange().getValues();
 
-  for (let r=1; r<contactVals.length; r++) {
+  for (let r = 1; r < contactVals.length; r++) {
     let areaName = contactVals[r][cSheetData.getIndex("areaName")];
     let areaEmail = contactVals[r][cSheetData.getIndex("areaEmail")];
     if (!areaIDs[areaName])

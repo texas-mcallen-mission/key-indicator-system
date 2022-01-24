@@ -38,19 +38,19 @@ function getMissionOrgData(allSheetData) {
 
     let areaData = contacts[areaID].areaData;
 
-      let area = areaData.areaName;
-      let district = areaData.district;
-      let zone = areaData.zone;
+    let area = areaData.areaName;
+    let district = areaData.district;
+    let zone = areaData.zone;
 
-      if (!zones[zone]) //Initialize zones[zone]
-        zones[zone] = {};
+    if (!zones[zone]) //Initialize zones[zone]
+      zones[zone] = {};
 
-      if (!zones[zone][district]) //Initialize
-        zones[zone][district] = [];
-      
-      zones[zone][district].push(area);
+    if (!zones[zone][district]) //Initialize
+      zones[zone][district] = [];
 
-    }
+    zones[zone][district].push(area);
+
+  }
 
   return zones;
 }
@@ -67,9 +67,9 @@ function getMissionLeadershipData(contacts) {
 
   //Initialized to the empty string to guarantee a defined value
   let apArea = {
-    ap1:"",
-    ap2:"",
-    ap3:""
+    ap1: "",
+    ap2: "",
+    ap3: ""
   };
   let stltArea = {
     stlt1: "",
@@ -133,7 +133,7 @@ function getMissionLeadershipData(contacts) {
 
     if (!zones[zone]) { //Initialize zones[zone], as well as its properties
       zones[zone] = {
-        "districts" : {},
+        "districts": {},
         "zlArea": {},
         "stlArea": {},
         "hasStlArea": false
@@ -142,7 +142,7 @@ function getMissionLeadershipData(contacts) {
 
     if (!zones[zone].districts[district]) { //Initialize districts[district], as well as its properties
       zones[zone].districts[district] = {
-        "areas" : {},
+        "areas": {},
         "dlArea": {}
       };
     }
@@ -150,16 +150,16 @@ function getMissionLeadershipData(contacts) {
     zones[zone].districts[district].areas[area] = { //Set areas[area]
       "areaEmail": areaEmail,
       "areaID": areaID
-      };
+    };
 
 
 
-    for (let i=1; i<=3; i++) {  //i is the companion number (for ZL1,2,3 etc.)
+    for (let i = 1; i <= 3; i++) {  //i is the companion number (for ZL1,2,3 etc.)
 
 
-      let pos = areaData["position"+i];
+      let pos = areaData["position" + i];
       if (pos.match(/.*[123]/))
-        pos = pos.substring(0,pos.length-1); //Ex. "ZL1" => "ZL"
+        pos = pos.substring(0, pos.length - 1); //Ex. "ZL1" => "ZL"
 
 
 
@@ -177,11 +177,11 @@ function getMissionLeadershipData(contacts) {
 
       switch (pos) {
 
-      //Third companion in a duo
+        //Third companion in a duo
         case "":
           break;
 
-      // Senior Comp, Junior Comp, Trainer
+        // Senior Comp, Junior Comp, Trainer
         case "SC":
 
           break;
@@ -192,61 +192,61 @@ function getMissionLeadershipData(contacts) {
         case "TR":
           break;
 
-      // District Leader
+        // District Leader
         case "DL":
-          zones[zone].districts[district].dlArea.dl = areaData["name"+i];
-          zones[zone].districts[district].dlArea.areaName = areaData.areaName;
-          zones[zone].districts[district].dlArea.areaEmail = areaData.areaEmail;
-          zones[zone].districts[district].dlArea.areaID = areaData.areaID;
-        break;
-
-        case "DT":
-          zones[zone].districts[district].dlArea.dl = areaData["name"+i];
+          zones[zone].districts[district].dlArea.dl = areaData["name" + i];
           zones[zone].districts[district].dlArea.areaName = areaData.areaName;
           zones[zone].districts[district].dlArea.areaEmail = areaData.areaEmail;
           zones[zone].districts[district].dlArea.areaID = areaData.areaID;
           break;
 
-      // ZL
+        case "DT":
+          zones[zone].districts[district].dlArea.dl = areaData["name" + i];
+          zones[zone].districts[district].dlArea.areaName = areaData.areaName;
+          zones[zone].districts[district].dlArea.areaEmail = areaData.areaEmail;
+          zones[zone].districts[district].dlArea.areaID = areaData.areaID;
+          break;
+
+        // ZL
         case "ZL":
-          zones[zone].zlArea["zl"+i] =   areaData["name"+i];
-          zones[zone].zlArea.areaName =  areaData.areaName;
+          zones[zone].zlArea["zl" + i] = areaData["name" + i];
+          zones[zone].zlArea.areaName = areaData.areaName;
           zones[zone].zlArea.areaEmail = areaData.areaEmail;
-          zones[zone].zlArea.areaID =    areaData.areaID;
+          zones[zone].zlArea.areaID = areaData.areaID;
           break;
 
         case "ZLT":
-          zones[zone].zlArea["zl"+i] =   areaData["name"+i];
-          zones[zone].zlArea.areaName =  areaData.areaName;
+          zones[zone].zlArea["zl" + i] = areaData["name" + i];
+          zones[zone].zlArea.areaName = areaData.areaName;
           zones[zone].zlArea.areaEmail = areaData.areaEmail;
-          zones[zone].zlArea.areaID =    areaData.areaID;
+          zones[zone].zlArea.areaID = areaData.areaID;
           break;
 
-      //STL (STLs with greenies are not currently supported)
+        //STL (STLs with greenies are not currently supported)
         case "STL":
           zones[zone].hasStlArea = true;
-          zones[zone].stlArea["zl"+i] =   areaData["name"+i];
-          zones[zone].stlArea.areaName =  areaData.areaName;
+          zones[zone].stlArea["zl" + i] = areaData["name" + i];
+          zones[zone].stlArea.areaName = areaData.areaName;
           zones[zone].stlArea.areaEmail = areaData.areaEmail;
-          zones[zone].stlArea.areaID =    areaData.areaID;
+          zones[zone].stlArea.areaID = areaData.areaID;
           break;
 
-      // AP, STLT
+        // AP, STLT
         case "AP":
-          apArea["ap"+i] =   areaData["name"+i];
-          apArea.areaName =  areaData.areaName;
+          apArea["ap" + i] = areaData["name" + i];
+          apArea.areaName = areaData.areaName;
           apArea.areaEmail = areaData.areaEmail;
-          apArea.areaID =    areaData.areaID;
+          apArea.areaID = areaData.areaID;
           break;
         case "STLT":
           hasStltArea = true;
-          stltArea["stlt"+i] = areaData["name"+i];
-          stltArea.areaName =  areaData.areaName;
+          stltArea["stlt" + i] = areaData["name" + i];
+          stltArea.areaName = areaData.areaName;
           stltArea.areaEmail = areaData.areaEmail;
-          stltArea.areaID =    areaData.areaID;
+          stltArea.areaID = areaData.areaID;
           break;
 
-      // Special Assignment - office missionaries might have this
+        // Special Assignment - office missionaries might have this
         case "SA":
           break;
       }
@@ -313,7 +313,7 @@ function getLeadershipAreaData(contacts) {
         "stlt2": rmvUnd(stltArea.stlt2),
         "stlt3": rmvUnd(stltArea.stlt3)
       },
-      metadata: {pulledLeaderData: true}
+      metadata: { pulledLeaderData: true }
     }
 
   }

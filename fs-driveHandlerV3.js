@@ -108,13 +108,13 @@ function createFilesystemV3() {
 
   // Logger.log(["SHEETIDTEST", zoneMeta.loader.getIndex("sheetID1")])
 
-  let zoneOutData = getDataFromArray_(returnedData.zoneFilesys,zoneMeta.sheetData)
+  let zoneOutData = getDataFromArray_(returnedData.zoneFilesys, zoneMeta.sheetData)
   sendDataToDisplayV3_(zoneMeta.splitData.header, zoneOutData, zoneMeta.sheet)
 
-  let distOutData = getDataFromArray_(returnedData.distFilesys,distMeta.sheetData)
+  let distOutData = getDataFromArray_(returnedData.distFilesys, distMeta.sheetData)
   sendDataToDisplayV3_(distMeta.splitData.header, distOutData, distMeta.sheet)
 
-  let areaOutData = getDataFromArray_(returnedData.areaFilesys,areaMeta.sheetData)
+  let areaOutData = getDataFromArray_(returnedData.areaFilesys, areaMeta.sheetData)
   sendDataToDisplayV3_(areaMeta.splitData.header, areaOutData, areaMeta.sheet)
 
 
@@ -192,10 +192,10 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
 
     for (district in orgData[zone]) {
       Logger.log(district)
-      let dFolderObj = updateFS_getCreateFolderObj_(preDistData,district,zFolderObj.folder,reportLevel.dist)
+      let dFolderObj = updateFS_getCreateFolderObj_(preDistData, district, zFolderObj.folder, reportLevel.dist)
       dFolderObjs.push(dFolderObj)
       for (area of orgData[zone][district]) {
-        let aFolderObj = updateFS_getCreateFolderObj_(preAreaData,area,dFolderObj.folder,reportLevel.area)
+        let aFolderObj = updateFS_getCreateFolderObj_(preAreaData, area, dFolderObj.folder, reportLevel.area)
         aFolderObjs.push(aFolderObj)
         Logger.log(area)
       }
@@ -208,56 +208,53 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
   }
 }
 
-  // // let zSplitContactData = splitDataByTag(contactArray,contactSheetData.getIndex("zone"))
+// // let zSplitContactData = splitDataByTag(contactArray,contactSheetData.getIndex("zone"))
 
 
-  // // THE BIG LOOPER BEGINS HERE
-  // for (zoneName of zoneRequiredEntries) {
+// // THE BIG LOOPER BEGINS HERE
+// for (zoneName of zoneRequiredEntries) {
 
-  //   let zoneFolderID = ""
-
-
-  //   if (zoneFolderNames.includes(zoneName) == true) {
-  //     // well then, we skeep it, because it's already been stored by the previous loop.
-  //     zoneFolderID = zoneFilesysObjects[zoneFolderNames.indexOf(zoneName)].folder
-  //   } else {
-  //     // since the entry doesn't already exist, we're going to create it.
-  //     let entry = createFilesysEntryV3_(requiredEntry, reportBaseFolder, reportLevel.zone)
-  //     zoneFolderID = entry.folder
-  //     filesysObjects.push(entry)
-  //     anyUpdates = true
-  //   }
-
-  //   Logger.log("Running Zone Folder for " + zoneName + " FOLDERID: " + zoneFolderID)
+//   let zoneFolderID = ""
 
 
-  //   // NOW:  have to run the splitbyTag thing used in reportCreator to split the contacts into this zone's
-  //   // then we run the splitByTag thing in an area lower on that particular zone's contact data
-  //   // and then run that again in the district level to split it down by area
-  //   // that way we iterate through exactly everything once
+//   if (zoneFolderNames.includes(zoneName) == true) {
+//     // well then, we skeep it, because it's already been stored by the previous loop.
+//     zoneFolderID = zoneFilesysObjects[zoneFolderNames.indexOf(zoneName)].folder
+//   } else {
+//     // since the entry doesn't already exist, we're going to create it.
+//     let entry = createFilesysEntryV3_(requiredEntry, reportBaseFolder, reportLevel.zone)
+//     zoneFolderID = entry.folder
+//     filesysObjects.push(entry)
+//     anyUpdates = true
+//   }
+
+//   Logger.log("Running Zone Folder for " + zoneName + " FOLDERID: " + zoneFolderID)
 
 
-  //   /*
- 
-  //           //get districts in this zone
-  //           for each district:
- 
- 
-  //                 basically the same
-  //                 get areas in this district
- 
-  //                 for each area:
- 
-  //                       basically the same
- 
- 
- 
- 
- 
-  //   */
+//   // NOW:  have to run the splitbyTag thing used in reportCreator to split the contacts into this zone's
+//   // then we run the splitByTag thing in an area lower on that particular zone's contact data
+//   // and then run that again in the district level to split it down by area
+//   // that way we iterate through exactly everything once
+
+
+//   /*
+
+//           //get districts in this zone
+//           for each district:
+
+
+//                 basically the same
+//                 get areas in this district
+
+//                 for each area:
+
+//                       basically the same
 
 
 
+
+
+//   */
 
 
 
@@ -272,17 +269,20 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
 
 
 
-  // }
-  // // } else {
-  //   // This chunk is solely responsible for the creation of new filesystem objects and their folders and such.  Can be booped into its own section fairly easily.
-  //   Logger.log("No existing data, creating all from scratch")
-  //   for (requiredEntry of requiredEntries) {
-  //     let entry = createFilesysEntryV3_(requiredEntry, contactInfo, args)
-  //     filesysObjects.push(entry)
-  //   }
 
-  // }
-  // if (anyUpdates == true) { Logger.log("Filesystem Updated") } else { Logger.log("filesystem up to date, no updates needed") }
+
+
+// }
+// // } else {
+//   // This chunk is solely responsible for the creation of new filesystem objects and their folders and such.  Can be booped into its own section fairly easily.
+//   Logger.log("No existing data, creating all from scratch")
+//   for (requiredEntry of requiredEntries) {
+//     let entry = createFilesysEntryV3_(requiredEntry, contactInfo, args)
+//     filesysObjects.push(entry)
+//   }
+
+// }
+// if (anyUpdates == true) { Logger.log("Filesystem Updated") } else { Logger.log("filesystem up to date, no updates needed") }
 
 function updateFilesysV3_OLD_(filesysObject, contactInfo, args = { scope: reportLevel.zone, previousLevelData: [], rootFolder: reportRootFolder }) {
   // returns an array of filesys objects
@@ -361,12 +361,12 @@ function createNewFolderV3_(parentFolderId, name) {
   //   let newFolderID = parentFolderID.createFolder(name).getId()
   //   return newFolderID
   // } else {
-    Logger.log(parentFolderId)
-    let parentFolder = DriveApp.getFolderById(parentFolderId)
-    let newFolder = parentFolder.createFolder(name)
-    let newFolderID = newFolder.getId()
-    if (functionGUBED == true) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]) }
-    return newFolderID
+  Logger.log(parentFolderId)
+  let parentFolder = DriveApp.getFolderById(parentFolderId)
+  let newFolder = parentFolder.createFolder(name)
+  let newFolderID = newFolder.getId()
+  if (functionGUBED == true) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]) }
+  return newFolderID
 
   // }
   //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.

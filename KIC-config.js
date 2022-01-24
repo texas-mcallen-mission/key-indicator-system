@@ -7,7 +7,7 @@
 
 let CONFIG =
 {
-    //General config settings here
+  //General config settings here
 }
 
 
@@ -19,7 +19,7 @@ let DBCONFIG =
 
 
   //WARNING: If set to true, loading the filesystem will take a VERY long time!
-  UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false, 
+  UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
 
   //      WARNING: Work in progress! If you get a "... is not a function" error it's probably because pulling from the cache didn't work properly
   //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
@@ -41,7 +41,7 @@ let DBCONFIG =
   SKIP_MARKING_PULLED: false,  //Stops marking Form Responses as having been pulled into the data sheet
   SKIP_MARKING_DUPLICATES: false,
   FREEZE_CONTACT_DATA: true,
-  FREEZE_FILESYS: false,    
+  FREEZE_FILESYS: false,
 
 
   //Allow triggers to run

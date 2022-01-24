@@ -194,7 +194,7 @@ class SheetData {
    * Returns the header row of this sheet.
    */
   getHeaders() {
-    let range = this.getSheet().getRange(this.headerRow+1,1,1,this.getSheet().getLastColumn());
+    let range = this.getSheet().getRange(this.headerRow + 1, 1, 1, this.getSheet().getLastColumn());
     return range.getValues()[0];
   }
 
@@ -208,7 +208,7 @@ class SheetData {
     return values;
   }
 
-  
+
   /**
    * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Does not include headers or rows above the header row.
    * @returns The data from this sheet as an array of objects, not including header rows.
@@ -232,7 +232,7 @@ class SheetData {
    * @param {Object} data The data to insert.
    */
   insertData(data) {
-    if (data.length==0) return;
+    if (data.length == 0) return;
 
     let values = [];
     let skippedKeys = new Set();
@@ -257,7 +257,7 @@ class SheetData {
     for (let arr of values)
       if (typeof arr[maxIndex] == 'undefined')
         arr[maxIndex] = "";
-    
+
     for (let key of skippedKeys)
       Logger.log(`Skipped key ${key} while pushing to sheet ${this.tabName}. Sheet doesn't have that key`);
 
@@ -269,9 +269,9 @@ class SheetData {
    * @param values The values to insert.
    */
   insertValues(values) {
-    if (values.length==0) return;
-    this.getSheet().insertRowsBefore(this.headerRow+2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
-    let range = this.getSheet().getRange(this.headerRow+2, 1, values.length, values[0].length);
+    if (values.length == 0) return;
+    this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+    let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
     range.setValues(values);
   }
 
@@ -286,7 +286,7 @@ class SheetData {
    * Returns an array of all the values in the sheet for the given key.
    * @returns An array containing all values for the given key.
    */
-   getAllOfKey(key) {
+  getAllOfKey(key) {
     let index = this.keyToIndex[key];
     return this.getAllOfIndex(index);
   }
@@ -449,240 +449,240 @@ function constructSheetData(forceConstruct) {
 
   /*    Static properties and parameters     */
 
-    SheetData.CONSTRUCTED = true;
-    SheetData.KEY_FROM_HEADER = {     //NOT USED
-      "Area Name": "areaName",
-      "Status Log": "log",
-      "hasContactData": "hasContactData",
-      "Response Pulled": "responsePulled",
-      "isDuplicate": "isDuplicate",
-      "Form Timestamp": "formTimestamp",
-      "Submission Email": "submissionEmail",
-      "Area Email": "areaEmail",
-      "Area ID": "areaID",
-      "Sunday's Date": "kiDate",
-      "NP": "np",
-      "SA": "sa",
-      "BD": "bd",
-      "BC": "bc",
-      "RCA": "rca",
-      "RC": "rc",
-      "CKI": "cki",
-      "Service Hours": "serviceHrs",
-      "Form Notes": "formNotes",
-      "Date Contact Generated": "dateContactGenerated",
-      "Name 1": "name1",
-      "Position 1": "position1",
-      "isTrainer 1": "isTrainer1",
-      "Name 1": "name2",
-      "Position 2": "position2",
-      "isTrainer 2": "isTrainer2",
-      "Name 3": "name3",
-      "Position 3": "position3",
-      "isTrainer 3": "isTrainer3",
-      "District Leader": "districtLeader",
-      "ZL1": "zoneLeader1",
-      "ZL2": "zoneLeader2",
-      "ZL3": "zoneLeader3",
-      "STL1": "stl1",
-      "STL2": "stl2",
-      "STL3": "stl3",
-      "STLT1": "stlt1",
-      "STLT2": "stlt2",
-      "STLT3": "stlt3",
-      "AP1": "assistant1",
-      "AP2": "assistant2",
-      "AP3": "assistant3",
-      "District": "district",
-      "Zone": "zone",
-      "unitString": "unitString",
-      "hasMultipleUnits": "hasMultipleUnits",
-      "languageString": "languageString",
-      "isSeniorCouple": "isSeniorCouple",
-      "isSisterArea": "isSisterArea",
-      "hasVehicle": "hasVehicle",
-      "Vehicle Miles": "vehicleMiles",
-      "vinLast8": "vinLast8",
-      "Apt Address": "aptAddress",
-      "Form Comments": "formNotes",
-      "Folder Name": "folderName",
-      "Parent Folder": "parentFolder",
-      "Folder": "folder",
-      "sheetID1": "sheetID1",
-      "sheetID2": "sheetID2",
+  SheetData.CONSTRUCTED = true;
+  SheetData.KEY_FROM_HEADER = {     //NOT USED
+    "Area Name": "areaName",
+    "Status Log": "log",
+    "hasContactData": "hasContactData",
+    "Response Pulled": "responsePulled",
+    "isDuplicate": "isDuplicate",
+    "Form Timestamp": "formTimestamp",
+    "Submission Email": "submissionEmail",
+    "Area Email": "areaEmail",
+    "Area ID": "areaID",
+    "Sunday's Date": "kiDate",
+    "NP": "np",
+    "SA": "sa",
+    "BD": "bd",
+    "BC": "bc",
+    "RCA": "rca",
+    "RC": "rc",
+    "CKI": "cki",
+    "Service Hours": "serviceHrs",
+    "Form Notes": "formNotes",
+    "Date Contact Generated": "dateContactGenerated",
+    "Name 1": "name1",
+    "Position 1": "position1",
+    "isTrainer 1": "isTrainer1",
+    "Name 1": "name2",
+    "Position 2": "position2",
+    "isTrainer 2": "isTrainer2",
+    "Name 3": "name3",
+    "Position 3": "position3",
+    "isTrainer 3": "isTrainer3",
+    "District Leader": "districtLeader",
+    "ZL1": "zoneLeader1",
+    "ZL2": "zoneLeader2",
+    "ZL3": "zoneLeader3",
+    "STL1": "stl1",
+    "STL2": "stl2",
+    "STL3": "stl3",
+    "STLT1": "stlt1",
+    "STLT2": "stlt2",
+    "STLT3": "stlt3",
+    "AP1": "assistant1",
+    "AP2": "assistant2",
+    "AP3": "assistant3",
+    "District": "district",
+    "Zone": "zone",
+    "unitString": "unitString",
+    "hasMultipleUnits": "hasMultipleUnits",
+    "languageString": "languageString",
+    "isSeniorCouple": "isSeniorCouple",
+    "isSisterArea": "isSisterArea",
+    "hasVehicle": "hasVehicle",
+    "Vehicle Miles": "vehicleMiles",
+    "vinLast8": "vinLast8",
+    "Apt Address": "aptAddress",
+    "Form Comments": "formNotes",
+    "Folder Name": "folderName",
+    "Parent Folder": "parentFolder",
+    "Folder": "folder",
+    "sheetID1": "sheetID1",
+    "sheetID2": "sheetID2",
 
 
 
+  }
+
+
+
+
+
+
+  let initialColumnOrders = {
+
+
+    zoneFilesys: {
+      "folderName": 0,
+      "parentFolder": 1,
+      "folder": 2,
+      "sheetID1": 3,
+      "sheetID2": 4,
+
+
+
+    },
+    distFilesys: {
+      "folderName": 0,
+      "parentFolder": 1,
+      "folder": 2,
+      "sheetID1": 3,
+      "sheetID2": 4,
+
+
+
+    },
+    areaFilesys: {
+      "folderName": 0,
+      "parentFolder": 1,
+      "folder": 2,
+      "sheetID1": 3,
+      "sheetID2": 4,
+
+
+
+    },
+
+
+    //FORM RESPONSE COLUMN ORDER 
+    form: {
+      "areaName": 0,
+      "responsePulled": 1,
+      "isDuplicate": 2,
+      "formTimestamp": 3,
+      "submissionEmail": 4,
+      "kiDate": 5,
+      "np": 6,
+      "sa": 7,
+      "bd": 8,
+      "bc": 9,
+      "rca": 10,
+      "rc": 11,
+      "cki": 12,
+      "serviceHrs": 13,
+      "formNotes": 14,
+      //...additional form data (ex. baptism sources)
+    },
+
+    //CONTACT SHEET COLUMN ORDER
+    contact: {
+      "dateContactGenerated": 0,
+      "areaEmail": 1,
+      "areaName": 2,
+      "name1": 3,
+      "position1": 4,
+      "isTrainer1": 5,
+      "name2": 6,
+      "position2": 7,
+      "isTrainer2": 8,
+      "name3": 9,
+      "position3": 10,
+      "isTrainer3": 11,
+      "district": 12,
+      "zone": 13,
+      "unitString": 14,
+      "hasMultipleUnits": 15,
+      "languageString": 16,
+      "isSeniorCouple": 17,
+      "isSisterArea": 18,
+      "hasVehicle": 19,
+      "vehicleMiles": 20,
+      "vinLast8": 21,
+      "aptAddress": 22,
+    },
+
+
+    //DATA SHEET COLUMN ORDER
+    data: {
+      "areaName": 0,
+      "log": 1,
+      "areaEmail": 2,
+      "isDuplicate": 3,
+      "formTimestamp": 4,    //form data
+      "areaID": 5,
+      "kiDate": 6,    //form data
+
+
+      "np": 7,    //form data
+      "sa": 8,    //form data
+      "bd": 9,    //form data
+      "bc": 10,    //form data
+      "rca": 11,    //form data
+      "rc": 12,    //form data
+      "cki": 13,    //form data
+      "serviceHrs": 14,    //form data
+
+      "name1": 15,
+      "position1": 16,
+      "isTrainer1": 17,
+      "name2": 18,
+      "position2": 19,
+      "isTrainer2": 20,
+      "name3": 21,
+      "position3": 22,
+      "isTrainer3": 23,
+
+      "districtLeader": 24,
+      "zoneLeader1": 25,
+      "zoneLeader2": 26,
+      "zoneLeader3": 27,
+      "stl1": 28,
+      "stl2": 29,
+      "stl3": 30,
+      "stlt1": 31,
+      "stlt2": 32,
+      "stlt3": 33,
+      "assistant1": 34,
+      "assistant2": 35,
+      "assistant3": 36,
+
+      "district": 37,
+      "zone": 38,
+      "unitString": 39,
+      "hasMultipleUnits": 40,
+      "languageString": 41,
+      "isSeniorCouple": 42,
+      "isSisterArea": 43,
+      "hasVehicle": 44,
+      "vehicleMiles": 45,
+      "vinLast8": 46,
+      "aptAddress": 47,
+      "formNotes": 48,    //form data
+      //...additional form data (ex. baptism sources)
     }
 
+  }
 
 
 
+  let tabNames = {
+    form: "Form Responses",
+    data: "Data",
+    contact: "Contact Data",
+    zoneFilesys: "Zone Filesys V3",
+    distFilesys: "Dist Filesys V3",
+    areaFilesys: "Area Filesys V3"
+  }
 
-
-    let initialColumnOrders = {
-
-
-      zoneFilesys: {
-        "folderName": 0,
-        "parentFolder": 1,
-        "folder": 2,
-        "sheetID1": 3,
-        "sheetID2": 4,
-
-
-
-      },
-      distFilesys: {
-        "folderName": 0,
-        "parentFolder": 1,
-        "folder": 2,
-        "sheetID1": 3,
-        "sheetID2": 4,
-
-
-
-      },
-      areaFilesys: {
-        "folderName": 0,
-        "parentFolder": 1,
-        "folder": 2,
-        "sheetID1": 3,
-        "sheetID2": 4,
-
-
-
-      },
-
-
-      //FORM RESPONSE COLUMN ORDER 
-      form: {
-        "areaName": 0,
-        "responsePulled": 1,
-        "isDuplicate": 2,
-        "formTimestamp": 3,
-        "submissionEmail": 4,
-        "kiDate": 5,
-        "np": 6,
-        "sa": 7,
-        "bd": 8,
-        "bc": 9,
-        "rca": 10,
-        "rc": 11,
-        "cki": 12,
-        "serviceHrs":13,
-        "formNotes": 14,
-        //...additional form data (ex. baptism sources)
-      },
-
-      //CONTACT SHEET COLUMN ORDER
-      contact: {
-        "dateContactGenerated": 0,
-        "areaEmail": 1,
-        "areaName": 2,
-        "name1": 3,
-        "position1": 4,
-        "isTrainer1": 5,
-        "name2": 6,
-        "position2": 7,
-        "isTrainer2": 8,
-        "name3": 9,
-        "position3": 10,
-        "isTrainer3": 11,
-        "district": 12,
-        "zone": 13,
-        "unitString": 14,
-        "hasMultipleUnits": 15,
-        "languageString": 16,
-        "isSeniorCouple": 17,
-        "isSisterArea": 18,
-        "hasVehicle": 19,
-        "vehicleMiles": 20,
-        "vinLast8": 21,
-        "aptAddress": 22,
-      },
-
-
-      //DATA SHEET COLUMN ORDER
-      data: {
-        "areaName": 0,
-        "log": 1,
-        "areaEmail": 2,
-        "isDuplicate": 3,
-        "formTimestamp": 4,    //form data
-        "areaID": 5,
-        "kiDate": 6,    //form data
-
-
-        "np": 7,    //form data
-        "sa": 8,    //form data
-        "bd": 9,    //form data
-        "bc": 10,    //form data
-        "rca": 11,    //form data
-        "rc": 12,    //form data
-        "cki": 13,    //form data
-        "serviceHrs": 14,    //form data
-
-        "name1": 15,
-        "position1": 16,
-        "isTrainer1": 17,
-        "name2": 18,
-        "position2": 19,
-        "isTrainer2": 20,
-        "name3": 21,
-        "position3": 22,
-        "isTrainer3": 23,
-
-        "districtLeader": 24,
-        "zoneLeader1": 25,
-        "zoneLeader2": 26,
-        "zoneLeader3": 27,
-        "stl1": 28,
-        "stl2": 29,
-        "stl3": 30,
-        "stlt1": 31,
-        "stlt2": 32,
-        "stlt3": 33,
-        "assistant1": 34,
-        "assistant2": 35,
-        "assistant3": 36,
-
-        "district": 37,
-        "zone": 38,
-        "unitString": 39,
-        "hasMultipleUnits": 40,
-        "languageString": 41,
-        "isSeniorCouple": 42,
-        "isSisterArea": 43,
-        "hasVehicle": 44,
-        "vehicleMiles": 45,
-        "vinLast8": 46,
-        "aptAddress": 47,
-        "formNotes": 48,    //form data
-        //...additional form data (ex. baptism sources)
-      }
-
-    }
-
-
-
-    let tabNames = {
-      form: "Form Responses",
-      data: "Data",
-      contact: "Contact Data",
-      zoneFilesys: "Zone Filesys V3",
-      distFilesys: "Dist Filesys V3",
-      areaFilesys: "Area Filesys V3"
-    }
-
-    let headerRows = {
-      form: 0,
-      data: 0,
-      contact: 0,
-      zoneFilesys: 0,
-      distFilesys: 0,
-      areaFilesys: 0
-    }
+  let headerRows = {
+    form: 0,
+    data: 0,
+    contact: 0,
+    zoneFilesys: 0,
+    distFilesys: 0,
+    areaFilesys: 0
+  }
 
   //END Static properties and parameters
 
