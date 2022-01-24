@@ -335,7 +335,7 @@ function isFolderAccessible_(folderID) {
   let gone = false;
   try {
     folder = DriveApp.getFolderById(folderID);
-    test = DriveApp.getFolderById(folderID).getName();
+    // test = DriveApp.getFolderById(folderID).getName();
 
     folder.getDescription();
   } catch (e) {
