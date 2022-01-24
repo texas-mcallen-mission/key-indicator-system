@@ -19,17 +19,42 @@ const reportLevel = {
   */
 }
 
-function testVerifyV3(){
+
+function verifyFilesystem(){
   let allSheetData = constructSheetData()
-  Logger.log("Initializing filesystem for " + reportLevel.zone )
+  Logger.log("initializing filesystem")
   let zoneMeta = dataLoader_(allSheetData,reportLevel.zone)
+  let distMeta = dataLoader_(allSheetData,reportLevel.dist)
+  let areaMeta = dataLoader_(allSheetData,reportLevel.area)
+
   Logger.log("Beginning Verification")
-  let updatedFSObj = verifySingleFilesysV3_(zoneMeta.fsObj)
-  Logger.log("Updating sheet")
-  let outData = getDataFromArray_(updatedFSObj,zoneMeta.sheetData)
-  sendDataToDisplayV3_(zoneMeta.splitData.header,outData,zoneMeta.sheet)
-  Logger.log("DONE")
+  let zoneFSupdated = verifySingleFilesysV3_(zoneMeta.fsObj)
+  let distFSupdated = verifySingleFilesysV3_(distMeta.fsObj)
+  let areaFSupdated = verifySingleFilesysV3_(areaMeta.fsObj)
+
+  Logger.log("Converting FSobj to writeable data")
+  let zoneOutData = getDataFromArray_(zoneFSupdated,zoneMeta.sheetData)
+  let distOutData = getDataFromArray_(distFSupdated,distMeta.sheetData)
+  let areaOutData = getDataFromArray_(areaFSupdated,areaMeta.sheetData)
+  Logger.log("writing data")
+  sendDataToDisplayV3_(zoneMeta.splitData.header,zoneOutData,zoneMeta.sheet)
+  sendDataToDisplayV3_(distMeta.splitData.header,distOutData,distMeta.sheet)
+  sendDataToDisplayV3_(areaMeta.splitData.header,areaOutData,areaMeta.sheet)
+  
 }
+
+
+// function verifySingleFilesysWrapper(){
+//   let allSheetData = constructSheetData()
+//   Logger.log("Initializing filesystem for " + reportLevel.zone )
+//   let zoneMeta = dataLoader_(allSheetData,reportLevel.zone)
+//   Logger.log("Beginning Verification")
+//   let updatedFSObj = verifySingleFilesysV3_(zoneMeta.fsObj)
+//   Logger.log("Updating sheet")
+//   let outData = getDataFromArray_(updatedFSObj,zoneMeta.sheetData)
+//   sendDataToDisplayV3_(zoneMeta.splitData.header,outData,zoneMeta.sheet)
+//   Logger.log("DONE")
+// }
 
 // this little one-liner gets the root folder of the drive in case the reports folder is not found.
 var reportRootFolder = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
