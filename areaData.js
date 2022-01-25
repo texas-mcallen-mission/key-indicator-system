@@ -1,0 +1,11 @@
+
+
+
+
+
+class AreaData {
+    constructor() {
+
+    }
+}
+

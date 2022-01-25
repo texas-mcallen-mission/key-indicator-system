@@ -232,30 +232,35 @@ class SheetData {
   }
 
   /**
-   * Returns the data from this sheet as a two dimensional array. Does not include headers or rows above the header row.
-   * @returns {any[][]} The data from this sheet as a two dimentional array, not including header rows.
+   * Returns the data from this sheet as a two dimensional array. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
+   * @returns {any[][]} The data from this sheet as a two dimentional array.
    */
   getValues() {
-    let values = this.getSheet().getDataRange().getValues();
-    for (let i = this.headerRow + 1; i > 0; i--) values.shift(); //Skip header rows
+    let values = [];
+    let rawValues = this.getSheet().getDataRange().getValues();
+    for (let i = this.headerRow + 1; i > 0; i--) rawValues.shift(); //Skip header rows
+    for (let row of rawValues) if (row[0] != "") values.push(row); //Skip blank rows
     return values;
   }
 
 
   /**
-   * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Does not include headers or rows above the header row.
-   * @returns {{}[]} The data from this sheet as an array of objects, not including header rows.
+   * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
+   * @returns {{}[]} The data from this sheet as an array of objects.
    */
   getData() {
     let outValues = [];
     let values = this.getValues();
     for (let row of values) {
+      if (row[0] == "") continue; //Skip blank rows
+
       let rowObj = {};
       for (let i = 0; i < row.length; i++) {
         // @ts-ignore
         let key = this.indexToKey[i];
         rowObj[key] = row[i];
       }
+
       outValues.push(rowObj);
     }
     return outValues;
@@ -747,6 +752,7 @@ function constructSheetData(force = false) {
     //Ex. allSheetData.data = new SheetData(tabNames.data, initialColumnOrders.data, headerRows.data)
   }
   
+  //@ts-ignore
   refreshContacts();
   
   populateExtraColumnData_(allSheetData);
