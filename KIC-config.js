@@ -1,3 +1,4 @@
+//@ts-check
 /*
         KIC-config
         General and debugging configuration parameters
@@ -22,7 +23,7 @@ let DBCONFIG =
   UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
 
   //      WARNING: Caching is a work in progress! If you get a "... is not a function" error, it's probably because pulling allSheetData from the cache didn't work properly - just disable caching in the config to fix.
-  
+
   //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
   CACHE_AREA_IDS: false,   //[unimplemented] Cache the list of areaIDs
   CACHE_SHEET_DATA: false,  //Cache allSheetData, the object returned by constructSheetData()

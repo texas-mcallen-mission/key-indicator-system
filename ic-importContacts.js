@@ -1,3 +1,4 @@
+//@ts-check
 /*
         importContacts
         Main functions for importing data into the Contact Data sheet from Google Contacts.
@@ -36,7 +37,7 @@ function importContacts(allSheetData) {
 
     //Email Parser
     let contactEmailList = contact.getEmails();
-    emailData = emailParser(contactEmailList)
+    let emailData = emailParser(contactEmailList)
 
     //Role Parser
     let roleData = roleParser(emailData.emailLabelNames, contactEmailList);

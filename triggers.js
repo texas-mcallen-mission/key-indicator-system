@@ -1,3 +1,4 @@
+//@ts-check
 /*
         triggers.gs
         Helper functions relating to installable, time-based, and custom menu triggers. Used to create a layer of abstraction between triggers and raw functions

@@ -1,6 +1,9 @@
+//@ts-check
 // I'm going to compile the functions I've wound up using a lot here so that they're easier to find
 // created by Bert
-
+let functionGUBED = true;
+  
+  
 function sendDataToDisplayV3_(header, finalData, sheet) {
   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
   sheet.clearContents()
@@ -42,14 +45,14 @@ function splitDataByTagEliminateDupes(referenceData, tagColumn, dupeColumn) {
   // Logger.log(tagList)
   let splitData = {}//[tagList.length]
   // set up splitData
-  for (tag of tagList) {
+  for (let tag of tagList) {
     splitData[tag] = []
   }
-  for (data of referenceData) {
+  for (let data of referenceData) {
     let refTag = data[checkPosition]
     // Logger.log(refTag)
     if (tagList.includes(refTag) == true && (data[dupeColumn] == false || dupeColumn == null /*typeof dupeColumn == "undefined" (ONLY IF THAT DOESN'T WORK)*/)) {
-      currentTag = tagList[tagList.indexOf(refTag)]
+      let currentTag = tagList[tagList.indexOf(refTag)]
       // Logger.log(currentTag)
       // Logger.log(tagList.indexOf(refTag))
       splitData[currentTag].push(data)
@@ -65,14 +68,14 @@ function splitDataByTag(referenceData, tagColumn) {
   // Logger.log(tagList)
   let splitData = {}//[tagList.length]
   // set up splitData
-  for (tag of tagList) {
+  for (let tag of tagList) {
     splitData[tag] = []
   }
-  for (data of referenceData) {
+  for (let data of referenceData) {
     let refTag = data[checkPosition]
     // Logger.log(refTag)
     if (tagList.includes(refTag) == true) {
-      currentTag = tagList[tagList.indexOf(refTag)]
+      let currentTag = tagList[tagList.indexOf(refTag)]
       splitData[currentTag].push(data)
     }
   }

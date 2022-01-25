@@ -1,6 +1,5 @@
-function fixWhileDebugging() {
-  importContacts()
-}
+//@ts-check
+
 
 function roleParser(labelNameObject, listOfEmails) {
   let compRoles = []

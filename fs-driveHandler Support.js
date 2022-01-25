@@ -1,7 +1,6 @@
+//@ts-check
 // I basically built a better way to load contactData... Now all I have to to is modify the importContacts thingy to use this system..... That'll happen much later tho
-function test() {
-  codeTest()
-}
+
 
 function getOrCreateReportFolder() {
   // looks for a folder named "Reports" in the folder this document is in or creates it, and returns a folderID for it.

@@ -1,6 +1,7 @@
+//@ts-check
 function parseNotes(inputString) {
   // PARSER FOR NOTES SECTION DATA
-  if (typeof (inputString) != String) {
+  if (typeof (inputString) != 'string') {
     TypeError("NO NOTES FOR NOTES PARSER TO PARSE.  PLZ HALP, HAVING EXISTENTIAL CRISIS")
   }
 

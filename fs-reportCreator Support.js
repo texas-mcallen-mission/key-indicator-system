@@ -1,3 +1,4 @@
+//@ts-check
 function getSheetOrSetUpFromOtherSource(sheetName, headerData, targetSpreadsheet) {
 
   let ss //Get currently Active sheet

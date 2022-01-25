@@ -1,3 +1,4 @@
+//@ts-check
 
 class FilesystemEntry {
   constructor(name, parentFolderID, folderID, sheetReportID1, sheetReportID2) {

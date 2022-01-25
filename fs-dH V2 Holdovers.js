@@ -1,3 +1,4 @@
+//@ts-check
 function whileDebugging() {
   updateZoneReports()
 }
@@ -17,11 +18,13 @@ function verifySingleFilesys_(data) {
 
 
 
-    for (document of fsObj.sheetsIDs[i]) {
+    for (let document of fsObj.sheetsIDs[i]) {
       if (isSheetReal_(document) == true) {
         // Logger.log(["Document Exists for",fsObj.name[i],": ",document])
       } else {
         document = ""
+        if (typeof newFsObj.sheetsIDs == 'undefined')
+          newFsObj.sheetsIDs = [];
         newFsObj.sheetsIDs[i] = ""
       }
     }

@@ -3,3 +3,6 @@
 let Logger;
 let SpreadsheetApp;
 let CacheService;
+let DriveApp;
+let Drive;
+let ContactsApp;
