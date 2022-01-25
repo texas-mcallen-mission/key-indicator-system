@@ -24,53 +24,10 @@ function updateDataSheet() {
 
   //checkForErrors()?  Ex. no contact data
 
-  let missionData = pullFormDataV2(allSheetData);
+  let missionData = pullFormData(allSheetData);
 
   if (missionData.length == 0) {
     Logger.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND")
-    return;
-  }
-
-  if (isContactDataOld(allSheetData)) importContacts(allSheetData);
-
-  let contacts = getContactDataV2(allSheetData);
-
-  let leaders = getLeadershipAreaDataV2(contacts);
-
-  missionData = mergeIntoMissionDataV2(missionData, contacts, "contact AreaData");
-  missionData = mergeIntoMissionDataV2(missionData, leaders, "leadership AreaData");
-
-
-  pushToDataSheetV2(allSheetData, missionData);
-
-  markDuplicatesV2(allSheetData);
-
-  pushErrorMessages();  //Unimplemented
-
-  Logger.log("UPDATE COMPLETED")
-}
-
-
-
-
-
-
-
-/**
-  * Updates the Data sheet.
-  */
-function updateDataSheetV2() {
-  Logger.log("BEGINNING UPDATE")
-  if (DEBUG) Logger.log(`[DEBUG] Running in Debug Mode. Welcome, Spreadsheet Master`)
-
-  let allSheetData = constructSheetData();
-
-  //checkForErrors()?  Ex. no contact data
-
-  let responses = pullFormData(allSheetData);
-
-  if (responses.length == 0) {
-    Logger.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
     return;
   }
 
@@ -80,11 +37,11 @@ function updateDataSheetV2() {
 
   let leaders = getLeadershipAreaData(contacts);
 
-  let missionData = responses;
-  missionData = mergeIntoMissionData(missionData, contacts, 'contacts');
-  missionData = mergeIntoMissionData(missionData, leaders, 'leaders');
+  missionData = mergeIntoMissionData(missionData, contacts, "contact AreaData");
+  missionData = mergeIntoMissionData(missionData, leaders, "leadership AreaData");
 
-  pushToDataSheet(allSheetData, missionData);
+
+  pushToDataSheetV2(allSheetData, missionData);
 
   markDuplicates(allSheetData);
 
@@ -99,12 +56,14 @@ function updateDataSheetV2() {
 
 
 
-
+function markDuplicates(allSheetData) {
+  console.warn(`TODO: markDuplicates() v2 not yet implemented`)
+}
 
 /**
   * Flags duplicate responses in the Data sheet.
   */
-function markDuplicates(allSheetData) { //                                  TODO: Don't pull the whole sheet?
+function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
   Logger.log("Marking duplicate responses. Pulling data...")
   Logger.log("TODO: Don't pull the whole sheet?")
 
@@ -226,7 +185,7 @@ function markDuplicates(allSheetData) { //                                  TODO
 /**
   * Pulls data from the Form Response sheet and adds areaIDs, marking responses as having been pulled.
   */
-function pullFormDataV2(allSheetData) {
+function pullFormData(allSheetData) {
   Logger.log("Pulling Form Data...")
 
   let fSheetData = allSheetData.form;
@@ -284,7 +243,7 @@ function pullFormDataV2(allSheetData) {
 /**
   * Pulls data from the Contact Data sheet and adds areaIDs.
   */
-function getContactDataV2(allSheetData) {
+function getContactData(allSheetData) {
 
   Logger.log("Getting data from Contact Data sheet...")
 
@@ -311,7 +270,7 @@ function getContactDataV2(allSheetData) {
   * Used to pull contact and leader data into missionData.
   * Takes a reference to missionData, a reference to the datasource, and an ID string for that datasource.
   */
-function mergeIntoMissionDataV2(missionData, sourceData, sourceID) {
+function mergeIntoMissionData(missionData, sourceData, sourceID) {
   Logger.log(`Beginning to merge source '${sourceID}' into missionData`)
 
   let newMissionData = [];
@@ -424,15 +383,6 @@ function pushToDataSheetV2(allSheetData, missionData) {
 
 
 
-
-
-
-
-
-
-
-
-
   for (let area of missionData) {
     let row = [];
 
@@ -474,53 +424,53 @@ function pushToDataSheetV2(allSheetData, missionData) {
 
 
 
-/**
-  * Inserts responses from missionData into the Data sheet.
-  */
-function pushToDataSheet(allSheetData, missionData) {
-  Logger.log("Pushing data to Data sheet...")
+// /**
+//   * Inserts responses from missionData into the Data sheet.
+//   */
+// function pushToDataSheet(allSheetData, missionData) {
+//   Logger.log("Pushing data to Data sheet...")
 
-  let out = [];
+//   let out = [];
 
-  let dSheetData = allSheetData.data;
-  let dataSheet = dSheetData.getSheet();
+//   let dSheetData = allSheetData.data;
+//   let dataSheet = dSheetData.getSheet();
 
-  for (let area of missionData) {
-    let row = [];
+//   for (let area of missionData) {
+//     let row = [];
 
-    area.log = "WIP - log is unimplemented"
-    area.hasContactData = true
-
-
-
-    for (let key in area) {
-      let index = dSheetData.getIndex(key);
-      if (typeof index == 'undefined')
-        throw `Column index not found in Data sheet for key '${key}'`;
-
-      if (row[index])
-        Logger.log(`Potential data collision for key '${key}'`);
-      else
-        row[index] = area[key];
-    }
+//     area.log = "WIP - log is unimplemented"
+//     area.hasContactData = true
 
 
-  }
+
+//     for (let key in area) {
+//       let index = dSheetData.getIndex(key);
+//       if (typeof index == 'undefined')
+//         throw `Column index not found in Data sheet for key '${key}'`;
+
+//       if (row[index])
+//         Logger.log(`Potential data collision for key '${key}'`);
+//       else
+//         row[index] = area[key];
+//     }
 
 
-  dataSheet.insertRowsAfter(1, out.length);
+//   }
 
 
-  let range = dataSheet.getRange(2, 1, out.length, out[0].length);
-
-  out.reverse();
-
-  range.setValues(out);
+//   dataSheet.insertRowsAfter(1, out.length);
 
 
-  Logger.log(`Finished pushing to Data sheet.`)
+//   let range = dataSheet.getRange(2, 1, out.length, out[0].length);
 
-}
+//   out.reverse();
+
+//   range.setValues(out);
+
+
+//   Logger.log(`Finished pushing to Data sheet.`)
+
+// }
 
 
 
