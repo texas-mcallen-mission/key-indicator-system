@@ -319,7 +319,7 @@ class SheetData {
    */
   clearContent() {
     let startRow = this.getHeaderRow() + 2;
-    let numRows = this.getSheet().getLastRow() - startRow;
+    let numRows = this.getSheet().getLastRow()+1 - startRow;
     let numCols = this.getSheet().getLastColumn();
     this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
   }
@@ -752,8 +752,8 @@ function constructSheetData(force = false) {
     //Ex. allSheetData.data = new SheetData(tabNames.data, initialColumnOrders.data, headerRows.data)
   }
   
-  //@ts-ignore
-  refreshContacts();
+  //@ts-expect-error
+  refreshContacts(allSheetData);
   
   populateExtraColumnData_(allSheetData);
   //setSheetsUp_(allSheetData);

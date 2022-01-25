@@ -10,8 +10,9 @@
 
 
 
-/**
+ /**
  * Returns an object containing mission organization data, including zones, districts in each zone, and areas in each district.
+ * @param {{ contact: any; }} allSheetData
  */
  function getMissionOrgData(allSheetData) {
 
@@ -60,6 +61,7 @@
 
 /**
  * Calculates and returns an object containing mission leadership data, including area names, emails, and missionary names of every junior missionary leader, as well as flags indicating if each zone has an STL area and whether an STLT area exists.
+ * @param {{ [x: string]: any; }} contacts
  */
 function getMissionLeadershipData(contacts) {
 
@@ -263,7 +265,8 @@ function getMissionLeadershipData(contacts) {
     zones: zones,
     apArea: apArea,
     stltArea: stltArea,
-    hasStltArea: hasStltArea
+    hasStltArea: hasStltArea,
+    log: { leaderDataCalculatedTime: (new Date()).toString() },
   }
 
 
@@ -276,6 +279,7 @@ function getMissionLeadershipData(contacts) {
 
 /**
  * Returns an object whose properties (keyed by areaID) represent areas. Each area contains the names of the DL, ZLs, APs, etc. with stewardship over that area.
+ * @param {{ [x: string]: any; }} contacts
  */
 function getLeadershipAreaData(contacts) {
 
@@ -296,25 +300,28 @@ function getLeadershipAreaData(contacts) {
     let areaName = areaData.areaName;
 
     leaderAreaData[areaID] = {
-      areaData:
-      {
-        "areaName": areaName,  //Debug purposes - not actually used
+      "areaName": areaName,  //Debug purposes - not actually used
 
-        "districtLeader": rmvUnd(zones[zone].districts[district].dl),
-        "zoneLeader1": rmvUnd(zones[zone].zlArea.zl1),
-        "zoneLeader2": rmvUnd(zones[zone].zlArea.zl2),
-        "zoneLeader3": rmvUnd(zones[zone].zlArea.zl3),
-        "stl1": rmvUnd(zones[zone].stlArea.stl1),
-        "stl2": rmvUnd(zones[zone].stlArea.stl2),
-        "stl3": rmvUnd(zones[zone].stlArea.stl3),
-        "assistant1": rmvUnd(apArea.ap1),
-        "assistant2": rmvUnd(apArea.ap2),
-        "assistant3": rmvUnd(apArea.ap3),
-        "stlt1": rmvUnd(stltArea.stlt1),
-        "stlt2": rmvUnd(stltArea.stlt2),
-        "stlt3": rmvUnd(stltArea.stlt3)
+      "districtLeader": rmvUnd(zones[zone].districts[district].dl),
+      "zoneLeader1": rmvUnd(zones[zone].zlArea.zl1),
+      "zoneLeader2": rmvUnd(zones[zone].zlArea.zl2),
+      "zoneLeader3": rmvUnd(zones[zone].zlArea.zl3),
+      "stl1": rmvUnd(zones[zone].stlArea.stl1),
+      "stl2": rmvUnd(zones[zone].stlArea.stl2),
+      "stl3": rmvUnd(zones[zone].stlArea.stl3),
+      "assistant1": rmvUnd(apArea.ap1),
+      "assistant2": rmvUnd(apArea.ap2),
+      "assistant3": rmvUnd(apArea.ap3),
+      "stlt1": rmvUnd(stltArea.stlt1),
+      "stlt2": rmvUnd(stltArea.stlt2),
+      "stlt3": rmvUnd(stltArea.stlt3),
+
+      "log":
+      {
+        leaderDataPulled: true,
+        leaderDataCalculatedTime: leaderData.log.leaderDataCalculatedTime,
       },
-      metadata: { pulledLeaderData: true }
+      
     }
 
   }
@@ -325,6 +332,9 @@ function getLeadershipAreaData(contacts) {
   return leaderAreaData;
 
 
+  /**
+   * @param {string} obj
+   */
   function rmvUnd(obj) {
     return (typeof obj == 'undefined') ? "" : obj;
   }

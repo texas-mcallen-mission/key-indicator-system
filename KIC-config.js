@@ -42,7 +42,7 @@ let DBCONFIG =
   //Direct calls to the associated functions will simply return null. If set to true, these override all relevant trigger permissions.
   SKIP_MARKING_PULLED: true,  //Stops marking Form Responses as having been pulled into the data sheet
   SKIP_MARKING_DUPLICATES: false,
-  FREEZE_CONTACT_DATA: true,
+  FREEZE_CONTACT_DATA: false,
   FREEZE_FILESYS: true,
 
 
