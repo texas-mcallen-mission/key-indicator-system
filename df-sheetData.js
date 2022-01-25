@@ -740,13 +740,14 @@ function constructSheetData(force = false) {
 
   //END Static properties and parameters
 
-
+  
   let allSheetData = {};
   for (let sdKey in tabNames) {
     allSheetData[sdKey] = new SheetData(tabNames[sdKey], initialColumnOrders[sdKey], headerRows[sdKey])
     //Ex. allSheetData.data = new SheetData(tabNames.data, initialColumnOrders.data, headerRows.data)
   }
-
+  
+  refreshContacts();
   
   populateExtraColumnData_(allSheetData);
   //setSheetsUp_(allSheetData);

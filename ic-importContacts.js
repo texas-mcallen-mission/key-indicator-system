@@ -4,6 +4,15 @@
         Main functions for importing data into the Contact Data sheet from Google Contacts.
 */
 
+/**
+ * Refreshes the data in the Contact Data sheet if it is no longer recent.
+ * @param {{contact: SheetData;}} allSheetData
+ */
+function refreshContacts(allSheetData) {
+  console.info(`TODO: add checking of contact data gen date to refreshContacts()`);
+  importContacts(allSheetData);
+}
+
 function importContacts(allSheetData) {
   if (DBCONFIG.FREEZE_CONTACT_DATA) {
     Logger.log("Execution halted - FREEZE_CONTACT_DATA is set to true")
