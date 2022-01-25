@@ -285,7 +285,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
     if (DBCONFIG.LOG_MERGE_DATA) (`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
 
     if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
-      throw `Found a form response for area '${areaName}' (${areaID}), but couldn't find that area in ${sourceID}`;
+    throw `Found a form response for area '${areaName}' (id '${areaID}'), but couldn't find that area in source '${sourceID}'`;
 
 
     let newAreaData = {};

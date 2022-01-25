@@ -12,7 +12,7 @@
 /**
  * Returns an object containing mission organization data, including zones, districts in each zone, and areas in each district.
  */
-function getMissionOrgData(allSheetData) {
+ function getMissionOrgData(allSheetData) {
 
   let contacts = allSheetData.contact;
 

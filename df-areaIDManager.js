@@ -1,3 +1,4 @@
+//@ts-check
 /*
         areaIDManager
         Functions calculating, storing, and retrieving areaIDs
@@ -9,18 +10,18 @@
 
 
 function testAreaIDs() {
-  let id = getAreaIDV2('my area name');
+  let id = getAreaID('my area name');
   Logger.log(id);
 }
 
 
 
-function getAreaIDV2(areaName) {
+function getAreaID(allSheetData, areaName) {
   let cache = CacheService.getDocumentCache();
   let areaIDs_JSONString = cache.get('areaIDs');
 
   let areaIDs = areaIDs_JSONString == null
-    ? loadAreaIDsV2()
+    ? loadAreaIDs(allSheetData)
     : JSON.parse(areaIDs_JSONString);
 
   if (typeof areaIDs[areaName] == 'undefined')
@@ -31,9 +32,9 @@ function getAreaIDV2(areaName) {
 
 
 
-function loadAreaIDsV2() {
+function loadAreaIDs(allSheetData) {
 
-  let allSheetData = constructSheetData();
+  // let allSheetData = constructSheetData();
   let cSheetData = allSheetData.contact;
   let data = cSheetData.getData();
   let areaIDs = {};
@@ -41,7 +42,7 @@ function loadAreaIDsV2() {
   let cache = CacheService.getDocumentCache();
   cache.remove('allSheetData');
 
-  for (let contact in data) {
+  for (let contact of data) {
     let areaName = contact.areaName;
     let areaEmail = contact.areaEmail;
     let areaID = emailToID(areaEmail);
@@ -76,86 +77,86 @@ function loadAreaIDsV2() {
 
 
 
-/**
- * Returns the areaID string for the given area name.
- */
-function getAreaID(allSheetData, areaName) {
-  if (typeof areaIDs == 'undefined') {
-    loadAreaIDs(allSheetData);
-  }
+// /**
+//  * Returns the areaID string for the given area name.
+//  */
+// function getAreaID(allSheetData, areaName) {
+//   if (typeof areaIDs == 'undefined') {
+//     loadAreaIDs(allSheetData);
+//   }
 
-  if (areaIDs[areaName])
-    return areaIDs[areaName];
+//   if (areaIDs[areaName])
+//     return areaIDs[areaName];
 
-  Logger.log(`Couldn't find areaID for area ${areaName}. Reloading areaIDs and retrying...`);
-  loadAreaIDs(allSheetData);
+//   Logger.log(`Couldn't find areaID for area ${areaName}. Reloading areaIDs and retrying...`);
+//   loadAreaIDs(allSheetData);
 
-  if (areaIDs[areaName])
-    return areaIDs[areaName];
+//   if (areaIDs[areaName])
+//     return areaIDs[areaName];
 
-  throw (`Unable to get areaID - reloaded areaIDs but still couldn't find area ${areaName}`)
-}
-
-
+//   throw (`Unable to get areaID - reloaded areaIDs but still couldn't find area ${areaName}`)
+// }
 
 
 
-/**
- * Reloads areaIDs.
- */
-function loadAreaIDs(allSheetData) {
-  areaIDs = {};
-
-  Logger.log("Loading areaIDs...")
-
-  let pullOldData = true;
-
-  if (pullOldData) {
-    let dSheetData = allSheetData.data;
-    let dataVals = dSheetData.getSheet().getDataRange().getValues();
-
-    for (let r = 1; r < dataVals.length; r++) { //Indexes start from 0, skipping header row
-      let areaName = dataVals[r][dSheetData.getIndex("areaName")];
-      if (areaName == "") {
-        continue;
-      }
-
-      let areaID = dataVals[r][dSheetData.getIndex("areaID")];
-
-      //Debugging
-      if (typeof areaIDs[areaName] != "undefined" && areaIDs[areaName] != areaID) {
-        Logger.log(`Area '${areaName}' has areaID '${areaIDs[areaName]}', but on row ${r + 1} has areaID '${areaID}'`)
-      }
-
-      if (!areaIDs[areaName])
-        areaIDs[areaName] = areaID;
 
 
-      //Debugging
-    }
-  }
+// /**
+//  * Reloads areaIDs.
+//  */
+// function loadAreaIDs(allSheetData) {
+//   areaIDs = {};
+
+//   Logger.log("Loading areaIDs...")
+
+//   let pullOldData = true;
+
+//   if (pullOldData) {
+//     let dSheetData = allSheetData.data;
+//     let dataVals = dSheetData.getSheet().getDataRange().getValues();
+
+//     for (let r = 1; r < dataVals.length; r++) { //Indexes start from 0, skipping header row
+//       let areaName = dataVals[r][dSheetData.getIndex("areaName")];
+//       if (areaName == "") {
+//         continue;
+//       }
+
+//       let areaID = dataVals[r][dSheetData.getIndex("areaID")];
+
+//       //Debugging
+//       if (typeof areaIDs[areaName] != "undefined" && areaIDs[areaName] != areaID) {
+//         Logger.log(`Area '${areaName}' has areaID '${areaIDs[areaName]}', but on row ${r + 1} has areaID '${areaID}'`)
+//       }
+
+//       if (!areaIDs[areaName])
+//         areaIDs[areaName] = areaID;
 
 
-
-  let cSheetData = allSheetData.contact;
-  let contactVals = cSheetData.getSheet().getDataRange().getValues();
-
-  for (let r = 1; r < contactVals.length; r++) {
-    let areaName = contactVals[r][cSheetData.getIndex("areaName")];
-    let areaEmail = contactVals[r][cSheetData.getIndex("areaEmail")];
-    if (!areaIDs[areaName])
-      areaIDs[areaName] = emailToID(areaEmail);
-  }
-
-  Logger.log(`Finished loading areaIDs.`)
+//       //Debugging
+//     }
+//   }
 
 
 
-  function emailToID(email) {
-    return "A" + email.split("@")[0];
-  }
+//   let cSheetData = allSheetData.contact;
+//   let contactVals = cSheetData.getSheet().getDataRange().getValues();
 
-}
+//   for (let r = 1; r < contactVals.length; r++) {
+//     let areaName = contactVals[r][cSheetData.getIndex("areaName")];
+//     let areaEmail = contactVals[r][cSheetData.getIndex("areaEmail")];
+//     if (!areaIDs[areaName])
+//       areaIDs[areaName] = emailToID(areaEmail);
+//   }
+
+//   Logger.log(`Finished loading areaIDs.`)
+
+
+
+//   function emailToID(email) {
+//     return "A" + email.split("@")[0];
+//   }
+
+// }
 
 
 

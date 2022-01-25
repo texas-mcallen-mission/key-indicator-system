@@ -1,3 +1,4 @@
+//@ts-check
 /*
         SheetData
         Handles sheet setup, headers, column indices, pulling and pushing data, etc.
@@ -276,6 +277,23 @@ class SheetData {
   }
 
   /**
+   * Clears the content of this Sheet below the header row, leaving formatting intact.
+   */
+  clearContent() {
+    let startRow = this.getHeaderRow() + 1;
+    let numRows = this.getSheet().getLastRow() - startRow;
+    let numCols = this.getSheet().getLastColumn();
+    this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
+  }
+
+  format(rangeFunc) {
+    let startRow = this.getHeaderRow() + 1;
+    let numRows = this.getSheet().getLastRow() - startRow;
+    let numCols = this.getSheet().getLastColumn();
+    this.getSheet().getRange(startRow, 1, numRows, numCols).rangeFunc();
+  }
+
+  /**
    * Returns an array of all the defined keys in this SheetData.
    */
   getKeys() {
@@ -375,7 +393,7 @@ function buildIndexToKey_(allSheetData) {
       let i = sd.keyToIndex[key];
 
       if (typeof sd.indexToKey[i] != 'undefined')
-        throw `Data collision on index ${i} while building indexToKey in SheetData '${sdKey}' - tried to add key '${key}' but found value '${indexToKey[i]}'`
+        throw `Data collision on index ${i} while building indexToKey in SheetData '${sdKey}' - tried to add key '${key}' but found value '${sd.indexToKey[i]}'`
 
       sd.indexToKey[i] = key;
     }
@@ -424,19 +442,17 @@ function setSheetUp_(sheetData) {
 
 //Basically a pseudo-constructor. Used to treat SheetData like an Enum
 
-function constructSheetData() {
-  return constructSheetData(false);
-}
+
 
 /**
  * Returns all defined instances of the SheetData Enum.
- * @param {Boolean} forceConstruct If true, skips checking the cache and forces a recalculation. Default value is false.
+ * @param {Boolean} force If true, skips checking the cache and forces a recalculation. Default value is false.
  */
-function constructSheetData(forceConstruct) {
+function constructSheetData(force = false) {
 
   //Check the cache for allSheetData
   let cache = CacheService.getDocumentCache();
-  if (DBCONFIG.CACHE_SHEET_DATA && !forceConstruct) {
+  if (DBCONFIG.CACHE_SHEET_DATA && !force) {
     let allSheetData_JSON = cache.get('allSheetData');
     if (allSheetData_JSON != null) {
       Logger.log(`Pulling allSheetData from cache`)
@@ -449,8 +465,7 @@ function constructSheetData(forceConstruct) {
 
   /*    Static properties and parameters     */
 
-  SheetData.CONSTRUCTED = true;
-  SheetData.KEY_FROM_HEADER = {     //NOT USED
+  const KEY_FROM_HEADER = {     //NOT USED
     "Area Name": "areaName",
     "Status Log": "log",
     "hasContactData": "hasContactData",
@@ -474,7 +489,7 @@ function constructSheetData(forceConstruct) {
     "Name 1": "name1",
     "Position 1": "position1",
     "isTrainer 1": "isTrainer1",
-    "Name 1": "name2",
+    "Name 2": "name2",
     "Position 2": "position2",
     "isTrainer 2": "isTrainer2",
     "Name 3": "name3",
@@ -520,7 +535,7 @@ function constructSheetData(forceConstruct) {
 
 
 
-  let initialColumnOrders = {
+  const initialColumnOrders = {
 
 
     zoneFilesys: {
@@ -666,7 +681,7 @@ function constructSheetData(forceConstruct) {
 
 
 
-  let tabNames = {
+  const tabNames = {
     form: "Form Responses",
     data: "Data",
     contact: "Contact Data",
@@ -675,7 +690,7 @@ function constructSheetData(forceConstruct) {
     areaFilesys: "Area Filesys V3"
   }
 
-  let headerRows = {
+  const headerRows = {
     form: 0,
     data: 0,
     contact: 0,
@@ -688,21 +703,19 @@ function constructSheetData(forceConstruct) {
 
 
   let allSheetData = {};
-  allSheetData.data = new SheetData(tabNames.data, initialColumnOrders.data, headerRows.data);
-  allSheetData.form = new SheetData(tabNames.form, initialColumnOrders.form, headerRows.form);
-  allSheetData.contact = new SheetData(tabNames.contact, initialColumnOrders.contact, headerRows.contact);
-  allSheetData.zoneFilesys = new SheetData(tabNames.zoneFilesys, initialColumnOrders.zoneFilesys, headerRows.zoneFilesys);
-  allSheetData.distFilesys = new SheetData(tabNames.distFilesys, initialColumnOrders.distFilesys, headerRows.distFilesys);
-  allSheetData.areaFilesys = new SheetData(tabNames.areaFilesys, initialColumnOrders.areaFilesys, headerRows.areaFilesys);
+  for (let sdKey in tabNames) {
+    allSheetData[sdKey] = new SheetData(tabNames[sdKey], initialColumnOrders[sdKey], headerRows[sdKey])
+    //Ex. allSheetData.data = new SheetData(tabNames.data, initialColumnOrders.data, headerRows.data)
+  }
 
-
+  
   populateExtraColumnData_(allSheetData);
   //setSheetsUp_(allSheetData);
-
+  
   //Object.freeze(allSheetData);
 
   let log = "Constructed SheetData objects: ";
-  for (sheet in tabNames)
+  for (let sheet in tabNames)
     log += " '" + tabNames[sheet] + "'";
   Logger.log(log);
 
@@ -742,24 +755,6 @@ function testSheetData() {
 
 
 
-
-
-  /*
-
-  getIndex
-  getKey
-  hasIndex
-  hasKey
-  getHeaders
-  getValues
-  getData
-  insertData
-  insertValues
-  getKeys
-  getAllOfKey
-  getAllOfIndex
-
-  */
 }
 
 function clearAllSheetDataCache() {

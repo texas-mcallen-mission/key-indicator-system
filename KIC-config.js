@@ -21,7 +21,8 @@ let DBCONFIG =
   //WARNING: If set to true, loading the filesystem will take a VERY long time!
   UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
 
-  //      WARNING: Work in progress! If you get a "... is not a function" error it's probably because pulling from the cache didn't work properly
+  //      WARNING: Caching is a work in progress! If you get a "... is not a function" error, it's probably because pulling allSheetData from the cache didn't work properly - just disable caching in the config to fix.
+  
   //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
   CACHE_AREA_IDS: false,   //[unimplemented] Cache the list of areaIDs
   CACHE_SHEET_DATA: false,  //Cache allSheetData, the object returned by constructSheetData()
@@ -38,10 +39,10 @@ let DBCONFIG =
 
   //Disable updating spreadsheets in certain ways
   //Direct calls to the associated functions will simply return null. If set to true, these override all relevant trigger permissions.
-  SKIP_MARKING_PULLED: false,  //Stops marking Form Responses as having been pulled into the data sheet
+  SKIP_MARKING_PULLED: true,  //Stops marking Form Responses as having been pulled into the data sheet
   SKIP_MARKING_DUPLICATES: false,
   FREEZE_CONTACT_DATA: true,
-  FREEZE_FILESYS: false,
+  FREEZE_FILESYS: true,
 
 
   //Allow triggers to run
@@ -60,6 +61,7 @@ let DBCONFIG =
   ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS: true,
   ALLOW_MENU_TRIGGER_IMPORT_CONTACTS: true,
   ALLOW_MENU_TRIGGER_MARK_DUPLICATES: true,
+  ALLOW_MENU_TRIGGER_LOAD_AREA_IDS: true,
 
 
 

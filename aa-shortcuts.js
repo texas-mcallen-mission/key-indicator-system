@@ -5,7 +5,8 @@ function run_updateDataSheet() {
 }
 
 function run_importContacts() {
-    importContacts();
+  let allSheetData = constructSheetData();
+    importContacts(allSheetData);
 }
 
 function run_shareFileSys() {

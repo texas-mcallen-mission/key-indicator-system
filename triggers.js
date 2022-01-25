@@ -26,8 +26,9 @@ function buildMenu() {
     .addItem('Import Contacts', 'importContacts_MenuTrigger_')
     .addSubMenu(
       SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
-        .addItem('onOpen', 'onOpen')
+        .addItem('onOpen_InstallableTrigger', 'onOpen_InstallableTrigger')
         .addItem('Mark Duplicates', 'markDuplicates_MenuTrigger_')
+        .addItem('loadAreaIDs', 'loadAreaIDs')
     )
     .addToUi();
 }
@@ -82,6 +83,16 @@ function markDuplicates_MenuTrigger_() {
   Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu")
   if (!DBCONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_MARK_DUPLICATES is set to false");
+    return;
+  }
+  let allSheetData = constructSheetData();
+  markDuplicates(allSheetData);
+}
+
+function loadAreaIDs_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running loadAreaIDs() from the Manual Commands menu")
+  if (!DBCONFIG.ALLOW_MENU_TRIGGER_LOAD_AREA_IDS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_LOAD_AREA_IDS is set to false");
     return;
   }
   let allSheetData = constructSheetData();

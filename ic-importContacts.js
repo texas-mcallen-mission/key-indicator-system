@@ -4,15 +4,18 @@
 */
 
 function importContacts(allSheetData) {
-  if (DBCONFIG.FREEZE_CONTACT_DATA) return;
+  if (DBCONFIG.FREEZE_CONTACT_DATA) {
+    Logger.log("Execution halted - FREEZE_CONTACT_DATA is set to true")
+    return;
+  }
 
   Logger.log("Importing Contact data from Google Contacts...")
 
 
-  let effectiveEmail = Session.getEffectiveUser().getEmail();
-  if (effectiveEmail != "texas.mcallen@missionary.org") {
-    throw `Tried to import contacts from an email other than the TMM office email! Email was: ${effectiveEmail}. If being used by a mission other than the Texas McAllen Mission, this needs to be manually changed by the developers. Please contact Nathaniel Gerlek at nathaniel.gerlek@gmail.com`;
-  }
+  // let effectiveEmail = Session.getEffectiveUser().getEmail();
+  // if (effectiveEmail != "texas.mcallen@missionary.org") {
+  //   throw `Tried to import contacts from an email other than the TMM office email! Email was: ${effectiveEmail}. If being used by a mission other than the Texas McAllen Mission, this needs to be manually changed by the developers. Please contact Nathaniel Gerlek at nathaniel.gerlek@gmail.com`;
+  // }
 
 
 
@@ -88,7 +91,7 @@ function importContacts(allSheetData) {
     }
   }
 
-
+  allSheetData.contact.clearContents();
   allSheetData.contact.insertData(data);
 
   Logger.log("Finished importing Contact data.")

@@ -9,7 +9,7 @@ function parseNotes(inputString) {
 
   var area = notesSplit[0].replace("Area: ", "").trim()
 
-  if (LOG_IMPORT_CONTACTS) Logger.log(`Parsing notes for Contact: ${area}`)
+  if (DBCONFIG.LOG_IMPORT_CONTACTS) Logger.log(`Parsing notes for Contact: ${area}`)
 
   var district = notesSplit[1].replace("District: ", "").trim()
   var zone = notesSplit[2].replace("Zone: ", "").trim()
