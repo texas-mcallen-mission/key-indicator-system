@@ -313,7 +313,7 @@ class SheetData {
    * Clears the content of this Sheet below the header row, leaving formatting intact.
    */
   clearContent() {
-    let startRow = this.getHeaderRow() + 1;
+    let startRow = this.getHeaderRow() + 2;
     let numRows = this.getSheet().getLastRow() - startRow;
     let numCols = this.getSheet().getLastColumn();
     this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
