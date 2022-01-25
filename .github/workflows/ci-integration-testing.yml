@@ -1,10 +1,9 @@
-name: Main Branch GAS
+name: Bert Dev Branch
 
 on:
   workflow_dispatch:
   push:
-
-    branches: [main]
+    branches: [Bert-Dev]
   release:
     types: [published]
   schedule:

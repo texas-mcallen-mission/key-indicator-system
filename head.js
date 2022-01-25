@@ -4,13 +4,14 @@
 */
 
 
-// THIS IS A TEST OF THE CONTINUOUS BROADCAST SYSTEM. BEEEEEEEP
-// easily identifiable line for debugging purposes
-
 
 //Static vars
   //let MASTER_SHEET_ID = "1P9tnkUKI2GRf--7O1rwYDF1oV8dgz2F3fa8qQGd3Jwk";
   //let FORM_ID = "1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g";
+  
+  // this is a temporary modification to try clearing an error
+  let functionGUBED = false
+
   let MAX_ROWS = 300;
   let AREAS_WITHOUT_EMAILS = ["Laredo 4C",
                               "McAllen 2C",
@@ -48,6 +49,22 @@
 
 //End
 
+
+// DRIVEHANDLER CONFIGS:
+/* this changes the name of the report folder.  Because this system uses 
+folder ID's, if you want to change the name of the folder and have the 
+changes spread across everything that already exists, you'll either have 
+to change the name of the folder itself *OR* just delete everything and 
+refresh it
+*/
+const REPORT_FOLDER_NAME = "Reports"
+/*
+// this flag lets you include a string at the end of the name of the
+report to make it easier to know where you are this is less important
+if you don't have a zone named the same thing as a district as an area,
+which is just lame anywho
+*/
+const INCLUDE_SCOPE_IN_FOLDER_NAME = false
 
 
 

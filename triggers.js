@@ -15,9 +15,13 @@ function onOpen_InstallableTrigger() {
   SpreadsheetApp.getUi().createMenu('Manual Commands')
                             .addItem('Pull Form Data', 'updateDataSheet_MenuTrigger_')
                             .addItem('Import Contacts', 'importContacts_MenuTrigger_')
+                            .addItem('Update FS','updateFS_MenuTrigger_')
+                            .addItem('Update Area Reports','updateAreaReports_MenuTrigger_')
+                            .addItem('Update District Reports','updateDistrictReports_MenuTrigger_')
+                            .addItem('Update Zone Reports','updateZoneReports_MenuTrigger_')
                             .addSubMenu(
                                 SpreadsheetApp.getUi().createMenu("Debug Menu (don't worry about it)")
-                                .addItem('onOpen', 'onOpen')
+                                .addItem('onOpen', 'onOpen_InstallableTrigger')
                                 .addItem('Mark Duplicates', 'markDuplicates_MenuTrigger_')
                             )
                             .addToUi();
@@ -52,8 +56,23 @@ function importContacts_TimeBasedTrigger() {
   let allSheetData = constructSheetData()
   importContacts(allSheetData)
 }
+function updateFS_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateFS() from a time-based trigger")
 
-
+  createFS();
+}
+function updateAreaReports_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateAreaReports from a time-based trigger")
+  updateAreaReports()
+}
+function updateDistrictReports_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateDistrictReports from a time-based trigger")
+  updateDistrictReports()
+}
+function updateZoneReports_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateZoneReports() from a time-based trigger")
+  updateZoneReports()
+}
 
 
 
@@ -65,13 +84,27 @@ function updateDataSheet_MenuTrigger_() {
   Logger.log("[TRIGGER] Running updateDataSheet() from the Manual Commands menu")
   updateDataSheet();
 }
-
+function updateFS_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu")
+  createFS();
+}
+function updateAreaReports_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu")
+  updateAreaReports()
+}
+function updateDistrictReports_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateDistrictReports() from the Manual Commands menu")
+  updateDistrictReports()
+}
+function updateZoneReports_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateZoneReports() from the Manual Commands menu")
+  updateZoneReports()
+}
 function importContacts_MenuTrigger_() {
   Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu")
   let allSheetData = constructSheetData();
   importContacts(allSheetData);
 }
-
 function markDuplicates_MenuTrigger_() {
   Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu")
   let allSheetData = constructSheetData();

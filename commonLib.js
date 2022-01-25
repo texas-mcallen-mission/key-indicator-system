@@ -10,10 +10,16 @@ function sendDataToDisplayV3_(header,finalData,sheet){
   Logger.log(header)
   sheet.getRange(1,1,1,header.length).setValues([header])
   Logger.log("added header, adding data")
-  sheet.getRange(2,1,finalData.length,finalData[0].length).setValues(finalData)
-  Logger.log("Data added, sorting")
-  sheet.getRange(2,1,finalData.length,header.length).sort([{column: 1, ascending:true}])
-  // Logger.log("data added")
+  if(finalData.length == 0 || typeof finalData == null){
+    Logger.log("no data, skipping")
+    return
+  } else {
+    sheet.getRange(2,1,finalData.length,finalData[0].length).setValues(finalData)
+    Logger.log("Data added, sorting")
+    sheet.getRange(2,1,finalData.length,header.length).sort([{column: 1, ascending:true}])
+    // Logger.log("data added")
+  }
+
 }
 
 function sendReportToDisplayV3_(header,finalData,sheet){
@@ -24,6 +30,10 @@ function sendReportToDisplayV3_(header,finalData,sheet){
   Logger.log("adding Header")
   sheet.getRange(2,1,1,header.length).setValues([header])
   Logger.log("added header, adding data")
+  if(finalData == null){
+    Logger.log("no data, skipping")
+    return
+  }
   sheet.getRange(3,1,finalData.length,finalData[0].length).setValues(finalData)
   Logger.log("data added, sorting")
   sheet.getRange(3,1,finalData.length,header.length).sort([{column: 1, ascending:true}])
@@ -58,7 +68,7 @@ function splitDataByTagEliminateDupes(referenceData, tagColumn, dupeColumn) {
     return { data: splitData, tagArray: tagList }
   }
   
-  function splitDataByTag(referenceData, tagColumn) {
+  function splitDataByTag_(referenceData, tagColumn) {
     //currently just for zones, but we'll change that once I know this thing actually works.
     let checkPosition = tagColumn // for zones
     let tagList = getUniqueFromPosition_(referenceData, checkPosition)

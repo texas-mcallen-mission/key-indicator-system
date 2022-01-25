@@ -1,4 +1,5 @@
 
 
 # ignore .clasp.json so that I can have different versions in the cloud and locally
-.clasp.json
+#.clasp.json
+# disabled because it should be fine to sync now.
