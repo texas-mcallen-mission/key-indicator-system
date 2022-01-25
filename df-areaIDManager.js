@@ -7,7 +7,7 @@
         loadAreaIDs()
 */
 
-
+let AREA_IDS_CACHE_KEY = 'turtles and unicorns';
 
 function testAreaIDs() {
   let id = getAreaID('my area name');
@@ -18,7 +18,7 @@ function testAreaIDs() {
 
 function getAreaID(allSheetData, areaName) {
   let cache = CacheService.getDocumentCache();
-  let areaIDs_JSONString = cache.get('areaIDs');
+  let areaIDs_JSONString = cache.get(AREA_IDS_CACHE_KEY);
 
   let areaIDs = areaIDs_JSONString == null
     ? loadAreaIDs(allSheetData)
@@ -37,7 +37,7 @@ function getAreaID(allSheetData, areaName) {
  */
 function loadAreaIDs(allSheetData) {
 
-  console.log(`Loading areaIDs...`)
+  console.log(`Loading areaIDs`)
   console.time('Time loading areaIDs')
 
   // let allSheetData = constructSheetData();
@@ -46,7 +46,7 @@ function loadAreaIDs(allSheetData) {
   let areaIDs = {};
 
   let cache = CacheService.getDocumentCache();
-  cache.remove('allSheetData');
+  cache.remove(AREA_IDS_CACHE_KEY);
 
   for (let contactData of data) {
     //@ts-ignore
@@ -57,10 +57,13 @@ function loadAreaIDs(allSheetData) {
     areaIDs[areaName] = areaID;
   }
 
+  let areaIDs_JSONString = JSON.stringify(areaIDs);
+  cache.put(AREA_IDS_CACHE_KEY, areaIDs_JSONString);
+
   console.timeEnd('Time loading areaIDs');
   return areaIDs;
 
-  
+
   /**
    * @param {string} email
    */
