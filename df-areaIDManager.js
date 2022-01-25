@@ -32,7 +32,13 @@ function getAreaID(allSheetData, areaName) {
 
 
 
+/**
+ * @param {{ contact: SheetData; }} allSheetData
+ */
 function loadAreaIDs(allSheetData) {
+
+  console.log(`Loading areaIDs...`)
+  console.time('Time loading areaIDs')
 
   // let allSheetData = constructSheetData();
   let cSheetData = allSheetData.contact;
@@ -42,20 +48,25 @@ function loadAreaIDs(allSheetData) {
   let cache = CacheService.getDocumentCache();
   cache.remove('allSheetData');
 
-  for (let contact of data) {
-    let areaName = contact.areaName;
-    let areaEmail = contact.areaEmail;
+  for (let contactData of data) {
+    //@ts-ignore
+    let areaName = contactData.areaName;
+    //@ts-ignore
+    let areaEmail = contactData.areaEmail;
     let areaID = emailToID(areaEmail);
     areaIDs[areaName] = areaID;
   }
 
+  console.timeEnd('Time loading areaIDs');
+  return areaIDs;
 
+  
+  /**
+   * @param {string} email
+   */
   function emailToID(email) {
     return "A" + email.split("@")[0];
   }
-
-
-  return areaIDs;
 }
 
 
