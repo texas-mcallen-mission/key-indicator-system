@@ -109,7 +109,11 @@ class SheetData {
     return this.indexToKey.length;
   }
 
-  // @ts-ignore
+  /**
+   * @param {string} key
+   * @param {string[]} header
+   * @param {number} index
+   */
   addColumnWithHeaderAt_(key, header, index) {
     if (key == "") return;
     if (this.hasIndex(index))
@@ -122,16 +126,27 @@ class SheetData {
     this.indexToKey[index] = key;
   }
 
+  /**
+   * @param {any} key
+   * @param {any} header
+   */
   addColumnWithHeader_(key, header) {
     let index = this.getNextFreeColumn_();
     this.addColumnWithHeaderAt_(key, header, index);
   }
 
+  /**
+   * @param {any} key
+   * @param {number} index
+   */
   addColumnAt_(key, index) {
     let header = key;   //TODO Add preset headers?
     this.addColumnWithHeaderAt_(key, header, index);
   }
 
+  /**
+   * @param {any} key
+   */
   addColumn_(key) {
     let index = this.getNextFreeColumn_();
     this.addColumnAt_(key, index);
@@ -167,6 +182,7 @@ class SheetData {
 
   /**
    * Returns the index for the column with the given key string.
+   * @param {string} key
    */
   getIndex(key) {
     if (!this.hasKey(key))
@@ -177,9 +193,10 @@ class SheetData {
 
   /**
    * Returns the key string for the column with the given index.
+   * @param {number} index
    */
   getKey(index) {
-    if (!this.hasKey(index))
+    if (!this.hasIndex(index))
       throw `Couldn't get key from index: index '${index}' not defined in sheet '${this.tabName}'`
 
     // @ts-ignore
@@ -188,6 +205,7 @@ class SheetData {
 
   /**
    * Returns true if this SheetData object has a defined key attached to the given index.
+   * @param {number} index
    */
   hasIndex(index) {
     if (typeof index == 'undefined') throw `Tried to use undefined as an index`
@@ -197,6 +215,7 @@ class SheetData {
 
   /**
    * Returns true if this SheetData object has a defined value for the given key.
+   * @param {string} key
    */
   hasKey(key) {
     if (typeof key == 'undefined') throw `Tried to use undefined as a key string`
@@ -205,6 +224,7 @@ class SheetData {
 
   /**
    * Returns the header row of this sheet.
+   * @returns {string[]} The header row if this sheet.
    */
   getHeaders() {
     let range = this.getSheet().getRange(this.headerRow + 1, 1, 1, this.getSheet().getLastColumn());
@@ -213,7 +233,7 @@ class SheetData {
 
   /**
    * Returns the data from this sheet as a two dimensional array. Does not include headers or rows above the header row.
-   * @returns The data from this sheet as a two dimentional array, not including header rows.
+   * @returns {any[][]} The data from this sheet as a two dimentional array, not including header rows.
    */
   getValues() {
     let values = this.getSheet().getDataRange().getValues();
@@ -224,7 +244,7 @@ class SheetData {
 
   /**
    * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Does not include headers or rows above the header row.
-   * @returns The data from this sheet as an array of objects, not including header rows.
+   * @returns {{}[]} The data from this sheet as an array of objects, not including header rows.
    */
   getData() {
     let outValues = [];
@@ -280,7 +300,7 @@ class SheetData {
 
   /**
    * Inserts rows of data into the Sheet. Takes a 2D array.
-   * @param values The values to insert.
+   * @param {any[][]} values The values to insert.
    */
   insertValues(values) {
     if (values.length == 0) return;
@@ -299,16 +319,9 @@ class SheetData {
     this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
   }
 
-  // @ts-ignore
-  format(rangeFunc) {
-    let startRow = this.getHeaderRow() + 1;
-    let numRows = this.getSheet().getLastRow() - startRow;
-    let numCols = this.getSheet().getLastColumn();
-    this.getSheet().getRange(startRow, 1, numRows, numCols).rangeFunc();
-  }
-
   /**
    * Returns an array of all the defined keys in this SheetData.
+   * @returns {string[]} An array of defined keys in this sheet.
    */
   getKeys() {
     return Object.keys(this.keyToIndex);
@@ -317,6 +330,7 @@ class SheetData {
   /**
    * Returns an array of all the values in the sheet for the given key.
    * @returns An array containing all values for the given key.
+   * @param {string} key The key string.
    */
   getAllOfKey(key) {
     let index = this.keyToIndex[key];
@@ -326,6 +340,7 @@ class SheetData {
   /**
    * Returns an array of all the values in the sheet for the column with the given index.
    * @returns An array containing all values from the given column.
+   * @param {number} index The index of the column, starting from 0.
    */
   getAllOfIndex(index) {
     let values = this.getValues();
@@ -360,6 +375,9 @@ class SheetData {
 
 
 
+/**
+ * @param {any} allSheetData
+ */
 function populateExtraColumnData_(allSheetData) {
   let formSheetData = allSheetData.form;
   let dataSheetData = allSheetData.data;
@@ -383,7 +401,6 @@ function populateExtraColumnData_(allSheetData) {
     formSheetData.addColumnAt_(key, i);
 
     try {
-      // @ts-ignore
       let index = dataSheetData.getIndex(key);
     } catch (e) {
 
@@ -398,6 +415,9 @@ function populateExtraColumnData_(allSheetData) {
 
 
 
+/**
+ * @param {{ [x: string]: any; }} allSheetData
+ */
 function buildIndexToKey_(allSheetData) {
   for (let sdKey in allSheetData) {
 
@@ -426,6 +446,7 @@ function buildIndexToKey_(allSheetData) {
 
 /**
  * WIP - nonfunctional
+ * @param {SheetData} sheetData
  */
 function setSheetUp_(sheetData) {
   throw "UNIMPLEMENTED";
@@ -482,7 +503,7 @@ function constructSheetData(force = false) {
 
   /*    Static properties and parameters     */
 
-  // @ts-ignore
+
   const KEY_FROM_HEADER = {     //NOT USED
     "Area Name": "areaName",
     "Status Log": "log",
@@ -770,10 +791,9 @@ function testSheetData() {
 
 
 
-
-
-
 }
+
+
 
 function clearAllSheetDataCache() {
   let cache = CacheService.getDocumentCache();
