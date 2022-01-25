@@ -50,6 +50,11 @@ class SheetData {
   indexToKey: The reverse of keyToIndex. An array whose value at a given index is the key corresponding to that index.
   */
 
+  /**
+   * @param {string} tabName
+   * @param {any} initialKeyToIndex
+   * @param {any} headerRow
+   */
   constructor(tabName, initialKeyToIndex, headerRow) {
 
     this.tabName = tabName;
@@ -100,9 +105,11 @@ class SheetData {
   }
 
   getNextFreeColumn_() {
+    // @ts-ignore
     return this.indexToKey.length;
   }
 
+  // @ts-ignore
   addColumnWithHeaderAt_(key, header, index) {
     if (key == "") return;
     if (this.hasIndex(index))
@@ -111,6 +118,7 @@ class SheetData {
       throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that key already exists at index '${this.getIndex(key)}'`;
 
     this.keyToIndex[key] = index;
+    // @ts-ignore
     this.indexToKey[index] = key;
   }
 
@@ -174,6 +182,7 @@ class SheetData {
     if (!this.hasKey(index))
       throw `Couldn't get key from index: index '${index}' not defined in sheet '${this.tabName}'`
 
+    // @ts-ignore
     return this.indexToKey[index];
   }
 
@@ -181,6 +190,8 @@ class SheetData {
    * Returns true if this SheetData object has a defined key attached to the given index.
    */
   hasIndex(index) {
+    if (typeof index == 'undefined') throw `Tried to use undefined as an index`
+    // @ts-ignore
     return typeof this.indexToKey[index] != 'undefined';
   }
 
@@ -188,6 +199,7 @@ class SheetData {
    * Returns true if this SheetData object has a defined value for the given key.
    */
   hasKey(key) {
+    if (typeof key == 'undefined') throw `Tried to use undefined as a key string`
     return typeof this.keyToIndex[key] != 'undefined';
   }
 
@@ -220,6 +232,7 @@ class SheetData {
     for (let row of values) {
       let rowObj = {};
       for (let i = 0; i < row.length; i++) {
+        // @ts-ignore
         let key = this.indexToKey[i];
         rowObj[key] = row[i];
       }
@@ -286,6 +299,7 @@ class SheetData {
     this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
   }
 
+  // @ts-ignore
   format(rangeFunc) {
     let startRow = this.getHeaderRow() + 1;
     let numRows = this.getSheet().getLastRow() - startRow;
@@ -369,6 +383,7 @@ function populateExtraColumnData_(allSheetData) {
     formSheetData.addColumnAt_(key, i);
 
     try {
+      // @ts-ignore
       let index = dataSheetData.getIndex(key);
     } catch (e) {
 
@@ -414,10 +429,12 @@ function buildIndexToKey_(allSheetData) {
  */
 function setSheetUp_(sheetData) {
   throw "UNIMPLEMENTED";
+  // @ts-ignore
   let sheetName = sheetData.getTabName();
   let headers = sheetData.getHeaders();
 
   let ss = SpreadsheetApp.getActiveSpreadsheet();
+  // @ts-ignore
   let ui = SpreadsheetApp.getUi();
 
   // Checks to see if the sheet exists or not.
@@ -465,6 +482,7 @@ function constructSheetData(force = false) {
 
   /*    Static properties and parameters     */
 
+  // @ts-ignore
   const KEY_FROM_HEADER = {     //NOT USED
     "Area Name": "areaName",
     "Status Log": "log",

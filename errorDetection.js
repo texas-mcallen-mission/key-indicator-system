@@ -1,3 +1,4 @@
+//@ts-check
 /*
         errorDetection
         Handles error detecting, catching, handling, throwing, and reporting

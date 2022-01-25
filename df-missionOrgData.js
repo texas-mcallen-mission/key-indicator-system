@@ -1,3 +1,4 @@
+//@ts-check
 /*
         missionOrgData
         Functions managing mission organization data.

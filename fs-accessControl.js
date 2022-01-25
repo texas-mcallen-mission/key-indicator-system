@@ -56,7 +56,7 @@ function shareFileSys() {
 
     let zoneOrgData = missionOrgData.zones[zoneName];
 
-    if (LOG_FILE_SHARING) Logger.log(`Sharing folder for zone '${zoneName}'`);
+    if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Sharing folder for zone '${zoneName}'`);
 
 
     //      Update folder access: zEmails, officeEmails
@@ -67,7 +67,7 @@ function shareFileSys() {
     zEmails.push(zoneOrgData.zlArea.areaEmail);  //Add ZL area email
     if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail);  //Add STL area email if it exists
 
-    if (LOG_FILE_SHARING) Logger.log(`zEmails: ${zEmails}`);
+    if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`zEmails: ${zEmails}`);
 
     //Remove old editors, then add new ones
     let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail() }); //Get a list of Editor objects, then convert to list of emails
@@ -96,14 +96,14 @@ function shareFileSys() {
 
 
 
-    if (LOG_FILE_SHARING) Logger.log(`Removed and re-added zone folder editors: ${zoneFolder.getEditors().map(e => { return e.getName() })}`);
+    if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Removed and re-added zone folder editors: ${zoneFolder.getEditors().map(e => { return e.getName() })}`);
 
 
-    if (UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+    if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
 
       //      Update Spreadsheet page protections: officeEmails only
 
-      zFiles = zoneFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+      let zFiles = zoneFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
 
       while (zFiles.hasNext()) {  //for each spreadsheet file
@@ -112,7 +112,7 @@ function shareFileSys() {
         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
           ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
         );
-        if (LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
+        if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
 
         for (let protection of protections) {
           for (let editor of protection.getEditors()) {
@@ -141,7 +141,7 @@ function shareFileSys() {
       let distOrgData = zoneOrgData.districts[districtName];
 
 
-      if (LOG_FILE_SHARING) Logger.log(`Sharing folder for district '${districtName}'`);
+      if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Sharing folder for district '${districtName}'`);
 
 
       //      Update folder access: everyone with zone level access, plus the DL
@@ -165,7 +165,7 @@ function shareFileSys() {
 
 
 
-      if (UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+      if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
 
         //      Update Spreadsheet page protections: officeEmails only
 
@@ -176,7 +176,7 @@ function shareFileSys() {
           let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
           );
-          if (LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
+          if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
 
           for (let protection of protections) {
             for (let editor of protection.getEditors()) {
@@ -204,7 +204,7 @@ function shareFileSys() {
         let areaOrgData = distOrgData.areas[areaName];
 
 
-        if (LOG_FILE_SHARING) Logger.log(`Sharing folder for area '${areaName}'`);
+        if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Sharing folder for area '${areaName}'`);
 
 
         //      Update folder access: everyone with zone or district level access, plus the area email
@@ -228,7 +228,7 @@ function shareFileSys() {
         areaFolder.addEditors(aEmails);
 
 
-        if (UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+        if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
           //      Update Spreadsheet page protections: officeEmails only
 
 
@@ -239,7 +239,7 @@ function shareFileSys() {
             let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
               ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
             );
-            if (LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
+            if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Updating ${protections.length} protections in sheet`);
 
             for (let protection of protections) {
               for (let editor of protection.getEditors()) {
@@ -327,19 +327,6 @@ function silentAddEditors_(emails, fileId) {
     Drive.Permissions.insert({ 'fileID': fileId, 'resource': body, 'sendNotificationEmails': 'false' });
 
   }
-}
-
-function insertPermission(fileId, value, type, role) {
-  var body = {
-    'value': value,
-    'type': type,
-    'role': role
-  };
-  var request = gapi.client.drive.permissions.insert({
-    'fileId': fileId,
-    'resource': body
-  });
-  request.execute(function (resp) { });
 }
 
 

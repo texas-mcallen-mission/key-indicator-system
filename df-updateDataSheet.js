@@ -17,10 +17,11 @@
 /**
   * Updates the Data sheet.
   */
-function updateDataSheet() {
+ function updateDataSheet() {
   Logger.log("BEGINNING UPDATE")
 
   let allSheetData = constructSheetData();
+  loadAreaIDs(allSheetData); //Force a full recalculation
 
   //checkForErrors()?  Ex. no contact data
 
@@ -37,8 +38,8 @@ function updateDataSheet() {
 
   let leaders = getLeadershipAreaData(contacts);
 
-  missionData = mergeIntoMissionData(missionData, contacts, "contact AreaData");
-  missionData = mergeIntoMissionData(missionData, leaders, "leadership AreaData");
+  missionData = mergeIntoMissionData(missionData, contacts, "contact data");
+  missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
 
   pushToDataSheetV2(allSheetData, missionData);
@@ -229,7 +230,7 @@ function pullFormData(allSheetData) {
   }
 
   Logger.log("Finished pulling Form Data.")
-  return responses;
+  return missionData;
 }
 
 
@@ -248,19 +249,30 @@ function getContactData(allSheetData) {
   Logger.log("Getting data from Contact Data sheet...")
 
   let cSheetData = allSheetData.contact;
-  let contacts = cSheetData.getData();
-  for (let contact of contacts) {
+  let contactData = cSheetData.getData();
+  let contacts = {}; //contactData, keyed by areaID
+  for (let contact of contactData) {
     contact.areaID = getAreaID(allSheetData, contact.areaName);
     if ((typeof contact.log) == 'undefined')
       contact.log = {};
     contact.log.addedContactData = true;
     contact.log.addedContactDataTime = (new Date()).toTimeString();
+
+    if ((typeof contacts[contact.areaID]) != 'undefined')
+      warnDataCollision(contact.areaName, contact.areaID, contacts[contact.areaID].areaName);  
+
+    contacts[contact.areaID] = contact;
   }
 
   Logger.log("Finished pulling contact data.")
 
   return contacts;
 
+
+  function warnDataCollision(area, id, otherArea) {
+    // Logger.log(`Potential data collision while pulling data from contacts: tried to add area '${area}' with id '${id}', but that id already has data for area '${otherArea}'`)
+    console.warn(`Potential data collision while pulling data from contacts: tried to add area '${area}' with id '${id}', but that id already has data for area '${otherArea}'`)
+  }
 }
 
 
@@ -274,7 +286,9 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
   Logger.log(`Beginning to merge source '${sourceID}' into missionData`)
 
   let newMissionData = [];
-  let keys = new Set(Object.keys(missionData[0]).concat(Object.keys(sourceData[0]))).values(); //Set of all keys from both objects (a Set removes duplicates automatically)
+  let mdKeys = Object.keys(missionData[0]);
+  let sdKeys = Object.keys(sourceData[missionData[0].areaID]);
+  let keys = new Set(mdKeys.concat(sdKeys)); //Set of all keys from both objects (a Set removes duplicates automatically)
 
 
   for (let missionAreaData of missionData) {
@@ -285,7 +299,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
     if (DBCONFIG.LOG_MERGE_DATA) (`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
 
     if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
-    throw `Found a form response for area '${areaName}' (id '${areaID}'), but couldn't find that area in source '${sourceID}'`;
+      throw `Found a form response for area '${areaName}' (id '${areaID}'), but couldn't find that area in source '${sourceID}'`;
 
 
     let newAreaData = {};
@@ -297,8 +311,8 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
     for (let key of keys) {
 
-      let mHasKey = missionAreaData[key] != 'undefined';
-      let sHasKey = sourceAreaData[key] != 'undefined';
+      let mHasKey = typeof missionAreaData[key] != 'undefined';
+      let sHasKey = typeof sourceAreaData[key] != 'undefined';
 
       //Log warnings if neither object has this key (should be unreachable), or if both do and they disagree
       if (!mHasKey && !sHasKey) {
@@ -316,14 +330,15 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
       }
 
       //Set new value
-      newAreaData[key] =
-        (!mHasKey && !sHasKey) ? "" :                    //neither: empty string
-          (mHasKey && !sHasKey) ? missionAreaData[key] : //missionData only: missionData value
-            sourceAreaData[key];                         //source only or both: source value
+      //Neither: empty string; missionData only: missionData value; sourceData only (or both): source value
+      newAreaData[key] = (!mHasKey && !sHasKey) ? "" : (mHasKey && !sHasKey) ? missionAreaData[key] : sourceAreaData[key];
 
     }
 
+    if (typeof newAreaData.log == 'undefined') newAreaData.log = {};
+    if (typeof newAreaData.log.merges == 'undefined') newAreaData.log.merges = {};
     newAreaData.log.merges[sourceID] = mergeLog;
+
     newMissionData.push(newAreaData);
   }
 
@@ -338,7 +353,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
   }
 
   function logDataCollision(key, areaID, areaName, sourceID, sourceAreaDataOfKey, missionAreaDataOfKey) {
-    Logger.log(`Warning: possible data collision on key ${key} for area ${areaID} (${areaName}). Source ${sourceID} has value '${sourceAreaDataOfKey}' while missionData has value '${missionAreaDataOfKey}'`);
+    Logger.log(`Warning: possible data collision on key '${key}' for area '${areaName}' (id '${areaName}'). Source '${sourceID}' has value '${sourceAreaDataOfKey}' while missionData has value '${missionAreaDataOfKey}'`);
   }
 
 }

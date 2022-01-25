@@ -1,3 +1,4 @@
+//@ts-check
 // Shortcut functions just to make full-system testing from GAS easier
 
 function run_updateDataSheet() {
