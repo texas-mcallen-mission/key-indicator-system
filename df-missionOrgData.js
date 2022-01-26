@@ -13,6 +13,7 @@
  /**
  * Returns an object containing mission organization data, including zones, districts in each zone, and areas in each district.
  * @param {{ contact: any; }} allSheetData
+ * @returns {any}
  */
  function getMissionOrgData(allSheetData) {
 
@@ -321,7 +322,7 @@ function getLeadershipAreaData(contacts) {
         leaderDataPulled: true,
         leaderDataCalculatedTime: leaderData.log.leaderDataCalculatedTime,
       },
-      
+
     }
 
   }

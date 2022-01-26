@@ -305,17 +305,11 @@ function silentAddEditors_(fileId, emailAddresses) {
 
 function testSharing() {
   let fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
-  let editors = ['nathaniel.gerlek@missionary.org', '20929917@missionary.org'];
+  let editors = ['nathaniel.gerlek@gmail.com', '20929917@missionary.org'];
 
   silentAddEditorSE_('nathaniel.gerlek@missionary.org', fileId);
 
   return;
-  let folderId = '1EfyfR5fdG1SP_z5Z3pFUG-ms4DokRWFB';
-
-  silentAddEditors_(folderId, editors);
-
-
-
 
 }
 

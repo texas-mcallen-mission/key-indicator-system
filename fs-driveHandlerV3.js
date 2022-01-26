@@ -187,13 +187,10 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
 
   // let zoneRequiredEntries = getRequiriedEntries_(contactInfo, reportLevel.zone)
 
-  let anyUpdates = false
-  let preZoneData = { names: [], fileObjArray: [] }
-  let preDistData = { names: [], fileObjArray: [] }
-  let preAreaData = { names: [], fileObjArray: [] }
-  if (zoneMetaObj.fsObj.length > 0) { preZoneData = getFilesAndNames(zoneMetaObj.fsObj) }
-  if (areaMetaObj.fsObj.length > 0) { preAreaData = getFilesAndNames(areaMetaObj.fsObj) }
-  if (distMetaObj.fsObj.length > 0) { preDistData = getFilesAndNames(distMetaObj.fsObj) }
+  let anyUpdates = false;
+  let preZoneData = (zoneMetaObj.fsObj.length > 0) ? getFilesAndNames(zoneMetaObj.fsObj) : { names: [], fileObjArray: [] };
+  let preDistData = (distMetaObj.fsObj.length > 0) ? getFilesAndNames(distMetaObj.fsObj) : { names: [], fileObjArray: [] };
+  let preAreaData = (areaMetaObj.fsObj.length > 0) ? getFilesAndNames(areaMetaObj.fsObj) : { names: [], fileObjArray: [] };
 
   let zFolderObjs = []
   let dFolderObjs = []
@@ -334,7 +331,7 @@ function updateFilesysV3_OLD_(filesysObject, contactInfo, args = { scope: report
 
     } else {
       // since the entry doesn't already exist, here's where we're going to create it.
-      let entry = createFilesysEntryV3OLD_(requiredEntry, contactInfo, args)
+      let entry = createFilesysEntryV3_(requiredEntry, contactInfo, args)   //TODO: OLD
       filesysObjects.push(entry)
     }
 
@@ -477,7 +474,7 @@ function loadFSIntoClass_(data) {
     email.push(item[5])
     email.push(item[6])
     // this is a basic loader doodad, it can become more smart in the future if I want it to by incorporating Elder Gerlek's sheetloader indexOf thingy.
-    let entry = new FilesystemEntry(item[0], item[1], item[2], item[3], item[4], email)
+    let entry = new FilesystemEntry(item[0], item[1], item[2], item[3], item[4])
     fsData.push(entry)
   }
 

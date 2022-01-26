@@ -3,7 +3,7 @@ function whileDebugging() {
   updateZoneReports()
 }
 
-let functionGUBED = true;
+
 
 function verifySingleFilesys_(data) {
 
@@ -151,7 +151,7 @@ function loadFSObjectIntoData_(fsObject) {
 function createNewFolder_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
   if (isFolderReal_(parentFolderId) == false) {
-    if (functionGUBED == true) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
+    if (functionGUBED) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
     // Logger.log()
 
     let parentFolderID = DriveApp.getFolderById(getParentFolderID_())

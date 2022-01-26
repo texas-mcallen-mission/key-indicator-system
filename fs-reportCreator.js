@@ -1,6 +1,4 @@
 //@ts-check
-// const GUBED = false;
-// const functionGUBED = true;
 
 
 // THESE NEED TO NOT BE HARD-CODED IN THE FUTURE, USING SOMETHING LIKE A GET-FIRST-WITH-MATCHING-FILENAME FUNCTION
@@ -96,6 +94,7 @@ function modifyZoneTemplates_(filesystemObject, referenceDataSheet) {
     let targetDataSheet = getSheetOrSetUpFromOtherSource(outputDataDumpSheetName, kicHeader, templateSpreadsheetObject)
     let configPage = getSheetOrSetUpFromOtherSource(configPageSheetName, ["", ""], templateSpreadsheetObject)
     Logger.log("Sheets loaded")
+    // @ts-ignore
     let zoneData = splitDataByZone.data[zoneName]
 
 
@@ -165,6 +164,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject)
     let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject)
     Logger.log("Sheets loaded")
+    // @ts-ignore
     let tagData = splitDataByTag.data[tagName]
 
     // Logger.log(tagData)

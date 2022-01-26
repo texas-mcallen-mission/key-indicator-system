@@ -4,6 +4,25 @@
         General and debugging configuration parameters
 */
 
+//To be deleted
+let functionGUBED = true;
+
+//Trash declarations to stop typescript from yelling
+let outputDataDumpSheetName = "";
+let configPageSheetName = "";
+let kicDataStoreSheetName = "";
+let areaDataSheetName = "";
+let districtDataSheetName = "";
+let zoneDataSheetName = "";
+let areaDataHeaders = [""];
+let districtDataHeaders = [""];
+let zoneDataHeaders = [""];
+function splitDataByTagEliminateDupes(x, y, z) {}
+function splitDataByTag_(x, y, z) {}
+
+
+
+
 
 
 let CONFIG =
