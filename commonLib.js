@@ -1,14 +1,14 @@
 //@ts-check
 // I'm going to compile the functions I've wound up using a lot here so that they're easier to find
 // created by Bert
-let functionGUBED = true;
-  
-  
+
+
+
 function sendDataToDisplayV3_(header, finalData, sheet) {
   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
   sheet.clearContents()
   sheet.appendRow(header)
-  if (functionGUBED == true) { Logger.log(finalData.length) }
+  Logger.log(finalData.length)
   Logger.log("adding Header")
   Logger.log(header)
   sheet.getRange(1, 1, 1, header.length).setValues([header])

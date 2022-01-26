@@ -4,8 +4,6 @@
         General and debugging configuration parameters
 */
 
-//To be deleted
-let functionGUBED = true;
 
 //Trash declarations to stop typescript from yelling
 let outputDataDumpSheetName = "";
