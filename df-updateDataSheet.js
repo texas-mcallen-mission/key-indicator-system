@@ -42,7 +42,8 @@
   missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
 
-  pushToDataSheetV2(allSheetData, missionData);
+  // pushToDataSheetV2(allSheetData, missionData);
+  allSheetData.dSheetData.insertData(missionData);
 
   markDuplicates(allSheetData);
 
@@ -359,76 +360,16 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 }
 
 
-
-
-
-
-
-
-
-
 /**
   * Inserts responses from missionData into the Data sheet.
   */
 function pushToDataSheetV2(allSheetData, missionData) {
   Logger.log("Pushing data to Data sheet...")
-
-  let out = [];
-
+  
   let dSheetData = allSheetData.data;
-  let dataSheet = dSheetData.getSheet();
-
-
-  for (let areaData of missionData) {
-    let row = [];
-
-    if (!areaData.log) areaData.log = "";
-    areaData.log = "[V2] WIP - log is unimplemented"
-
-    for (let key of dSheetData.getKeys()) {
-      if (typeof areaData[key] == 'undefined') {
-        Logger.log(`No data for key ${key} in data for area ${areaData.areaName} (areaID ${areaData.areaID}) when pushing to Data sheet. Pushing an empty string instead`);
-        row.push("");
-        continue;
-      }
-
-
-    }
-  }
-
-
-
-  for (let area of missionData) {
-    let row = [];
-
-    area.log = "WIP - log is unimplemented"
-    area.hasContactData = true
-
-    for (let key in area) {
-      let index = dSheetData.getIndex(key);
-      if (typeof index == 'undefined')
-        throw `Column index not found in Data sheet for key '${key}'`;
-
-      if (row[index])
-        Logger.log(`Potential data collision for key '${key}'`);
-      else
-        row[index] = area[key];
-    }
-
-    out.push(row);
-  }
-
-
-  dataSheet.insertRowsAfter(1, out.length);
-  let range = dataSheet.getRange(2, 1, out.length, out[0].length);
-
-  out.reverse();
-  range.setValues(out);
-
+  dSheetData.insertData(missionData);
 
   Logger.log(`Finished pushing to Data sheet.`)
-
-
 }
 
 
