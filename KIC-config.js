@@ -5,7 +5,7 @@
 */
 
 
-//Trash declarations to stop typescript from yelling
+//Stub declarations of outdated code to stop typescript from yelling. @Harrier_pigeon should fix these
 let outputDataDumpSheetName = "";
 let configPageSheetName = "";
 let kicDataStoreSheetName = "";
@@ -42,7 +42,6 @@ let DBCONFIG =
   //      WARNING: Caching is a work in progress! If you get a "... is not a function" error, it's probably because pulling allSheetData from the cache didn't work properly - just disable caching in the config to fix.
 
   //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
-  CACHE_AREA_IDS: false,   //[unimplemented] Cache the list of areaIDs
   CACHE_SHEET_DATA: false,  //Cache allSheetData, the object returned by constructSheetData()
   CACHE_ORG_DATA: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
@@ -57,10 +56,10 @@ let DBCONFIG =
 
   //Disable updating spreadsheets in certain ways
   //Direct calls to the associated functions will simply return null. If set to true, these override all relevant trigger permissions.
-  SKIP_MARKING_PULLED: true,  //Stops marking Form Responses as having been pulled into the data sheet
+  SKIP_MARKING_PULLED: false,  //Stops marking Form Responses as having been pulled into the data sheet
   SKIP_MARKING_DUPLICATES: false,
   FREEZE_CONTACT_DATA: false,
-  FREEZE_FILESYS: true,
+  FREEZE_FILESYS: false,
 
 
   //Allow triggers to run
