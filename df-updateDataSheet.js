@@ -385,7 +385,7 @@ function pushToDataSheetV2(allSheetData, missionData) {
     if (!areaData.log) areaData.log = "";
     areaData.log = "[V2] WIP - log is unimplemented"
 
-    for (let key of dSheetData.getKey()) {
+    for (let key of dSheetData.getKeys()) {
       if (typeof areaData[key] == 'undefined') {
         Logger.log(`No data for key ${key} in data for area ${areaData.areaName} (areaID ${areaData.areaID}) when pushing to Data sheet. Pushing an empty string instead`);
         row.push("");
