@@ -36,7 +36,7 @@ class FilesystemEntry {
 
 function getDataFromArray_(fsObjArray, sheetData) {
   let outData = []
-  for (entry of fsObjArray) {
+  for (let entry of fsObjArray) {
     outData.push(entry.toArrayFancy(sheetData))
   }
   return outData
@@ -46,7 +46,7 @@ function loadFSIntoClass_(data, sheetData) {
   // this function and the toArray function will need to be changed if the column order gets changed.
   let fsData = []
 
-  for (item of data) {
+  for (let item of data) {
     // this is a basic loader doodad, it can become more smart in the future if I want it to by incorporating Elder Gerlek's sheetloader indexOf thingy.
     let entry = new FilesystemEntry(item[sheetData.getIndex("folderName")], item[sheetData.getIndex("parentFolder")], item[sheetData.getIndex("folder")], item[sheetData.getIndex("sheetID1")], item[sheetData.getIndex("sheetID2")])
     fsData.push(entry)

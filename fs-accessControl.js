@@ -77,24 +77,10 @@ function shareFileSys() {
       }
     }
 
-    zoneFolder.addEditors(zEmails);
-
-
-
-    zoneFolder.addEditors(officeEmails);
-    Drive.Permissions.insert(
-      {
-        'role': 'writer',
-        'type': 'user',
-        'value': 'cosa'
-      },
-      '',
-      {
-        'sendNotificationEmails': 'false'
-      }
-    );
-
-
+    // zoneFolder.addEditors(zEmails);
+    // zoneFolder.addEditors(officeEmails);
+    silentAddEditors_(zoneFolderID, zEmails);
+    silentAddEditors_(zoneFolderID, officeEmails);
 
     if (DBCONFIG.LOG_FILE_SHARING) Logger.log(`Removed and re-added zone folder editors: ${zoneFolder.getEditors().map(e => { return e.getName() })}`);
 
@@ -161,7 +147,8 @@ function shareFileSys() {
         }
       }
 
-      distFolder.addEditors(dEmails);
+      // distFolder.addEditors(dEmails);
+      silentAddEditors_(distFolderID, dEmails);
 
 
 
@@ -226,6 +213,8 @@ function shareFileSys() {
         }
 
         areaFolder.addEditors(aEmails);
+        silentAddEditors_(areaFolderID, aEmails);
+
 
 
         if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
@@ -280,15 +269,17 @@ function shareFileSys() {
 
 
 /**
- * Adds the given list of users to the editors list of the file with the given id, without sending notification emails.
+ * Adds the given user to the list of editors for the file or folder without sending a notification email.
+ * @param {string} fileId The file or folder ID.
+ * @param {string} emailAddress The email address of the user to add.
  */
-function silentAddEditorSE_(email, fileId) {
+function silentAddEditor_(fileId, emailAddress) {
 
   Drive.Permissions.insert(
     {
       'role': 'writer',
       'type': 'user',
-      'value': email
+      'value': emailAddress
     },
     fileId,
     {
@@ -298,35 +289,14 @@ function silentAddEditorSE_(email, fileId) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /**
- * Adds the given list of users to the editors list of the file with the given id, without sending notification emails.
+ * Adds the given array of users to the list of editors for the file or folder without sending notification emails.
+ * @param {string} fileId The ID of the file or folder to be edited.
+ * @param {string[]} emailAddresses An array of email addresses of the users to add.
  */
-function silentAddEditors_(emails, fileId) {
-  let type = 'user';
-  let role = 'writer';
-
-  for (var i = 0; i < emails.length; i++) {
-
-    var body = {
-      'value': emails[i],
-      'type': type,
-      'role': role
-    };
-
-    Drive.Permissions.insert({ 'fileID': fileId, 'resource': body, 'sendNotificationEmails': 'false' });
-
-  }
+function silentAddEditors_(fileId, emailAddresses) {
+  for (let email of emailAddresses)
+    silentAddEditor_(fileId, email);
 }
 
 

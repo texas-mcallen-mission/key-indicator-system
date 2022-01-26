@@ -42,7 +42,7 @@ function createTemplates_(filesystemObject, templateID) {
   // creates per-zone templates, moves them into the correct folders, and then
   // returns a modified filesystemObject for working with later on down the line.
   // if the template already exists, it leaves it alone and moves along.
-  filesystemObjectCopy = filesystemObject
+  let filesystemObjectCopy = filesystemObject
   // Logger.log([[[[[[[filesystemObjectCopy]]]]]]])
   let templateFile = DriveApp.getFileById(templateID)
 
@@ -125,7 +125,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   let kicHeader = kicData[0]
   // Logger.log(["HEADEEEER",kicHeader])
   kicData.shift()
-  let columnPosition = ""
+  let columnPosition = -1
   let scopeString = ""
   switch (scope) {
     case reportLevel.area:

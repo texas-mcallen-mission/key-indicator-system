@@ -41,6 +41,10 @@ const INCLUDE_SCOPE_IN_FOLDER_NAME = false
 var reportRootFolder = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
 
 
+/**
+ * @param {{ zoneFilesys: any; distFilesys: any; areaFilesys: any; }} allSheetData
+ * @param {string} scope
+ */
 function dataLoader_(allSheetData, scope) {
   let sheetDataClass
 
@@ -121,6 +125,12 @@ function createFilesystemV3() {
 
 
 }
+/**
+ * @param {{ names: any; fileObjArray: any; }} preData
+ * @param {string} name
+ * @param {any} parentFolder
+ * @param {string} scope
+ */
 function updateFS_getCreateFolderObj_(preData, name, parentFolder, scope) {
   // WHERE YOU LEFT OFF:
   // the code directly below this needs to get used in three scopes and is easily generalizable, so do it
@@ -145,10 +155,13 @@ function testy() {
   Logger.log(orgLeaderData)
 }
 
+/**
+ * @param {any} fsObject
+ */
 function getFilesAndNames(fsObject) {
   let folderNames = []
   let files = []
-  for (file of fsObject) {
+  for (let file of fsObject) {
     folderNames.push(file.folderName)
     files.push(file)
   }
@@ -158,6 +171,13 @@ function getFilesAndNames(fsObject) {
   }
 }
 
+/**
+ * @param {{ sheetData?: any; sheet?: any; splitData?: { data: any; header: any; }; fsObj: any; }} zoneMetaObj
+ * @param {{ sheetData?: any; sheet?: any; splitData?: { data: any; header: any; }; fsObj: any; }} distMetaObj
+ * @param {{ sheetData?: any; sheet?: any; splitData?: { data: any; header: any; }; fsObj: any; }} areaMetaObj
+ * @param {{ [x: string]: { [x: string]: any; }; }} orgData
+ * @param {any} reportBaseFolder
+ */
 function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, reportBaseFolder) {
   // returns an array of filesys objects
 
@@ -175,9 +195,9 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
   if (areaMetaObj.fsObj.length > 0) { preAreaData = getFilesAndNames(areaMetaObj.fsObj) }
   if (distMetaObj.fsObj.length > 0) { preDistData = getFilesAndNames(distMetaObj.fsObj) }
 
-  zFolderObjs = []
-  dFolderObjs = []
-  aFolderObjs = []
+  let zFolderObjs = []
+  let dFolderObjs = []
+  let aFolderObjs = []
 
 
 
@@ -191,11 +211,11 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
     Logger.log(orgData[zone])
     Logger.log(zFolderObj)
 
-    for (district in orgData[zone]) {
+    for (let district in orgData[zone]) {
       Logger.log(district)
       let dFolderObj = updateFS_getCreateFolderObj_(preDistData, district, zFolderObj.folder, reportLevel.dist)
       dFolderObjs.push(dFolderObj)
-      for (area of orgData[zone][district]) {
+      for (let area of orgData[zone][district]) {
         let aFolderObj = updateFS_getCreateFolderObj_(preAreaData, area, dFolderObj.folder, reportLevel.area)
         aFolderObjs.push(aFolderObj)
         Logger.log(area)
@@ -285,6 +305,10 @@ function updateFilesysV3_(zoneMetaObj, distMetaObj, areaMetaObj, orgData, report
 // }
 // if (anyUpdates == true) { Logger.log("Filesystem Updated") } else { Logger.log("filesystem up to date, no updates needed") }
 
+/**
+ * @param {string | any[]} filesysObject
+ * @param {any} contactInfo
+ */
 function updateFilesysV3_OLD_(filesysObject, contactInfo, args = { scope: reportLevel.zone, previousLevelData: [], rootFolder: reportRootFolder }) {
   // returns an array of filesys objects
 
@@ -294,7 +318,7 @@ function updateFilesysV3_OLD_(filesysObject, contactInfo, args = { scope: report
   if (filesysObject.length > 0) {
     Logger.log("Pre-Existing Data!")
 
-    for (file of filesysObject) {
+    for (let file of filesysObject) {
       folderNames.push(file.folderName)
       filesysObjects.push(file)
       /* 
@@ -304,7 +328,7 @@ function updateFilesysV3_OLD_(filesysObject, contactInfo, args = { scope: report
     }
   }
 
-  for (requiredEntry of requiredEntries) {
+  for (let requiredEntry of requiredEntries) {
     if (folderNames.includes(requiredEntry) == true) {
       // well then, we skeep it, because it's already been stored by the previous loop.
 
@@ -351,6 +375,10 @@ function updateFilesysV3_OLD_(filesysObject, contactInfo, args = { scope: report
   return filesysObjects
 }
 
+/**
+ * @param {any} parentFolderId
+ * @param {string} name
+ */
 function createNewFolderV3_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
   // if (isFolderReal_(parentFolderId) == false) {
@@ -373,6 +401,10 @@ function createNewFolderV3_(parentFolderId, name) {
   //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
 }
 
+/**
+ * @param {{ [x: string]: any; }} contactInfo
+ * @param {string} scope
+ */
 function getRequiriedEntries_(contactInfo, scope) {
   // this is a generalized version of a thing I wrote like four times the exact same way.  HAHA
   let output = []
@@ -393,6 +425,9 @@ function getRequiriedEntries_(contactInfo, scope) {
   return output
 }
 
+/**
+ * @param {string | any[]} gimmeDatArray
+ */
 function getUniqueV3_(gimmeDatArray) {
   let uniqueData = []
   for (let i = 0; i < gimmeDatArray.length; i++) {
@@ -403,6 +438,9 @@ function getUniqueV3_(gimmeDatArray) {
   return uniqueData
 }
 
+/**
+ * @param {any} folderID
+ */
 function isFolderReal_(folderID) {
   // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
   let output = true
@@ -415,6 +453,9 @@ function isFolderReal_(folderID) {
 }
 
 
+/**
+ * @param {any} data
+ */
 function headerSplit_(data) {
   let outData = data
   let header = outData.shift()
@@ -424,11 +465,14 @@ function headerSplit_(data) {
   }
 }
 
+/**
+ * @param {any} data
+ */
 function loadFSIntoClass_(data) {
 
   let fsData = []
 
-  for (item of data) {
+  for (let item of data) {
     let email = []
     email.push(item[5])
     email.push(item[6])
