@@ -43,7 +43,7 @@
 
 
   // pushToDataSheetV2(allSheetData, missionData);
-  allSheetData.dSheetData.insertData(missionData);
+  allSheetData.data.insertData(missionData);
 
   markDuplicates(allSheetData);
 
