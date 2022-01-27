@@ -33,7 +33,7 @@ let CONFIG =
   CACHE_SHEET_DATA: false,  //Cache allSheetData, the object returned by constructSheetData()
   CACHE_ORG_DATA: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
-
+  MARK_DUPLICATES_MAX_ROW_TO_CHECK: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
   FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
 
