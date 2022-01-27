@@ -87,6 +87,15 @@ function markDuplicates_old(allSheetData) { //                                  
 
   for (let row = maxRow; row > 0; row--) {
 
+    if (row == maxRow) {
+      console.time("Time to process 100 lines");
+    } else if (row % 100 == 0 && row>100) {
+      console.timeEnd("Time to process 100 lines");
+      console.time("Time to process 100 lines");
+    } else {
+      console.timeEnd("Time to process 100 lines");
+    }
+
     let log = `Checking if row index ${row+1} is a duplicate...`
 
     //Skip empty rows
@@ -160,7 +169,6 @@ function markDuplicates_old(allSheetData) { //                                  
 
     if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
   }
-
 
   Logger.log(`Finished pulling duplicate data. Pushing to sheet...`)
 
