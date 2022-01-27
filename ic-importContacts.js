@@ -14,6 +14,12 @@ function refreshContacts(allSheetData) {
 }
 
 function importContacts(allSheetData) {
+
+
+  Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!')
+
+
+
   if (DBCONFIG.FREEZE_CONTACT_DATA) {
     Logger.log("Execution halted - FREEZE_CONTACT_DATA is set to true")
     return;
@@ -199,7 +205,6 @@ function testLanguageParser() {
  */
 function languageParser(multipleUnits, unitString) {
 
-  Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!')
   // noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))
   let defaultLanguage = "English"
   let spanishTestString = "Spanish"
