@@ -14,7 +14,7 @@
 
 function onOpen_InstallableTrigger() {
   Logger.log("[TRIGGER] Running buildMenu() as an installable trigger()");
-  if (!DBCONFIG.ALLOW_INSTALLABLE_TRIGGER_ON_OPEN) {
+  if (!CONFIG.ALLOW_INSTALLABLE_TRIGGER_ON_OPEN) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_INSTALLABLE_TRIGGER_ON_OPEN is set to false");
     return;
   }
@@ -45,7 +45,7 @@ function buildMenu() {
 
 function updateDataSheet_TimeBasedTrigger() {
   Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
-  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_DATA_SHEET) {
+  if (!CONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_DATA_SHEET) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_DATA_SHEET is set to false");
     return;
   }
@@ -63,7 +63,7 @@ function updateDataSheet_TimeBasedTrigger() {
 
 function updateDataSheet_MenuTrigger_() {
   Logger.log("[TRIGGER] Running updateDataSheet() from the Manual Commands menu")
-  if (!DBCONFIG.ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET) {
+  if (!CONFIG.ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET is set to false");
     return;
   }
@@ -72,7 +72,7 @@ function updateDataSheet_MenuTrigger_() {
 
 function importContacts_MenuTrigger_() {
   Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu")
-  if (!DBCONFIG.ALLOW_MENU_TRIGGER_IMPORT_CONTACTS) {
+  if (!CONFIG.ALLOW_MENU_TRIGGER_IMPORT_CONTACTS) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_IMPORT_CONTACTS is set to false");
     return;
   }
@@ -82,7 +82,7 @@ function importContacts_MenuTrigger_() {
 
 function markDuplicates_MenuTrigger_() {
   Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu")
-  if (!DBCONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES) {
+  if (!CONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_MARK_DUPLICATES is set to false");
     return;
   }
@@ -92,7 +92,7 @@ function markDuplicates_MenuTrigger_() {
 
 function loadAreaIDs_MenuTrigger_() {
   Logger.log("[TRIGGER] Running loadAreaIDs() from the Manual Commands menu")
-  if (!DBCONFIG.ALLOW_MENU_TRIGGER_LOAD_AREA_IDS) {
+  if (!CONFIG.ALLOW_MENU_TRIGGER_LOAD_AREA_IDS) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_LOAD_AREA_IDS is set to false");
     return;
   }

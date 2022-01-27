@@ -21,7 +21,7 @@
   Logger.log("BEGINNING UPDATE")
 
   let allSheetData = constructSheetData();
-  loadAreaIDs(allSheetData); //Force a full recalculation
+  if (CONFIG.FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET) loadAreaIDs(allSheetData); //Force a full recalculation
 
   //checkForErrors()?  Ex. no contact data
 
@@ -32,7 +32,7 @@
     return;
   }
 
-  if (isContactDataOld(allSheetData)) importContacts(allSheetData);
+  refreshContacts(allSheetData);
 
   let contacts = getContactData(allSheetData);
 
@@ -42,12 +42,11 @@
   missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
 
-  // pushToDataSheetV2(allSheetData, missionData);
   allSheetData.data.insertData(missionData);
 
   markDuplicates(allSheetData);
 
-  pushErrorMessages();  //Unimplemented
+   pushErrorMessages();  //Unimplemented
 
   Logger.log("UPDATE COMPLETED")
 }
@@ -60,6 +59,7 @@
 
 function markDuplicates(allSheetData) {
   console.warn(`TODO: markDuplicates() v2 not yet implemented`)
+  markDuplicates_old(allSheetData)
 }
 
 /**
@@ -185,7 +185,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
 
 /**
-  * Pulls data from the Form Response sheet and adds areaIDs, marking responses as having been pulled.
+  * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
   */
 function pullFormData(allSheetData) {
   Logger.log("Pulling Form Data...")
@@ -220,6 +220,7 @@ function pullFormData(allSheetData) {
 
 
   //Mark responses as having been pulled
+  console.info(`TODO: Improve marking responses as pulled`);
   if (DBCONFIG.SKIP_MARKING_PULLED) {
     Logger.log(`[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: SKIP_MARKING_PULLED is set to true`)
   }
@@ -297,7 +298,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
     let areaName = missionAreaData.areaName;
     let sourceAreaData = sourceData[missionAreaData.areaID];
 
-    if (DBCONFIG.LOG_MERGE_DATA) (`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
+    if (DBCONFIG.LOG_MERGE_DATA) Logger.log(`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
 
     if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
       throw `Found a form response for area '${areaName}' (id '${areaID}'), but couldn't find that area in source '${sourceID}'`;
@@ -350,7 +351,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
   function logNeither(key, areaID, areaName, sourceID) {
-    Logger.log(`Warning: couldn't find key ${key} for area ${areaID} (${areaName}) in either mission data or source ${source}!`)
+    console.warn(`Warning: couldn't find key '${key}' for area '${areaName}' (id '${areaID}') in either mission data or source '${source}'`)
   }
 
   function logDataCollision(key, areaID, areaName, sourceID, sourceAreaDataOfKey, missionAreaDataOfKey) {
@@ -375,68 +376,11 @@ function pushToDataSheetV2(allSheetData, missionData) {
 
 
 
-
-
-
-
-
-// /**
-//   * Inserts responses from missionData into the Data sheet.
-//   */
-// function pushToDataSheet(allSheetData, missionData) {
-//   Logger.log("Pushing data to Data sheet...")
-
-//   let out = [];
-
-//   let dSheetData = allSheetData.data;
-//   let dataSheet = dSheetData.getSheet();
-
-//   for (let area of missionData) {
-//     let row = [];
-
-//     area.log = "WIP - log is unimplemented"
-//     area.hasContactData = true
-
-
-
-//     for (let key in area) {
-//       let index = dSheetData.getIndex(key);
-//       if (typeof index == 'undefined')
-//         throw `Column index not found in Data sheet for key '${key}'`;
-
-//       if (row[index])
-//         Logger.log(`Potential data collision for key '${key}'`);
-//       else
-//         row[index] = area[key];
-//     }
-
-
-//   }
-
-
-//   dataSheet.insertRowsAfter(1, out.length);
-
-
-//   let range = dataSheet.getRange(2, 1, out.length, out[0].length);
-
-//   out.reverse();
-
-//   range.setValues(out);
-
-
-//   Logger.log(`Finished pushing to Data sheet.`)
-
-// }
-
-
-
-
-
 /**
   * Unimplemented
   */
 function pushErrorMessages() {
-  Logger.log("[TODO] Pushing error messages unimplemented")
+  console.info(`TODO: implement pushErrorMessages()`)
 }
 
 
