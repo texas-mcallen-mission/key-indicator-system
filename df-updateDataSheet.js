@@ -46,7 +46,7 @@
 
   markDuplicates(allSheetData);
 
-   pushErrorMessages();  //Unimplemented
+  pushErrorMessages();  //Unimplemented
 
   Logger.log("UPDATE COMPLETED")
 }
@@ -56,15 +56,15 @@
 
 
 
-
+/**
+  * Flags duplicate responses in the Data sheet.
+  */
 function markDuplicates(allSheetData) {
   console.warn(`TODO: markDuplicates() v2 not yet implemented`)
   markDuplicates_old(allSheetData)
 }
 
-/**
-  * Flags duplicate responses in the Data sheet.
-  */
+
 function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
   Logger.log("Marking duplicate responses. Pulling data...")
   Logger.log("TODO: Don't pull the whole sheet?")
@@ -89,7 +89,7 @@ function markDuplicates_old(allSheetData) { //                                  
     let log = `Checking if row index ${row+1} is a duplicate...`
 
     //Skip empty rows
-    if (vals[row][sd.getIndex('areaName')] == "") {   //5586
+    if (vals[row][sd.getIndex('areaName')] == "") {
       log += '\nSkipping row';
       skippedRows.push(row);
 
@@ -101,7 +101,14 @@ function markDuplicates_old(allSheetData) { //                                  
     minRow = row; //Update topmost row
 
     let areaName = vals[row][sd.getIndex('areaName')];
-    let areaID = getAreaID(allSheetData, areaName);
+    let areaID;
+    try {
+      areaID = getAreaID(allSheetData, areaName);
+    } catch (e) {
+      console.warn(`Couldn't get areaID while marking duplicates. Area '${areaName}' not found`)      
+    }
+
+
     let kiDate = vals[row][sd.getIndex('kiDate')];
     let tstamp = vals[row][sd.getIndex('formTimestamp')]
 
