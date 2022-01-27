@@ -34,14 +34,14 @@ function markDuplicates_old(allSheetData) { //                                  
 
     for (let row = maxRow; row > 0; row--) {    //WARNING: this assumes header is on the top row
 
-        if (row == maxRow) {
+        /*if (row == maxRow) {
             console.time("Time to process 100 lines");
         } else if (row % 100 == 0 && row > 100) {
             console.timeEnd("Time to process 100 lines");
             console.time("Time to process 100 lines");
         } else {
             console.timeEnd("Time to process 100 lines");
-        }
+        }*/
 
         let log = `Checking if row index ${row + 1} is a duplicate...`
 
