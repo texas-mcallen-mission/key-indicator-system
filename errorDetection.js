@@ -1,5 +1,6 @@
+//@ts-check
 /*
-        errorDetection.gs
+        errorDetection
         Handles error detecting, catching, handling, throwing, and reporting
         WIP
 */

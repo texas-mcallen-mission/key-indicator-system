@@ -1,6 +1,6 @@
 /*
-        Reference.gs
-        Column order, object data structures, property names
+        reference
+        Object data structures, property names
 */
 
 

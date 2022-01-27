@@ -22,6 +22,8 @@
 \ \_/ /\___  |                                                                                
  \___/     |_/                                                                                
 
+
+
 You might be wondering why a few missionaries spent a bunch of time working on a thing not *directly* related to our missionary purpose.
 
 History:
@@ -44,6 +46,15 @@ This is version 4, a complete rewrite of the entire system. Updates and improvem
  * Leadership data summaries
  * Live automatic reports for District Councils and Zone Leadership Councils
  */
+
+
+
+
+
+
+
+
+
 
 
 

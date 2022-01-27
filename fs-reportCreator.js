@@ -1,5 +1,4 @@
-// const GUBED = false;
-// const functionGUBED = true;
+//@ts-check
 
 
 // THESE NEED TO NOT BE HARD-CODED IN THE FUTURE, USING SOMETHING LIKE A GET-FIRST-WITH-MATCHING-FILENAME FUNCTION
@@ -43,7 +42,7 @@ function createTemplates_(filesystemObject, templateID) {
   // creates per-zone templates, moves them into the correct folders, and then
   // returns a modified filesystemObject for working with later on down the line.
   // if the template already exists, it leaves it alone and moves along.
-  filesystemObjectCopy = filesystemObject
+  let filesystemObjectCopy = filesystemObject
   // Logger.log([[[[[[[filesystemObjectCopy]]]]]]])
   let templateFile = DriveApp.getFileById(templateID)
 
@@ -97,6 +96,7 @@ function modifyZoneTemplates_(filesystemObject, referenceDataSheet) {
     let targetDataSheet = getSheetOrSetUpFromOtherSource(outputDataDumpSheetName, kicHeader, templateSpreadsheetObject)
     let configPage = getSheetOrSetUpFromOtherSource(configPageSheetName, ["", ""], templateSpreadsheetObject)
     Logger.log("Sheets loaded")
+    // @ts-ignore
     let zoneData = splitDataByZone.data[zoneName]
 
 
@@ -126,7 +126,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   let kicHeader = kicData[0]
   // Logger.log(["HEADEEEER",kicHeader])
   kicData.shift()
-  let columnPosition = ""
+  let columnPosition = -1
   let scopeString = ""
   switch (scope) {
     case reportLevel.area:
@@ -166,6 +166,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject)
     let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject)
     Logger.log("Sheets loaded")
+    // @ts-ignore
     let tagData = splitDataByTag.data[tagName]
 
     // Logger.log(tagData)
@@ -194,7 +195,7 @@ function updateZoneReports() {
   let allSheetData = constructSheetData()
 
   let zoneSheetData = allSheetData.zoneFilesys
-  
+
 
   let storedZoneDataSheet = zoneSheetData.sheet
   

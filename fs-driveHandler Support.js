@@ -1,7 +1,6 @@
+//@ts-check
 // I basically built a better way to load contactData... Now all I have to to is modify the importContacts thingy to use this system..... That'll happen much later tho
-function test() {
-  codeTest()
-}
+
 
 function getOrCreateReportFolder() {
   // looks for a folder named "Reports" in the folder this document is in or creates it, and returns a folderID for it.
@@ -36,7 +35,7 @@ function createFilesysEntryV3_(name, parentFolder, scope) {
    loops in the updateFilesys function instead (Honestly, it's a WAYYY better way to do it.)
   */
   let folderName = ""
-  if (INCLUDE_SCOPE_IN_FOLDER_NAME == true) {
+  if (INCLUDE_SCOPE_IN_FOLDER_NAME) {
     folderName = name + " " + scope
   } else {
     folderName = name
@@ -48,8 +47,7 @@ function createFilesysEntryV3_(name, parentFolder, scope) {
   let sheetReportID2 = ""
   folder = createNewFolderV3_(parentFolder, folderName)
 
-  entry = new FilesystemEntry(folderName, parentFolder, folder, sheetReportID1, sheetReportID2)
-  return entry
+  return new FilesystemEntry(folderName, parentFolder, folder, sheetReportID1, sheetReportID2);
 }
 
 class MissionaryData {
@@ -107,8 +105,11 @@ class ContactObject {
 }
 
 function loadContactsIntoObj_(allSheetData) {
-  let csd = allSheetData.contact // contact sheet data
+  let csd = allSheetData.contact; // contact sheet data
+  let contactDataSheetName = csd.getTabName();
+  let contactDataHeader = csd.getHeaders();
 
+  console.info(`TODO: replace getSheetOrSetUp() with SheetData functions`)
   let loadedData = getSheetOrSetUp_(contactDataSheetName, contactDataHeader)
   let cData = getSheetDataWithHeader_(loadedData).data
 
@@ -116,7 +117,7 @@ function loadContactsIntoObj_(allSheetData) {
 
   // THIS FUNCTION REQUIRES IMPORTCONTACTS TO WORK PROPERLY in order for this part to work at all
 
-  for (cl of cData) {
+  for (let cl of cData) {
 
     let compaData = []
     let dateGenerated = cl[csd.getIndex("dateContactGenerated")]    // let dateGenerated = cl[csd.getIndex("dateContactGenerated")]

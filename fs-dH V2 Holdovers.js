@@ -1,3 +1,4 @@
+//@ts-check
 function whileDebugging() {
   updateZoneReports()
 }
@@ -78,7 +79,7 @@ function loadFSIntoObject_(data) {
   let childFolderIDs = []
   let sheetsIDs = []
 
-  for (item of data) {
+  for (let item of data) {
     name.push(item[0])
     let email = []
     Logger.log([item[1], item[2]])
@@ -105,7 +106,7 @@ function loadFSIntoObject_(data) {
     pFolderID: parentFolderIDs,
     cFolderID: childFolderIDs,
     // folderIDs,folderIDs,
-    sheetsIDs, sheetsIDs
+    sheetsIDs: sheetsIDs
   }
 }
 
@@ -122,18 +123,18 @@ function loadFSObjectIntoData_(fsObject) {
     outputPrototype.push(fsObject.pFolderID)
     outputPrototype.push(fsObject.cFolderID)
     let reportSheets = fsObject.sheetsIDs[i]
-    if (typeof reportSheets == String) {
+    if (typeof reportSheets == 'string') {
       outputPrototype.push(reportSheets)
     } else {
-      for (sheet of reportSheets) {
+      for (let sheet of reportSheets) {
         outputPrototype.push(sheet)
       }
     }
     let emails = fsObject.emails[i]
-    if (typeof emails == String) {
+    if (typeof emails == 'string') {
       outputPrototype.push(emails)
     } else {
-      for (email of emails) {
+      for (let email of emails) {
         outputPrototype.push(email)
       }
     }
@@ -151,7 +152,7 @@ function loadFSObjectIntoData_(fsObject) {
 function createNewFolder_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
   if (isFolderAccessible_(parentFolderId) == false) {
-    if (functionGUBED == true) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
+    if (functionGUBED) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
     // Logger.log()
 
     let parentFolderID = DriveApp.getFolderById(getParentFolderID_())
@@ -222,7 +223,7 @@ function splitRelevantContactData_(contactDataArray) {
   let area = []
   let district = []
   let zone = []
-  for (contact of contactDataArray) {
+  for (let contact of contactDataArray) {
     areaEmail.push(contact[0])
     area.push(contact[1])
     district.push(contact[2])
@@ -249,7 +250,7 @@ function splitParentData_(parentDataArray) {
   let areaFolderID = []
   let documentID = []
 
-  for (data of parentDataArray) {
+  for (let data of parentDataArray) {
     area.push(data[0])
     areaEmail.push(data[1])
     areaParentFolder.push(data[2])

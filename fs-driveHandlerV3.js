@@ -1,3 +1,6 @@
+//@ts-check
+
+
 function createFS() {
   createFilesystemV3();
   // updateZoneReports()
@@ -79,6 +82,10 @@ var reportRootFolder = DriveApp.getFileById(
   .next()
   .getId();
 
+/**
+ * @param {{ zoneFilesys: any; distFilesys: any; areaFilesys: any; }} allSheetData
+ * @param {string} scope
+ */
 function dataLoader_(allSheetData, scope) {
   let sheetDataClass;
 
@@ -151,24 +158,24 @@ function createFilesystemV3() {
 
   // Logger.log(["SHEETIDTEST", zoneMeta.loader.getIndex("sheetID1")])
 
-  let zoneOutData = getDataFromArray_(
-    returnedData.zoneFilesys,
-    zoneMeta.sheetData
-  );
-  sendDataToDisplayV3_(zoneMeta.splitData.header, zoneOutData, zoneMeta.sheet);
+  let zoneOutData = getDataFromArray_(returnedData.zoneFilesys, zoneMeta.sheetData)
+  sendDataToDisplayV3_(zoneMeta.splitData.header, zoneOutData, zoneMeta.sheet)
 
-  let distOutData = getDataFromArray_(
-    returnedData.distFilesys,
-    distMeta.sheetData
-  );
-  sendDataToDisplayV3_(distMeta.splitData.header, distOutData, distMeta.sheet);
+  let distOutData = getDataFromArray_(returnedData.distFilesys, distMeta.sheetData)
+  sendDataToDisplayV3_(distMeta.splitData.header, distOutData, distMeta.sheet)
 
-  let areaOutData = getDataFromArray_(
-    returnedData.areaFilesys,
-    areaMeta.sheetData
-  );
-  sendDataToDisplayV3_(areaMeta.splitData.header, areaOutData, areaMeta.sheet);
+  let areaOutData = getDataFromArray_(returnedData.areaFilesys, areaMeta.sheetData)
+  sendDataToDisplayV3_(areaMeta.splitData.header, areaOutData, areaMeta.sheet)
+
+
+
 }
+/**
+ * @param {{ names: any; fileObjArray: any; }} preData
+ * @param {string} name
+ * @param {any} parentFolder
+ * @param {string} scope
+ */
 function updateFS_getCreateFolderObj_(preData, name, parentFolder, scope) {
   // WHERE YOU LEFT OFF:
   // the code directly below this needs to get used in three scopes and is easily generalizable, so do it
@@ -193,12 +200,15 @@ function testy() {
   Logger.log(orgLeaderData);
 }
 
+/**
+ * @param {any} fsObject
+ */
 function getFilesAndNames(fsObject) {
-  let folderNames = [];
-  let files = [];
-  for (file of fsObject) {
-    folderNames.push(file.folderName);
-    files.push(file);
+  let folderNames = []
+  let files = []
+  for (let file of fsObject) {
+    folderNames.push(file.folderName)
+    files.push(file)
   }
   return {
     names: folderNames,
@@ -206,30 +216,19 @@ function getFilesAndNames(fsObject) {
   };
 }
 
-function updateFilesysV3_(
-  zoneMetaObj,
-  distMetaObj,
-  areaMetaObj,
-  orgData,
-  reportBaseFolder
-) {
-  // returns an array of filesys objects
 
   // let zoneRequiredEntries = getRequiriedEntries_(contactInfo, reportLevel.zone)
 
   let anyUpdates = false;
-  let preZoneData = { names: [], fileObjArray: [] };
-  let preDistData = { names: [], fileObjArray: [] };
-  let preAreaData = { names: [], fileObjArray: [] };
-  if (zoneMetaObj.fsObj.length > 0) {
-    preZoneData = getFilesAndNames(zoneMetaObj.fsObj);
-  }
-  if (areaMetaObj.fsObj.length > 0) {
-    preAreaData = getFilesAndNames(areaMetaObj.fsObj);
-  }
-  if (distMetaObj.fsObj.length > 0) {
-    preDistData = getFilesAndNames(distMetaObj.fsObj);
-  }
+  let preZoneData = (zoneMetaObj.fsObj.length > 0) ? getFilesAndNames(zoneMetaObj.fsObj) : { names: [], fileObjArray: [] };
+  let preDistData = (distMetaObj.fsObj.length > 0) ? getFilesAndNames(distMetaObj.fsObj) : { names: [], fileObjArray: [] };
+  let preAreaData = (areaMetaObj.fsObj.length > 0) ? getFilesAndNames(areaMetaObj.fsObj) : { names: [], fileObjArray: [] };
+
+  let zFolderObjs = []
+  let dFolderObjs = []
+  let aFolderObjs = []
+
+
 
   zFolderObjs = [];
   dFolderObjs = [];
@@ -249,24 +248,14 @@ function updateFilesysV3_(
     Logger.log(orgData[zone]);
     Logger.log(zFolderObj);
 
-    for (district in orgData[zone]) {
-      Logger.log(district);
-      let dFolderObj = updateFS_getCreateFolderObj_(
-        preDistData,
-        district,
-        zFolderObj.folder,
-        reportLevel.dist
-      );
-      dFolderObjs.push(dFolderObj);
-      for (area of orgData[zone][district]) {
-        let aFolderObj = updateFS_getCreateFolderObj_(
-          preAreaData,
-          area,
-          dFolderObj.folder,
-          reportLevel.area
-        );
-        aFolderObjs.push(aFolderObj);
-        Logger.log(area);
+    for (let district in orgData[zone]) {
+      Logger.log(district)
+      let dFolderObj = updateFS_getCreateFolderObj_(preDistData, district, zFolderObj.folder, reportLevel.dist)
+      dFolderObjs.push(dFolderObj)
+      for (let area of orgData[zone][district]) {
+        let aFolderObj = updateFS_getCreateFolderObj_(preAreaData, area, dFolderObj.folder, reportLevel.area)
+        aFolderObjs.push(aFolderObj)
+        Logger.log(area)
       }
     }
   }
@@ -277,6 +266,10 @@ function updateFilesysV3_(
   };
 }
 
+/**
+ * @param {any} parentFolderId
+ * @param {string} name
+ */
 function createNewFolderV3_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
   // if (isFolderAccessible_(parentFolderId) == false) {
@@ -288,19 +281,21 @@ function createNewFolderV3_(parentFolderId, name) {
   //   let newFolderID = parentFolderID.createFolder(name).getId()
   //   return newFolderID
   // } else {
-  Logger.log(parentFolderId);
-  let parentFolder = DriveApp.getFolderById(parentFolderId);
-  let newFolder = parentFolder.createFolder(name);
-  let newFolderID = newFolder.getId();
-  if (functionGUBED == true) {
-    Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]);
-  }
-  return newFolderID;
+  Logger.log(parentFolderId)
+  let parentFolder = DriveApp.getFolderById(parentFolderId)
+  let newFolder = parentFolder.createFolder(name)
+  let newFolderID = newFolder.getId()
+  if (functionGUBED == true) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]) }
+  return newFolderID
 
   // }
   //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
 }
 
+/**
+ * @param {{ [x: string]: any; }} contactInfo
+ * @param {string} scope
+ */
 function getRequiriedEntries_(contactInfo, scope) {
   // this is a generalized version of a thing I wrote like four times the exact same way.  HAHA
   let output = [];
@@ -321,6 +316,9 @@ function getRequiriedEntries_(contactInfo, scope) {
   return output;
 }
 
+/**
+ * @param {string | any[]} gimmeDatArray
+ */
 function getUniqueV3_(gimmeDatArray) {
   let uniqueData = [];
   for (let i = 0; i < gimmeDatArray.length; i++) {
@@ -331,6 +329,9 @@ function getUniqueV3_(gimmeDatArray) {
   return uniqueData;
 }
 
+/**
+ * @param {any} folderID
+ */
 function isFolderAccessible_(folderID) {
   // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
   let output = true;
@@ -356,6 +357,9 @@ function isFolderAccessible_(folderID) {
   return output;
 }
 
+/**
+ * @param {any} data
+ */
 function headerSplit_(data) {
   let outData = data;
   let header = outData.shift();
@@ -365,23 +369,19 @@ function headerSplit_(data) {
   };
 }
 
+/**
+ * @param {any} data
+ */
 function loadFSIntoClass_(data) {
   let fsData = [];
 
-  for (item of data) {
-    let email = [];
-    email.push(item[5]);
-    email.push(item[6]);
+  for (let item of data) {
+    let email = []
+    email.push(item[5])
+    email.push(item[6])
     // this is a basic loader doodad, it can become more smart in the future if I want it to by incorporating Elder Gerlek's sheetloader indexOf thingy.
-    let entry = new FilesystemEntry(
-      item[0],
-      item[1],
-      item[2],
-      item[3],
-      item[4],
-      email
-    );
-    fsData.push(entry);
+    let entry = new FilesystemEntry(item[0], item[1], item[2], item[3], item[4])
+    fsData.push(entry)
   }
 
   return fsData;
