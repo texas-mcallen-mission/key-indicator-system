@@ -86,7 +86,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
   for (let row = maxRow; row > 0; row--) {
 
-    let log = `Checking if row index ${row} is a duplicate...`
+    let log = `Checking if row index ${row+1} is a duplicate...`
 
     //Skip empty rows
     if (vals[row][sd.getIndex('areaName')] == "") {   //5586
