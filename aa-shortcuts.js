@@ -23,3 +23,8 @@ function run_updateReports() {
     // @ts-ignore
     updateZoneReports();
 }
+
+function run_markDuplicates() {
+  let allSheetData = constructSheetData();
+  markDuplicates(allSheetData);
+}
