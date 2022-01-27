@@ -303,7 +303,7 @@ function getLeadershipAreaData(contacts) {
     leaderAreaData[areaID] = {
       "areaName": areaName,  //Debug purposes - not actually used
 
-      "districtLeader": rmvUnd(zones[zone].districts[district].dl),
+      "districtLeader": rmvUnd(zones[zone].districts[district].dlArea.dl),
       "zoneLeader1": rmvUnd(zones[zone].zlArea.zl1),
       "zoneLeader2": rmvUnd(zones[zone].zlArea.zl2),
       "zoneLeader3": rmvUnd(zones[zone].zlArea.zl3),
