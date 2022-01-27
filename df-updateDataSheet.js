@@ -83,6 +83,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
 
   let firstPass = true; //Used to make the loop run twice (in case it's not sorted by timestamp)
+  console.info(`TODO: make mark dupes loop run twice`)
 
   for (let row = maxRow; row > 0; row--) {
 
@@ -105,7 +106,7 @@ function markDuplicates_old(allSheetData) { //                                  
     try {
       areaID = getAreaID(allSheetData, areaName);
     } catch (e) {
-      console.warn(`Couldn't get areaID while marking duplicates. Area '${areaName}' not found`)      
+      console.warn(`Couldn't get areaID on line ${row+1} while marking duplicates. Area '${areaName}' not found`)      
     }
 
 
