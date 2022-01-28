@@ -20,9 +20,9 @@ function updateForm() {
     // find area names element
     let items = form.getItems(itemType);
     let areaNamesItem;
-    for (let item of items) {
+    for (let i = 0; i < items.length && typeof areaNamesItem == 'undefined'; i++) {
         if (/*is the right item*/) {
-            areaNamesItem = item;
+            areaNamesItem = items[i];
             break;
         }
     }
