@@ -35,10 +35,12 @@ let CONFIG =
 
   MARK_DUPLICATES_MAX_ROW_TO_CHECK: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
-  FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
-
+  
   //WARNING: If set to true, loading the filesystem will take a VERY long time!
   UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
+  
+  FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
+  AREA_NAME_QUESTION_TITLE: "Area Name",
 
 
   //Allow triggers to run
