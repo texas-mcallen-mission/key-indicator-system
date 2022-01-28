@@ -56,7 +56,7 @@ jobs:
         # This is expiremental  
       - name: Write CLASP_JSON script ID secret to .clasp.json file
         id: write-clasp
-        run: echo "$BERT_INSTANCE_CLASP_JSON" >> /key-indicator-system/.clasp.json
+        run: echo "$BERT_INSTANCE_CLASP_JSON" >> /home/runner/work/key-indicator-system/key-indicator-system/.clasp.json
         env:
           CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
         
