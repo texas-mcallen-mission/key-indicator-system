@@ -41,7 +41,12 @@ let CONFIG =
   
   FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
   DEL_OLD_RESPONSES_FROM_FORM: false,
-  AREA_NAME_QUESTION_TITLE: "Area Name",
+  AREA_NAME_QUESTION_TITLE: 'Area Name',
+
+  //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs).
+  //gcopy: 1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw
+  //live: 1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g
+  KIC_FORM_ID: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',
 
 
   //Allow triggers to run
