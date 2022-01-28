@@ -2,14 +2,14 @@
   * Flags duplicate responses in the Data sheet.
   */
 function markDuplicates(allSheetData) {
-    console.warn(`TODO: markDuplicates() v2 not yet implemented`)
-    markDuplicates_old(allSheetData)
+    console.warn(`TODO: markDuplicates() v2 not yet implemented`);
+    markDuplicates_old(allSheetData);
 }
 
 
 function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
-    Logger.log("Marking duplicate responses. Pulling data...")
-    Logger.log("TODO: Don't pull the whole sheet?")
+    Logger.log("Marking duplicate responses. Pulling data...");
+    Logger.log("TODO: Don't pull the whole sheet?");
 
     let sd = allSheetData.data;
     let sheet = sd.getSheet();
@@ -30,7 +30,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
 
     let firstPass = true; //Used to make the loop run twice (in case it's not sorted by timestamp)
-    console.info(`TODO: make mark dupes loop run twice`)
+    console.info(`TODO: make mark dupes loop run twice`);
 
     for (let row = maxRow; row > 0; row--) {    //WARNING: this assumes header is on the top row
 
@@ -43,7 +43,7 @@ function markDuplicates_old(allSheetData) { //                                  
             console.timeEnd("Time to process 100 lines");
         }*/
 
-        let log = `Checking if row index ${row + 1} is a duplicate...`
+        let log = `Checking if row index ${row + 1} is a duplicate...`;
 
         //Skip empty rows
         if (vals[row][sd.getIndex('areaName')] == "") {
@@ -62,54 +62,54 @@ function markDuplicates_old(allSheetData) { //                                  
         try {
             areaID = getAreaID(allSheetData, areaName);
         } catch (e) {
-            console.warn(`Couldn't get areaID on line ${row + 1} while marking duplicates. Area '${areaName}' not found`)
+            console.warn(`Couldn't get areaID on line ${row + 1} while marking duplicates. Area '${areaName}' not found`);
         }
 
 
         let kiDate = vals[row][sd.getIndex('kiDate')];
-        let tstamp = vals[row][sd.getIndex('formTimestamp')]
+        let tstamp = vals[row][sd.getIndex('formTimestamp')];
 
         let rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
 
-        log += `\nResponse ID: '${rID}'`
+        log += `\nResponse ID: '${rID}'`;
 
         if (typeof mostRecentResponse[rID] == 'undefined') { //If this is the first ocurrence, add to mostRecentResponse and skip
             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
 
-            log += `\nFirst ocurrence, continuing.`
+            log += `\nFirst ocurrence, continuing.`;
             if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
             continue;
         }
 
         let prev = mostRecentResponse[rID];  //Previous ocurrence
-        log += `\nFound previous ocurrence on row index ${prev.row}, comparing...`
+        log += `\nFound previous ocurrence on row index ${prev.row}, comparing...`;
 
         //Handle comparing historical records (which don't have timestamps)
         if (typeof prev.tstamp == "string") {
 
             if (typeof tstamp == "string")
-                log += `\nBoth ocurrences are historical records, can't determine which to keep. Keeping the current one and marking previous as a duplicate`
+                log += `\nBoth ocurrences are historical records, can't determine which to keep. Keeping the current one and marking previous as a duplicate`;
             else
-                log += `\nPrev ocurrence is a historical record. Keeping the current one and marking previous as a duplicate`
+                log += `\nPrev ocurrence is a historical record. Keeping the current one and marking previous as a duplicate`;
 
             duplicates.push(prev.row);
             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
         }
         else if (typeof tstamp == "string") {
-            log += `Current ocurrence is a historical record, but the previous one is not. Keeping the previous and marking the current as a duplicate`
+            log += `Current ocurrence is a historical record, but the previous one is not. Keeping the previous and marking the current as a duplicate`;
             duplicates.push(row);
         }
         else  //Handle non-historical responses
         {
             //If this is more recent than the previous ocurrence
             if (tstamp.getTime() > prev.tstamp.getTime()) {
-                log += `\nThe current response is more recent, replacing and marking the old as duplicate.`
+                log += `\nThe current response is more recent, replacing and marking the old as duplicate.`;
 
                 duplicates.push(prev.row);
                 mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
             }
             else {
-                log += `\nThe previous response is more recent, marking the current as duplicate.`
+                log += `\nThe previous response is more recent, marking the current as duplicate.`;
                 duplicates.push(row);
             }
         }
@@ -117,7 +117,7 @@ function markDuplicates_old(allSheetData) { //                                  
         if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
     }
 
-    Logger.log(`Finished pulling duplicate data. Pushing to sheet...`)
+    Logger.log(`Finished pulling duplicate data. Pushing to sheet...`);
 
 
     let out = [];
@@ -133,7 +133,7 @@ function markDuplicates_old(allSheetData) { //                                  
     sheet.getRange(minRow + 1, sd.getIndex('isDuplicate') + 1, out.length, 1).setValues(out);
 
 
-    Logger.log(`Finished marking duplicate responses.`)
+    Logger.log(`Finished marking duplicate responses.`);
 
 }
 
