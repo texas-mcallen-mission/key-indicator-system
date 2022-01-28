@@ -5,19 +5,20 @@
 
 
 function updateForm() {
-    let allSheetData = constructSheetData();
-    let cSheetData = allSheetData.contact;
-
+    
     let formId = '';
     let elemId = '';
+    
+    
+    let allSheetData = constructSheetData();
+    let cSheetData = allSheetData.contact;
+    let areaNames = cSheetData.getAllOfKey('areaName');
 
+    // open form
     let form = FormApp.openById(formId);
 
-    /*
-    get list of current area names
-    open form
-    find area names element
-    update area names
-    */
+    // find area names element
+
+    // update area names
 
 }
