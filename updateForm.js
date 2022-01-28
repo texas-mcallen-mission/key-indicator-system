@@ -27,5 +27,13 @@ function updateForm() {
 
 
     //delete old form responses?
-
+    if (CONFIG.DEL_OLD_RESPONSES_AGE_LIMIT > 0) {
+        for (let formResponse of form.getResponses()) {
+            let tstamp = response.getTimestamp();
+            if (tstamp == null) return false; //Skip responses that haven't been submitted yet
+            let ageInDays = Math.floor(tstamp.getTime() / (1000 * 60 * 60 * 24));
+            return ageInDays > CONFIG.DEL_OLD_RESPONSES_AGE_LIMIT;
+            //if old, delete
+        }
+    }
 }
