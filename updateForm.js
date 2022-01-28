@@ -13,7 +13,11 @@ function updateForm() {
 
     let form = FormApp.openById(formId);
 
-
-
+    /*
+    get list of current area names
+    open form
+    find area names element
+    update area names
+    */
 
 }
