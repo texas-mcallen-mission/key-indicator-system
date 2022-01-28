@@ -3,7 +3,7 @@ name: Bert Dev Branch
 on:
   workflow_dispatch:
   push:
-    branches: [Bert-Dev]
+    branches: [CI-modifications]
   release:
     types: [published]
   schedule:
@@ -23,6 +23,13 @@ jobs:
         run: echo "$CLASPRC_JSON_SECRET" >> ~/.clasprc.json
         env:
           CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
+          
+        # This is expiremental  
+      - name: Write CLASP_JSON script ID secret to .clasp.json file
+        id: write-clasp
+        run: echo "$BERT_INSTANCE_CLASP_JSON" >> ~/.clasp.json
+        env:
+          CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
 
       - name: Check clasp login status
         id: clasp_login
