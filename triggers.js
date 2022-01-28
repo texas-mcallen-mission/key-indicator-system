@@ -61,6 +61,14 @@ function importContacts_TimeBasedTrigger() {
   let allSheetData = constructSheetData()
   importContacts(allSheetData)
 }
+function updateForm_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateForm() from a time-based trigger")
+  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_FORM) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_FORM is set to false")
+    return;
+  }
+  updateForm()
+}
 function updateFS_TimeBasedTrigger() {
   Logger.log("[TRIGGER] Running updateFS() from a time-based trigger")
 

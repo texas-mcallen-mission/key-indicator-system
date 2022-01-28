@@ -28,3 +28,7 @@ function run_markDuplicates() {
   let allSheetData = constructSheetData();
   markDuplicates(allSheetData);
 }
+
+function run_updateForm() {
+  updateForm();
+}
