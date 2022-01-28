@@ -23,7 +23,6 @@ function updateForm() {
     for (let i = 0; i < items.length && typeof areaNamesItem == 'undefined'; i++) {
         if (items[i].asListItem().getTitle() == CONFIG.AREA_NAME_QUESTION_TITLE) {
             areaNamesItem = items[i];
-            break;
         }
     }
     if (typeof areaNamesItem == 'undefined')
