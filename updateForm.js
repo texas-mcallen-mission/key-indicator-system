@@ -18,7 +18,7 @@ function updateForm() {
     let form = FormApp.openById(formId);
 
     // find area names element
-    let items = form.getItems(itemType);
+    let items = form.getItems(FormApp.ItemType.LIST);
     let areaNamesItem;
     for (let i = 0; i < items.length && typeof areaNamesItem == 'undefined'; i++) {
         if (items[i].asListItem().getTitle() == CONFIG.AREA_NAME_QUESTION_TITLE) {
