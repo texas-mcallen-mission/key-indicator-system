@@ -3,7 +3,9 @@
         Updating the Google Form automatically - area names, etc.
 */
 
-
+/**
+ * Updates the Google Form for the Key Indicators for Conversion Report, such as updating the list of area names. Also deletes old form responses from the Google Form (not from the Sheet) if the config is set.
+ */
 function updateForm() {
 
     let allSheetData = constructSheetData();
