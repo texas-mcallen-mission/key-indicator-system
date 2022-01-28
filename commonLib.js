@@ -13,10 +13,16 @@ function sendDataToDisplayV3_(header, finalData, sheet) {
   Logger.log(header)
   sheet.getRange(1, 1, 1, header.length).setValues([header])
   Logger.log("added header, adding data")
-  sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData)
-  Logger.log("Data added, sorting")
-  sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
-  // Logger.log("data added")
+  if(finalData.length == 0 || typeof finalData == null){
+    Logger.log("no data, skipping")
+    return
+  } else {
+    sheet.getRange(2,1,finalData.length,finalData[0].length).setValues(finalData)
+    Logger.log("Data added, sorting")
+    sheet.getRange(2,1,finalData.length,header.length).sort([{column: 1, ascending:true}])
+    // Logger.log("data added")
+  }
+
 }
 
 function sendReportToDisplayV3_(header, finalData, sheet) {
@@ -27,7 +33,11 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
   Logger.log("adding Header")
   sheet.getRange(2, 1, 1, header.length).setValues([header])
   Logger.log("added header, adding data")
-  sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData)
+  if(finalData == null){
+    Logger.log("no data, skipping")
+    return
+  }
+  sheet.getRange(3,1,finalData.length,finalData[0].length).setValues(finalData)
   Logger.log("data added, sorting")
   sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
   // going to run this one more time without a flush to see what happens when this changes.

@@ -51,9 +51,33 @@ function updateDataSheet_TimeBasedTrigger() {
   }
   updateDataSheet();
 }
+function importContacts_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running importContacts() from a time-based trigger")
 
+  if (FREEZE_CONTACT_DATA) {
+    Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+    return
+  }
+  let allSheetData = constructSheetData()
+  importContacts(allSheetData)
+}
+function updateFS_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateFS() from a time-based trigger")
 
-
+  createFS();
+}
+function updateAreaReports_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateAreaReports from a time-based trigger")
+  updateAreaReports()
+}
+function updateDistrictReports_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateDistrictReports from a time-based trigger")
+  updateDistrictReports()
+}
+function updateZoneReports_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateZoneReports() from a time-based trigger")
+  updateZoneReports()
+}
 
 
 
@@ -69,7 +93,22 @@ function updateDataSheet_MenuTrigger_() {
   }
   updateDataSheet();
 }
-
+function updateFS_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu")
+  createFS();
+}
+function updateAreaReports_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu")
+  updateAreaReports()
+}
+function updateDistrictReports_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateDistrictReports() from the Manual Commands menu")
+  updateDistrictReports()
+}
+function updateZoneReports_MenuTrigger_() {
+  Logger.log("[TRIGGER] Running updateZoneReports() from the Manual Commands menu")
+  updateZoneReports()
+}
 function importContacts_MenuTrigger_() {
   Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu")
   if (!CONFIG.ALLOW_MENU_TRIGGER_IMPORT_CONTACTS) {
@@ -79,7 +118,6 @@ function importContacts_MenuTrigger_() {
   let allSheetData = constructSheetData();
   importContacts(allSheetData);
 }
-
 function markDuplicates_MenuTrigger_() {
   Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu")
   if (!CONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES) {
@@ -99,7 +137,6 @@ function loadAreaIDs_MenuTrigger_() {
   let allSheetData = constructSheetData();
   markDuplicates(allSheetData);
 }
-
 
 
 

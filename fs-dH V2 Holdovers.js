@@ -5,46 +5,47 @@ function whileDebugging() {
 
 
 
-function verifySingleFilesys_(data) {
+// function verifySingleFilesys_(data) {
 
-  let fsObj = loadFSIntoObject_(data)
-  let newFsObj = fsObj
-  Logger.log(fsObj)
-  for (let i = 0; i < fsObj.name.length; i++) {
-    let nuke = false
+//   let fsObj = loadFSIntoObject_(data)
+//   let newFsObj = fsObj
+//   Logger.log(fsObj)
+//   for (let i = 0; i < fsObj.name.length; i++) {
+//     let nuke = false
 
-    if (isFolderReal_(fsObj.cFolderID[i]) == false) { nuke = true }
-    if (isFolderReal_(fsObj.pFolderID[i]) == false) { nuke = true }
+//     if(isFolderReal_(fsObj.cFolderID[i]) == false){ nuke = true }
+//     if(isFolderReal_(fsObj.pFolderID[i]) == false){ nuke = true }
 
 
 
-    for (let document of fsObj.sheetsIDs[i]) {
-      if (isSheetReal_(document) == true) {
-        // Logger.log(["Document Exists for",fsObj.name[i],": ",document])
-      } else {
-        document = ""
-        // @ts-ignore
-        newFsObj.sheetsIDs[i] = ""
-      }
-    }
+//     for (document of fsObj.sheetsIDs[i]) {
+//       if (isSheetReal_(document) == true) {
+//         // Logger.log(["Document Exists for",fsObj.name[i],": ",document])
+//       } else {
+//         document = ""
+//         newFsObj.sheetsIDs[i] = ""
+//       }
+//     }
 
-    if (nuke) {
-      Logger.log(["NUUUUKE", fsObj.name[i], fsObj.emails[i], fsObj.pFolderID[i], fsObj.cFolderID[i], fsObj.sheetsIDs[i]])
-      newFsObj.sheetsIDs.splice(i, 1)
-      newFsObj.emails.splice(i, 1)
-      newFsObj.pFolderID.splice(i, 1)
-      newFsObj.cFolderID.splice(i, 1)
-      newFsObj.name.splice(i, 1)
-      // this is where we go and remove the whole line from the data.
-    }
-  }
+//     if (nuke == true) {
+//       Logger.log(["NUUUUKE", fsObj.name[i], fsObj.emails[i], fsObj.pFolderID[i], fsObj.cFolderID[i], fsObj.sheetsIDs[i]])
+//       newFsObj.sheetsIDs.splice(i, 1)
+//       newFsObj.emails.splice(i, 1)
+//       newFsObj.pFolderID.splice(i, 1)
+//       newFsObj.cFolderID.splice(i,1)
+//       newFsObj.name.splice(i, 1)
+//       // this is where we go and remove the whole line from the data.
+//     }
+//   }
 
-  Logger.log(newFsObj)
-  let newData = loadFSObjectIntoData_(newFsObj)
-  Logger.log(newData)
+//   Logger.log(newFsObj)
+//   let newData = loadFSObjectIntoData_(newFsObj)
+//   Logger.log(newData)
 
-  return newData
-}
+//   return newData
+// }
+
+
 
 function loadVerifyAndStoreFS_(dataSheetName, dataSheetHeaders, scopeStringForDebug) {
   let dataSheet = getSheetOrSetUp_(dataSheetName, dataSheetHeaders)
@@ -150,7 +151,7 @@ function loadFSObjectIntoData_(fsObject) {
 
 function createNewFolder_(parentFolderId, name) {
   // creates new folder in parent folder, and then returns that folder's ID.
-  if (isFolderReal_(parentFolderId) == false) {
+  if (isFolderAccessible_(parentFolderId) == false) {
     if (functionGUBED) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
     // Logger.log()
 
@@ -169,36 +170,36 @@ function createNewFolder_(parentFolderId, name) {
 }
 
 
-function sendDataToDisplayV3_(header, finalData, sheet) {
-  // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
-  sheet.clearContents()
-  sheet.appendRow(header)
-  if (functionGUBED == true) { Logger.log(finalData.length) }
-  Logger.log("adding Header")
-  Logger.log(header)
-  sheet.getRange(1, 1, 1, header.length).setValues([header])
-  Logger.log("added header, adding data")
-  sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData)
-  Logger.log("Data added, sorting")
-  sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
-  // Logger.log("data added")
-}
+// function sendDataToDisplayV3_(header, finalData, sheet) {
+//   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
+//   sheet.clearContents()
+//   sheet.appendRow(header)
+//   if (functionGUBED == true) { Logger.log(finalData.length) }
+//   Logger.log("adding Header")
+//   Logger.log(header)
+//   sheet.getRange(1, 1, 1, header.length).setValues([header])
+//   Logger.log("added header, adding data")
+//   sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData)
+//   Logger.log("Data added, sorting")
+//   sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
+//   // Logger.log("data added")
+// }
 
-function sendReportToDisplayV3_(header, finalData, sheet) {
-  // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
-  sheet.clearContents()
-  sheet.appendRow(header)
-  if (functionGUBED == true) { Logger.log(finalData.length) }
-  Logger.log("adding Header")
-  sheet.getRange(2, 1, 1, header.length).setValues([header])
-  Logger.log("added header, adding data")
-  sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData)
-  Logger.log("data added, sorting")
-  sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
-  // going to run this one more time without a flush to see what happens when this changes.
-  // SpreadsheetApp.flush()
-  // Logger.log("data added")
-}
+// function sendReportToDisplayV3_(header, finalData, sheet) {
+//   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
+//   sheet.clearContents()
+//   sheet.appendRow(header)
+//   if (functionGUBED == true) { Logger.log(finalData.length) }
+//   Logger.log("adding Header")
+//   sheet.getRange(2, 1, 1, header.length).setValues([header])
+//   Logger.log("added header, adding data")
+//   sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData)
+//   Logger.log("data added, sorting")
+//   sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }])
+//   // going to run this one more time without a flush to see what happens when this changes.
+//   // SpreadsheetApp.flush()
+//   // Logger.log("data added")
+// }
 
 function getUniqueFromPositionAndReturnArray_(gimmeDatArray, position) {  // this does the same thing as above, but keeps me from needing to iterate through everything twice. 
   let uniqueDataFromPosition = []
