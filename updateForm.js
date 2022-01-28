@@ -5,17 +5,13 @@
 
 
 function updateForm() {
-    
-    let formId = '';
-    let elemId = '';
-    
-    
+        
     let allSheetData = constructSheetData();
     let cSheetData = allSheetData.contact;
     let areaNames = cSheetData.getAllOfKey('areaName');
 
     // open form
-    let form = FormApp.openById(formId);
+    let form = FormApp.openById(CONFIG.KIC_FORM_ID);
 
     // find area names element
     let items = form.getItems(FormApp.ItemType.LIST);
