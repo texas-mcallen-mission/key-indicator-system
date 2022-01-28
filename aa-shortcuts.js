@@ -6,7 +6,7 @@ function run_updateDataSheet() {
 }
 
 function run_importContacts() {
-  let allSheetData = constructSheetData();
+    let allSheetData = constructSheetData();
     // @ts-ignore
     importContacts(allSheetData);
 }
@@ -25,10 +25,10 @@ function run_updateReports() {
 }
 
 function run_markDuplicates() {
-  let allSheetData = constructSheetData();
-  markDuplicates(allSheetData);
+    let allSheetData = constructSheetData();
+    markDuplicates(allSheetData);
 }
 
 function run_updateForm() {
-  updateForm();
+    updateForm();
 }
