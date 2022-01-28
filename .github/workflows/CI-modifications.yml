@@ -60,6 +60,9 @@ jobs:
         env:
           CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
         
+      - name : echo current tree
+        run : "echo find . -type d -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+        
       - name: Set scriptId in .clasp.json file
         id: set-script-id
         if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
