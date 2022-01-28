@@ -51,40 +51,61 @@ function updateDataSheet_TimeBasedTrigger() {
   }
   updateDataSheet();
 }
+
 function importContacts_TimeBasedTrigger() {
   Logger.log("[TRIGGER] Running importContacts() from a time-based trigger")
 
-  if (FREEZE_CONTACT_DATA) {
-    Logger.log("[TRIGGER] Execution canceled: STOP_DATA_UPDATE_TRIGGER is set to true")
+  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_IMPORT_CONTACTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_IMPORT_CONTACTS is set to false");
     return
   }
-  let allSheetData = constructSheetData()
-  importContacts(allSheetData)
+  let allSheetData = constructSheetData();
+  importContacts(allSheetData);
 }
+
 function updateForm_TimeBasedTrigger() {
   Logger.log("[TRIGGER] Running updateForm() from a time-based trigger")
   if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_FORM) {
     Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_FORM is set to false")
     return;
   }
-  updateForm()
+  updateForm();
 }
-function updateFS_TimeBasedTrigger() {
-  Logger.log("[TRIGGER] Running updateFS() from a time-based trigger")
 
+function updateFS_TimeBasedTrigger() {
+  Logger.log("[TRIGGER] Running updateFS() from a time-based trigger");
+  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_FS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_FS is set to false")
+    return;
+  }
   createFS();
 }
+
 function updateAreaReports_TimeBasedTrigger() {
-  Logger.log("[TRIGGER] Running updateAreaReports from a time-based trigger")
-  updateAreaReports()
+  Logger.log("[TRIGGER] Running updateAreaReports from a time-based trigger");
+  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS is set to false");
+    return;
+  }
+  updateAreaReports();
 }
+
 function updateDistrictReports_TimeBasedTrigger() {
-  Logger.log("[TRIGGER] Running updateDistrictReports from a time-based trigger")
-  updateDistrictReports()
+  Logger.log("[TRIGGER] Running updateDistrictReports from a time-based trigger");
+  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS is set to false");
+    return;
+  }
+  updateDistrictReports();
 }
+
 function updateZoneReports_TimeBasedTrigger() {
-  Logger.log("[TRIGGER] Running updateZoneReports() from a time-based trigger")
-  updateZoneReports()
+  Logger.log("[TRIGGER] Running updateZoneReports() from a time-based trigger");
+  if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS is set to false");
+    return;
+  }
+  updateZoneReports();
 }
 
 
@@ -101,22 +122,43 @@ function updateDataSheet_MenuTrigger_() {
   }
   updateDataSheet();
 }
+
 function updateFS_MenuTrigger_() {
+  if (!CONFIG.ALLOW_MENU_TRIGGER_UPDATE_FS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_FS is set to false");
+    return;
+  }
   Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu")
   createFS();
 }
+
 function updateAreaReports_MenuTrigger_() {
   Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu")
-  updateAreaReports()
+  if (!CONFIG.ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS is set to false");
+    return;
+  }
+  updateAreaReports();
 }
+
 function updateDistrictReports_MenuTrigger_() {
   Logger.log("[TRIGGER] Running updateDistrictReports() from the Manual Commands menu")
-  updateDistrictReports()
+  if (!CONFIG.ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS is set to false");
+    return;
+  }
+  updateDistrictReports();
 }
+
 function updateZoneReports_MenuTrigger_() {
   Logger.log("[TRIGGER] Running updateZoneReports() from the Manual Commands menu")
-  updateZoneReports()
+  if (!CONFIG.ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS) {
+    Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS is set to false");
+    return;
+  }
+  updateZoneReports();
 }
+
 function importContacts_MenuTrigger_() {
   Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu")
   if (!CONFIG.ALLOW_MENU_TRIGGER_IMPORT_CONTACTS) {
@@ -126,6 +168,7 @@ function importContacts_MenuTrigger_() {
   let allSheetData = constructSheetData();
   importContacts(allSheetData);
 }
+
 function markDuplicates_MenuTrigger_() {
   Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu")
   if (!CONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES) {
