@@ -38,7 +38,8 @@
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/script.container.ui",
         "https://www.googleapis.com/auth/drive",
-        "https://www.google.com/m8/feeds"
+        "https://www.google.com/m8/feeds",
+        "https://www.googleapis.com/auth/forms"
     ],
     "runtimeVersion": "V8",
     "sheets": {
