@@ -40,14 +40,15 @@ let CONFIG =
   UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
   
   FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
-  DEL_OLD_RESPONSES_FROM_FORM: false,
   AREA_NAME_QUESTION_TITLE: 'Area Name',
-
+  
   //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs).
   //gcopy: 1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw
   //live: 1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g
   KIC_FORM_ID: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',
-
+  
+  //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
+  DEL_OLD_RESPONSES_AGE_LIMIT: 0,
 
   //Allow triggers to run
   //These are overridden if the associated functions are disabled, ex. if DBCONFIG.FREEZE_FILESYS is true.
