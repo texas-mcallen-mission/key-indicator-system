@@ -31,4 +31,7 @@ function updateForm() {
 
     // update area names
 
+
+    //delete old form responses?
+
 }
