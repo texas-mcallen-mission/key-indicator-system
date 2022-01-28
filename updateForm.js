@@ -29,7 +29,7 @@ function updateForm() {
     if (typeof areaNamesItem == 'undefined')
         throw `Couldn't find an Area Names question in the Google Form!`
 
-    // update area names
+    areaNamesItem.asListItem().setChoiceValues(areaNames);
 
 
     //delete old form responses?
