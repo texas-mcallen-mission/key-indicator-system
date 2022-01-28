@@ -33,6 +33,9 @@ function updateForm() {
             if (tstamp == null) return false; //Skip responses that haven't been submitted yet
             let ageInDays = Math.floor(tstamp.getTime() / (1000 * 60 * 60 * 24));
             //if old, delete
+            if (ageInDays > CONFIG.DEL_OLD_RESPONSES_AGE_LIMIT) {
+                form.deleteResponse(formResponse.getId());
+            }
         }
     }
 }
