@@ -17,7 +17,7 @@
 /**
   * Updates the Data sheet.
   */
- function updateDataSheet() {
+function updateDataSheet() {
   Logger.log("BEGINNING UPDATE")
 
   let allSheetData = constructSheetData();
@@ -139,7 +139,7 @@ function getContactData(allSheetData) {
     contact.log.addedContactDataTime = (new Date()).toTimeString();
 
     if ((typeof contacts[contact.areaID]) != 'undefined')
-      warnDataCollision(contact.areaName, contact.areaID, contacts[contact.areaID].areaName);  
+      warnDataCollision(contact.areaName, contact.areaID, contacts[contact.areaID].areaName);
 
     contacts[contact.areaID] = contact;
   }
@@ -244,7 +244,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
   */
 function pushToDataSheetV2(allSheetData, missionData) {
   Logger.log("Pushing data to Data sheet...")
-  
+
   let dSheetData = allSheetData.data;
   dSheetData.insertData(missionData);
 
