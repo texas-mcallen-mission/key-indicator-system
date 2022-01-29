@@ -23,8 +23,6 @@ jobs:
         run: echo "$CLASPRC_JSON_SECRET" >> ~/.clasprc.json
         env:
           CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
-          
-
 
       - name: Check clasp login status
         id: clasp_login
@@ -53,16 +51,18 @@ jobs:
         if: ${{github.event_name	!= 'schedule' }}
         uses: actions/checkout@v2
 
-        # This is expiremental  
-      - name: Write CLASP_JSON script ID secret to .clasp.json file
-        id: write-clasp
-        run: echo "$BERT_INSTANCE_CLASP_JSON" >> /home/runner/work/key-indicator-system/key-indicator-system/.clasp.json
-        env:
-          CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
-        
-      - name : echo current tree
-        run : "find . -type d -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-        
+      - name: get current contents of .clasp.json
+        id: cat-clasp-1
+        run: echo | cat .clasp.json
+
+      - name: Pipe in .clasp.json?
+        id: pipe-clasp-json
+        run: echo '{"scriptId": "TESTING","rootDir": "./","parentId": [""] }' >> .clasp.json
+
+      - name: get modified contents of .clasp.json
+        id: cat-clasp-2
+        run: echo | cat .clasp.json
+
       - name: Set scriptId in .clasp.json file
         id: set-script-id
         if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
