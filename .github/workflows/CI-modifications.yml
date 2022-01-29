@@ -58,7 +58,9 @@ jobs:
       - name: Pipe in .clasp.json?
         id: pipe-clasp-json
         run: >
-          echo '{"scriptId": "TESTING","rootDir": "./","parentId": [""] }' > .clasp.json
+          echo '$CLASP_JSON_SECRET' > .clasp.json
+        env:
+          CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
 
       - name: get modified contents of .clasp.json
         id: cat-clasp-2
