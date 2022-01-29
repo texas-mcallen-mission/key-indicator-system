@@ -63,7 +63,7 @@ jobs:
           CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
       - name: test debug printing
         id: test-debug-echo
-        run: echo "::debug:: $CLASP_JSON_SECRET"
+        run: echo "::debug::test $CLASP_JSON_SECRET"
         
 
       - name: get modified contents of .clasp.json
