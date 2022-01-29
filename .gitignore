@@ -1,8 +1,7 @@
 
 
 # ignore .clasp.json so that I can have different versions in the cloud and locally
-#.clasp.json
-# disabled because it should be fine to sync now.
+.clasp.json
 
-# from Gcopy
+# ignore GAS stubs so they don't get pushed to Google Sheets
 tsignore-gas-classes.js
