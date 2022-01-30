@@ -58,7 +58,13 @@ jobs:
       - name: Pipe in .clasp.json?
         id: pipe-clasp-json
         run: >
-          echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
+          inputJSON='{"scriptId": "replaceWithScript","rootDir": "./","parentId": ["replaceWithParent"]}'
+          scriptId="1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa"
+          parentId="1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"
+          inBetween="${inputJSON/replaceWithScript/"$scriptId"}"
+          final="${inBetween/replaceWithParent/$parentId}"
+          echo "$final" > .clasp.json
+        # echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
         # env:
         #   CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
       # - name: test debug printing
