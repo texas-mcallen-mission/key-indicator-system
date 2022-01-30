@@ -2,16 +2,16 @@
 
 
 // THESE NEED TO NOT BE HARD-CODED IN THE FUTURE, USING SOMETHING LIKE A GET-FIRST-WITH-MATCHING-FILENAME FUNCTION
-const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
-const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
-const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
+// const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
+// const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
+// const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
 
 
-const kicDataStoreSheetName = "Data";
+// const kicDataStoreSheetName = "Data";
 
-const templateDataDumpSheetName = "Data";
-const outputDataDumpSheetName = "Data";
-const configPageSheetName = "config";
+// const templateDataDumpSheetName = "Data";
+// const outputDataDumpSheetName = "Data";
+// const configPageSheetName = "config";
 
 
 
