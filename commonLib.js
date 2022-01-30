@@ -2,7 +2,7 @@
 // I'm going to compile the functions I've wound up using a lot here so that they're easier to find
 // created by Bert
 
-
+// CLASP PIPING TEST
 
 function sendDataToDisplayV3_(header, finalData, sheet) {
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.

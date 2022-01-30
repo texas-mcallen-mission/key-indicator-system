@@ -3,7 +3,7 @@ name: Bert Dev Branch
 on:
   workflow_dispatch:
   push:
-    branches: [Bert-Dev]
+    branches: [CI-modifications]
   release:
     types: [published]
   schedule:
@@ -57,7 +57,14 @@ jobs:
 
       - name: Pipe in .clasp.json?
         id: pipe-clasp-json
-        run: echo '{"scriptId": "TESTING","rootDir": "./","parentId": [""] }' >> .clasp.json
+        run: >
+          echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
+        # env:
+        #   CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
+      # - name: test debug printing
+      #   id: test-debug-echo
+      #   run: echo "::debug::test $CLASP_JSON_SECRET"
+        
 
       - name: get modified contents of .clasp.json
         id: cat-clasp-2
