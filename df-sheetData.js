@@ -30,7 +30,7 @@ class SheetData {
     /**
      * @param {string} tabName The name of the corresponding Sheet.
      * @param {any} initialKeyToIndex An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
-     * @param {string[]} headerRow An array containing the headers.
+     * @param {string[]} headerRow The row index, starting with 0, of the header row.
      */
     constructor(tabName, initialKeyToIndex, headerRow) {
 
