@@ -55,10 +55,17 @@ jobs:
         id: cat-clasp-1
         run: echo | cat .clasp.json
 
-      - name: Pipe in .clasp.json?
-        id: pipe-clasp-json
-        run: >
-          echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
+      -name: modify .clasp.json
+        id: modify-clasp
+        run: sed -i "s/SCRIPT_ID/$SCRIPTID/;s/PARENT_ID/$PARENTID/" .clasp.json
+        env:
+          SCRIPTID: ${{ secrets.BERT_INSTANCE_SCRIPT_ID }}
+          PARENTID: ${{ secrets.BERT_PARENT_ID}}
+      # 🐧- 
+      # - name: Pipe in .clasp.json?
+      #   id: pipe-clasp-json
+      #   run: >
+      #     echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
         #inputJSON='{"scriptId": "replaceWithScript","rootDir": "./","parentId": ["replaceWithParent"]}'
         #scriptId="1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa"
         #parentId="1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"

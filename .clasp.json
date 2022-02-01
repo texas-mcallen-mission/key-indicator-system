@@ -1,1 +1,7 @@
-{"scriptId": "TEST","rootDir": "./","parentId": ["TEST"]}
+{
+    "scriptId": "SCRIPT_ID",
+    "rootDir": "./",
+    "parentId": [
+        "PARENT_ID"
+    ]
+}
