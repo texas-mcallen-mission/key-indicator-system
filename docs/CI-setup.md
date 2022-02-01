@@ -48,4 +48,4 @@ this can only run on scripts and documents owned by the TMM account.  To switch 
 
 # Acknowledgments:
 
-I used [https://github.com/ericanastas/deploy-google-app-script-action](https://github.com/ericanastas/deploy-google-app-script-action) as a basis for this CI workflow.  For starting from scratch
+I used [https://github.com/ericanastas/deploy-google-app-script-action](https://github.com/ericanastas/deploy-google-app-script-action) as a basis for this CI workflow.
