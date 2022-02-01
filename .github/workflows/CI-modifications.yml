@@ -55,7 +55,7 @@ jobs:
         id: cat-clasp-1
         run: echo | cat .clasp.json
 
-      -name: modify .clasp.json
+      - name: modify .clasp.json
         id: modify-clasp
         run: sed -i "s/SCRIPT_ID/$SCRIPTID/;s/PARENT_ID/$PARENTID/" .clasp.json
         env:
