@@ -4,14 +4,6 @@
         Handles sheet setup, headers, column indices, pulling and pushing data, etc.
 */
 
-
-
-//The SheetData class is kind of hacked together. Basically, if you want to use it, call constructSheetData() and treat what it returns as an Enum. This is for several reasons, but it's mostly to get around some weirdness with Apps Script (the static keyword doesn't exist) and the fact that Enums aren't natively implemented in Javascript. If I can find a better way to do this I'll implement it later, but for now it's the best solution I've found.
-
-//NOTE 1: DO NOT use any of the public fields - treat them like private ones. They have getter and setter functions instead.
-//NOTE 2: DO NOT run any of the methods defined below the class. Same idea: just treat them like private class methods.
-//NOTE 3: DO NOT make instances of the SheetData class. Run sheetDataConstructor() ONCE before ever touching the class, then extract whichever property values you need from the object it returns. They are predefined instances of the class - use them instead.
-
 /**
  * Create an instance of the SheetData enum.
  * @see {@link constructSheetData} for the class description.
@@ -20,7 +12,7 @@
 class SheetData {
 
     /*
-    Private Fields
+    Fields
   
     tabName: The name of the Sheet this SheetData is tied to.
     nextFreeColumn: The index of the leftmost column with no defined key.
