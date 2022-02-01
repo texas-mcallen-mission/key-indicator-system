@@ -1,4 +1,4 @@
-name: CI Workflow Template
+name: CI Workflow - Gcopy
 
 on:
   workflow_dispatch:
