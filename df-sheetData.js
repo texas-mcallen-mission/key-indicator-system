@@ -2,29 +2,6 @@
 /*
         SheetData
         Handles sheet setup, headers, column indices, pulling and pushing data, etc.
-
-        v1.10
-
-        Public class methods:
-
-        getSheet()
-        getTabName()
-
-        getIndex(key)
-        getKey(index)
-        hasIndex(index) Boolean - has values in that index?
-        hasKey(key) Boolean - has values in that key?
-
-        getHeaders()  (unimplemented)
-
-        getValues()   Returns an array of arrays (an array of rows)
-        getData()     Returns an array of objects
-
-        getAll(key)   Returns all values for the key
-        getAllFromIndex(index)  Returns all values at the index
-
-
-
 */
 
 
@@ -38,22 +15,22 @@
 class SheetData {
 
     /*
-    Private Fields (actually public but don't tell anyone)
+    Private Fields
   
     tabName: The name of the Sheet this SheetData is tied to.
     nextFreeColumn: The index of the leftmost column with no defined key.
     sheet: The Sheet object this SheetData is tied to.
     headerRow: The row index of the header row.
-  
+    
     keyToIndex: An object whose properties are keys (strings) representing what data goes in a column (ex "areaID", "stl2", "np").
-                Its values are the indices (starting with 0) of the column with that data.
+    Its values are the indices (starting with 0) of the column with that data.
     indexToKey: The reverse of keyToIndex. An array whose value at a given index is the key corresponding to that index.
     */
 
     /**
-     * @param {string} tabName
-     * @param {any} initialKeyToIndex
-     * @param {any} headerRow
+     * @param {string} tabName The name of the corresponding Sheet.
+     * @param {any} initialKeyToIndex An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
+     * @param {string[]} headerRow An array containing the headers.
      */
     constructor(tabName, initialKeyToIndex, headerRow) {
 
