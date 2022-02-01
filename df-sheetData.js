@@ -33,9 +33,9 @@ class SheetData {
     */
 
     /**
-     * @param {string} tabName The name of the corresponding Sheet.
-     * @param {number} headerRow The row index, starting with 0, of the header row.
-     * @param {any} initialKeyToIndex An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
+     * @param {string} tabName - The name of the corresponding Sheet.
+     * @param {number} headerRow - The row index, starting with 0, of the header row.
+     * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
      */
     constructor(tabName, headerRow, initialKeyToIndex) {
 
@@ -76,7 +76,9 @@ class SheetData {
 
     //Private class methods
 
-
+/**
+ * Build indexToKey, the complement of keyToIndex.
+ */
     buildIndexToKey_() {
         let newIndexToKey = [];
         for (let key in this.keyToIndex) {
@@ -86,6 +88,10 @@ class SheetData {
         this.indexToKey = newIndexToKey;
     }
 
+    /**
+     * Get the next blank column not assigned a key. It is NOT guaranteed to eventually return every blank column.
+     * @returns The next column not assigned a key.
+     */
     getNextFreeColumn_() {
         // @ts-ignore
         return this.indexToKey.length;
@@ -468,6 +474,8 @@ function setSheetUp_(sheetData) {
  * Get all defined instances of the SheetData enum.
  * @classdesc A SheetData instance provides greater access to the data in a Sheet given certain assumptions about the format of that Sheet. Most significantly, most functions organize data by header string rather than index number, which preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  * For SheetData to work properly, every nonblank row below the header row is assumed to contain data corresponding to the header row. Rows above the header row are ignored.
+ * @readonly
+ * @enum {SheetData}
  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
  */
 function constructSheetData(force = false) {
@@ -725,10 +733,11 @@ function constructSheetData(force = false) {
     //END Static properties and parameters
 
 
+    //Define SheetData instances
     let allSheetData = {};
     for (let sdKey in tabNames) {
         allSheetData[sdKey] = new SheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
-        //Ex. allSheetData.data = new SheetData(tabNames.data, headerRows.data, initialColumnOrders.data)
+        /** @example  allSheetData.data = new SheetData(tabNames.data, headerRows.data, initialColumnOrders.data) */
     }
 
     //@ts-expect-error
