@@ -12,6 +12,11 @@
 //NOTE 2: DO NOT run any of the methods defined below the class. Same idea: just treat them like private class methods.
 //NOTE 3: DO NOT make instances of the SheetData class. Run sheetDataConstructor() ONCE before ever touching the class, then extract whichever property values you need from the object it returns. They are predefined instances of the class - use them instead.
 
+/**
+ * Create an instance of the SheetData enum.
+ * @see {@link constructSheetData} for the class description.
+ * @hideconstructor
+ */
 class SheetData {
 
     /*
@@ -459,14 +464,11 @@ function setSheetUp_(sheetData) {
 
 
 
-
-//Basically a pseudo-constructor. Used to treat SheetData like an Enum
-
-
-
 /**
- * Returns all defined instances of the SheetData Enum.
- * @param {Boolean} force If true, skips checking the cache and forces a recalculation. Default value is false.
+ * Get all defined instances of the SheetData enum.
+ * @classdesc A SheetData instance provides greater access to the data in a Sheet given certain assumptions about the format of that Sheet. Most significantly, most functions organize data by header string rather than index number, which preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
+ * For SheetData to work properly, every nonblank row below the header row is assumed to contain data corresponding to the header row. Rows above the header row are ignored.
+ * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
  */
 function constructSheetData(force = false) {
 
