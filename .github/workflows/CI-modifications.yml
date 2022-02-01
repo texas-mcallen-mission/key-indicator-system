@@ -3,9 +3,12 @@ name: Bert Dev Branch
 on:
   workflow_dispatch:
   push:
+    # CHANGE THIS TO REFERENCE THE BRANCH YOU WANT TO PUSH
     branches: [CI-modifications]
   release:
     types: [published]
+  # DO NOT TOUCH: this updates the authorization 
+  # token so that it keeps working in the future.
   schedule:
     - cron: "0 0 * * SUN"
 
@@ -55,29 +58,16 @@ jobs:
         id: cat-clasp-1
         run: echo | cat .clasp.json
 
+      # TO UPDATE: MODIFY SCRIPTID & PARENTID TO POINT TO NEW SECRETS
+      # read the guide at docs/ci-setup.md!
       - name: modify .clasp.json
         id: modify-clasp
         run: sed -i "s/SCRIPT_ID/$SCRIPTID/;s/PARENT_ID/$PARENTID/" .clasp.json
         env:
           SCRIPTID: ${{ secrets.BERT_INSTANCE_SCRIPT_ID }}
           PARENTID: ${{ secrets.BERT_PARENT_ID}}
-      # 🐧- 
-      # - name: Pipe in .clasp.json?
-      #   id: pipe-clasp-json
-      #   run: >
-      #     echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
-        #inputJSON='{"scriptId": "replaceWithScript","rootDir": "./","parentId": ["replaceWithParent"]}'
-        #scriptId="1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa"
-        #parentId="1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"
-        #inBetween="${inputJSON/replaceWithScript/"$scriptId"}"
-        #final="${inBetween/replaceWithParent/$parentId}"
-        #echo "$final" > .clasp.json
-        # echo '{"scriptId": "1ZBYoDTlOkOo1J2yfgxMKV4EFhRIhnrf5F81CoN9Hr3IkWdQfohOcKAGa","rootDir": "./","parentId": ["1Lm3tCkx7PKftV9wjxEMykwq9DQAChOqray0w5afUK30"]}' > .clasp.json
-        # env:
-        #   CLASP_JSON_SECRET: ${{ secrets.BERT_INSTANCE_CLASP_JSON }}
-      # - name: test debug printing
-      #   id: test-debug-echo
-      #   run: echo "::debug::test $CLASP_JSON_SECRET"
+          # 🐧
+
         
 
       - name: get modified contents of .clasp.json
@@ -102,6 +92,9 @@ jobs:
         run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+
+
+
   # dump-context:
   #   runs-on: ubuntu-latest
   #   steps:
