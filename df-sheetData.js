@@ -29,19 +29,19 @@ class SheetData {
 
     /**
      * @param {string} tabName The name of the corresponding Sheet.
-     * @param {any} initialKeyToIndex An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
      * @param {string[]} headerRow The row index, starting with 0, of the header row.
+     * @param {any} initialKeyToIndex An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
      */
-    constructor(tabName, initialKeyToIndex, headerRow) {
+    constructor(tabName, headerRow, initialKeyToIndex) {
 
         this.tabName = tabName;
         this.headerRow = headerRow;
+        this.keyToIndex = initialKeyToIndex;
+
+        this.buildIndexToKey_();
 
         this.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.tabName);
         if (this.sheet == null) throw `Couldn't construct SheetData: no sheet found with name '${this.tabName}'`;
-
-        this.keyToIndex = initialKeyToIndex;
-        this.buildIndexToKey_();
 
     }
 
@@ -725,8 +725,8 @@ function constructSheetData(force = false) {
 
     let allSheetData = {};
     for (let sdKey in tabNames) {
-        allSheetData[sdKey] = new SheetData(tabNames[sdKey], initialColumnOrders[sdKey], headerRows[sdKey]);
-        //Ex. allSheetData.data = new SheetData(tabNames.data, initialColumnOrders.data, headerRows.data)
+        allSheetData[sdKey] = new SheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
+        //Ex. allSheetData.data = new SheetData(tabNames.data, headerRows.data, initialColumnOrders.data)
     }
 
     //@ts-expect-error
