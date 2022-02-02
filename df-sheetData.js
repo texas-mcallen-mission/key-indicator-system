@@ -588,7 +588,7 @@ function syncDataFlowCols_(allSheetData) {
     let addedKeys = [];
 
     for (let key of formSheetData.getKeys()) {
-        if (!dataSheetData.hasKey(key)) {
+        if (!dataSheetData.hasKey(key) && !CONFIG.EXCLUDE_FORM_COLS_FROM_DATA.includes(key)) {
             let header = formSheetData.getHeaders[formSheetData.getIndex(key)];
             dataSheetData.rsd.addColumnWithHeader_(key, header);
             addedKeys.push(key);
