@@ -6,17 +6,19 @@
 
 
 //Stub declarations of outdated code to stop typescript from yelling. @Harrier_pigeon should fix these
-let outputDataDumpSheetName = "";
-let configPageSheetName = "";
-let kicDataStoreSheetName = "";
-let areaDataSheetName = "";
-let districtDataSheetName = "";
-let zoneDataSheetName = "";
-let areaDataHeaders = [""];
-let districtDataHeaders = [""];
-let zoneDataHeaders = [""];
-function splitDataByTagEliminateDupes(x, y, z) { }
-function splitDataByTag_(x, y, z) { }
+// MOVED TO fs-config.js
+// let outputDataDumpSheetName = "";
+// let configPageSheetName = "";
+// let kicDataStoreSheetName = "";
+// let areaDataSheetName = "";
+// let districtDataSheetName = "";
+// let zoneDataSheetName = "";
+// let areaDataHeaders = [""];
+// let districtDataHeaders = [""];
+// let zoneDataHeaders = [""];
+// THESE ARE BOTH DEFINED IN COMMONLIB
+// function splitDataByTagEliminateDupes(x, y, z) { }
+// function splitDataByTag_(x, y, z) { }
 
 
 
