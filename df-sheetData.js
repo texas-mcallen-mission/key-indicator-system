@@ -11,7 +11,7 @@
 
 
 /**
- * A wrapper for the RawSheetData class to hide its methods and fields.
+ * SheetData is a wrapper for the RawSheetData class to hide its methods and fields.
  * 
  * An instance of SheetData provides greater access to the data in a Sheet, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  * 
