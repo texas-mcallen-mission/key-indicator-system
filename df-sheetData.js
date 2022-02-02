@@ -258,15 +258,18 @@ class RawSheetData {
 
     /**
      * @param {string} key
-     * @param {string[]} header
+     * @param {string} header
      * @param {number} index
      */
     addColumnWithHeaderAt_(key, header, index) {
-        if (key == "") return;
+        if (key == "") throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid key: '${key}'`);
+        if (header == "") throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid header: '${header}'`);
+        if (index < 0) throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid index: ${index}`);
+
         if (this.hasIndex(index))
-            throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that index already has key '${this.getKey(index)}'`;
+            throw `Potential data collision. Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that index already has key '${this.getKey(index)}'`;
         if (this.hasKey(key))
-            throw `Potential data collision! Tried to add key '${key}' to index '${index}' in sheet ${this.getTabName()}, but that key already exists at index '${this.getIndex(key)}'`;
+            throw `Potential data collision! Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that key already exists at index ${this.getIndex(key)}`;
 
         this.keyToIndex[key] = index;
         // @ts-ignore
@@ -578,24 +581,25 @@ class RawSheetData {
 /**
  * @param {any} allSheetData
  */
-function populateExtraColumnData_(allSheetData) {
+function syncDataFlowCols_(allSheetData) {
     let formSheetData = allSheetData.form;
     let dataSheetData = allSheetData.data;
 
     let formSheet = formSheetData.getSheet();
     let dataSheet = dataSheetData.getSheet();
-    let formCols = formSheet.getRange(1, 1, 1, formSheet.getLastColumn()).getValues()[0];
-    let dataCols = dataSheet.getRange(1, 1, 1, dataSheet.getLastColumn()).getValues()[0];
-    let firstFormCol = formSheetData.getNextFreeColumn_();
-    let firstDataCol = dataSheetData.getNextFreeColumn_();
+    let formHeaders = formSheetData.getHeaders();
+    let dataHeaders = dataSheetData.getHeaders();
+    let firstFormCol = formSheetData.rsd.getNextFreeColumn_();
+    let firstDataCol = dataSheetData.rsd.getNextFreeColumn_();
 
-    for (let i = firstDataCol; i < dataCols.length; i++) {
-        let key = dataCols[i];
+    for (let i = firstDataCol; i < dataHeaders.length; i++) {
+        let key = dataHeaders[i];
         dataSheetData.addColumnAt_(key, i);
     }
     Logger.log("TODO: Make handling of blank/undefined columns or keys more robust");
-    for (let i = firstFormCol; i < formCols.length; i++) {            //          TODO Make this clearer and handle blank/undefined columns or keys
-        let key = formCols[i];
+    for (let i = firstFormCol; i < formHeaders.length; i++) {
+        // TODO Make this clearer and handle blank/undefined columns or keys
+        let key = formHeaders[i];
 
         if (key == "") continue;
         formSheetData.addColumnAt_(key, i);
@@ -611,6 +615,21 @@ function populateExtraColumnData_(allSheetData) {
     }
 
 
+}
+
+
+
+/**
+ * Populate this SheetData with column data from the Sheet.
+ * @param {any} sheetData
+ */
+function populateExtraColumnData_(sheetData) {
+    let headers = sheetData.getHeaders();
+    for (let i = 0; i < headers.length; i++) {
+        let key = headers[i];
+        if (sheetData.hasIndex(i) || key == "") continue; //Skip already defined or blank columns
+        sheetData.rsd.addColumnAt_(key, i); //Access RawSheetData to add column
+    }
 }
 
 
@@ -942,14 +961,16 @@ function constructSheetData(force = false) {
     let allSheetData = {};
     for (let sdKey in tabNames) {
         let rawSheetData = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
-        allSheetData[sdKey] = new SheetData(rawSheetData);
-        /** Ex. allSheetData.data = new RawSheetData(tabNames.data, headerRows.data, initialColumnOrders.data) */
+        let sheetData = new SheetData(rawSheetData);
+        populateExtraColumnData_(sheetData);
+
+        allSheetData[sdKey] = sheetData;
     }
 
-    //@ts-expect-error
-    refreshContacts(allSheetData);
+//    refreshContacts(allSheetData);
 
-    populateExtraColumnData_(allSheetData);
+    syncDataFlowCols_(allSheetData);
+
     //setSheetsUp_(allSheetData);
 
     //Object.freeze(allSheetData);
