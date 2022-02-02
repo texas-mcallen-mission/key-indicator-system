@@ -951,6 +951,7 @@ function constructSheetData(force = false) {
         allSheetData[sdKey] = sheetData;
         log += ` '${sheetData.getTabName()}'`;
     }
+    console.log(log);
 
 //    refreshContacts(allSheetData);
 
