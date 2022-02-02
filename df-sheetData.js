@@ -271,6 +271,8 @@ class RawSheetData {
         if (this.hasKey(key))
             throw `Potential data collision! Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that key already exists at index ${this.getIndex(key)}`;
 
+        this.getSheet().getRange(this.getHeaderRow(), index).setValue(header);
+
         this.keyToIndex[key] = index;
         // @ts-ignore
         this.indexToKey[index] = key;
