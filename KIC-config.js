@@ -50,6 +50,11 @@ let CONFIG =
     //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
     DEL_OLD_RESPONSES_AGE_LIMIT: 0,
 
+    EXCLUDE_FORM_COLS_FROM_DATA: [
+        "responsePulled",
+        "submissionEmail"
+    ],
+
     //Allow triggers to run
     //These are overridden if the associated functions are disabled, ex. if DBCONFIG.FREEZE_FILESYS is true.
     ALLOW_INSTALLABLE_TRIGGER_ON_OPEN: true,
@@ -71,7 +76,7 @@ let CONFIG =
 
 };
 
-
+//test
 
 //Debug config parameters
 
