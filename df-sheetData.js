@@ -5,9 +5,14 @@
 */
 
 /**
- * Create an instance of the SheetData enum.
- * @see {@link constructSheetData} for the class description.
- * @hideconstructor
+ * A SheetData instance.
+ * 
+ * An instance of SheetData provides greater access to the data in a Sheet, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
+ * 
+ * When defined, hardcoded key strings can override using header values as strings. This allows consistant functionality even when the header row changes, and lets methods access specific types of data using the key string without needing the column index for that data. Key strings are hardcoded by being passed through the initialKeyToIndex parameter. Any keys not hardcoded are calculated internally, using the column header as the key string. Columns with blank headers are ignored.
+ * 
+ * For SheetData to work properly, there must be a single header row. Every nonblank row below the header row is assumed to contain data. Rows above the header row are ignored. Blank data rows (rows whose leftmost value is blank) are skipped, meaning not all SheetData functions preserve them.
+ * @see constructSheetData
  */
 class SheetData {
 
@@ -27,9 +32,9 @@ class SheetData {
     /**
      * @param {string} tabName - The name of the corresponding Sheet.
      * @param {number} headerRow - The row index, starting with 0, of the header row.
-     * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. All other keys are calculated internally using the header row as the key string.
+     * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
      */
-    constructor(tabName, headerRow, initialKeyToIndex) {
+    constructor(tabName, headerRow, initialKeyToIndex = {}) {
 
         this.tabName = tabName;
         this.headerRow = headerRow;
@@ -463,9 +468,7 @@ function setSheetUp_(sheetData) {
 
 
 /**
- * Get all defined instances of the SheetData enum.
- * @classdesc A SheetData instance provides greater access to the data in a Sheet given certain assumptions about the format of that Sheet. Most significantly, most functions organize data by header string rather than index number, which preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
- * For SheetData to work properly, every nonblank row below the header row is assumed to contain data corresponding to the header row. Rows above the header row are ignored.
+ * Get all defined instances of SheetData.
  * @readonly
  * @enum {SheetData}
  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
