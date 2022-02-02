@@ -431,6 +431,26 @@ class RawSheetData {
         return outValues;
     }
 
+
+
+
+
+
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Sets the data in the Sheet, erasing data already there. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    setValues(values) {
+        if (values.length == 0) return;
+        this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+        let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
+        range.setValues(values);
+    }
+
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
@@ -438,7 +458,7 @@ class RawSheetData {
      * Inserts rows of data into the Sheet, formatted as an array of row objects.
      * @param {Object} data The data to insert.
      */
-    insertData(data) {
+    setData(data) {
         if (data.length == 0) return;
 
         let values = [];
@@ -484,6 +504,53 @@ class RawSheetData {
         let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
         range.setValues(values);
     }
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Sets the data in the Sheet, erasing data already there. Takes an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    insertData(data) {
+        if (data.length == 0) return;
+
+        let values = [];
+        let skippedKeys = new Set();
+        let maxIndex = 0;
+
+        for (let rowData of data) {
+            let arr = [];
+            for (let key in rowData) {
+
+                if (!this.hasKey(key)) {
+                    skippedKeys.add(key);
+                } else {
+                    arr[this.getIndex(key)] = rowData[key];
+                    maxIndex = Math.max(maxIndex, this.getIndex(key));
+                }
+
+            }
+            values.push(arr);
+        }
+
+        //Force all rows to be of the same length
+        for (let arr of values)
+            if (typeof arr[maxIndex] == 'undefined')
+                arr[maxIndex] = "";
+
+        for (let key of skippedKeys)
+            Logger.log(`Skipped key ${key} while pushing to sheet ${this.tabName}. Sheet doesn't have that key`);
+
+        this.insertValues(values);
+    }
+
+
+
+
+
+
+
 
     /**
      * !!WARNING!!
