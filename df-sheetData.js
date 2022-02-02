@@ -585,30 +585,14 @@ function syncDataFlowCols_(allSheetData) {
     let formSheetData = allSheetData.form;
     let dataSheetData = allSheetData.data;
 
-    let formSheet = formSheetData.getSheet();
-    let dataSheet = dataSheetData.getSheet();
     let formHeaders = formSheetData.getHeaders();
-    let dataHeaders = dataSheetData.getHeaders();
-    let firstFormCol = formSheetData.rsd.getNextFreeColumn_();
-    let firstDataCol = dataSheetData.rsd.getNextFreeColumn_();
 
-    for (let i = firstDataCol; i < dataHeaders.length; i++) {
-        let key = dataHeaders[i];
-        dataSheetData.addColumnAt_(key, i);
-    }
-    Logger.log("TODO: Make handling of blank/undefined columns or keys more robust");
     for (let i = firstFormCol; i < formHeaders.length; i++) {
-        // TODO Make this clearer and handle blank/undefined columns or keys
         let key = formHeaders[i];
 
         if (key == "") continue;
         formSheetData.addColumnAt_(key, i);
 
-        try {
-            let index = dataSheetData.getIndex(key);
-        } catch (e) {
-
-        }
         if (!dataSheetData.hasKey(key)) {
             dataSheetData.addColumnWithHeader_(key);
         }
