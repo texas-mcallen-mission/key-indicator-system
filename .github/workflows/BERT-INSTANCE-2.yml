@@ -1,4 +1,4 @@
-name: BERT-INSTANCE-2 : ReportCreator-HOTFIX
+name: BERT-INSTANCE-2 - ReportCreator-HOTFIX
 
 on:
   workflow_dispatch:
