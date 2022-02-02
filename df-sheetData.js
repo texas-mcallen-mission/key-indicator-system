@@ -598,7 +598,7 @@ function syncDataFlowCols_(allSheetData) {
     }
 
     let addedStr = addedKeys.length == 0 ? 'No new columns in ' + formSheetData.getTabName() : addedKeys.toString();
-    console.log(`Added ${addedKeys.length} columns to ${dataSheetData.getTabName()}: ` + addedStr);
+    console.log(`Added ${addedKeys.length} column(s) to ${dataSheetData.getTabName()}: ` + addedStr);
 }
 
 
