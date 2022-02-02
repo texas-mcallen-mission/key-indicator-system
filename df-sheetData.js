@@ -174,7 +174,6 @@ class SheetData {
 
 /**
  * A RawSheetData instance. This should be wrapped in a SheetData before use.
- * 
  * @see SheetData
  */
 class RawSheetData {
@@ -942,8 +941,9 @@ function constructSheetData(force = false) {
     //Define SheetData instances
     let allSheetData = {};
     for (let sdKey in tabNames) {
-        allSheetData[sdKey] = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
-        /** @example  allSheetData.data = new RawSheetData(tabNames.data, headerRows.data, initialColumnOrders.data) */
+        let rawSheetData = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
+        allSheetData[sdKey] = new SheetData(rawSheetData);
+        /** Ex. allSheetData.data = new RawSheetData(tabNames.data, headerRows.data, initialColumnOrders.data) */
     }
 
     //@ts-expect-error
