@@ -585,15 +585,18 @@ function syncDataFlowCols_(allSheetData) {
     let formSheetData = allSheetData.form;
     let dataSheetData = allSheetData.data;
 
-    let formHeaders = formSheetData.getHeaders();
+    let addedKeys = [];
 
     for (let key of formSheetData.getKeys()) {
         if (!dataSheetData.hasKey(key)) {
             let header = formSheetData.getHeaders[formSheetData.getIndex(key)];
             dataSheetData.addColumnWithHeader_(key, header);
+            addedKeys.push(key);
         }
     }
 
+    let addedStr = addedKeys.length == 0 ? 'No new columns in ' + formSheetData.getTabName() : addedKeys.toString();
+    console.log(`Added ${addedKeys.length} columns to ${dataSheetData.getTabName()}: ` + addedStr);
 }
 
 
@@ -935,15 +938,18 @@ function constructSheetData(force = false) {
 
     //END Static properties and parameters
 
+    let log = "Constructed SheetData objects: ";
 
     //Define SheetData instances
     let allSheetData = {};
     for (let sdKey in tabNames) {
         let rawSheetData = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
         let sheetData = new SheetData(rawSheetData);
-        populateExtraColumnData_(sheetData);
+
+        populateExtraColumnData_(sheetData);    //Add non-hardcoded key strings
 
         allSheetData[sdKey] = sheetData;
+        log += ` '${sheetData.getTabName()}'`;
     }
 
 //    refreshContacts(allSheetData);
@@ -952,12 +958,8 @@ function constructSheetData(force = false) {
 
     //setSheetsUp_(allSheetData);
 
-    //Object.freeze(allSheetData);
+    //?   Object.freeze(allSheetData);
 
-    let log = "Constructed SheetData objects: ";
-    for (let sheet in tabNames)
-        log += " '" + tabNames[sheet] + "'";
-    Logger.log(log);
 
     if (DBCONFIG.CACHE_SHEET_DATA) {
         let allSheetData_JSON = JSON.stringify(allSheetData);
