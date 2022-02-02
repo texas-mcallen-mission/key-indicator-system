@@ -587,17 +587,12 @@ function syncDataFlowCols_(allSheetData) {
 
     let formHeaders = formSheetData.getHeaders();
 
-    for (let i = firstFormCol; i < formHeaders.length; i++) {
-        let key = formHeaders[i];
-
-        if (key == "") continue;
-        formSheetData.addColumnAt_(key, i);
-
+    for (let key of formSheetData.getKeys()) {
         if (!dataSheetData.hasKey(key)) {
-            dataSheetData.addColumnWithHeader_(key);
+            let header = formSheetData.getHeaders[formSheetData.getIndex(key)];
+            dataSheetData.addColumnWithHeader_(key, header);
         }
     }
-
 
 }
 
