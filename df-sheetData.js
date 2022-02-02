@@ -308,7 +308,9 @@ class RawSheetData {
 
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the Sheet object for this RawSheetData.
      */
     getSheet() {
@@ -316,7 +318,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the name of the Sheet for this RawSheetData.
      */
     getTabName() {
@@ -324,7 +328,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the index, starting with 0, of the header row of this sheet.
      */
     getHeaderRow() {
@@ -332,7 +338,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the index for the column with the given key string.
      * @param {string} key
      */
@@ -344,7 +352,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the key string for the column with the given index.
      * @param {number} index
      */
@@ -357,7 +367,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns true if this RawSheetData object has a defined key attached to the given index.
      * @param {number} index
      */
@@ -368,7 +380,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns true if this RawSheetData object has a defined value for the given key.
      * @param {string} key
      */
@@ -378,7 +392,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the header row of this sheet.
      * @returns {string[]} The header row if this sheet.
      */
@@ -388,7 +404,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the data from this sheet as a two dimensional array. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
      * @returns {any[][]} The data from this sheet as a two dimentional array.
      */
@@ -402,7 +420,9 @@ class RawSheetData {
 
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * 
      * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
      * @returns {{}[]} The data from this sheet as an array of objects.
      */
@@ -425,7 +445,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
      * Inserts rows of data into the Sheet, formatted as an array of row objects.
      * @param {Object} data The data to insert.
      */
@@ -463,7 +485,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
      * Inserts rows of data into the Sheet. Takes a 2D array.
      * @param {any[][]} values The values to insert.
      */
@@ -475,7 +499,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
      * Clears the content of this Sheet below the header row, leaving formatting intact.
      */
     clearContent() {
@@ -486,7 +512,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
      * Returns an array of all the defined keys in this RawSheetData.
      * @returns {string[]} An array of defined keys in this sheet.
      */
@@ -495,7 +523,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
      * Returns an array of all the values in the sheet for the given key.
      * @returns An array containing all values for the given key.
      * @param {string} key The key string.
@@ -506,7 +536,9 @@ class RawSheetData {
     }
 
     /**
-     * WARNING: This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
      * Returns an array of all the values in the sheet for the column with the given index.
      * @returns An array containing all values from the given column.
      * @param {number} index The index of the column, starting from 0.
