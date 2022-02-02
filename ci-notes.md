@@ -28,7 +28,7 @@ The goals are as follows:
 
 - Side goal: implement deep error tracking & timing so that we can make a dashboard in DataStudio to monitor program health and potentially identify problem spots.
 
-## .clasp.json
+## ``.clasp.json``
 
 ```json
 {
@@ -40,7 +40,7 @@ The goals are as follows:
 }
 ```
 
-## main.yml
+## ``main.yml``
 
 To the untrained programmer that I am, it was mind-blowing to realize that an entire VM lives and dies based on some YAML.
 
