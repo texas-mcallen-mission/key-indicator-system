@@ -493,7 +493,8 @@ class RawSheetData {
      */
     clearContent() {
         let startRow = this.getHeaderRow() + 2;
-        let numRows = this.getSheet().getLastRow() + 1 - startRow;
+        let numRows = Math.max(this.getSheet().getLastRow() - startRow);
+        if (numRows == 0) return;
         let numCols = this.getSheet().getLastColumn();
         this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
     }
