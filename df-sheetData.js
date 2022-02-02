@@ -17,14 +17,11 @@ class SheetDataWrapper {
 
     /**
      * Wrap a SheetData into a SheetDataWrapper.
-     * @param {SheetData} sheetData - THe SheetData to wrap.
+     * @param {SheetData} sheetData - The SheetData to wrap.
      */
     constructor(sheetData) {
         this.sheetData = sheetData;
     }
-
-
-
 
     /**
      * Returns the Sheet object for this SheetData.
@@ -37,14 +34,14 @@ class SheetDataWrapper {
      * Returns the name of the Sheet for this SheetData.
      */
     getTabName() {
-
+        return this.sheetData.getTabName();
     }
 
     /**
      * Returns the index, starting with 0, of the header row of this sheet.
      */
     getHeaderRow() {
-
+        return this.sheetData.getHeaderRow();
     }
 
     /**
@@ -52,7 +49,7 @@ class SheetDataWrapper {
      * @param {string} key
      */
     getIndex(key) {
-
+        return this.sheetData.getIndex(key);
     }
 
     /**
@@ -60,7 +57,7 @@ class SheetDataWrapper {
      * @param {number} index
      */
     getKey(index) {
-
+        return this.sheetData.getKey(index);
     }
 
     /**
@@ -68,7 +65,7 @@ class SheetDataWrapper {
      * @param {number} index
      */
     hasIndex(index) {
-
+        return this.sheetData.hasIndex(index);
     }
 
     /**
@@ -76,7 +73,7 @@ class SheetDataWrapper {
      * @param {string} key
      */
     hasKey(key) {
-
+        return this.sheetData.hasKey(key);
     }
 
     /**
@@ -84,7 +81,7 @@ class SheetDataWrapper {
      * @returns {string[]} The header row if this sheet.
      */
     getHeaders() {
-
+        return this.sheetData.getHeaders();
     }
 
     /**
@@ -92,7 +89,7 @@ class SheetDataWrapper {
      * @returns {any[][]} The data from this sheet as a two dimentional array.
      */
     getValues() {
-
+        return this.sheetData.getValues();
     }
 
     /**
@@ -100,7 +97,7 @@ class SheetDataWrapper {
      * @returns {{}[]} The data from this sheet as an array of objects.
      */
     getData() {
-
+        return this.sheetData.getData();
     }
 
     /**
@@ -108,7 +105,7 @@ class SheetDataWrapper {
      * @param {Object} data The data to insert.
      */
     insertData(data) {
-
+        this.sheetData.insertData(data);
     }
 
     /**
@@ -116,14 +113,14 @@ class SheetDataWrapper {
      * @param {any[][]} values The values to insert.
      */
     insertValues(values) {
-
+        this.sheetData.insertValues(values);
     }
 
     /**
      * Clears the content of this Sheet below the header row, leaving formatting intact.
      */
     clearContent() {
-
+        this.sheetData.clearContent();
     }
 
     /**
@@ -131,7 +128,7 @@ class SheetDataWrapper {
      * @returns {string[]} An array of defined keys in this sheet.
      */
     getKeys() {
-
+        return this.sheetData.getKeys();
     }
 
     /**
@@ -140,7 +137,7 @@ class SheetDataWrapper {
      * @param {string} key The key string.
      */
     getAllOfKey(key) {
-
+        return this.sheetData.getAllOfKey(key);
     }
 
     /**
@@ -149,13 +146,8 @@ class SheetDataWrapper {
      * @param {number} index The index of the column, starting from 0.
      */
     getAllOfIndex(index) {
-
+        return this.sheetData.getAllOfIndex(index);
     }
-
-
-
-
-
 
 
 }
