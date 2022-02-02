@@ -213,24 +213,7 @@ class RawSheetData {
 
 
 
-    /*   Change from running on construct to running on get headers?
-        initInitialHeaders_(keyToIndex) {
-          let headers = [];
-    
-          for (let key in keyToIndex) {
-            let index = keyToIndex[key];
-    
-            if (typeof headers[index] != 'undefined')
-              throw "Data collision error!";
-            if (typeof SheetData.HEADER_NAMES[key] == 'undefined')
-              throw `Couldn't find initial header for key $'{key}'`
-    
-            headers[index] = SheetData.HEADER_NAMES[key];
-          }
-    
-          return headers;
-        }
-      */
+
 
 
     //Private class methods
