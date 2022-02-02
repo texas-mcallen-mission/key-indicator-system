@@ -11,14 +11,13 @@
 
 
 /**
- * A wrapper for the SheetData class which hides private SheetData methods and fields.
+ * A wrapper for the RawSheetData class to hide its methods and fields.
  * 
- * An instance of SheetData or SheetDataWrapper provides greater access to the data in a Sheet, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
+ * An instance of SheetData provides greater access to the data in a Sheet, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  * 
  * When defined, hardcoded key strings can override using header values as strings. This allows consistant functionality even when the header row changes, and lets methods access specific types of data using the key string without needing the column index for that data. Key strings are hardcoded by being passed through the initialKeyToIndex parameter. Any keys not hardcoded are calculated internally, using the column header as the key string. Columns with blank headers are ignored.
  * 
  * For SheetData to work properly, there must be a single header row. Every nonblank row below the header row is assumed to contain data. Rows above the header row are ignored. Blank data rows (rows whose leftmost value is blank) are skipped, meaning not all SheetData functions preserve them.
-
  */
 class SheetData {
 
