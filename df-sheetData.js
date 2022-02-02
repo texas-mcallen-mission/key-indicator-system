@@ -20,35 +20,36 @@
  * For SheetData to work properly, there must be a single header row. Every nonblank row below the header row is assumed to contain data. Rows above the header row are ignored. Blank data rows (rows whose leftmost value is blank) are skipped, meaning not all SheetData functions preserve them.
 
  */
-class SheetDataWrapper {
+class SheetData {
 
     /**
-     * Wrap a SheetData into a SheetDataWrapper.
-     * @param {SheetData} sheetData - The SheetData to wrap.
+     * Wrap a RawSheetData into a full SheetData.
+     * @see SheetData
+     * @param {RawSheetData} rawSheetData - The RawSheetData to wrap.
      */
-    constructor(sheetData) {
-        this.sheetData = sheetData;
+    constructor(rawSheetData) {
+        this.rsd = rawSheetData;
     }
 
     /**
      * Returns the Sheet object for this SheetData.
      */
     getSheet() {
-        return this.sheetData.getSheet();
+        return this.rsd.getSheet();
     }
 
     /**
      * Returns the name of the Sheet for this SheetData.
      */
     getTabName() {
-        return this.sheetData.getTabName();
+        return this.rsd.getTabName();
     }
 
     /**
      * Returns the index, starting with 0, of the header row of this sheet.
      */
     getHeaderRow() {
-        return this.sheetData.getHeaderRow();
+        return this.rsd.getHeaderRow();
     }
 
     /**
@@ -56,7 +57,7 @@ class SheetDataWrapper {
      * @param {string} key
      */
     getIndex(key) {
-        return this.sheetData.getIndex(key);
+        return this.rsd.getIndex(key);
     }
 
     /**
@@ -64,7 +65,7 @@ class SheetDataWrapper {
      * @param {number} index
      */
     getKey(index) {
-        return this.sheetData.getKey(index);
+        return this.rsd.getKey(index);
     }
 
     /**
@@ -72,7 +73,7 @@ class SheetDataWrapper {
      * @param {number} index
      */
     hasIndex(index) {
-        return this.sheetData.hasIndex(index);
+        return this.rsd.hasIndex(index);
     }
 
     /**
@@ -80,7 +81,7 @@ class SheetDataWrapper {
      * @param {string} key
      */
     hasKey(key) {
-        return this.sheetData.hasKey(key);
+        return this.rsd.hasKey(key);
     }
 
     /**
@@ -88,7 +89,7 @@ class SheetDataWrapper {
      * @returns {string[]} The header row if this sheet.
      */
     getHeaders() {
-        return this.sheetData.getHeaders();
+        return this.rsd.getHeaders();
     }
 
     /**
@@ -96,7 +97,7 @@ class SheetDataWrapper {
      * @returns {any[][]} The data from this sheet as a two dimentional array.
      */
     getValues() {
-        return this.sheetData.getValues();
+        return this.rsd.getValues();
     }
 
     /**
@@ -104,7 +105,7 @@ class SheetDataWrapper {
      * @returns {{}[]} The data from this sheet as an array of objects.
      */
     getData() {
-        return this.sheetData.getData();
+        return this.rsd.getData();
     }
 
     /**
@@ -112,7 +113,7 @@ class SheetDataWrapper {
      * @param {Object} data The data to insert.
      */
     insertData(data) {
-        this.sheetData.insertData(data);
+        this.rsd.insertData(data);
     }
 
     /**
@@ -120,14 +121,14 @@ class SheetDataWrapper {
      * @param {any[][]} values The values to insert.
      */
     insertValues(values) {
-        this.sheetData.insertValues(values);
+        this.rsd.insertValues(values);
     }
 
     /**
      * Clears the content of this Sheet below the header row, leaving formatting intact.
      */
     clearContent() {
-        this.sheetData.clearContent();
+        this.rsd.clearContent();
     }
 
     /**
@@ -135,7 +136,7 @@ class SheetDataWrapper {
      * @returns {string[]} An array of defined keys in this sheet.
      */
     getKeys() {
-        return this.sheetData.getKeys();
+        return this.rsd.getKeys();
     }
 
     /**
@@ -144,7 +145,7 @@ class SheetDataWrapper {
      * @param {string} key The key string.
      */
     getAllOfKey(key) {
-        return this.sheetData.getAllOfKey(key);
+        return this.rsd.getAllOfKey(key);
     }
 
     /**
@@ -153,7 +154,7 @@ class SheetDataWrapper {
      * @param {number} index The index of the column, starting from 0.
      */
     getAllOfIndex(index) {
-        return this.sheetData.getAllOfIndex(index);
+        return this.rsd.getAllOfIndex(index);
     }
 
 
@@ -173,23 +174,18 @@ class SheetDataWrapper {
 
 
 /**
- * A SheetData instance.
+ * A RawSheetData instance. This should be wrapped in a SheetData before use.
  * 
- * An instance of SheetData provides greater access to the data in a Sheet, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
- * 
- * When defined, hardcoded key strings can override using header values as strings. This allows consistant functionality even when the header row changes, and lets methods access specific types of data using the key string without needing the column index for that data. Key strings are hardcoded by being passed through the initialKeyToIndex parameter. Any keys not hardcoded are calculated internally, using the column header as the key string. Columns with blank headers are ignored.
- * 
- * For SheetData to work properly, there must be a single header row. Every nonblank row below the header row is assumed to contain data. Rows above the header row are ignored. Blank data rows (rows whose leftmost value is blank) are skipped, meaning not all SheetData functions preserve them.
- * @see constructSheetData
+ * @see SheetData
  */
-class SheetData {
+class RawSheetData {
 
     /*
     Fields
   
-    tabName: The name of the Sheet this SheetData is tied to.
+    tabName: The name of the Sheet this RawSheetData is tied to.
     nextFreeColumn: The index of the leftmost column with no defined key.
-    sheet: The Sheet object this SheetData is tied to.
+    sheet: The Sheet object this RawSheetData is tied to.
     headerRow: The row index of the header row.
     
     keyToIndex: An object whose properties are keys (strings) representing what data goes in a column (ex "areaID", "stl2", "np").
@@ -313,14 +309,14 @@ class SheetData {
 
 
     /**
-     * Returns the Sheet object for this SheetData.
+     * Returns the Sheet object for this RawSheetData.
      */
     getSheet() {
         return this.sheet;
     }
 
     /**
-     * Returns the name of the Sheet for this SheetData.
+     * Returns the name of the Sheet for this RawSheetData.
      */
     getTabName() {
         return this.tabName;
@@ -357,7 +353,7 @@ class SheetData {
     }
 
     /**
-     * Returns true if this SheetData object has a defined key attached to the given index.
+     * Returns true if this RawSheetData object has a defined key attached to the given index.
      * @param {number} index
      */
     hasIndex(index) {
@@ -367,7 +363,7 @@ class SheetData {
     }
 
     /**
-     * Returns true if this SheetData object has a defined value for the given key.
+     * Returns true if this RawSheetData object has a defined value for the given key.
      * @param {string} key
      */
     hasKey(key) {
@@ -478,7 +474,7 @@ class SheetData {
     }
 
     /**
-     * Returns an array of all the defined keys in this SheetData.
+     * Returns an array of all the defined keys in this RawSheetData.
      * @returns {string[]} An array of defined keys in this sheet.
      */
     getKeys() {
@@ -523,7 +519,7 @@ class SheetData {
 
 
 
-//                The following are basically SheetData methods - they form an external constructor, treating SheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
+//                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
 //                populateExtraColumnData()
 //                sheetDataConstructor()
 
@@ -899,8 +895,8 @@ function constructSheetData(force = false) {
     //Define SheetData instances
     let allSheetData = {};
     for (let sdKey in tabNames) {
-        allSheetData[sdKey] = new SheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
-        /** @example  allSheetData.data = new SheetData(tabNames.data, headerRows.data, initialColumnOrders.data) */
+        allSheetData[sdKey] = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
+        /** @example  allSheetData.data = new RawSheetData(tabNames.data, headerRows.data, initialColumnOrders.data) */
     }
 
     //@ts-expect-error
