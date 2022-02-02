@@ -4,6 +4,175 @@
         Handles sheet setup, headers, column indices, pulling and pushing data, etc.
 */
 
+
+
+
+
+
+
+/**
+ * A wrapper for the SheetData class which hides private SheetData methods and fields.
+ */
+class SheetDataWrapper {
+
+    /**
+     * Wrap a SheetData into a SheetDataWrapper.
+     * @param {SheetData} sheetData - THe SheetData to wrap.
+     */
+    constructor(sheetData) {
+        this.sheetData = sheetData;
+    }
+
+
+
+
+    /**
+     * Returns the Sheet object for this SheetData.
+     */
+    getSheet() {
+        return this.sheetData.getSheet();
+    }
+
+    /**
+     * Returns the name of the Sheet for this SheetData.
+     */
+    getTabName() {
+
+    }
+
+    /**
+     * Returns the index, starting with 0, of the header row of this sheet.
+     */
+    getHeaderRow() {
+
+    }
+
+    /**
+     * Returns the index for the column with the given key string.
+     * @param {string} key
+     */
+    getIndex(key) {
+
+    }
+
+    /**
+     * Returns the key string for the column with the given index.
+     * @param {number} index
+     */
+    getKey(index) {
+
+    }
+
+    /**
+     * Returns true if this SheetData object has a defined key attached to the given index.
+     * @param {number} index
+     */
+    hasIndex(index) {
+
+    }
+
+    /**
+     * Returns true if this SheetData object has a defined value for the given key.
+     * @param {string} key
+     */
+    hasKey(key) {
+
+    }
+
+    /**
+     * Returns the header row of this sheet.
+     * @returns {string[]} The header row if this sheet.
+     */
+    getHeaders() {
+
+    }
+
+    /**
+     * Returns the data from this sheet as a two dimensional array. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
+     * @returns {any[][]} The data from this sheet as a two dimentional array.
+     */
+    getValues() {
+
+    }
+
+    /**
+     * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
+     * @returns {{}[]} The data from this sheet as an array of objects.
+     */
+    getData() {
+
+    }
+
+    /**
+     * Inserts rows of data into the Sheet, formatted as an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    insertData(data) {
+
+    }
+
+    /**
+     * Inserts rows of data into the Sheet. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    insertValues(values) {
+
+    }
+
+    /**
+     * Clears the content of this Sheet below the header row, leaving formatting intact.
+     */
+    clearContent() {
+
+    }
+
+    /**
+     * Returns an array of all the defined keys in this SheetData.
+     * @returns {string[]} An array of defined keys in this sheet.
+     */
+    getKeys() {
+
+    }
+
+    /**
+     * Returns an array of all the values in the sheet for the given key.
+     * @returns An array containing all values for the given key.
+     * @param {string} key The key string.
+     */
+    getAllOfKey(key) {
+
+    }
+
+    /**
+     * Returns an array of all the values in the sheet for the column with the given index.
+     * @returns An array containing all values from the given column.
+     * @param {number} index The index of the column, starting from 0.
+     */
+    getAllOfIndex(index) {
+
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * A SheetData instance.
  * 
@@ -73,9 +242,9 @@ class SheetData {
 
     //Private class methods
 
-/**
- * Build indexToKey, the complement of keyToIndex.
- */
+    /**
+     * Build indexToKey, the complement of keyToIndex.
+     */
     buildIndexToKey_() {
         let newIndexToKey = [];
         for (let key in this.keyToIndex) {
