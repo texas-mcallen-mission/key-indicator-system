@@ -186,7 +186,7 @@ function loadAreaIDs_MenuTrigger_() {
         return;
     }
     let allSheetData = constructSheetData();
-    markDuplicates(allSheetData);
+    loadAreaIDs(allSheetData);
 }
 
 
