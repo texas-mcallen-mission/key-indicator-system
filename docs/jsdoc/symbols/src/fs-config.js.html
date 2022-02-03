@@ -1,0 +1,44 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">//@ts-check</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">// This is a compilation of all config lines</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// used by driveHandlerV3 & reportCreator</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="COMM">// accessControl is not in here, it's kind of its own animal</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">// THESE NEED TO NOT BE HARD-CODED IN THE FUTURE, USING SOMETHING LIKE A GET-FIRST-WITH-MATCHING-FILENAME FUNCTION</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="COMM">// ^ Thanks, @than2000 - I do know this, I'm just also not a full time developer</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">zoneTemplateSpreadsheetId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">distTemplateSpreadsheetId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">areaTemplateSpreadsheetId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">functionGUBED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT">
+<span class='line'> 13</span> 
+<span class='line'> 14</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">reportLevel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="NAME">zone</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ZONE"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="NAME">dist</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"DISTRICT"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="NAME">area</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"AREA"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="COMM">/*
+<span class='line'> 19</span>     theoretically, since there's no difference between this anywhere you 
+<span class='line'> 20</span>     should be able to change this to be whatever gibberish you want as 
+<span class='line'> 21</span>     long as they're unique.  These strings also included in folder naming if 
+<span class='line'> 22</span>     INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
+<span class='line'> 23</span>     */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">templateDataDumpSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Data"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">outputDataDumpSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Data"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">configPageSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"config"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="COMM">// let outputDataDumpSheetName = "";</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="COMM">// let configPageSheetName = "";</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">kicDataStoreSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Data"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaDataSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Data"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">districtDataSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Data"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">zoneDataSheetName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Data"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaDataHeaders</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">""</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">districtDataHeaders</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">""</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">zoneDataHeaders</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">""</span><span class="PUNC">]</span><span class="PUNC">;</span></pre></body></html>

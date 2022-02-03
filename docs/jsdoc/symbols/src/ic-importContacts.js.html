@@ -1,0 +1,250 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">//@ts-check</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">/*
+<span class='line'>  3</span>         importContacts
+<span class='line'>  4</span>         Main functions for importing data into the Contact Data sheet from Google Contacts.
+<span class='line'>  5</span> */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/**
+<span class='line'>  8</span>  * Refreshes the data in the Contact Data sheet if it is no longer recent.
+<span class='line'>  9</span>  * @param {{contact: SheetData;}} allSheetData
+<span class='line'> 10</span>  */</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">refreshContacts</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="NAME">console.info</span><span class="PUNC">(</span><span class="STRN">'TODO: add checking of contact data gen date to refreshContacts()'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="NAME">importContacts</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">importContacts</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 17</span> 
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">'TODO: Make sure importContacts() language parser works for any combination of any languages!'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> 
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DBCONFIG.FREEZE_CONTACT_DATA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Execution halted - FREEZE_CONTACT_DATA is set to true"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Importing Contact data from Google Contacts..."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> 
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="COMM">// let effectiveEmail = Session.getEffectiveUser().getEmail();</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="COMM">// if (effectiveEmail != "texas.mcallen@missionary.org") {</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="COMM">//   throw 'Tried to import contacts from an email other than the TMM office email! Email was: ${effectiveEmail}. If being used by a mission other than the Texas McAllen Mission, this needs to be manually changed by the developers. Please contact Nathaniel Gerlek at nathaniel.gerlek@gmail.com';</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="COMM">// }</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> 
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="COMM">//Pull in contact data from Google Contacts</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ContactsApp.getContactGroup</span><span class="PUNC">(</span><span class="STRN">'IMOS Roster'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// Fetches group by groupname </span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">group.getContacts</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">                     </span><span class="COMM">// Fetches contact list of group </span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">values</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contact</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="WHIT">        </span><span class="COMM">// I basically built this as a big single function and then broke it up into a bunch of little ones.</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">        </span><span class="COMM">//Note Parser</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">noteData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseNotes</span><span class="PUNC">(</span><span class="NAME">contact.getNotes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="COMM">//Email Parser</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contactEmailList</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">contact.getEmails</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">emailData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">emailParser</span><span class="PUNC">(</span><span class="NAME">contactEmailList</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="WHIT">        </span><span class="COMM">//Role Parser</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">roleData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">roleParser</span><span class="PUNC">(</span><span class="NAME">emailData.emailLabelNames</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contactEmailList</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">        </span><span class="COMM">//Address Puller</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">apartmentAddressObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">contact.getAddresses</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">apartmentAddress</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">apartmentAddressObject.length</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">            </span><span class="NAME">apartmentAddress</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">apartmentAddressObject</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getAddress</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="COMM">//Language Parser</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">languageData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">languageParser</span><span class="PUNC">(</span><span class="NAME">noteData.hasMultipleUnits</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">noteData.unitString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">noteData.isSeniorCouple</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="WHIT">            </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contactObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">                </span><span class="STRN">'dateContactGenerated'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">                </span><span class="STRN">'areaEmail'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailData.emailAddresses</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">                </span><span class="STRN">'areaName'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.area</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="WHIT">                </span><span class="STRN">'name1'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailData.emailDisplayNames</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">                </span><span class="STRN">'position1'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">roleData.compRoles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">                </span><span class="STRN">'isTrainer1'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">roleData.isTrainer</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="WHIT">                </span><span class="STRN">'name2'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailData.emailDisplayNames</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">                </span><span class="STRN">'position2'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">roleData.compRoles</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">                </span><span class="STRN">'isTrainer2'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">roleData.isTrainer</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="WHIT">                </span><span class="STRN">'name3'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailData.emailDisplayNames</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">                </span><span class="STRN">'position3'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">roleData.compRoles</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">                </span><span class="STRN">'isTrainer3'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">roleData.isTrainer</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">                </span><span class="STRN">'district'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.district</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">                </span><span class="STRN">'zone'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.zone</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">                </span><span class="STRN">'unitString'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.unitString</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">                </span><span class="STRN">'hasMultipleUnits'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.hasMultipleUnits</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">                </span><span class="STRN">'languageString'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">languageData.languageString</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">                </span><span class="STRN">'isSeniorCouple'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.isSeniorCouple</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">                </span><span class="STRN">'isSisterArea'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.isSisterArea</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">                </span><span class="STRN">'hasVehicle'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.hasVehicle</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">                </span><span class="STRN">'vehicleMiles'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.vehicleMiles</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">                </span><span class="STRN">'vinLast8'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">noteData.vinLast8</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">                </span><span class="STRN">'aptAddress'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">apartmentAddress</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="WHIT">            </span><span class="NAME">data.push</span><span class="PUNC">(</span><span class="NAME">contactObject</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="WHIT">    </span><span class="NAME">allSheetData.contact.setData</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Finished importing Contact data."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> 
+<span class='line'>116</span> 
+<span class='line'>117</span> 
+<span class='line'>118</span> 
+<span class='line'>119</span> 
+<span class='line'>120</span> 
+<span class='line'>121</span> 
+<span class='line'>122</span> 
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="COMM">/**
+<span class='line'>125</span>  * Returns true if Contact Data was not imported recently and needs to be refreshed.
+<span class='line'>126</span>  */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isContactDataOld</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">msOffset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">86400000</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Number of milliseconds in 24 hours</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">nowTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">genTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">allSheetData.contact.getSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getRange</span><span class="PUNC">(</span><span class="STRN">"A2"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getValue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">out</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> 
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">        </span><span class="NAME">out</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">genTime.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nowTime.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">msOffset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">        </span><span class="NAME">out</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>138</span> 
+<span class='line'>139</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">out</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>141</span> 
+<span class='line'>142</span> 
+<span class='line'>143</span> 
+<span class='line'>144</span> 
+<span class='line'>145</span> 
+<span class='line'>146</span> 
+<span class='line'>147</span> 
+<span class='line'>148</span> 
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="COMM">/**
+<span class='line'>151</span>  * [UNIMPLEMENTED] Parses phone number data for importContacts()
+<span class='line'>152</span>  */</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">phoneParser</span><span class="PUNC">(</span><span class="NAME">phoneData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">    </span><span class="COMM">// for(phoneData)</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="COMM">// THIS NEEDS TO BE WRITTEN  </span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> 
+<span class='line'>159</span> 
+<span class='line'>160</span> 
+<span class='line'>161</span> 
+<span class='line'>162</span> 
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="COMM">/**
+<span class='line'>165</span>  * Parses email data for importContacts()
+<span class='line'>166</span>  */</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">emailParser</span><span class="PUNC">(</span><span class="NAME">emailList</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">emailAddresses</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">emailDisplayNames</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">emailLabelName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">    </span><span class="COMM">// this operates under the assumption that all the emails are in the same order :0</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">emailList.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">        </span><span class="NAME">emailAddresses</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">emailList</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getAddress</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">        </span><span class="NAME">emailDisplayNames</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">emailList</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getDisplayName</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">        </span><span class="NAME">emailLabelName</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">emailList</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getLabel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">        </span><span class="NAME">emailAddresses</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailAddresses</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">        </span><span class="NAME">emailDisplayNames</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailDisplayNames</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">        </span><span class="NAME">emailLabelNames</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">emailLabelName</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>183</span> 
+<span class='line'>184</span> 
+<span class='line'>185</span> 
+<span class='line'>186</span> 
+<span class='line'>187</span> 
+<span class='line'>188</span> 
+<span class='line'>189</span> 
+<span class='line'>190</span> 
+<span class='line'>191</span> 
+<span class='line'>192</span> </span><span class="COMM">// IF THIS GOES GLOBAL, THIS WILL HAVE TO CHANGE!!!</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">testLanguageParser</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">testString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"TEST (Spanish) WORDS,TEST ENGLISH WORDS"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="NAME">testString.split</span><span class="PUNC">(</span><span class="STRN">","</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="NAME">languageParser</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">testString</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>199</span> 
+<span class='line'>200</span> 
+<span class='line'>201</span> </span><span class="COMM">/**
+<span class='line'>202</span>  * Parses language data for importContacts()
+<span class='line'>203</span>  */</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">languageParser</span><span class="PUNC">(</span><span class="NAME">multipleUnits</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">unitString</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>205</span> 
+<span class='line'>206</span> </span><span class="WHIT">    </span><span class="COMM">// noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">defaultLanguage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"English"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">spanishTestString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Spanish"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">spanishOutputString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Spanish"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">returnData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> 
+<span class='line'>212</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">multipleUnits</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">unitString.includes</span><span class="PUNC">(</span><span class="NAME">spanishTestString</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="COMM">// this is going to get changed in the future to get rid of the silly 'spanish,spanish' tags.</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">            </span><span class="NAME">returnData.push</span><span class="PUNC">(</span><span class="NAME">spanishOutputString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">        </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">            </span><span class="NAME">returnData.push</span><span class="PUNC">(</span><span class="NAME">defaultLanguage</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">unitStringSplit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">unitString.split</span><span class="PUNC">(</span><span class="STRN">","</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> 
+<span class='line'>221</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">testString</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">unitStringSplit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">testString.includes</span><span class="PUNC">(</span><span class="NAME">spanishTestString</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">                </span><span class="NAME">returnData.push</span><span class="PUNC">(</span><span class="NAME">spanishOutputString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">            </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">                </span><span class="NAME">returnData.push</span><span class="PUNC">(</span><span class="NAME">defaultLanguage</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>228</span> 
+<span class='line'>229</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="STRN">'languageString'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">returnData.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> 
+<span class='line'>233</span> 
+<span class='line'>234</span> 
+<span class='line'>235</span> 
+<span class='line'>236</span> 
+<span class='line'>237</span> 
+<span class='line'>238</span> 
+<span class='line'>239</span> 
+<span class='line'>240</span> 
+<span class='line'>241</span> 
+<span class='line'>242</span> 
+<span class='line'>243</span> </span></pre></body></html>
