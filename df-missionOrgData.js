@@ -17,7 +17,9 @@
 */
 function getMissionOrgData(allSheetData) {
 
-    let contacts = allSheetData.contact;
+
+    let cSheetData = allSheetData.contact;
+    let contactData = cSheetData.getData();
 
     Logger.log("Calculating mission organization data...");
 
@@ -37,10 +39,7 @@ function getMissionOrgData(allSheetData) {
     }
     */
 
-    for (let areaID in contacts) {
-
-        let areaData = contacts[areaID].areaData;
-
+    for (let areaData of contactData) {
         let area = areaData.areaName;
         let district = areaData.district;
         let zone = areaData.zone;
