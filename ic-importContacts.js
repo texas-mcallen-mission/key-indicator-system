@@ -107,8 +107,7 @@ function importContacts(allSheetData) {
         }
     }
 
-    allSheetData.contact.clearContent();
-    allSheetData.contact.insertData(data);
+    allSheetData.contact.setData(data);
 
     Logger.log("Finished importing Contact data.");
 
