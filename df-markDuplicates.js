@@ -6,7 +6,10 @@ function markDuplicates(allSheetData) {
     markDuplicates_old(allSheetData);
 }
 
-
+/**
+ * Flags duplicate responses in the Data sheet. Old version to be replaced.
+ * @param {*} allSheetData 
+ */
 function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
     Logger.log("Marking duplicate responses. Pulling data...");
     Logger.log("TODO: Don't pull the whole sheet?");
