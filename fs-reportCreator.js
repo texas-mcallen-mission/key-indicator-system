@@ -1,41 +1,6 @@
 //@ts-check
 
 
-// THESE NEED TO NOT BE HARD-CODED IN THE FUTURE, USING SOMETHING LIKE A GET-FIRST-WITH-MATCHING-FILENAME FUNCTION
-// const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
-// const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
-// const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
-
-
-// const kicDataStoreSheetName = "Data";
-
-// const templateDataDumpSheetName = "Data";
-// const outputDataDumpSheetName = "Data";
-// const configPageSheetName = "config";
-
-
-
-
-// var targetZone = "HARLINGEN"
-
-/*const mainDataSheetHeader = [
-  "Area Name", "Status Log", "hasContactData", "isDuplicate", "Form Timestamp",
-  "KI Date", "Area Email", "NP", "SM", "BD", "BC", "RSM", "RC", "CKI",
-  "Missionary 1", "Position 1", "isTrainer 1",
-  "Missionary 2", "Position 2", "isTrainer2",
-  "Missionary 3", "Position 3", "isTrainer3",
-  "District Leader", "ZL1", "ZL2", "ZL3",
-  "STL1 (Unimplemented)", "STL2 (Unimplemented)", "STL3 (Unimplemented)", "STLT1 (Unimplemented)", "STLT2 (Unimplemented)", "STLT3 (Unimplemented)",
-  "AP1", "AP2", "AP3",
-  "District", "Zone", "unitString", "hasMultipleUnits", "languageString", "isSeniorCouple", "isSisterArea",
-  "hasVehicle", "vehicleMiles", "vinLast8", "aptAddress", "formNotes",
-  "Self-referrals", "Street contacting", "Ward activities or events", "Referrals from recent converts", "Part-member families", "Referrals from other members", "Referrals from people being taught", "Referrals from other non-members", "Facebook (mission page)", "Facebook (personal finding)"
-]*/
-
-
-
-
-
 
 
 function createTemplates_(filesystemObject, templateID) {
