@@ -225,7 +225,7 @@
 <span class='line'>218</span> 
 <span class='line'>219</span> </span><span class="WHIT">    </span><span class="COMM">//Private class methods</span><span class="WHIT">
 <span class='line'>220</span> 
-<span class='line'>221</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>221</span> </span><span class="WHIT">    </span><span class="COMM">/*
 <span class='line'>222</span>      * Build indexToKey, the complement of keyToIndex.
 <span class='line'>223</span>      */</span><span class="WHIT">
 <span class='line'>224</span> </span><span class="WHIT">    </span><span class="NAME">buildIndexToKey_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -237,7 +237,7 @@
 <span class='line'>230</span> </span><span class="WHIT">        </span><span class="NAME">this.indexToKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newIndexToKey</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>231</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>232</span> 
-<span class='line'>233</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>233</span> </span><span class="WHIT">    </span><span class="COMM">/*
 <span class='line'>234</span>      * Get the next blank column not assigned a key. It is NOT guaranteed to eventually return every blank column.
 <span class='line'>235</span>      * @returns The next column not assigned a key.
 <span class='line'>236</span>      */</span><span class="WHIT">
@@ -246,7 +246,7 @@
 <span class='line'>239</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.indexToKey.length</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>240</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>241</span> 
-<span class='line'>242</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>242</span> </span><span class="WHIT">    </span><span class="COMM">/*
 <span class='line'>243</span>      * @param {string} key
 <span class='line'>244</span>      * @param {string} header
 <span class='line'>245</span>      * @param {number} index
@@ -268,7 +268,7 @@
 <span class='line'>261</span> </span><span class="WHIT">        </span><span class="NAME">this.indexToKey</span><span class="PUNC">[</span><span class="NAME">index</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>262</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>263</span> 
-<span class='line'>264</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>264</span> </span><span class="WHIT">    </span><span class="COMM">/*
 <span class='line'>265</span>      * @param {any} key
 <span class='line'>266</span>      * @param {any} header
 <span class='line'>267</span>      */</span><span class="WHIT">
@@ -277,7 +277,7 @@
 <span class='line'>270</span> </span><span class="WHIT">        </span><span class="NAME">this.addColumnWithHeaderAt_</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">header</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>271</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>272</span> 
-<span class='line'>273</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>273</span> </span><span class="WHIT">    </span><span class="COMM">/*
 <span class='line'>274</span>      * @param {any} key
 <span class='line'>275</span>      * @param {number} index
 <span class='line'>276</span>      */</span><span class="WHIT">
@@ -286,7 +286,7 @@
 <span class='line'>279</span> </span><span class="WHIT">        </span><span class="NAME">this.addColumnWithHeaderAt_</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">header</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>280</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>281</span> 
-<span class='line'>282</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>282</span> </span><span class="WHIT">    </span><span class="COMM">/*
 <span class='line'>283</span>      * @param {any} key
 <span class='line'>284</span>      */</span><span class="WHIT">
 <span class='line'>285</span> </span><span class="WHIT">    </span><span class="NAME">addColumn_</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -638,7 +638,7 @@
 <span class='line'>631</span> 
 <span class='line'>632</span> 
 <span class='line'>633</span> 
-<span class='line'>634</span> </span><span class="COMM">/**
+<span class='line'>634</span> </span><span class="COMM">/*
 <span class='line'>635</span>  * @param {any} allSheetData
 <span class='line'>636</span>  */</span><span class="WHIT">
 <span class='line'>637</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">syncDataFlowCols_</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -661,7 +661,7 @@
 <span class='line'>654</span> 
 <span class='line'>655</span> 
 <span class='line'>656</span> 
-<span class='line'>657</span> </span><span class="COMM">/**
+<span class='line'>657</span> </span><span class="COMM">/*
 <span class='line'>658</span>  * Populate this SheetData with column data from the Sheet.
 <span class='line'>659</span>  * @param {any} sheetData
 <span class='line'>660</span>  */</span><span class="WHIT">
@@ -676,7 +676,7 @@
 <span class='line'>669</span> 
 <span class='line'>670</span> 
 <span class='line'>671</span> 
-<span class='line'>672</span> </span><span class="COMM">/**
+<span class='line'>672</span> </span><span class="COMM">/*
 <span class='line'>673</span>  * @param {{ [x: string]: any; }} allSheetData
 <span class='line'>674</span>  */</span><span class="WHIT">
 <span class='line'>675</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">buildIndexToKey_</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -705,7 +705,7 @@
 <span class='line'>698</span> 
 <span class='line'>699</span> 
 <span class='line'>700</span> 
-<span class='line'>701</span> </span><span class="COMM">/**
+<span class='line'>701</span> </span><span class="COMM">/*
 <span class='line'>702</span>  * WIP - nonfunctional
 <span class='line'>703</span>  * @param {SheetData} sheetData
 <span class='line'>704</span>  */</span><span class="WHIT">
