@@ -9,7 +9,7 @@
  * @param {{contact: SheetData;}} allSheetData
  */
 function refreshContacts(allSheetData) {
-    console.info(`TODO: add checking of contact data gen date to refreshContacts()`);
+    console.info('TODO: add checking of contact data gen date to refreshContacts()');
     importContacts(allSheetData);
 }
 
@@ -30,7 +30,7 @@ function importContacts(allSheetData) {
 
     // let effectiveEmail = Session.getEffectiveUser().getEmail();
     // if (effectiveEmail != "texas.mcallen@missionary.org") {
-    //   throw `Tried to import contacts from an email other than the TMM office email! Email was: ${effectiveEmail}. If being used by a mission other than the Texas McAllen Mission, this needs to be manually changed by the developers. Please contact Nathaniel Gerlek at nathaniel.gerlek@gmail.com`;
+    //   throw 'Tried to import contacts from an email other than the TMM office email! Email was: ${effectiveEmail}. If being used by a mission other than the Texas McAllen Mission, this needs to be manually changed by the developers. Please contact Nathaniel Gerlek at nathaniel.gerlek@gmail.com';
     // }
 
 

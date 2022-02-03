@@ -29,7 +29,7 @@ function getAreaID(allSheetData, areaName) {
         : JSON.parse(areaIDs_JSONString);
 
     if (typeof areaIDs[areaName] == 'undefined')
-        throw new ReferenceError(`Unable to get areaID - couldn't find area '${areaName}'`);
+        throw new ReferenceError("Unable to get areaID - couldn't find area " + areaName);
 
     return areaIDs[areaName];
 }
@@ -41,7 +41,7 @@ function getAreaID(allSheetData, areaName) {
  */
 function loadAreaIDs(allSheetData) {
 
-    console.log(`Loading areaIDs`);
+    console.log('Loading areaIDs');
     console.time('Time loading areaIDs');
 
     // let allSheetData = constructSheetData();

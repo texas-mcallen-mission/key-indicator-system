@@ -109,7 +109,7 @@ function loadContactsIntoObj_(allSheetData) {
     let contactDataSheetName = csd.getTabName();
     let contactDataHeader = csd.getHeaders();
 
-    console.info(`TODO: replace getSheetOrSetUp() with SheetData functions`);
+    console.info('TODO: replace getSheetOrSetUp() with SheetData functions');
     let loadedData = getSheetOrSetUp_(contactDataSheetName, contactDataHeader);
     let cData = getSheetDataWithHeader_(loadedData).data;
 

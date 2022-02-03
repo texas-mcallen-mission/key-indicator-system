@@ -72,14 +72,14 @@ function pullFormData(allSheetData) {
     let responses = fSheetData.getData();
     let missionData = [];
 
-    Logger.log(`[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?`);
+    Logger.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
 
 
     for (let response of responses) {
         if (response.responsePulled == true || response.areaName == "")
             continue;
 
-        if (DBCONFIG.LOG_RESPONSE_PULLED) Logger.log(`Pulling response for area: '${response.areaName}'`);
+        if (DBCONFIG.LOG_RESPONSE_PULLED) Logger.log("Pulling response for area: '" + response.areaName + "'");
 
         response.areaID = getAreaID(allSheetData, response.areaName);
 
@@ -98,9 +98,9 @@ function pullFormData(allSheetData) {
 
 
     //Mark responses as having been pulled
-    console.info(`TODO: Improve marking responses as pulled`);
+    console.info("TODO: Improve marking responses as pulled");
     if (DBCONFIG.SKIP_MARKING_PULLED) {
-        Logger.log(`[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: SKIP_MARKING_PULLED is set to true`);
+        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: SKIP_MARKING_PULLED is set to true");
     }
     else {
         let formSheet = fSheetData.getSheet();
@@ -150,8 +150,7 @@ function getContactData(allSheetData) {
 
 
     function warnDataCollision(area, id, otherArea) {
-        // Logger.log(`Potential data collision while pulling data from contacts: tried to add area '${area}' with id '${id}', but that id already has data for area '${otherArea}'`)
-        console.warn(`Potential data collision while pulling data from contacts: tried to add area '${area}' with id '${id}', but that id already has data for area '${otherArea}'`);
+        console.warn("Potential data collision while pulling data from contacts: tried to add area '" + area "' with id '" + id + "', but that id already has data for area '" + otherArea + "'");
     }
 }
 
@@ -163,7 +162,7 @@ function getContactData(allSheetData) {
   * Takes a reference to missionData, a reference to the datasource, and an ID string for that datasource.
   */
 function mergeIntoMissionData(missionData, sourceData, sourceID) {
-    Logger.log(`Beginning to merge source '${sourceID}' into missionData`);
+    Logger.log("Beginning to merge source '" + sourceID + "' into missionData");
 
     let newMissionData = [];
     let mdKeys = Object.keys(missionData[0]);
@@ -176,10 +175,10 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
         let areaName = missionAreaData.areaName;
         let sourceAreaData = sourceData[missionAreaData.areaID];
 
-        if (DBCONFIG.LOG_MERGE_DATA) Logger.log(`Merging area ${areaName} (${areaID}) from source ${sourceID}`);
+        if (DBCONFIG.LOG_MERGE_DATA) Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
 
         if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
-            throw `Found a form response for area '${areaName}' (id '${areaID}'), but couldn't find that area in source '${sourceID}'`;
+            throw "Found a form response for area '" + areaName + "' (id '" + areaID + "'), but couldn't find that area in source '" + sourceID + "'";
 
 
         let newAreaData = {};
@@ -222,18 +221,18 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
         newMissionData.push(newAreaData);
     }
 
-    Logger.log(`Finished merging source '${sourceID}'`);
+    Logger.log("Finished merging source '" + sourceID + "'");
 
     return newMissionData;
 
 
 
     function logNeither(key, areaID, areaName, sourceID) {
-        console.warn(`Warning: couldn't find key '${key}' for area '${areaName}' (id '${areaID}') in either mission data or source '${source}'`);
+        console.warn("Warning: couldn't find key '"+key+"' for area '"+areaName+"' (id '"+areaID+"') in either mission data or source '"+source+"'");
     }
 
     function logDataCollision(key, areaID, areaName, sourceID, sourceAreaDataOfKey, missionAreaDataOfKey) {
-        Logger.log(`Warning: possible data collision on key '${key}' for area '${areaName}' (id '${areaName}'). Source '${sourceID}' has value '${sourceAreaDataOfKey}' while missionData has value '${missionAreaDataOfKey}'`);
+        Logger.log("Warning: possible data collision on key '" + key + "' for area '" + areaName + "' (id '" + areaName + "'). Source '" + sourceID + "' has value '" + sourceAreaDataOfKey + "' while missionData has value '" + missionAreaDataOfKey + "'");
     }
 
 }
@@ -248,7 +247,7 @@ function pushToDataSheetV2(allSheetData, missionData) {
     let dSheetData = allSheetData.data;
     dSheetData.insertData(missionData);
 
-    Logger.log(`Finished pushing to Data sheet.`);
+    Logger.log("Finished pushing to Data sheet.");
 }
 
 
@@ -258,7 +257,7 @@ function pushToDataSheetV2(allSheetData, missionData) {
   * Unimplemented
   */
 function pushErrorMessages() {
-    console.info(`TODO: implement pushErrorMessages()`);
+    console.info("TODO: implement pushErrorMessages()");
 }
 
 

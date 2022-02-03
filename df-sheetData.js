@@ -205,7 +205,7 @@ class RawSheetData {
         this.buildIndexToKey_();
 
         this.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.tabName);
-        if (this.sheet == null) throw `Couldn't construct SheetData: no sheet found with name '${this.tabName}'`;
+        if (this.sheet == null) throw "Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'";
 
     }
 
@@ -245,16 +245,16 @@ class RawSheetData {
      * @param {number} index
      */
     addColumnWithHeaderAt_(key, header, index) {
-        if (key == "") throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid key: '${key}'`);
-        if (header == "") throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid header: '${header}'`);
-        if (index < 0) throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid index: ${index}`);
+        if (key == "") throw new TypeError("Couldn't add column to sheet " + this.getTabName() + ". Invalid key: " + key);
+        if (header == "") throw new TypeError("Couldn't add column to sheet " + this.getTabName() + ". Invalid header: " + header);
+        if (index < 0) throw new TypeError("Couldn't add column to sheet " + this.getTabName() + ". Invalid index: " + index);
 
         if (this.hasIndex(index))
-            throw `Potential data collision. Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that index already has key '${this.getKey(index)}'`;
+            throw "Potential data collision. Tried to add key '" + key + "' to index " + index + " in sheet " + this.getTabName() + ", but that index already has key '" + this.getKey(index) + "'";
         if (this.hasKey(key))
-            throw `Potential data collision! Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that key already exists at index ${this.getIndex(key)}`;
+            throw "Potential data collision. Tried to add key '" + key + "' to index " + index + " in sheet " + this.getTabName() + ", but that key already exists at index " + this.getIndex(key);
 
-        this.getSheet().getRange(this.getHeaderRow()+1, index+1).setValue(header);
+        this.getSheet().getRange(this.getHeaderRow() + 1, index + 1).setValue(header);
 
         this.keyToIndex[key] = index;
         // @ts-ignore
@@ -333,7 +333,7 @@ class RawSheetData {
      */
     getIndex(key) {
         if (!this.hasKey(key))
-            throw `Couldn't get index from key: key '${key}' not found in sheet '${this.tabName}'`;
+            throw "Couldn't get index from key: key '" + key + "' not found in sheet '" + this.tabName + '";;
 
         return this.keyToIndex[key];
     }
@@ -347,7 +347,7 @@ class RawSheetData {
      */
     getKey(index) {
         if (!this.hasIndex(index))
-            throw `Couldn't get key from index: index '${index}' not defined in sheet '${this.tabName}'`;
+            throw "Couldn't get key from index: index '" + index + "' not defined in sheet '" + this.tabName + "'";
 
         // @ts-ignore
         return this.indexToKey[index];
@@ -361,7 +361,7 @@ class RawSheetData {
      * @param {number} index
      */
     hasIndex(index) {
-        if (typeof index == 'undefined') throw `Tried to use undefined as an index`;
+        if (typeof index == 'undefined') throw 'Tried to use undefined as an index';
         // @ts-ignore
         return typeof this.indexToKey[index] != 'undefined';
     }
@@ -374,7 +374,7 @@ class RawSheetData {
      * @param {string} key
      */
     hasKey(key) {
-        if (typeof key == 'undefined') throw `Tried to use undefined as a key string`;
+        if (typeof key == 'undefined') throw 'Tried to use undefined as a key string';
         return typeof this.keyToIndex[key] != 'undefined';
     }
 
@@ -486,7 +486,7 @@ class RawSheetData {
                 arr[maxIndex] = "";
 
         for (let key of skippedKeys)
-            Logger.log(`Skipped key ${key} while pushing to sheet ${this.tabName}. Sheet doesn't have that key`);
+            Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
 
         this.insertValues(values);
     }
@@ -540,7 +540,7 @@ class RawSheetData {
                 arr[maxIndex] = "";
 
         for (let key of skippedKeys)
-            Logger.log(`Skipped key ${key} while pushing to sheet ${this.tabName}. Sheet doesn't have that key`);
+            Logger.log("Skipped key " + key + " while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
 
         this.insertValues(values);
     }
@@ -649,7 +649,7 @@ function syncDataFlowCols_(allSheetData) {
     }
 
     let addedStr = addedKeys.length == 0 ? 'No new columns in ' + formSheetData.getTabName() : addedKeys.toString();
-    console.log(`Added ${addedKeys.length} column(s) to ${dataSheetData.getTabName()}: ` + addedStr);
+    console.log("Added " + addedKeys.length + " column(s) to " + dataSheetData.getTabName() + ": " + addedStr);
 }
 
 
@@ -682,7 +682,7 @@ function buildIndexToKey_(allSheetData) {
             let i = sd.keyToIndex[key];
 
             if (typeof sd.indexToKey[i] != 'undefined')
-                throw `Data collision on index ${i} while building indexToKey in SheetData '${sdKey}' - tried to add key '${key}' but found value '${sd.indexToKey[i]}'`;
+                throw "Data collision on index " + i + " while building indexToKey in SheetData '" + sdKey + "' - tried to add key '" + key + "' but found value '" + sd.indexToKey[i] + "'";
 
             sd.indexToKey[i] = key;
         }
@@ -715,7 +715,7 @@ function setSheetUp_(sheetData) {
     // Checks to see if the sheet exists or not.
     let sheet = ss.getSheetByName(sheetName);
     if (!sheet) {
-        Logger.log(`Sheet '${sheetName}' not found. Creating`);
+        Logger.log("Sheet '" + sheetName + "' not found. Creating");
         sheet = ss.insertSheet(sheetName);
         sheet.appendRow(headers);     // Creating Header
     }
@@ -744,7 +744,7 @@ function constructSheetData(force = false) {
     if (DBCONFIG.CACHE_SHEET_DATA && !force) {
         let allSheetData_JSON = cache.get('allSheetData');
         if (allSheetData_JSON != null) {
-            Logger.log(`Pulling allSheetData from cache`);
+            Logger.log('Pulling allSheetData from cache');
             let allSheetData = JSON.parse(allSheetData_JSON);
             return allSheetData;
         }
@@ -1002,11 +1002,11 @@ function constructSheetData(force = false) {
         populateExtraColumnData_(sheetData);    //Add non-hardcoded key strings
 
         allSheetData[sdKey] = sheetData;
-        log += ` '${sheetData.getTabName()}'`;
+        log += " '" + sheetData.getTabName() + "'";
     }
     console.log(log);
 
-//    refreshContacts(allSheetData);
+    //    refreshContacts(allSheetData);
 
     syncDataFlowCols_(allSheetData);
 

@@ -26,7 +26,7 @@ function updateForm() {
     }
 
     if (typeof areaNamesItem == 'undefined')
-        throw `Couldn't find an Area Names question in the Google Form!`;
+        throw "Couldn't find an Area Names question in the Google Form!";
 
     areaNamesItem.asListItem().setChoiceValues(areaNames);
 
