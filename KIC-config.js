@@ -5,23 +5,6 @@
 */
 
 
-//Stub declarations of outdated code to stop typescript from yelling. @Harrier_pigeon should fix these
-let outputDataDumpSheetName = "";
-let configPageSheetName = "";
-let kicDataStoreSheetName = "";
-let areaDataSheetName = "";
-let districtDataSheetName = "";
-let zoneDataSheetName = "";
-let areaDataHeaders = [""];
-let districtDataHeaders = [""];
-let zoneDataHeaders = [""];
-function splitDataByTagEliminateDupes(x, y, z) { }
-function splitDataByTag_(x, y, z) { }
-
-
-
-
-
 
 let CONFIG =
 {
@@ -40,7 +23,10 @@ let CONFIG =
     UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
 
     FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
+
     AREA_NAME_QUESTION_TITLE: 'Area Name',
+
+    INCLUDE_SCOPE_IN_FOLDER_NAME: true,
 
     //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs).
     //gcopy: 1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw
@@ -92,6 +78,9 @@ let DBCONFIG =
     LOG_RESPONSE_PULLED: false,
     LOG_DUPLICATES: false,
     LOG_FILE_SHARING: false,
+    LOG_FILESYS: false,
+
+    LOG_OLD_sendReportToDisplayV3_: false,
 
 
     //Disable updating spreadsheets in certain ways
