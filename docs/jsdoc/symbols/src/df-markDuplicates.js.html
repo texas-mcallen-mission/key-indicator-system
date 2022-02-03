@@ -13,128 +13,131 @@
 <span class='line'>  6</span> </span><span class="WHIT">    </span><span class="NAME">markDuplicates_old</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>  7</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>  8</span> 
-<span class='line'>  9</span> 
-<span class='line'> 10</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">markDuplicates_old</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//                                  TODO: Don't pull the whole sheet?</span><span class="WHIT">
-<span class='line'> 11</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Marking duplicate responses. Pulling data..."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"TODO: Don't pull the whole sheet?"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 13</span> 
-<span class='line'> 14</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">sd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">allSheetData.data</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">sheet</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sd.getSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">vals</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sheet.getDataRange</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getValues</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 17</span> 
-<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">mostRecentResponse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">   </span><span class="COMM">//Previously checked responses. Uses rIDs as keys, and contains row numbers for marking and timestamps for comparison</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">duplicates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">//Row indices that contain duplicates</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">skippedRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Row indices that are blank</span><span class="WHIT">
-<span class='line'> 21</span> 
-<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">minRow</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Used for bounds on the edit range</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">maxRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">vals.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">   </span><span class="COMM">//Used for bounds on the edit range</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="COMM">/**
+<span class='line'> 10</span>  * Flags duplicate responses in the Data sheet. Old version to be replaced.
+<span class='line'> 11</span>  * @param {*} allSheetData 
+<span class='line'> 12</span>  */</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">markDuplicates_old</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//                                  TODO: Don't pull the whole sheet?</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Marking duplicate responses. Pulling data..."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"TODO: Don't pull the whole sheet?"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> 
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">sd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">allSheetData.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">sheet</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sd.getSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">vals</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sheet.getDataRange</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getValues</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">mostRecentResponse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">   </span><span class="COMM">//Previously checked responses. Uses rIDs as keys, and contains row numbers for marking and timestamps for comparison</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">duplicates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">//Row indices that contain duplicates</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">skippedRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Row indices that are blank</span><span class="WHIT">
 <span class='line'> 24</span> 
-<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="COMM">//WARNING: this assumes header is on the top row</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">CONFIG.MARK_DUPLICATES_MAX_ROW_TO_CHECK</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'> 27</span> </span><span class="WHIT">        </span><span class="NAME">maxRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="PUNC">(</span><span class="NAME">maxRow</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">CONFIG.MARK_DUPLICATES_MAX_ROW_TO_CHECK</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 28</span> 
-<span class='line'> 29</span> 
-<span class='line'> 30</span> 
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">minRow</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Used for bounds on the edit range</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">maxRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">vals.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">   </span><span class="COMM">//Used for bounds on the edit range</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="COMM">//WARNING: this assumes header is on the top row</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">CONFIG.MARK_DUPLICATES_MAX_ROW_TO_CHECK</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">        </span><span class="NAME">maxRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="PUNC">(</span><span class="NAME">maxRow</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">CONFIG.MARK_DUPLICATES_MAX_ROW_TO_CHECK</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 31</span> 
-<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">firstPass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Used to make the loop run twice (in case it's not sorted by timestamp)</span><span class="WHIT">
-<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="NAME">console.info</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">TODO</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">make</span><span class="WHIT"> </span><span class="NAME">mark</span><span class="WHIT"> </span><span class="NAME">dupes</span><span class="WHIT"> </span><span class="NAME">loop</span><span class="WHIT"> </span><span class="NAME">run</span><span class="WHIT"> </span><span class="NAME">twice</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> 
 <span class='line'> 34</span> 
-<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">row</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">maxRow</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">row</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">row</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">    </span><span class="COMM">//WARNING: this assumes header is on the top row</span><span class="WHIT">
-<span class='line'> 36</span> 
-<span class='line'> 37</span> </span><span class="WHIT">        </span><span class="COMM">/*if (row == maxRow) {
-<span class='line'> 38</span>             console.time("Time to process 100 lines");
-<span class='line'> 39</span>         } else if (row % 100 == 0 && row > 100) {
-<span class='line'> 40</span>             console.timeEnd("Time to process 100 lines");
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">firstPass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Used to make the loop run twice (in case it's not sorted by timestamp)</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="NAME">console.info</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">TODO</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">make</span><span class="WHIT"> </span><span class="NAME">mark</span><span class="WHIT"> </span><span class="NAME">dupes</span><span class="WHIT"> </span><span class="NAME">loop</span><span class="WHIT"> </span><span class="NAME">run</span><span class="WHIT"> </span><span class="NAME">twice</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">row</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">maxRow</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">row</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">row</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">    </span><span class="COMM">//WARNING: this assumes header is on the top row</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="WHIT">        </span><span class="COMM">/*if (row == maxRow) {
 <span class='line'> 41</span>             console.time("Time to process 100 lines");
-<span class='line'> 42</span>         } else {
+<span class='line'> 42</span>         } else if (row % 100 == 0 && row > 100) {
 <span class='line'> 43</span>             console.timeEnd("Time to process 100 lines");
-<span class='line'> 44</span>         }*/</span><span class="WHIT">
-<span class='line'> 45</span> 
-<span class='line'> 46</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="TOKN">`</span><span class="NAME">Checking</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="NAME">row</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">row</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">is</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="NAME">duplicate...</span><span class="TOKN">`</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 47</span> 
-<span class='line'> 48</span> </span><span class="WHIT">        </span><span class="COMM">//Skip empty rows</span><span class="WHIT">
-<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">[</span><span class="NAME">row</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">sd.getIndex</span><span class="PUNC">(</span><span class="STRN">'areaName'</span><span class="PUNC">)</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 50</span> </span><span class="WHIT">            </span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'\nSkipping row'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT">            </span><span class="NAME">skippedRows.push</span><span class="PUNC">(</span><span class="NAME">row</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 52</span> 
-<span class='line'> 53</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DBCONFIG.LOG_DUPLICATES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="NAME">log</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 54</span> </span><span class="WHIT">            </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 56</span> 
-<span class='line'> 57</span> 
-<span class='line'> 58</span> </span><span class="WHIT">        </span><span class="NAME">minRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">row</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Update topmost row</span><span class="WHIT">
+<span class='line'> 44</span>             console.time("Time to process 100 lines");
+<span class='line'> 45</span>         } else {
+<span class='line'> 46</span>             console.timeEnd("Time to process 100 lines");
+<span class='line'> 47</span>         }*/</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="TOKN">`</span><span class="NAME">Checking</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="NAME">row</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">row</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">is</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="NAME">duplicate...</span><span class="TOKN">`</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="COMM">//Skip empty rows</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">[</span><span class="NAME">row</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">sd.getIndex</span><span class="PUNC">(</span><span class="STRN">'areaName'</span><span class="PUNC">)</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">            </span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'\nSkipping row'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">            </span><span class="NAME">skippedRows.push</span><span class="PUNC">(</span><span class="NAME">row</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DBCONFIG.LOG_DUPLICATES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="NAME">log</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">            </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 59</span> 
-<span class='line'> 60</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">vals</span><span class="PUNC">[</span><span class="NAME">row</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">sd.getIndex</span><span class="PUNC">(</span><span class="STRN">'areaName'</span><span class="PUNC">)</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaID</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 62</span> </span><span class="WHIT">        </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 63</span> </span><span class="WHIT">            </span><span class="NAME">areaID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getAreaID</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">areaName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 65</span> </span><span class="WHIT">            </span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Couldn</span><span class="STRN">'t get areaID on line ${row + 1} while marking duplicates. Area '</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">areaName</span><span class="PUNC">}</span><span class="STRN">' not found`);
-<span class='line'> 66</span>         }
-<span class='line'> 67</span> 
-<span class='line'> 68</span> 
-<span class='line'> 69</span>         let kiDate = vals[row][sd.getIndex('</span><span class="NAME">kiDate</span><span class="STRN">')];
-<span class='line'> 70</span>         let tstamp = vals[row][sd.getIndex('</span><span class="NAME">formTimestamp</span><span class="STRN">')];
+<span class='line'> 60</span> 
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="NAME">minRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">row</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Update topmost row</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">vals</span><span class="PUNC">[</span><span class="NAME">row</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">sd.getIndex</span><span class="PUNC">(</span><span class="STRN">'areaName'</span><span class="PUNC">)</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaID</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">            </span><span class="NAME">areaID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getAreaID</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">areaName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">            </span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Couldn</span><span class="STRN">'t get areaID on line ${row + 1} while marking duplicates. Area '</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">areaName</span><span class="PUNC">}</span><span class="STRN">' not found`);
+<span class='line'> 69</span>         }
+<span class='line'> 70</span> 
 <span class='line'> 71</span> 
-<span class='line'> 72</span>         let rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
-<span class='line'> 73</span> 
-<span class='line'> 74</span>         log += `\nResponse ID: '</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">rID</span><span class="PUNC">}</span><span class="STRN">'`;
-<span class='line'> 75</span> 
-<span class='line'> 76</span>         if (typeof mostRecentResponse[rID] == '</span><span class="NAME">undefined</span><span class="STRN">') { //If this is the first ocurrence, add to mostRecentResponse and skip
-<span class='line'> 77</span>             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
+<span class='line'> 72</span>         let kiDate = vals[row][sd.getIndex('</span><span class="NAME">kiDate</span><span class="STRN">')];
+<span class='line'> 73</span>         let tstamp = vals[row][sd.getIndex('</span><span class="NAME">formTimestamp</span><span class="STRN">')];
+<span class='line'> 74</span> 
+<span class='line'> 75</span>         let rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
+<span class='line'> 76</span> 
+<span class='line'> 77</span>         log += `\nResponse ID: '</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">rID</span><span class="PUNC">}</span><span class="STRN">'`;
 <span class='line'> 78</span> 
-<span class='line'> 79</span>             log += `\nFirst ocurrence, continuing.`;
-<span class='line'> 80</span>             if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
-<span class='line'> 81</span>             continue;
-<span class='line'> 82</span>         }
-<span class='line'> 83</span> 
-<span class='line'> 84</span>         let prev = mostRecentResponse[rID];  //Previous ocurrence
-<span class='line'> 85</span>         log += `\nFound previous ocurrence on row index ${prev.row}, comparing...`;
+<span class='line'> 79</span>         if (typeof mostRecentResponse[rID] == '</span><span class="NAME">undefined</span><span class="STRN">') { //If this is the first ocurrence, add to mostRecentResponse and skip
+<span class='line'> 80</span>             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
+<span class='line'> 81</span> 
+<span class='line'> 82</span>             log += `\nFirst ocurrence, continuing.`;
+<span class='line'> 83</span>             if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
+<span class='line'> 84</span>             continue;
+<span class='line'> 85</span>         }
 <span class='line'> 86</span> 
-<span class='line'> 87</span>         //Handle comparing historical records (which don'</span><span class="NAME">t</span><span class="WHIT"> </span><span class="NAME">have</span><span class="WHIT"> </span><span class="NAME">timestamps</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">prev.tstamp</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span>         let prev = mostRecentResponse[rID];  //Previous ocurrence
+<span class='line'> 88</span>         log += `\nFound previous ocurrence on row index ${prev.row}, comparing...`;
 <span class='line'> 89</span> 
-<span class='line'> 90</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">tstamp</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="WHIT">                </span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="TOKN">`</span><span class="TOKN">\</span><span class="NAME">nBoth</span><span class="WHIT"> </span><span class="NAME">ocurrences</span><span class="WHIT"> </span><span class="NAME">are</span><span class="WHIT"> </span><span class="NAME">historical</span><span class="WHIT"> </span><span class="NAME">records</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">can</span><span class="STRN">'t determine which to keep. Keeping the current one and marking previous as a duplicate`;
-<span class='line'> 92</span>             else
-<span class='line'> 93</span>                 log += `\nPrev ocurrence is a historical record. Keeping the current one and marking previous as a duplicate`;
-<span class='line'> 94</span> 
-<span class='line'> 95</span>             duplicates.push(prev.row);
-<span class='line'> 96</span>             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
-<span class='line'> 97</span>         }
-<span class='line'> 98</span>         else if (typeof tstamp == "string") {
-<span class='line'> 99</span>             log += `Current ocurrence is a historical record, but the previous one is not. Keeping the previous and marking the current as a duplicate`;
-<span class='line'>100</span>             duplicates.push(row);
-<span class='line'>101</span>         }
-<span class='line'>102</span>         else  //Handle non-historical responses
-<span class='line'>103</span>         {
-<span class='line'>104</span>             //If this is more recent than the previous ocurrence
-<span class='line'>105</span>             if (tstamp.getTime() > prev.tstamp.getTime()) {
-<span class='line'>106</span>                 log += `\nThe current response is more recent, replacing and marking the old as duplicate.`;
-<span class='line'>107</span> 
-<span class='line'>108</span>                 duplicates.push(prev.row);
-<span class='line'>109</span>                 mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
-<span class='line'>110</span>             }
-<span class='line'>111</span>             else {
-<span class='line'>112</span>                 log += `\nThe previous response is more recent, marking the current as duplicate.`;
-<span class='line'>113</span>                 duplicates.push(row);
-<span class='line'>114</span>             }
-<span class='line'>115</span>         }
-<span class='line'>116</span> 
-<span class='line'>117</span>         if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
-<span class='line'>118</span>     }
+<span class='line'> 90</span>         //Handle comparing historical records (which don'</span><span class="NAME">t</span><span class="WHIT"> </span><span class="NAME">have</span><span class="WHIT"> </span><span class="NAME">timestamps</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">prev.tstamp</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> 
+<span class='line'> 93</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">tstamp</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">                </span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="TOKN">`</span><span class="TOKN">\</span><span class="NAME">nBoth</span><span class="WHIT"> </span><span class="NAME">ocurrences</span><span class="WHIT"> </span><span class="NAME">are</span><span class="WHIT"> </span><span class="NAME">historical</span><span class="WHIT"> </span><span class="NAME">records</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">can</span><span class="STRN">'t determine which to keep. Keeping the current one and marking previous as a duplicate`;
+<span class='line'> 95</span>             else
+<span class='line'> 96</span>                 log += `\nPrev ocurrence is a historical record. Keeping the current one and marking previous as a duplicate`;
+<span class='line'> 97</span> 
+<span class='line'> 98</span>             duplicates.push(prev.row);
+<span class='line'> 99</span>             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
+<span class='line'>100</span>         }
+<span class='line'>101</span>         else if (typeof tstamp == "string") {
+<span class='line'>102</span>             log += `Current ocurrence is a historical record, but the previous one is not. Keeping the previous and marking the current as a duplicate`;
+<span class='line'>103</span>             duplicates.push(row);
+<span class='line'>104</span>         }
+<span class='line'>105</span>         else  //Handle non-historical responses
+<span class='line'>106</span>         {
+<span class='line'>107</span>             //If this is more recent than the previous ocurrence
+<span class='line'>108</span>             if (tstamp.getTime() > prev.tstamp.getTime()) {
+<span class='line'>109</span>                 log += `\nThe current response is more recent, replacing and marking the old as duplicate.`;
+<span class='line'>110</span> 
+<span class='line'>111</span>                 duplicates.push(prev.row);
+<span class='line'>112</span>                 mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
+<span class='line'>113</span>             }
+<span class='line'>114</span>             else {
+<span class='line'>115</span>                 log += `\nThe previous response is more recent, marking the current as duplicate.`;
+<span class='line'>116</span>                 duplicates.push(row);
+<span class='line'>117</span>             }
+<span class='line'>118</span>         }
 <span class='line'>119</span> 
-<span class='line'>120</span>     Logger.log(`Finished pulling duplicate data. Pushing to sheet...`);
-<span class='line'>121</span> 
+<span class='line'>120</span>         if (DBCONFIG.LOG_DUPLICATES) Logger.log(log);
+<span class='line'>121</span>     }
 <span class='line'>122</span> 
-<span class='line'>123</span>     let out = [];
+<span class='line'>123</span>     Logger.log(`Finished pulling duplicate data. Pushing to sheet...`);
 <span class='line'>124</span> 
-<span class='line'>125</span>     for (let row = minRow; row &lt;= maxRow; row++) {
-<span class='line'>126</span>         let isDuplicate = duplicates.includes(row);
-<span class='line'>127</span>         let isSkipped = skippedRows.includes(row);
-<span class='line'>128</span>         out[row - minRow] = [];
-<span class='line'>129</span>         out[row - minRow][0] = isDuplicate ? true :
-<span class='line'>130</span>             isSkipped ? "" : false;
-<span class='line'>131</span>     }
-<span class='line'>132</span> 
-<span class='line'>133</span>     sheet.getRange(minRow + 1, sd.getIndex('</span><span class="NAME">isDuplicate</span><span class="TOKN"></span></pre></body></html>
+<span class='line'>125</span> 
+<span class='line'>126</span>     let out = [];
+<span class='line'>127</span> 
+<span class='line'>128</span>     for (let row = minRow; row &lt;= maxRow; row++) {
+<span class='line'>129</span>         let isDuplicate = duplicates.includes(row);
+<span class='line'>130</span>         let isSkipped = skippedRows.includes(row);
+<span class='line'>131</span>         out[row - minRow] = [];
+<span class='line'>132</span>         out[row - minRow][0] = isDuplicate ? true :
+<span class='line'>133</span>             isSkipped ? "" : false;
+<span class='line'>134</span>     }
+<span class='line'>135</span> 
+<span class='line'>136</span>     sheet.getRange(minRow + 1, sd.getIndex('</span><span class="NAME">isDuplicate</span><span class="TOKN"></span></pre></body></html>
