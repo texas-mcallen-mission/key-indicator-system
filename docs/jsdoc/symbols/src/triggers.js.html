@@ -85,117 +85,117 @@
 <span class='line'> 78</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_FS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 79</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 80</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 81</span> </span><span class="WHIT">    </span><span class="NAME">createFS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 83</span> 
-<span class='line'> 84</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateAreaReports_TimeBasedTrigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateAreaReports from a time-based trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 87</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 89</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="NAME">updateAreaReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 92</span> 
-<span class='line'> 93</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDistrictReports_TimeBasedTrigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 94</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateDistrictReports from a time-based trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 98</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 99</span> </span><span class="WHIT">    </span><span class="NAME">updateDistrictReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>100</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>101</span> 
-<span class='line'>102</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateZoneReports_TimeBasedTrigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateZoneReports() from a time-based trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>106</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">    </span><span class="NAME">updateZoneReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>110</span> 
+<span class='line'> 81</span> </span><span class="WHIT">    </span><span class="NAME">verifyFilesystem</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">    </span><span class="NAME">createFS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateAreaReports_TimeBasedTrigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateAreaReports from a time-based trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">    </span><span class="NAME">updateAreaReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDistrictReports_TimeBasedTrigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateDistrictReports from a time-based trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">    </span><span class="NAME">updateDistrictReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateZoneReports_TimeBasedTrigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateZoneReports() from a time-based trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">DBCONFIG.ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">    </span><span class="NAME">updateZoneReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>111</span> 
 <span class='line'>112</span> 
 <span class='line'>113</span> 
-<span class='line'>114</span> </span><span class="COMM">//                Custom menu triggers</span><span class="WHIT">
-<span class='line'>115</span> 
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="COMM">//                Custom menu triggers</span><span class="WHIT">
 <span class='line'>116</span> 
-<span class='line'>117</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDataSheet_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>118</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateDataSheet() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>119</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>120</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>122</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">    </span><span class="NAME">updateDataSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>125</span> 
-<span class='line'>126</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateFS_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_FS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_FS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>129</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>130</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>131</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateFS() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>132</span> </span><span class="WHIT">    </span><span class="NAME">createFS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>133</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>134</span> 
-<span class='line'>135</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateAreaReports_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateAreaReports() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>139</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">    </span><span class="NAME">updateAreaReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>143</span> 
-<span class='line'>144</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDistrictReports_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateDistrictReports() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>149</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>150</span> </span><span class="WHIT">    </span><span class="NAME">updateDistrictReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>151</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>152</span> 
-<span class='line'>153</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateZoneReports_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>154</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateZoneReports() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>156</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">    </span><span class="NAME">updateZoneReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>161</span> 
-<span class='line'>162</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">importContacts_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>163</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running importContacts() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>164</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_IMPORT_CONTACTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>165</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_IMPORT_CONTACTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">    </span><span class="NAME">importContacts</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>171</span> 
-<span class='line'>172</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">markDuplicates_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running markDuplicates() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_MARK_DUPLICATES is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>176</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>178</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">    </span><span class="NAME">markDuplicates</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>180</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>181</span> 
-<span class='line'>182</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">loadAreaIDs_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>183</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running loadAreaIDs() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>184</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_LOAD_AREA_IDS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>185</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_LOAD_AREA_IDS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>186</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>187</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>188</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>189</span> </span><span class="WHIT">    </span><span class="NAME">loadAreaIDs</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>190</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>191</span> 
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDataSheet_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateDataSheet() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">    </span><span class="NAME">updateDataSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>126</span> 
+<span class='line'>127</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateFS_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_FS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_FS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateFS() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="NAME">createFS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateAreaReports_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateAreaReports() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">    </span><span class="NAME">updateAreaReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDistrictReports_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateDistrictReports() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">    </span><span class="NAME">updateDistrictReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateZoneReports_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running updateZoneReports() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">    </span><span class="NAME">updateZoneReports</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>162</span> 
+<span class='line'>163</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">importContacts_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running importContacts() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_IMPORT_CONTACTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_IMPORT_CONTACTS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">    </span><span class="NAME">importContacts</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">markDuplicates_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running markDuplicates() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_MARK_DUPLICATES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_MARK_DUPLICATES is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">    </span><span class="NAME">markDuplicates</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">loadAreaIDs_MenuTrigger_</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Running loadAreaIDs() from the Manual Commands menu"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">CONFIG.ALLOW_MENU_TRIGGER_LOAD_AREA_IDS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_MENU_TRIGGER_LOAD_AREA_IDS is set to false"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">    </span><span class="NAME">loadAreaIDs</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>192</span> 
 <span class='line'>193</span> 
 <span class='line'>194</span> 
@@ -209,4 +209,5 @@
 <span class='line'>202</span> 
 <span class='line'>203</span> 
 <span class='line'>204</span> 
-<span class='line'>205</span> </span></pre></body></html>
+<span class='line'>205</span> 
+<span class='line'>206</span> </span></pre></body></html>
