@@ -1,4 +1,1 @@
-reference-files/**
-all-vsc-settings.json
-useful-extensions.txt
-vsc-settings.json
+**/reference-files/**
