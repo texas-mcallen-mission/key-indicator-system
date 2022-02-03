@@ -150,7 +150,7 @@ function getContactData(allSheetData) {
 
 
     function warnDataCollision(area, id, otherArea) {
-        console.warn("Potential data collision while pulling data from contacts: tried to add area '" + area "' with id '" + id + "', but that id already has data for area '" + otherArea + "'");
+        console.warn("Potential data collision while pulling data from contacts: tried to add area '" + area + "' with id '" + id + "', but that id already has data for area '" + otherArea + "'");
     }
 }
 
