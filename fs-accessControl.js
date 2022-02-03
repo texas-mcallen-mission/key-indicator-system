@@ -269,7 +269,7 @@ function shareFileSys() {
 
 
 
-/**
+/*
  * Adds the given user to the list of editors for the file or folder without sending a notification email.
  * @param {string} fileId The file or folder ID.
  * @param {string} emailAddress The email address of the user to add.
@@ -290,7 +290,7 @@ function silentAddEditor_(fileId, emailAddress) {
 
 }
 
-/**
+/*
  * Adds the given array of users to the list of editors for the file or folder without sending notification emails.
  * @param {string} fileId The ID of the file or folder to be edited.
  * @param {string[]} emailAddresses An array of email addresses of the users to add.

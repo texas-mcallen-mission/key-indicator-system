@@ -82,7 +82,7 @@ var reportRootFolder = DriveApp.getFileById(
     .next()
     .getId();
 
-/**
+/*
  * @param {{ zoneFilesys: any; distFilesys: any; areaFilesys: any; }} allSheetData
  * @param {string} scope
  */
@@ -170,7 +170,7 @@ function createFilesystemV3() {
 
 
 }
-/**
+/*
  * @param {{ names: any; fileObjArray: any; }} preData
  * @param {string} name
  * @param {any} parentFolder
@@ -279,7 +279,7 @@ function updateFilesysV3_(
     };
   }
   
-/**
+/*
  * @param {any} parentFolderId
  * @param {string} name
  */
@@ -305,7 +305,7 @@ function createNewFolderV3_(parentFolderId, name) {
     //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
 }
 
-/**
+/*
  * @param {{ [x: string]: any; }} contactInfo
  * @param {string} scope
  */
@@ -329,7 +329,7 @@ function getRequiriedEntries_(contactInfo, scope) {
     return output;
 }
 
-/**
+/*
  * @param {string | any[]} gimmeDatArray
  */
 function getUniqueV3_(gimmeDatArray) {
@@ -342,7 +342,7 @@ function getUniqueV3_(gimmeDatArray) {
     return uniqueData;
 }
 
-/**
+/*
  * @param {any} folderID
  */
 function isFolderAccessible_(folderID) {
@@ -370,7 +370,7 @@ function isFolderAccessible_(folderID) {
     return output;
 }
 
-/**
+/*
  * @param {any} data
  */
 function headerSplit_(data) {
@@ -382,7 +382,7 @@ function headerSplit_(data) {
     };
 }
 
-/**
+/*
  * @param {any} data
  */
 function loadFSIntoClass_(data) {
