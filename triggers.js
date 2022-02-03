@@ -78,6 +78,7 @@ function updateFS_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_UPDATE_FS is set to false");
         return;
     }
+    verifyFilesystem();
     createFS();
 }
 

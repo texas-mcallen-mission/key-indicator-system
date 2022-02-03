@@ -16,17 +16,15 @@
 * @returns {any}
 */
 function getMissionOrgData(allSheetData) {
-
-    let contacts = allSheetData.contact;
+    let cSheetData = allSheetData.contact;
+    let contactData = cSheetData.getData();
+    let zones = {};
 
     Logger.log("Calculating mission organization data...");
-
-    let zones = {};
 
     /*    Format of zones object
     zones = {
       "ZONE1": {
-        "hasStlArea": false,
         "DIST1": {
           "AREA1",
           "AREA2"...
@@ -37,10 +35,7 @@ function getMissionOrgData(allSheetData) {
     }
     */
 
-    for (let areaID in contacts) {
-
-        let areaData = contacts[areaID].areaData;
-
+    for (let areaData of contactData) {
         let area = areaData.areaName;
         let district = areaData.district;
         let zone = areaData.zone;
@@ -52,7 +47,6 @@ function getMissionOrgData(allSheetData) {
             zones[zone][district] = [];
 
         zones[zone][district].push(area);
-
     }
 
     return zones;

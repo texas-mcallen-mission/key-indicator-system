@@ -75,7 +75,7 @@ function modifyZoneTemplates_(filesystemObject, referenceDataSheet) {
     let zoneColumnPosition = kicHeader.indexOf("Zone");
     Logger.log("pre-Split");
     let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
-    let splitDataByZone = splitDataByTagEliminateDupes(kicData, zoneColumnPosition, isDuplicateColumnPosition);
+    let splitDataByZone = splitDataByTagEliminateDupes_(kicData, zoneColumnPosition, isDuplicateColumnPosition);
     Logger.log("post-Split");
     // let zoneNameCell = "B3"
     // let scopeCell = "C3"
