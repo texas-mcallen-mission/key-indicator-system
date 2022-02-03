@@ -335,7 +335,7 @@ class RawSheetData {
      */
     getIndex(key) {
         if (!this.hasKey(key))
-            throw "Couldn't get index from key: key '" + key + "' not found in sheet '" + this.tabName + '";;
+            throw "Couldn't get index from key: key '" + key + "' not found in sheet '" + this.tabName + '";;;
 
         return this.keyToIndex[key];
     }
@@ -448,7 +448,7 @@ class RawSheetData {
      */
     setValues(values) {
         if (values.length == 0) return;
-        this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+        this.clearContent();
         let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
         range.setValues(values);
     }
@@ -490,7 +490,7 @@ class RawSheetData {
         for (let key of skippedKeys)
             Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
 
-        this.insertValues(values);
+        this.setValues(values);
     }
 
     /**
