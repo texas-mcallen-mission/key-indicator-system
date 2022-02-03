@@ -14,8 +14,12 @@ function testAreaIDs() {
     Logger.log(id);
 }
 
-tut
-
+/**
+ * Returns the areaID string of the given area.
+ * @param {*} allSheetData 
+ * @param {string} areaName 
+ * @returns {string} The areaID string.
+ */
 function getAreaID(allSheetData, areaName) {
     let cache = CacheService.getDocumentCache();
     let areaIDs_JSONString = cache.get(AREA_IDS_CACHE_KEY);
