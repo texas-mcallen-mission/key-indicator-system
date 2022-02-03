@@ -13,6 +13,7 @@ function run_importContacts() {
 
 function run_shareFileSys() {
     shareFileSys();
+    //TODO Fix typescript error!
 }
 
 function run_updateReports() {
@@ -31,4 +32,10 @@ function run_markDuplicates() {
 
 function run_updateForm() {
     updateForm();
+}
+
+function clearCache() {
+    let cacheIds = [AREA_IDS_CACHE_KEY];
+    let cache = CacheService.getDocumentCache();
+    cache.removeAll(cacheIds);
 }

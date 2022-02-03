@@ -5,23 +5,6 @@
 */
 
 
-//Stub declarations of outdated code to stop typescript from yelling. @Harrier_pigeon should fix these
-let outputDataDumpSheetName = "";
-let configPageSheetName = "";
-let kicDataStoreSheetName = "";
-let areaDataSheetName = "";
-let districtDataSheetName = "";
-let zoneDataSheetName = "";
-let areaDataHeaders = [""];
-let districtDataHeaders = [""];
-let zoneDataHeaders = [""];
-function splitDataByTagEliminateDupes(x, y, z) { }
-function splitDataByTag_(x, y, z) { }
-
-
-
-
-
 
 let CONFIG =
 {
@@ -40,7 +23,10 @@ let CONFIG =
     UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
 
     FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
+
     AREA_NAME_QUESTION_TITLE: 'Area Name',
+
+    INCLUDE_SCOPE_IN_FOLDER_NAME: true,
 
     //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs).
     //gcopy: 1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw
@@ -49,6 +35,11 @@ let CONFIG =
 
     //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
     DEL_OLD_RESPONSES_AGE_LIMIT: 0,
+
+    EXCLUDE_FORM_COLS_FROM_DATA: [
+        "responsePulled",
+        "submissionEmail"
+    ],
 
     //Allow triggers to run
     //These are overridden if the associated functions are disabled, ex. if DBCONFIG.FREEZE_FILESYS is true.
@@ -71,7 +62,7 @@ let CONFIG =
 
 };
 
-
+//test
 
 //Debug config parameters
 
@@ -87,6 +78,9 @@ let DBCONFIG =
     LOG_RESPONSE_PULLED: false,
     LOG_DUPLICATES: false,
     LOG_FILE_SHARING: false,
+    LOG_FILESYS: false,
+
+    LOG_OLD_sendReportToDisplayV3_: false,
 
 
     //Disable updating spreadsheets in certain ways

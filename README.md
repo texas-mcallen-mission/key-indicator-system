@@ -1,4 +1,9 @@
-# key-indicator-system  [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) [![Gcopy Branch GAS](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/gcopy.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/gcopy.yml)
+# key-indicator-system  
+| Branch | Status |
+| --- | --- |
+| Main | [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) |
+| gcopy | [![Gcopy Branch GAS](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/gcopy.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/gcopy.yml) |
+| ReportCreator-HOTFIX | [![BERT-INSTANCE-2 - ReportCreator-HOTFIX](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml) |
 
 Tracking system for the Key Indicators for Conversion and other mission statistics.
 

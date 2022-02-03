@@ -229,22 +229,13 @@ function updateFilesysV3_(
     // let zoneRequiredEntries = getRequiriedEntries_(contactInfo, reportLevel.zone)
   
     let anyUpdates = false;
-    let preZoneData = { names: [], fileObjArray: [] };
-    let preDistData = { names: [], fileObjArray: [] };
-    let preAreaData = { names: [], fileObjArray: [] };
-    if (zoneMetaObj.fsObj.length > 0) {
-      preZoneData = getFilesAndNames(zoneMetaObj.fsObj);
-    }
-    if (areaMetaObj.fsObj.length > 0) {
-      preAreaData = getFilesAndNames(areaMetaObj.fsObj);
-    }
-    if (distMetaObj.fsObj.length > 0) {
-      preDistData = getFilesAndNames(distMetaObj.fsObj);
-    }
+    let preZoneData = zoneMetaObj.fsObj.length > 0 ? getFilesAndNames(zoneMetaObj.fsObj) : { names: [], fileObjArray: [] }
+    let preDistData = distMetaObj.fsObj.length > 0 ? getFilesAndNames(distMetaObj.fsObj) : { names: [], fileObjArray: [] }
+    let preAreaData = areaMetaObj.fsObj.length > 0 ? getFilesAndNames(areaMetaObj.fsObj) : { names: [], fileObjArray: [] }
   
-    zFolderObjs = [];
-    dFolderObjs = [];
-    aFolderObjs = [];
+    let zFolderObjs = [];
+    let dFolderObjs = [];
+    let aFolderObjs = [];
   
     for (let zone in orgData) {
       Logger.log(zone);
@@ -260,7 +251,7 @@ function updateFilesysV3_(
       Logger.log(orgData[zone]);
       Logger.log(zFolderObj);
   
-      for (district in orgData[zone]) {
+      for (let district in orgData[zone]) {
         Logger.log(district);
         let dFolderObj = updateFS_getCreateFolderObj_(
           preDistData,
@@ -269,7 +260,7 @@ function updateFilesysV3_(
           reportLevel.dist
         );
         dFolderObjs.push(dFolderObj);
-        for (area of orgData[zone][district]) {
+        for (let area of orgData[zone][district]) {
           let aFolderObj = updateFS_getCreateFolderObj_(
             preAreaData,
             area,
@@ -307,7 +298,7 @@ function createNewFolderV3_(parentFolderId, name) {
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();
-    if (functionGUBED == true) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
+    if (DBCONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
     return newFolderID;
 
     // }
