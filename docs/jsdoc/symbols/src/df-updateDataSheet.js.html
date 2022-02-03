@@ -1,0 +1,275 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span>         updateDataSheet
+<span class='line'>  3</span>         Functions controlling data flow into the Data sheet.
+<span class='line'>  4</span>         Pulls from the Form Responses, Contact Data, and (currently unimplemented) Config sheets
+<span class='line'>  5</span> 
+<span class='line'>  6</span>         updateDataSheet()
+<span class='line'>  7</span>         pullFormData()
+<span class='line'>  8</span>         getContactData()
+<span class='line'>  9</span>         getLeaderData()
+<span class='line'> 10</span>         mergeIntoMissionData()
+<span class='line'> 11</span>         pushToMainSheet()
+<span class='line'> 12</span>         pushErrorMessages()
+<span class='line'> 13</span> */</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> 
+<span class='line'> 16</span> 
+<span class='line'> 17</span> </span><span class="COMM">/**
+<span class='line'> 18</span>   * Updates the Data sheet.
+<span class='line'> 19</span>   */</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateDataSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"BEGINNING UPDATE"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">allSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">constructSheetData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">CONFIG.FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">loadAreaIDs</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Force a full recalculation</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="COMM">//checkForErrors()?  Ex. no contact data</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pullFormData</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">missionData.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="NAME">refreshContacts</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getContactData</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">leaders</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getLeadershipAreaData</span><span class="PUNC">(</span><span class="NAME">contacts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="NAME">missionData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">mergeIntoMissionData</span><span class="PUNC">(</span><span class="NAME">missionData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"contact data"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="NAME">missionData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">mergeIntoMissionData</span><span class="PUNC">(</span><span class="NAME">missionData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">leaders</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"leadership data"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> 
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="NAME">allSheetData.data.insertData</span><span class="PUNC">(</span><span class="NAME">missionData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="WHIT">    </span><span class="NAME">markDuplicates</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="WHIT">    </span><span class="NAME">pushErrorMessages</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">//Unimplemented</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"UPDATE COMPLETED"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> 
+<span class='line'> 55</span> 
+<span class='line'> 56</span> 
+<span class='line'> 57</span> 
+<span class='line'> 58</span> 
+<span class='line'> 59</span> 
+<span class='line'> 60</span> 
+<span class='line'> 61</span> 
+<span class='line'> 62</span> 
+<span class='line'> 63</span> 
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">/**
+<span class='line'> 66</span>   * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
+<span class='line'> 67</span>   */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">pullFormData</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Pulling Form Data..."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">fSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">allSheetData.form</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">responses</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fSheetData.getData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="PUNC">[</span><span class="NAME">TODO</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="NAME">Limit</span><span class="WHIT"> </span><span class="NAME">pullFormData</span><span class="WHIT"> </span><span class="NAME">from</span><span class="WHIT"> </span><span class="NAME">pulling</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">whole</span><span class="WHIT"> </span><span class="NAME">sheet</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">sheetData.getRecentData</span><span class="PUNC">(</span><span class="NAME">maxRows</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">or</span><span class="WHIT"> </span><span class="NAME">something</span><span class="WHIT"> </span><span class="NAME">similar</span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">Specify</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="NAME">and</span><span class="WHIT"> </span><span class="NAME">min</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">?</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> 
+<span class='line'> 77</span> 
+<span class='line'> 78</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">response</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">responses</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">response.responsePulled</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">response.areaName</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">            </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DBCONFIG.LOG_RESPONSE_PULLED</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Pulling</span><span class="WHIT"> </span><span class="NAME">response</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="NAME">area</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'${response.areaName}'</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="WHIT">        </span><span class="NAME">response.areaID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getAreaID</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">response.areaName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span> </span><span class="WHIT">        </span><span class="NAME">response.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">            </span><span class="STRN">'areaID'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">response.areaID</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">            </span><span class="STRN">'areaName'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">response.areaName</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">            </span><span class="STRN">'processDate'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toDateString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">            </span><span class="STRN">'formDataPulled'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">            </span><span class="STRN">'formDataPulledTime'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toTimeString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">            </span><span class="STRN">'formTimestamp'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">response.formTimestamp</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> 
+<span class='line'> 96</span> </span><span class="WHIT">        </span><span class="NAME">missionData.push</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">    </span><span class="COMM">//Mark responses as having been pulled</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">    </span><span class="NAME">console.info</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">TODO</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Improve</span><span class="WHIT"> </span><span class="NAME">marking</span><span class="WHIT"> </span><span class="NAME">responses</span><span class="WHIT"> </span><span class="NAME">as</span><span class="WHIT"> </span><span class="NAME">pulled</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DBCONFIG.SKIP_MARKING_PULLED</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="PUNC">[</span><span class="NAME">DEBUG</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="NAME">Skipping</span><span class="WHIT"> </span><span class="NAME">marking</span><span class="WHIT"> </span><span class="NAME">Form</span><span class="WHIT"> </span><span class="NAME">Responses</span><span class="WHIT"> </span><span class="NAME">as</span><span class="WHIT"> </span><span class="NAME">having</span><span class="WHIT"> </span><span class="NAME">been</span><span class="WHIT"> </span><span class="NAME">pulled</span><span class="WHIT"> </span><span class="NAME">into</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="NAME">sheet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SKIP_MARKING_PULLED</span><span class="WHIT"> </span><span class="NAME">is</span><span class="WHIT"> </span><span class="NAME">set</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">    </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">formSheet</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fSheetData.getSheet</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">markerRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">formSheet.getRange</span><span class="PUNC">(</span><span class="STRN">"B2:B"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">formSheet.getLastRow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">        </span><span class="NAME">formSheet.getRange</span><span class="PUNC">(</span><span class="STRN">"B2"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">setValue</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="NAME">formSheet.getRange</span><span class="PUNC">(</span><span class="STRN">"B2"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">autoFill</span><span class="PUNC">(</span><span class="NAME">markerRange</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>111</span> 
+<span class='line'>112</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Finished pulling Form Data."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> 
+<span class='line'>117</span> 
+<span class='line'>118</span> 
+<span class='line'>119</span> 
+<span class='line'>120</span> 
+<span class='line'>121</span> 
+<span class='line'>122</span> 
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="COMM">/**
+<span class='line'>125</span>   * Pulls data from the Contact Data sheet and adds areaIDs.
+<span class='line'>126</span>   */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getContactData</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Getting data from Contact Data sheet..."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">cSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">allSheetData.contact</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contactData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cSheetData.getData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//contactData, keyed by areaID</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contact</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">contactData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">        </span><span class="NAME">contact.areaID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getAreaID</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contact.areaName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">contact.log</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">            </span><span class="NAME">contact.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">        </span><span class="NAME">contact.log.addedContactData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">        </span><span class="NAME">contact.log.addedContactDataTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toTimeString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="PUNC">[</span><span class="NAME">contact.areaID</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">            </span><span class="NAME">warnDataCollision</span><span class="PUNC">(</span><span class="NAME">contact.areaName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contact.areaID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="PUNC">[</span><span class="NAME">contact.areaID</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">areaName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">        </span><span class="NAME">contacts</span><span class="PUNC">[</span><span class="NAME">contact.areaID</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">contact</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Finished pulling contact data."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> 
+<span class='line'>151</span> 
+<span class='line'>152</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">warnDataCollision</span><span class="PUNC">(</span><span class="NAME">area</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">otherArea</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">        </span><span class="COMM">// Logger.log(`Potential data collision while pulling data from contacts: tried to add area '${area}' with id '${id}', but that id already has data for area '${otherArea}'`)</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">        </span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Potential</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="NAME">collision</span><span class="WHIT"> </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="NAME">pulling</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="NAME">from</span><span class="WHIT"> </span><span class="NAME">contacts</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">tried</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">add</span><span class="WHIT"> </span><span class="NAME">area</span><span class="WHIT"> </span><span class="STRN">'${area}'</span><span class="WHIT"> </span><span class="KEYW">with</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="STRN">'${id}'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">but</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="NAME">already</span><span class="WHIT"> </span><span class="NAME">has</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="NAME">area</span><span class="WHIT"> </span><span class="STRN">'${otherArea}'</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> 
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="COMM">/**
+<span class='line'>161</span>   * Merges data from an additional data source (contact data, config data, etc) into missionData, assuming the formatting Reference.gs describes.
+<span class='line'>162</span>   * Used to pull contact and leader data into missionData.
+<span class='line'>163</span>   * Takes a reference to missionData, a reference to the datasource, and an ID string for that datasource.
+<span class='line'>164</span>   */</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">mergeIntoMissionData</span><span class="PUNC">(</span><span class="NAME">missionData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sourceData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sourceID</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Beginning</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">merge</span><span class="WHIT"> </span><span class="NAME">source</span><span class="WHIT"> </span><span class="STRN">'${sourceID}'</span><span class="WHIT"> </span><span class="NAME">into</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> 
+<span class='line'>168</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">newMissionData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">mdKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">missionData</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">sdKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">sourceData</span><span class="PUNC">[</span><span class="NAME">missionData</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">areaID</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Set</span><span class="PUNC">(</span><span class="NAME">mdKeys.concat</span><span class="PUNC">(</span><span class="NAME">sdKeys</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//Set of all keys from both objects (a Set removes duplicates automatically)</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">missionAreaData</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">missionAreaData.areaID</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">areaName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">missionAreaData.areaName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">        </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">sourceAreaData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sourceData</span><span class="PUNC">[</span><span class="NAME">missionAreaData.areaID</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> 
+<span class='line'>179</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">DBCONFIG.LOG_MERGE_DATA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Merging</span><span class="WHIT"> </span><span class="NAME">area</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">areaName</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">areaID</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">from</span><span class="WHIT"> </span><span class="NAME">source</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">sourceID</span><span class="PUNC">}</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> 
+<span class='line'>181</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">sourceAreaData</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="COMM">//Error if can't find corresponding areaID</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="TOKN">`</span><span class="NAME">Found</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="NAME">form</span><span class="WHIT"> </span><span class="NAME">response</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="NAME">area</span><span class="WHIT"> </span><span class="STRN">'${areaName}'</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="WHIT"> </span><span class="STRN">'${areaID}'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">but</span><span class="WHIT"> </span><span class="NAME">couldn</span><span class="STRN">'t find that area in source '</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">sourceID</span><span class="PUNC">}</span><span class="STRN">'`;
+<span class='line'>183</span> 
+<span class='line'>184</span> 
+<span class='line'>185</span>         let newAreaData = {};
+<span class='line'>186</span>         let mergeLog =
+<span class='line'>187</span>         {
+<span class='line'>188</span>             '</span><span class="NAME">missingKeys</span><span class="STRN">': [],
+<span class='line'>189</span>             '</span><span class="NAME">collisions</span><span class="STRN">': {},
+<span class='line'>190</span>         };
+<span class='line'>191</span> 
+<span class='line'>192</span>         for (let key of keys) {
+<span class='line'>193</span> 
+<span class='line'>194</span>             let mHasKey = typeof missionAreaData[key] != '</span><span class="NAME">undefined</span><span class="STRN">';
+<span class='line'>195</span>             let sHasKey = typeof sourceAreaData[key] != '</span><span class="NAME">undefined</span><span class="STRN">';
+<span class='line'>196</span> 
+<span class='line'>197</span>             //Log warnings if neither object has this key (should be unreachable), or if both do and they disagree
+<span class='line'>198</span>             if (!mHasKey && !sHasKey) {
+<span class='line'>199</span>                 logNeither(key, areaID, areaName);
+<span class='line'>200</span>                 mergeLog.missingKeys.push(key);
+<span class='line'>201</span>             }
+<span class='line'>202</span>             else if (mHasKey && sHasKey && missionAreaData[key] != sourceAreaData[key]) {
+<span class='line'>203</span>                 logDataCollision(key, areaID, areaName, sourceID, sourceAreaData[key], missionAreaData[key]);
+<span class='line'>204</span>                 mergeLog.collisions[key] =
+<span class='line'>205</span>                 {
+<span class='line'>206</span>                     '</span><span class="NAME">missionVal</span><span class="STRN">': missionAreaData[key],
+<span class='line'>207</span>                     '</span><span class="NAME">sourceVal</span><span class="STRN">': sourceAreaData[key]
+<span class='line'>208</span>                 };
+<span class='line'>209</span> 
+<span class='line'>210</span>             }
+<span class='line'>211</span> 
+<span class='line'>212</span>             //Set new value
+<span class='line'>213</span>             //Neither: empty string; missionData only: missionData value; sourceData only (or both): source value
+<span class='line'>214</span>             newAreaData[key] = (!mHasKey && !sHasKey) ? "" : (mHasKey && !sHasKey) ? missionAreaData[key] : sourceAreaData[key];
+<span class='line'>215</span> 
+<span class='line'>216</span>         }
+<span class='line'>217</span> 
+<span class='line'>218</span>         if (typeof newAreaData.log == '</span><span class="NAME">undefined</span><span class="STRN">') newAreaData.log = {};
+<span class='line'>219</span>         if (typeof newAreaData.log.merges == '</span><span class="NAME">undefined</span><span class="STRN">') newAreaData.log.merges = {};
+<span class='line'>220</span>         newAreaData.log.merges[sourceID] = mergeLog;
+<span class='line'>221</span> 
+<span class='line'>222</span>         newMissionData.push(newAreaData);
+<span class='line'>223</span>     }
+<span class='line'>224</span> 
+<span class='line'>225</span>     Logger.log(`Finished merging source '</span><span class="NAME">$</span><span class="PUNC">{</span><span class="NAME">sourceID</span><span class="PUNC">}</span><span class="STRN">'`);
+<span class='line'>226</span> 
+<span class='line'>227</span>     return newMissionData;
+<span class='line'>228</span> 
+<span class='line'>229</span> 
+<span class='line'>230</span> 
+<span class='line'>231</span>     function logNeither(key, areaID, areaName, sourceID) {
+<span class='line'>232</span>         console.warn(`Warning: couldn'</span><span class="NAME">t</span><span class="WHIT"> </span><span class="NAME">find</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="STRN">'${key}'</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="NAME">area</span><span class="WHIT"> </span><span class="STRN">'${areaName}'</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="WHIT"> </span><span class="STRN">'${areaID}'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">either</span><span class="WHIT"> </span><span class="NAME">mission</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="NAME">or</span><span class="WHIT"> </span><span class="NAME">source</span><span class="WHIT"> </span><span class="STRN">'${source}'</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">logDataCollision</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">areaID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">areaName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sourceID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sourceAreaDataOfKey</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">missionAreaDataOfKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">        </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Warning</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">possible</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="NAME">collision</span><span class="WHIT"> </span><span class="NAME">on</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="STRN">'${key}'</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="NAME">area</span><span class="WHIT"> </span><span class="STRN">'${areaName}'</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="WHIT"> </span><span class="STRN">'${areaName}'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="WHIT"> </span><span class="NAME">Source</span><span class="WHIT"> </span><span class="STRN">'${sourceID}'</span><span class="WHIT"> </span><span class="NAME">has</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="STRN">'${sourceAreaDataOfKey}'</span><span class="WHIT"> </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="WHIT"> </span><span class="NAME">has</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="STRN">'${missionAreaDataOfKey}'</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>238</span> 
+<span class='line'>239</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>240</span> 
+<span class='line'>241</span> 
+<span class='line'>242</span> </span><span class="COMM">/**
+<span class='line'>243</span>   * Inserts responses from missionData into the Data sheet.
+<span class='line'>244</span>   */</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">pushToDataSheetV2</span><span class="PUNC">(</span><span class="NAME">allSheetData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">missionData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="STRN">"Pushing data to Data sheet..."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">dSheetData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">allSheetData.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">    </span><span class="NAME">dSheetData.insertData</span><span class="PUNC">(</span><span class="NAME">missionData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="WHIT">    </span><span class="NAME">Logger.log</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">Finished</span><span class="WHIT"> </span><span class="NAME">pushing</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">Data</span><span class="WHIT"> </span><span class="NAME">sheet.</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>253</span> 
+<span class='line'>254</span> 
+<span class='line'>255</span> 
+<span class='line'>256</span> 
+<span class='line'>257</span> </span><span class="COMM">/**
+<span class='line'>258</span>   * Unimplemented
+<span class='line'>259</span>   */</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">pushErrorMessages</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">    </span><span class="NAME">console.info</span><span class="PUNC">(</span><span class="TOKN">`</span><span class="NAME">TODO</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">implement</span><span class="WHIT"> </span><span class="NAME">pushErrorMessages</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="TOKN">`</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span> 
+<span class='line'>265</span> 
+<span class='line'>266</span> 
+<span class='line'>267</span> 
+<span class='line'>268</span> </span></pre></body></html>

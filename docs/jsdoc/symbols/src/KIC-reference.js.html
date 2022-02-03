@@ -1,0 +1,90 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span>         reference
+<span class='line'>  3</span>         Object data structures, property names
+<span class='line'>  4</span> */</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> 
+<span class='line'>  7</span> 
+<span class='line'>  8</span> 
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="COMM">/*
+<span class='line'> 11</span> 
+<span class='line'> 12</span> Data structure
+<span class='line'> 13</span> 
+<span class='line'> 14</span> 
+<span class='line'> 15</span> The areaID is a string that uniquely identifies an area.
+<span class='line'> 16</span> It is generated from the area email. For historical data with no recorded email, it is an arbitrary preset string.
+<span class='line'> 17</span> 
+<span class='line'> 18</span> 
+<span class='line'> 19</span> missionData = [
+<span class='line'> 20</span> 
+<span class='line'> 21</span>   //form response 1
+<span class='line'> 22</span>   {
+<span class='line'> 23</span>     "metadata" : { //metadata about the response, as opposed to area data (includes areaID). These WILL NOT appear in the Data sheet unless specified to do so.
+<span class='line'> 24</span>       "areaID" : "01234@missionary.org",
+<span class='line'> 25</span>       "hasContactData" : TRUE,
+<span class='line'> 26</span>       "dateContactImported" : "11/7/2021",
+<span class='line'> 27</span>       ...
+<span class='line'> 28</span>     },
+<span class='line'> 29</span> 
+<span class='line'> 30</span>     "areaData" : { //data about the area, as opposed to metadata (does not include areaID). These will all appear in the Data sheet.
+<span class='line'> 31</span>       "areaName" : "B1A", "np" : 4, ...
+<span class='line'> 32</span>     }
+<span class='line'> 33</span> 
+<span class='line'> 34</span>   },
+<span class='line'> 35</span> 
+<span class='line'> 36</span>   //form response 2
+<span class='line'> 37</span>   {
+<span class='line'> 38</span> 
+<span class='line'> 39</span>   }...
+<span class='line'> 40</span> ]
+<span class='line'> 41</span> 
+<span class='line'> 42</span> missionData[3].areaData.areaName => "B1A"
+<span class='line'> 43</span> missionData[3].metadata.hasContactData => true
+<span class='line'> 44</span> missionData[3].metadata.areaID => "123456@missionary.org"
+<span class='line'> 45</span> 
+<span class='line'> 46</span> 
+<span class='line'> 47</span> 
+<span class='line'> 48</span> Additional data source structure (must follow this format for merging to work correctly)
+<span class='line'> 49</span> 
+<span class='line'> 50</span> contactData = {
+<span class='line'> 51</span>   //area 1
+<span class='line'> 52</span>   "A12345" : {
+<span class='line'> 53</span>     "areaName" : "B1A",
+<span class='line'> 54</span>     "district" : "B1",
+<span class='line'> 55</span>     "languageString" : "English",
+<span class='line'> 56</span>     ...
+<span class='line'> 57</span>   },
+<span class='line'> 58</span> 
+<span class='line'> 59</span>   //area2
+<span class='line'> 60</span>   "A54321" : {
+<span class='line'> 61</span>     ...
+<span class='line'> 62</span>   }
+<span class='line'> 63</span> }
+<span class='line'> 64</span> 
+<span class='line'> 65</span> contactData["A12345"].district => "B1"
+<span class='line'> 66</span> 
+<span class='line'> 67</span> 
+<span class='line'> 68</span> 
+<span class='line'> 69</span> 
+<span class='line'> 70</span> 
+<span class='line'> 71</span> Other data sources must be structured the same as contactData to function with mergeIntoMissionData()
+<span class='line'> 72</span> That is, keys are areaEmail strings, and values are objects containing area data
+<span class='line'> 73</span> 
+<span class='line'> 74</span> 
+<span class='line'> 75</span> 
+<span class='line'> 76</span> 
+<span class='line'> 77</span> 
+<span class='line'> 78</span> 
+<span class='line'> 79</span> 
+<span class='line'> 80</span> 
+<span class='line'> 81</span> 
+<span class='line'> 82</span> */</span><span class="WHIT">
+<span class='line'> 83</span> </span></pre></body></html>

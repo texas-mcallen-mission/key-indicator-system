@@ -14,7 +14,7 @@ function testAreaIDs() {
     Logger.log(id);
 }
 
-
+tut
 
 function getAreaID(allSheetData, areaName) {
     let cache = CacheService.getDocumentCache();
