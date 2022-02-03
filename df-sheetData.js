@@ -335,7 +335,7 @@ class RawSheetData {
      */
     getIndex(key) {
         if (!this.hasKey(key))
-            throw "Couldn't get index from key: key '" + key + "' not found in sheet '" + this.tabName + "'";
+            throw "Failed to get index from key: key '" + key + "' not found in sheet '" + this.tabName + "'";
 
         return this.keyToIndex[key];
     }
