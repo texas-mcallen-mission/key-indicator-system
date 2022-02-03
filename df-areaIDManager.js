@@ -37,7 +37,7 @@ function getAreaID(allSheetData, areaName) {
 
 
 /**
- * @param {{ contact: SheetData; }} allSheetData
+ * @param {*} allSheetData
  */
 function loadAreaIDs(allSheetData) {
 
