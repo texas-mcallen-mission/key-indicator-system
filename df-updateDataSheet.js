@@ -232,7 +232,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
     }
 
     function logDataCollision(key, areaID, areaName, sourceID, sourceAreaDataOfKey, missionAreaDataOfKey) {
-        Logger.log("Warning: possible data collision on key '" + key + "' for area '" + areaName + "' (id '" + areaName + "'). Source '" + sourceID + "' has value '" + sourceAreaDataOfKey + "' while missionData has value '" + missionAreaDataOfKey + "'");
+        Logger.log("Warning: possible data collision on key '" + key + "' for area '" + areaName + "' (id '" + areaID + "'). Source '" + sourceID + "' has value '" + sourceAreaDataOfKey + "' while missionData has value '" + missionAreaDataOfKey + "'");
     }
 
 }
