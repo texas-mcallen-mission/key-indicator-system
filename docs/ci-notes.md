@@ -1,29 +1,35 @@
 # Continuous Integration Notes
 
-## prerequisites
-found a very helpful jumping-off point here: https://github.com/ericanastas/deploy-google-app-script-action that REALLY helped us get started.
-This document is more or less just to help me understand what it is that I need to do to adapt that guy's stuff to my purposes.
+## Prerequisites
+
+A very helpful jumping-off point at <https://github.com/ericanastas/deploy-google-app-script-action> REALLY helped us get started.
+This document is more or less just to help me understand what it is that I need to do to adapt that guy\'s stuff to my purposes.
 
 ## Requirements
-1. Google Clasp, referenced through GitHub Actions
- - ``.clasprc.json`` - this has some really important & powerful information in it- it's basically how CLASP authenticates that you're you.  Has to be gotten locally and is in a somewhat weird spot.
- - ``.clasp.json`` - in order to use CLASP from the command line locally you have to have two versions of it: one for your PC and one for Github.  This requires ``.gitignore``'ing it.
-2. The Workflow code
- - ``main.yml``  - this requires some stuff to be set up to run properly:
-  * first you have to set up some secret tokens (this is covered in the guide) because of how scary ``.clasprc.json`` would be if it got into the wrong person's hands
-  * for the workflow to work, ``rootDir`` in ``.clasp.json`` has to be set to ``./``
+
+Google Clasp, referenced through GitHub Actions, and the Workflow code:
+
+1. ``.clasprc.json`` - This has some really important & powerful information in it. It\'s basically how CLASP authenticates that you\'re you. Has to be gotten locally and is in a somewhat weird spot.
+2. ``.clasp.json`` - In order to use CLASP from the command line locally you need two versions of it: one for your PC and one for Github.  This requires it to be in ``.gitignore``.
+3. ``main.yml`` - This is the Workflow code. It requires some set up:
+    - First you have to set up some secret tokens (covered in the guide) because of how scary ``.clasprc.json`` would be if it got into the wrong person\'s hands
+    - For the workflow to work, ``rootDir`` in ``.clasp.json`` has to be set to ``./``
 
 ## Pulling it apart
-The goals here are as follows:
-1. Get separate sets of CI stuff working so that I can automatically push a release branch into release, & the main dev branch into dev automatically.
- - the reason this is important is because we have automated triggers that amongst other things tell us when stuff breaks.
-2. be able to have the local ``.clasp.json`` file co-exist with the server version
- - this would be super handy because it would mean that CI and local CLASP wouldn't interfere with each other
- - However, if we're working exclusively off the cloud now using ``vscode.dev`` & ``github.dev``, this is a lot less of a problem.
-3. Get this stable enough that we can auto push into a live release eventually
- - side goal: implement deep error tracking & timing so that we can make a dashboard in DataStudio to monitor program health and potentially identify problem spots.  😁
+
+The goals are as follows:
+
+1. Get separate sets of CI stuff working so that I can automatically push a release branch into the release Sheet & the main branch into the dev Sheet automatically.
+    - This is important because we have automated triggers that things tell us when stuff breaks.
+2. Have the local ``.clasp.json`` file co-exist with the server version.
+    - This would mean that CI and local CLASP wouldn\'t interfere with each other.
+    - However, if we\'re working exclusively off the cloud now using ``vscode.dev`` & ``github.dev``, this is a lot less of a problem.
+3. (Possibly not) Get this stable enough that we can auto-push into a live release eventually.
+
+- Side goal: implement deep error tracking & timing so that we can make a dashboard in DataStudio to monitor program health and potentially identify problem spots.
 
 ## ``.clasp.json``
+
 ```json
 {
     "scriptId": "ID OF GOOGLE SCRIPT",
@@ -35,7 +41,9 @@ The goals here are as follows:
 ```
 
 ## ``main.yml``
-To the untrained programmer that I am, this was ***mind-blowing*** an entire VM lives and dies based on some YAML, which is just insane. 
+
+To the untrained programmer that I am, it was mind-blowing to realize that an entire VM lives and dies based on some YAML.
+
 ```yaml
 name: Deploy Script
 
@@ -94,19 +102,19 @@ jobs:
         # In my understanding the reason why most of the above is necessary is because we can't do stuff 
       - name: Checkout repo
         id: checkout-repo
-        if: ${{github.event_name	!= 'schedule' }}
+        if: ${{github.event_name != 'schedule' }}
         uses: actions/checkout@v2
 
       - name: Set scriptId in .clasp.json file
         id: set-script-id
-        if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
+        if: ${{ github.event_name != 'schedule' && env.SCRIPT_ID}}
         run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         env:
           SCRIPT_ID: ${{secrets.SCRIPT_ID}}
 
       - name: Push script to scripts.google.com
         id: clasp-push
-        if: ${{ github.event_name	!= 'schedule'}}
+        if: ${{ github.event_name != 'schedule'}}
         run: clasp push -f
 
       - name: Deploy Script
@@ -143,27 +151,3 @@ jobs:
   #         MATRIX_CONTEXT: ${{ toJSON(matrix) }}
   #       run: echo "$MATRIX_CONTEXT"
   ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
