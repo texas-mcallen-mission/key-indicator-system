@@ -158,7 +158,21 @@ class SheetData {
         return this.rsd.getAllOfIndex(index);
     }
 
+    /**
+     * Sets the data in the Sheet, erasing data already there. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    setValues(values) {
+        this.rsd.setValues(values);
+    }
 
+    /**
+     * Inserts rows of data into the Sheet, formatted as an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    setData(data) {
+        this.rsd.setData(data);
+    }
 }
 
 
