@@ -9,10 +9,7 @@
 
 let AREA_IDS_CACHE_KEY = 'turtles and unicorns';
 
-function testAreaIDs() {
-    let id = getAreaID('my area name');
-    Logger.log(id);
-}
+
 
 /**
  * Returns the areaID string of the given area.
