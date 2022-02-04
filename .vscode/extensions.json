@@ -1,5 +1,10 @@
 {
     "recommendations": [
+        "aaron-bond.better-comments",
+        "dbaeumer.vscode-eslint",
+        "github.vscode-pull-request-github",
+        "davidanson.vscode-markdownlint",
+        "gruntfuggly.todo-tree",
         "bierner.markdown-preview-github-styles"
     ]
 }

@@ -1,7 +1,8 @@
-
-
 # ignore .clasp.json so that I can have different versions in the cloud and locally
 .clasp.json
 
 # ignore GAS stubs so they don't get pushed to Google Sheets
 tsignore-gas-classes.js
+
+# ignore jsdoc html files, since .claspignore doesn't seem to work and to avoid huge commits every update
+docs/jsdoc
