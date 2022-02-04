@@ -9,13 +9,14 @@
 
 let AREA_IDS_CACHE_KEY = 'turtles and unicorns';
 
-function testAreaIDs() {
-    let id = getAreaID('my area name');
-    Logger.log(id);
-}
 
 
-
+/**
+ * Returns the areaID string of the given area.
+ * @param {*} allSheetData 
+ * @param {string} areaName 
+ * @returns {string} The areaID string.
+ */
 function getAreaID(allSheetData, areaName) {
     let cache = CacheService.getDocumentCache();
     let areaIDs_JSONString = cache.get(AREA_IDS_CACHE_KEY);
@@ -25,7 +26,7 @@ function getAreaID(allSheetData, areaName) {
         : JSON.parse(areaIDs_JSONString);
 
     if (typeof areaIDs[areaName] == 'undefined')
-        throw new ReferenceError(`Unable to get areaID - couldn't find area '${areaName}'`);
+        throw new ReferenceError("Unable to get areaID - couldn't find area " + areaName);
 
     return areaIDs[areaName];
 }
@@ -33,11 +34,11 @@ function getAreaID(allSheetData, areaName) {
 
 
 /**
- * @param {{ contact: SheetData; }} allSheetData
+ * @param {*} allSheetData
  */
 function loadAreaIDs(allSheetData) {
 
-    console.log(`Loading areaIDs`);
+    console.log('Loading areaIDs');
     console.time('Time loading areaIDs');
 
     // let allSheetData = constructSheetData();

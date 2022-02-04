@@ -11,13 +11,15 @@
 
 
 /**
- * An instance of SheetData provides greater access to the data in a Sheet, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
+ * @classdesc SheetData is basically a better version of Sheet. It provides greater access to the data in a sheet than the Sheet class does, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  * 
  * When defined, hardcoded key strings can override using header values as key strings. This allows consistant functionality even when the header row changes, and lets methods access specific types of data using the key string without needing the column index for that data. Key strings are hardcoded by being passed through the initialKeyToIndex parameter. Any keys not hardcoded are calculated internally, using the column header as the key string. Columns with blank headers are ignored.
  * 
  * For SheetData to work properly, there must be a single header row. Every nonblank row below the header row is assumed to contain data. Rows above the header row are ignored. Blank data rows (rows whose leftmost value is blank) are skipped, meaning not all SheetData functions preserve them.
  * 
  * Technical note: all of the above functionality is implemented through the hidden RawSheetData class, with SheetData as a wrapper for it.
+ * 
+ * @class
  */
 class SheetData {
 
@@ -156,7 +158,21 @@ class SheetData {
         return this.rsd.getAllOfIndex(index);
     }
 
+    /**
+     * Sets the data in the Sheet, erasing data already there. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    setValues(values) {
+        this.rsd.setValues(values);
+    }
 
+    /**
+     * Inserts rows of data into the Sheet, formatted as an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    setData(data) {
+        this.rsd.setData(data);
+    }
 }
 
 
@@ -205,7 +221,7 @@ class RawSheetData {
         this.buildIndexToKey_();
 
         this.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.tabName);
-        if (this.sheet == null) throw `Couldn't construct SheetData: no sheet found with name '${this.tabName}'`;
+        if (this.sheet == null) throw "Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'";
 
     }
 
@@ -213,29 +229,12 @@ class RawSheetData {
 
 
 
-    /*   Change from running on construct to running on get headers?
-        initInitialHeaders_(keyToIndex) {
-          let headers = [];
-    
-          for (let key in keyToIndex) {
-            let index = keyToIndex[key];
-    
-            if (typeof headers[index] != 'undefined')
-              throw "Data collision error!";
-            if (typeof SheetData.HEADER_NAMES[key] == 'undefined')
-              throw `Couldn't find initial header for key $'{key}'`
-    
-            headers[index] = SheetData.HEADER_NAMES[key];
-          }
-    
-          return headers;
-        }
-      */
+
 
 
     //Private class methods
 
-    /**
+    /*
      * Build indexToKey, the complement of keyToIndex.
      */
     buildIndexToKey_() {
@@ -247,7 +246,7 @@ class RawSheetData {
         this.indexToKey = newIndexToKey;
     }
 
-    /**
+    /*
      * Get the next blank column not assigned a key. It is NOT guaranteed to eventually return every blank column.
      * @returns The next column not assigned a key.
      */
@@ -256,29 +255,29 @@ class RawSheetData {
         return this.indexToKey.length;
     }
 
-    /**
+    /*
      * @param {string} key
      * @param {string} header
      * @param {number} index
      */
     addColumnWithHeaderAt_(key, header, index) {
-        if (key == "") throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid key: '${key}'`);
-        if (header == "") throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid header: '${header}'`);
-        if (index < 0) throw new TypeError(`Couldn't add column to sheet ${this.getTabName()}. Invalid index: ${index}`);
+        if (key == "") throw new TypeError("Couldn't add column to sheet " + this.getTabName() + ". Invalid key: " + key);
+        if (header == "") throw new TypeError("Couldn't add column to sheet " + this.getTabName() + ". Invalid header: " + header);
+        if (index < 0) throw new TypeError("Couldn't add column to sheet " + this.getTabName() + ". Invalid index: " + index);
 
         if (this.hasIndex(index))
-            throw `Potential data collision. Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that index already has key '${this.getKey(index)}'`;
+            throw "Potential data collision. Tried to add key '" + key + "' to index " + index + " in sheet " + this.getTabName() + ", but that index already has key '" + this.getKey(index) + "'";
         if (this.hasKey(key))
-            throw `Potential data collision! Tried to add key '${key}' to index ${index} in sheet ${this.getTabName()}, but that key already exists at index ${this.getIndex(key)}`;
+            throw "Potential data collision. Tried to add key '" + key + "' to index " + index + " in sheet " + this.getTabName() + ", but that key already exists at index " + this.getIndex(key);
 
-        this.getSheet().getRange(this.getHeaderRow()+1, index+1).setValue(header);
+        this.getSheet().getRange(this.getHeaderRow() + 1, index + 1).setValue(header);
 
         this.keyToIndex[key] = index;
         // @ts-ignore
         this.indexToKey[index] = key;
     }
 
-    /**
+    /*
      * @param {any} key
      * @param {any} header
      */
@@ -287,7 +286,7 @@ class RawSheetData {
         this.addColumnWithHeaderAt_(key, header, index);
     }
 
-    /**
+    /*
      * @param {any} key
      * @param {number} index
      */
@@ -296,7 +295,7 @@ class RawSheetData {
         this.addColumnWithHeaderAt_(key, header, index);
     }
 
-    /**
+    /*
      * @param {any} key
      */
     addColumn_(key) {
@@ -350,7 +349,7 @@ class RawSheetData {
      */
     getIndex(key) {
         if (!this.hasKey(key))
-            throw `Couldn't get index from key: key '${key}' not found in sheet '${this.tabName}'`;
+            throw "Failed to get index from key: key '" + key + "' not found in sheet '" + this.tabName + "'";
 
         return this.keyToIndex[key];
     }
@@ -364,7 +363,7 @@ class RawSheetData {
      */
     getKey(index) {
         if (!this.hasIndex(index))
-            throw `Couldn't get key from index: index '${index}' not defined in sheet '${this.tabName}'`;
+            throw "Couldn't get key from index: index '" + index + "' not defined in sheet '" + this.tabName + "'";
 
         // @ts-ignore
         return this.indexToKey[index];
@@ -378,7 +377,7 @@ class RawSheetData {
      * @param {number} index
      */
     hasIndex(index) {
-        if (typeof index == 'undefined') throw `Tried to use undefined as an index`;
+        if (typeof index == 'undefined') throw 'Tried to use undefined as an index';
         // @ts-ignore
         return typeof this.indexToKey[index] != 'undefined';
     }
@@ -391,7 +390,7 @@ class RawSheetData {
      * @param {string} key
      */
     hasKey(key) {
-        if (typeof key == 'undefined') throw `Tried to use undefined as a key string`;
+        if (typeof key == 'undefined') throw 'Tried to use undefined as a key string';
         return typeof this.keyToIndex[key] != 'undefined';
     }
 
@@ -448,11 +447,85 @@ class RawSheetData {
         return outValues;
     }
 
+
+
+
+
+
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Sets the data in the Sheet, erasing data already there. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    setValues(values) {
+        if (values.length == 0) return;
+        this.clearContent();
+        let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
+        range.setValues(values);
+    }
+
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
      *
      * Inserts rows of data into the Sheet, formatted as an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    setData(data) {
+        if (data.length == 0) return;
+
+        let values = [];
+        let skippedKeys = new Set();
+        let maxIndex = 0;
+
+        for (let rowData of data) {
+            let arr = [];
+            for (let key in rowData) {
+
+                if (!this.hasKey(key)) {
+                    skippedKeys.add(key);
+                } else {
+                    arr[this.getIndex(key)] = rowData[key];
+                    maxIndex = Math.max(maxIndex, this.getIndex(key));
+                }
+
+            }
+            values.push(arr);
+        }
+
+        //Force all rows to be of the same length
+        for (let arr of values)
+            if (typeof arr[maxIndex] == 'undefined')
+                arr[maxIndex] = "";
+
+        for (let key of skippedKeys)
+            Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
+
+        this.setValues(values);
+    }
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Inserts rows of data into the Sheet. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    insertValues(values) {
+        if (values.length == 0) return;
+        this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+        let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
+        range.setValues(values);
+    }
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Sets the data in the Sheet, erasing data already there. Takes an array of row objects.
      * @param {Object} data The data to insert.
      */
     insertData(data) {
@@ -483,24 +556,17 @@ class RawSheetData {
                 arr[maxIndex] = "";
 
         for (let key of skippedKeys)
-            Logger.log(`Skipped key ${key} while pushing to sheet ${this.tabName}. Sheet doesn't have that key`);
+            Logger.log("Skipped key " + key + " while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
 
         this.insertValues(values);
     }
 
-    /**
-     * !!WARNING!!
-     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
-     *
-     * Inserts rows of data into the Sheet. Takes a 2D array.
-     * @param {any[][]} values The values to insert.
-     */
-    insertValues(values) {
-        if (values.length == 0) return;
-        this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
-        let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
-        range.setValues(values);
-    }
+
+
+
+
+
+
 
     /**
      * !!WARNING!!
@@ -511,6 +577,7 @@ class RawSheetData {
     clearContent() {
         let startRow = this.getHeaderRow() + 2;
         let numRows = this.getSheet().getLastRow() + 1 - startRow;
+        if (numRows == 0) return; //End if the sheet is already empty
         let numCols = this.getSheet().getLastColumn();
         this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
     }
@@ -580,7 +647,7 @@ class RawSheetData {
 
 
 
-/**
+/*
  * @param {any} allSheetData
  */
 function syncDataFlowCols_(allSheetData) {
@@ -598,12 +665,12 @@ function syncDataFlowCols_(allSheetData) {
     }
 
     let addedStr = addedKeys.length == 0 ? 'No new columns in ' + formSheetData.getTabName() : addedKeys.toString();
-    console.log(`Added ${addedKeys.length} column(s) to ${dataSheetData.getTabName()}: ` + addedStr);
+    console.log("Added " + addedKeys.length + " column(s) to " + dataSheetData.getTabName() + ": " + addedStr);
 }
 
 
 
-/**
+/*
  * Populate this SheetData with column data from the Sheet.
  * @param {any} sheetData
  */
@@ -618,7 +685,7 @@ function populateExtraColumnData_(sheetData) {
 
 
 
-/**
+/*
  * @param {{ [x: string]: any; }} allSheetData
  */
 function buildIndexToKey_(allSheetData) {
@@ -631,7 +698,7 @@ function buildIndexToKey_(allSheetData) {
             let i = sd.keyToIndex[key];
 
             if (typeof sd.indexToKey[i] != 'undefined')
-                throw `Data collision on index ${i} while building indexToKey in SheetData '${sdKey}' - tried to add key '${key}' but found value '${sd.indexToKey[i]}'`;
+                throw "Data collision on index " + i + " while building indexToKey in SheetData '" + sdKey + "' - tried to add key '" + key + "' but found value '" + sd.indexToKey[i] + "'";
 
             sd.indexToKey[i] = key;
         }
@@ -647,7 +714,7 @@ function buildIndexToKey_(allSheetData) {
 
 
 
-/**
+/*
  * WIP - nonfunctional
  * @param {SheetData} sheetData
  */
@@ -664,7 +731,7 @@ function setSheetUp_(sheetData) {
     // Checks to see if the sheet exists or not.
     let sheet = ss.getSheetByName(sheetName);
     if (!sheet) {
-        Logger.log(`Sheet '${sheetName}' not found. Creating`);
+        Logger.log("Sheet '" + sheetName + "' not found. Creating");
         sheet = ss.insertSheet(sheetName);
         sheet.appendRow(headers);     // Creating Header
     }
@@ -682,6 +749,9 @@ function setSheetUp_(sheetData) {
 
 /**
  * Get all defined instances of SheetData.
+ * 
+ * SheetData is basically a better version of Sheet. It provides greater access to the data in a sheet than the Sheet class does, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
+ * @see SheetData
  * @readonly
  * @enum {SheetData}
  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
@@ -693,7 +763,7 @@ function constructSheetData(force = false) {
     if (DBCONFIG.CACHE_SHEET_DATA && !force) {
         let allSheetData_JSON = cache.get('allSheetData');
         if (allSheetData_JSON != null) {
-            Logger.log(`Pulling allSheetData from cache`);
+            Logger.log('Pulling allSheetData from cache');
             let allSheetData = JSON.parse(allSheetData_JSON);
             return allSheetData;
         }
@@ -951,11 +1021,11 @@ function constructSheetData(force = false) {
         populateExtraColumnData_(sheetData);    //Add non-hardcoded key strings
 
         allSheetData[sdKey] = sheetData;
-        log += ` '${sheetData.getTabName()}'`;
+        log += " '" + sheetData.getTabName() + "'";
     }
     console.log(log);
 
-//    refreshContacts(allSheetData);
+    //    refreshContacts(allSheetData);
 
     syncDataFlowCols_(allSheetData);
 
