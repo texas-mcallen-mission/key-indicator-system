@@ -1075,7 +1075,7 @@ function constructSheetData(force = false) {
     //?   Object.freeze(allSheetData);
 
 
-    if (DBCONFIG.CACHE_SHEET_DATA) {
+    if (CONFIG.CACHE_SHEET_DATA) {
         let allSheetData_JSON = JSON.stringify(allSheetData);
         cache.put('allSheetData', allSheetData_JSON, 1800); //cache expiration time set to half an hour
     }
