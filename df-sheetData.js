@@ -188,6 +188,21 @@ class SheetData {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * A RawSheetData instance. This should be wrapped in a SheetData before use.
  * @see SheetData
