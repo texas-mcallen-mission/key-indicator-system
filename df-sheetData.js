@@ -1076,8 +1076,7 @@ function constructSheetData(force = false) {
 
 
     if (CONFIG.CACHE_SHEET_DATA) {
-        let allSheetData_JSON = JSON.stringify(allSheetData);
-        cache.put('allSheetData', allSheetData_JSON, 1800); //cache expiration time set to half an hour
+        cache.put(ALL_SHEET_DATA_CACHE_ID, JSON.stringify(allSheetData), 1800); //cache expiration time set to half an hour
     }
 
     return allSheetData;
