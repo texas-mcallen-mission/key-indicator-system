@@ -1,6 +1,17 @@
 //@ts-check
 // Shortcut functions just to make full-system testing from GAS easier
 
+
+
+
+function test() {
+	Logger.log("This is a test.");
+}
+
+
+
+
+
 function run_updateDataSheet() {
     updateDataSheet();
 }
