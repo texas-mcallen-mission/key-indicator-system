@@ -659,7 +659,8 @@ class RawSheetData {
  */
 function parseJsonToSheetData(jsonStr) {
     let jsonObj = JSON.parse(jsonStr);
-    let rawSheetData = new RawSheetData(jsonObj.tabName, jsonObj.headerRow, jsonObj.keyToIndex);
+    let oldRSD = jsonObj.rsd;
+    let rawSheetData = new RawSheetData(oldRSD.tabName, oldRSD.headerRow, oldRSD.keyToIndex);
     rawSheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rawSheetData.tabName);
     return new SheetData(rawSheetData);
 }
