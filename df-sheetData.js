@@ -652,6 +652,23 @@ class RawSheetData {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
 //                populateExtraColumnData()
 //                sheetDataConstructor()
