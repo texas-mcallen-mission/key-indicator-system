@@ -658,8 +658,10 @@ class RawSheetData {
  * @param {string} jsonStr - The string to be parsed.
  */
 function parseJsonToSheetData(jsonStr) {
-    let rawObj = JSON.parse(jsonStr);
-    
+    let jsonObj = JSON.parse(jsonStr);
+    let rawSheetData = new RawSheetData(jsonObj.tabName, jsonObj.headerRow, jsonObj.keyToIndex);
+    rawSheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rawSheetData.tabName);
+    return new SheetData(rawSheetData);
 }
 
 
