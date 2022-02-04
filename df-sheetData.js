@@ -799,18 +799,19 @@ function setSheetUp_(sheetData) {
  */
 function constructSheetData(force = false) {
 
-    let ALL_SHEET_DATA_CACHE_ID = "rainbows and french fries"
+    let ALL_SHEET_DATA_CACHE_ID = "rainbows and french fries";
 
     //Check the cache for allSheetData
     let cache = CacheService.getDocumentCache();
     if (DBCONFIG.CACHE_SHEET_DATA && !force) {
-        let allSheetData_JSON = cache.get(ALL_SHEET_DATA_CACHE_ID);
+        let allSheetData_JSON = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
         if (allSheetData_JSON != null) {
             Logger.log('Pulled allSheetData from cache, parsing now');
             let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
             let allSheetData = {};
             for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
-
+                //!NONFUNCTIONAL
+                //TODO
             }
             return allSheetData;
         }
@@ -1082,7 +1083,7 @@ function constructSheetData(force = false) {
 
 
     if (CONFIG.CACHE_SHEET_DATA) {
-        cache.put(ALL_SHEET_DATA_CACHE_ID, JSON.stringify(allSheetData), 1800); //cache expiration time set to half an hour
+        cache.put(CONFIG.CACHE_SHEET_DATA_ID, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
     }
 
     return allSheetData;
