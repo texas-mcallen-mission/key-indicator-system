@@ -653,8 +653,14 @@ class RawSheetData {
 
 
 
-
-
+/**
+ * Takes a JSON string of a SheetData object (a string returned from JSON.stringify()) and parses it back into a SheetData.
+ * @param {string} jsonStr - The string to be parsed.
+ */
+function parseJsonToSheetData(jsonStr) {
+    let rawObj = JSON.parse(jsonStr);
+    
+}
 
 
 
