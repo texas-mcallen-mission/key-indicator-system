@@ -799,13 +799,19 @@ function setSheetUp_(sheetData) {
  */
 function constructSheetData(force = false) {
 
+    let ALL_SHEET_DATA_CACHE_ID = "rainbows and french fries"
+
     //Check the cache for allSheetData
     let cache = CacheService.getDocumentCache();
     if (DBCONFIG.CACHE_SHEET_DATA && !force) {
-        let allSheetData_JSON = cache.get('allSheetData');
+        let allSheetData_JSON = cache.get(ALL_SHEET_DATA_CACHE_ID);
         if (allSheetData_JSON != null) {
-            Logger.log('Pulling allSheetData from cache');
-            let allSheetData = JSON.parse(allSheetData_JSON);
+            Logger.log('Pulled allSheetData from cache, parsing now');
+            let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
+            let allSheetData = {};
+            for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
+
+            }
             return allSheetData;
         }
     }
