@@ -45,6 +45,6 @@ In the command line after you run ``clasp login`` you should see something that 
 
 ## Further Reading
 
-> CLASP documentation
-> GitHub Actions documentation
-> the GitHub workflow I based my workflow on's documentation
+> - CLASP documentation
+> - GitHub Actions documentation
+> - the GitHub workflow I based my workflow on's documentation

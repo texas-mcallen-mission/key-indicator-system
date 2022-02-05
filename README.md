@@ -1,4 +1,5 @@
-# key-indicator-system  
+# key-indicator-system
+
 | Branch | Status |
 | --- | --- |
 | Main | [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) |
@@ -13,4 +14,3 @@ Code pushed into the ``/main``  branch automatically pushes to ``Github Main Bra
 We'll be putting documentation together shortly.
 
 Special thanks to <https://github.com/ericanastas/deploy-google-app-script-action> for the pre-work to allow us to have CI!
-
