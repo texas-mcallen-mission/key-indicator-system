@@ -2,7 +2,7 @@
 
 
 
-function loadDataTest(): null{
+function loadDataTest(): void{
     let allSheetData = constructSheetData()
     let zoneSheetData = allSheetData.zoneSheetData
 
