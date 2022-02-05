@@ -1,1 +1,2 @@
 tsignore-appscript-classes.js
+node_modules/**
