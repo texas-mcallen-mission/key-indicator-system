@@ -658,28 +658,32 @@ class RawSheetData {
  */
 function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
-    let allSheetData_JSON = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
-    if (allSheetData_JSON == null) {
-        console.warn("Tried to pull allSheetData from the cache but nothing was there.")
+    let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
+    if (allSheetData_JSONString == null) {
+        console.warn("Tried to pull allSheetData from the cache but nothing was saved there.")
         return null;
     }
 
-    Logger.log('Pulled allSheetData from cache, parsing now');
-    let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
+    console.log('Pulled allSheetData from cache, parsing now');
+    let sheetDataObjectLiterals = JSON.parse(allSheetData_JSONString); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
+
     let allSheetData = {};
-    let log = "Parsed SheetData objects:";
+    let parsedObjects = [];
     for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
+
+        //Parse into SheetData class instance
         let sheetData = parseLiteralToSheetData(sheetDataObjectLiteral);
-        log += ", '" + sheetData.getTabName() + "'";
-    }
-    return allSheetData;
+        
+        
+        parsedObjects.push(sheetData.getTabName());
     }
 
-    let jsonObj = JSON.parse(jsonStr);
-    let oldRSD = jsonObj.rsd;
-    let rawSheetData = new RawSheetData(oldRSD.tabName, oldRSD.headerRow, oldRSD.keyToIndex);
-    rawSheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rawSheetData.tabName);
-    return new SheetData(rawSheetData);
+    if (parsedObjects.length == 0) {
+        console.warn("Unable to parse, no SheetData objects found. Cache had value: " + sheetDataObjectLiterals);
+        return null;
+    }
+
+    return allSheetData;
 }
 
 /**
