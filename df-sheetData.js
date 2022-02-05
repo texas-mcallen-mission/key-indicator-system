@@ -658,7 +658,7 @@ class RawSheetData {
  */
 function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
-    let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
+    let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_KEY);
     if (allSheetData_JSONString == null) {
         console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
         return null;
