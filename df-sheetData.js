@@ -188,6 +188,21 @@ class SheetData {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * A RawSheetData instance. This should be wrapped in a SheetData before use.
  * @see SheetData
@@ -196,12 +211,12 @@ class RawSheetData {
 
     /*
     Fields
-  
+
     tabName: The name of the Sheet this RawSheetData is tied to.
     nextFreeColumn: The index of the leftmost column with no defined key.
     sheet: The Sheet object this RawSheetData is tied to.
     headerRow: The row index of the header row.
-    
+
     keyToIndex: An object whose properties are keys (strings) representing what data goes in a column (ex "areaID", "stl2", "np").
     Its values are the indices (starting with 0) of the column with that data.
     indexToKey: The reverse of keyToIndex. An array whose value at a given index is the key corresponding to that index.
@@ -637,6 +652,69 @@ class RawSheetData {
 
 
 
+
+/**
+ * Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
+ */
+function getAllSheetDataFromCache() {
+    let cache = CacheService.getDocumentCache();
+    let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_KEY);
+    if (allSheetData_JSONString == null) {
+        console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
+        return null;
+    }
+
+    console.log('Pulled allSheetData from cache, parsing now');
+    let allSheetData_fromCache = JSON.parse(allSheetData_JSONString); //*Contains object literals representing SheetData objects. NOT members of the SheetData class yet!
+
+    let allSheetData = {};
+    let parsedObjects = [];
+    //Dig down to find the rawSheetData, fix it, and build it back up properly.
+    for (let sdKey in allSheetData_fromCache) {
+        //Extract literal (aka fake) SheetData from cache's version of allSheetData
+        let sheetDataLiteral = allSheetData_fromCache[sdKey];
+        //Extract literal RawSheetData from literal SheetData
+        let rawSheetDataLiteral = sheetDataLiteral.rsd;
+        //Turn literal RawSheetData into a real RawSheetData
+        let rawSheetData = new RawSheetData(rawSheetDataLiteral.tabName, rawSheetDataLiteral.headerRow, rawSheetDataLiteral.keyToIndex);
+        //Re-wrap real RawSheetData in a real SheetData
+        let sheetData = new SheetData(rawSheetData);
+        //Re-add real SheetData to the proper version of allSheetData
+        allSheetData[sdKey] = sheetData;
+        parsedObjects.push(sheetData.getTabName()); //For logging purposes
+    }
+
+    if (parsedObjects.length == 0) {
+        console.warn("Unable to parse, no SheetData objects found. Cache had value: " + allSheetData_fromCache);
+        return null;
+    }
+    console.info("Parsed " + parsedObjects.length + " SheetData objects: " + parsedObjects);
+    return allSheetData;
+}
+
+/**
+ * Formats and stores the allSheetData object in the cache. Can be retrieved with getAllSheetDataFromCache().
+ * @param {*} allSheetData
+ */
+function cacheAllSheetData(allSheetData) {
+    Logger.log('Caching allSheetData');
+    let cache = CacheService.getDocumentCache();
+    cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
 //                populateExtraColumnData()
 //                sheetDataConstructor()
@@ -759,14 +837,9 @@ function setSheetUp_(sheetData) {
 function constructSheetData(force = false) {
 
     //Check the cache for allSheetData
-    let cache = CacheService.getDocumentCache();
-    if (DBCONFIG.CACHE_SHEET_DATA && !force) {
-        let allSheetData_JSON = cache.get('allSheetData');
-        if (allSheetData_JSON != null) {
-            Logger.log('Pulling allSheetData from cache');
-            let allSheetData = JSON.parse(allSheetData_JSON);
-            return allSheetData;
-        }
+    if (CONFIG.CACHE_SHEET_DATA_ENABLED && !force) {
+        let allSheetData = getAllSheetDataFromCache();
+        if (allSheetData != null) return allSheetData;
     }
 
 
@@ -1034,10 +1107,7 @@ function constructSheetData(force = false) {
     //?   Object.freeze(allSheetData);
 
 
-    if (DBCONFIG.CACHE_SHEET_DATA) {
-        let allSheetData_JSON = JSON.stringify(allSheetData);
-        cache.put('allSheetData', allSheetData_JSON, 1800); //cache expiration time set to half an hour
-    }
+    if (CONFIG.CACHE_SHEET_DATA_ENABLED) cacheAllSheetData(allSheetData);
 
     return allSheetData;
 }
