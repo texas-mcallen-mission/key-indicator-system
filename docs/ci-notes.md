@@ -22,7 +22,7 @@ The goals are as follows:
 1. Get separate sets of CI stuff working so that I can automatically push a release branch into the release Sheet & the main branch into the dev Sheet automatically.
     - This is important because we have automated triggers that things tell us when stuff breaks.
 2. Have the local ``.clasp.json`` file co-exist with the server version.
-    - This would mean that CI and local CLASP wouldn\'t interfere with each other.
+    - This would mean that CI and local CLASP wouldn't interfere with each other.
     - However, if we\'re working exclusively off the cloud now using ``vscode.dev`` & ``github.dev``, this is a lot less of a problem.
 3. (Possibly not) Get this stable enough that we can auto-push into a live release eventually.
 
