@@ -670,14 +670,20 @@ function getAllSheetDataFromCache() {
     let allSheetData = {};
     let parsedObjects = [];
     for (let sdKey in allSheetData_fromCache) {
+        //Grab literal (aka fake) SheetData from cache's version of allSheetData
         let sheetDataLiteral = allSheetData_fromCache[sdKey];
-        //Parse into SheetData class instance
-        let sheetData = new SheetData(sheetDataLiteral.rsd);
-
+        //Extract literal RawSheetData from literal SheetData
+        let rawSheetDataLiteral = sheetDataLiteral.rsd;
+        //Turn literal RawSheetData into a real RawSheetData
+        let rawSheetData = new RawSheetData(rawSheetDataLiteral.tabName, rawSheetDataLiteral.headerRow, rawSheetDataLiteral.keyToIndex);
+        
         //Fix changes caused by JSON.stringify()
-        //@ts-ignore
-        sheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetData.tabName);
+        rawSheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rawSheetData.tabName);
 
+        //Re-wrap real RawSheetData in a real SheetData
+        let sheetData = new SheetData(rawSheetData);
+
+        //Add real SheetData to the new allSheetData
         allSheetData[sdKey] = sheetData;
         parsedObjects.push(sheetData.getTabName());
     }
