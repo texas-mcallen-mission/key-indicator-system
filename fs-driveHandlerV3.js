@@ -213,62 +213,62 @@ function updateFilesysV3_(
     areaMetaObj,
     orgData,
     reportBaseFolder
-  ) {
+) {
     // returns an array of filesys objects
-  
+
     // let zoneRequiredEntries = getRequiriedEntries_(contactInfo, reportLevel.zone)
-  
+
     let anyUpdates = false;
-    let preZoneData = zoneMetaObj.fsObj.length > 0 ? getFilesAndNames(zoneMetaObj.fsObj) : { names: [], fileObjArray: [] }
-    let preDistData = distMetaObj.fsObj.length > 0 ? getFilesAndNames(distMetaObj.fsObj) : { names: [], fileObjArray: [] }
-    let preAreaData = areaMetaObj.fsObj.length > 0 ? getFilesAndNames(areaMetaObj.fsObj) : { names: [], fileObjArray: [] }
-  
+    let preZoneData = zoneMetaObj.fsObj.length > 0 ? getFilesAndNames(zoneMetaObj.fsObj) : { names: [], fileObjArray: [] };
+    let preDistData = distMetaObj.fsObj.length > 0 ? getFilesAndNames(distMetaObj.fsObj) : { names: [], fileObjArray: [] };
+    let preAreaData = areaMetaObj.fsObj.length > 0 ? getFilesAndNames(areaMetaObj.fsObj) : { names: [], fileObjArray: [] };
+
     let zFolderObjs = [];
     let dFolderObjs = [];
     let aFolderObjs = [];
-  
+
     for (let zone in orgData) {
-      Logger.log(zone);
-      // pre-check to see if folder already exists
-      // let zFolderID = ""  // Originally was going to need this but realized if I use the folderObj I'll probably have less problems
-      let zFolderObj = updateFS_getCreateFolderObj_(
-        preZoneData,
-        zone,
-        reportBaseFolder,
-        reportLevel.zone
-      );
-      zFolderObjs.push(zFolderObj);
-      Logger.log(orgData[zone]);
-      Logger.log(zFolderObj);
-  
-      for (let district in orgData[zone]) {
-        Logger.log(district);
-        let dFolderObj = updateFS_getCreateFolderObj_(
-          preDistData,
-          district,
-          zFolderObj.folder,
-          reportLevel.dist
+        Logger.log(zone);
+        // pre-check to see if folder already exists
+        // let zFolderID = ""  // Originally was going to need this but realized if I use the folderObj I'll probably have less problems
+        let zFolderObj = updateFS_getCreateFolderObj_(
+            preZoneData,
+            zone,
+            reportBaseFolder,
+            reportLevel.zone
         );
-        dFolderObjs.push(dFolderObj);
-        for (let area of orgData[zone][district]) {
-          let aFolderObj = updateFS_getCreateFolderObj_(
-            preAreaData,
-            area,
-            dFolderObj.folder,
-            reportLevel.area
-          );
-          aFolderObjs.push(aFolderObj);
-          Logger.log(area);
+        zFolderObjs.push(zFolderObj);
+        Logger.log(orgData[zone]);
+        Logger.log(zFolderObj);
+
+        for (let district in orgData[zone]) {
+            Logger.log(district);
+            let dFolderObj = updateFS_getCreateFolderObj_(
+                preDistData,
+                district,
+                zFolderObj.folder,
+                reportLevel.dist
+            );
+            dFolderObjs.push(dFolderObj);
+            for (let area of orgData[zone][district]) {
+                let aFolderObj = updateFS_getCreateFolderObj_(
+                    preAreaData,
+                    area,
+                    dFolderObj.folder,
+                    reportLevel.area
+                );
+                aFolderObjs.push(aFolderObj);
+                Logger.log(area);
+            }
         }
-      }
     }
     return {
-      zoneFilesys: zFolderObjs,
-      distFilesys: dFolderObjs,
-      areaFilesys: aFolderObjs,
+        zoneFilesys: zFolderObjs,
+        distFilesys: dFolderObjs,
+        areaFilesys: aFolderObjs,
     };
-  }
-  
+}
+
 /*
  * @param {any} parentFolderId
  * @param {string} name
