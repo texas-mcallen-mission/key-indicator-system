@@ -6,3 +6,6 @@ tsignore-gas-classes.js
 
 # ignore jsdoc html files, since .claspignore doesn't seem to work and to avoid huge commits every update
 docs/jsdoc
+
+# ignore node modules folder
+node_modules/**
