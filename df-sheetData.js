@@ -1082,8 +1082,8 @@ function constructSheetData(force = false) {
     //?   Object.freeze(allSheetData);
 
 
-    if (CONFIG.CACHE_SHEET_DATA) {
-        cache.put(CONFIG.CACHE_SHEET_DATA_ID, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
+    if (CONFIG.CACHE_SHEET_DATA_ENABLED) {
+        cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
     }
 
     return allSheetData;
