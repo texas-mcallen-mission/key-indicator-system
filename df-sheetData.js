@@ -654,10 +654,22 @@ class RawSheetData {
 
 
 /**
- * Takes a JSON string of a SheetData object (a string returned from JSON.stringify()) and parses it back into a SheetData.
- * @param {string} jsonStr - The string to be parsed.
+ * Gets the allSheetData object from the cache and returns it.
  */
-function parseJsonToSheetData(jsonStr) {
+function getAllSheetDataFromCache(sheetDataObjectLiteral) {
+    let allSheetData_JSON = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
+    if (allSheetData_JSON != null) {
+        Logger.log('Pulled allSheetData from cache, parsing now');
+        let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
+        let allSheetData = {};
+        let log = "Parsed SheetData objects:";
+        for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
+            let sheetData = parseLiteralToSheetData(sheetDataObjectLiteral);
+            log += ", '" + sheetData.getTabName() + "'";
+        }
+        return allSheetData;
+    }
+
     let jsonObj = JSON.parse(jsonStr);
     let oldRSD = jsonObj.rsd;
     let rawSheetData = new RawSheetData(oldRSD.tabName, oldRSD.headerRow, oldRSD.keyToIndex);
@@ -802,19 +814,7 @@ function constructSheetData(force = false) {
     //Check the cache for allSheetData
     let cache = CacheService.getDocumentCache();
     if (DBCONFIG.CACHE_SHEET_DATA && !force) {
-        let allSheetData_JSON = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
-        if (allSheetData_JSON != null) {
-            Logger.log('Pulled allSheetData from cache, parsing now');
-            let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
-            let allSheetData = {};
-            let log = "Parsed SheetData objects:";
-            for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
-                //!NONFUNCTIONAL
-                //TODO
-                log += ", '" + sheetData.getTabName() + "'";
-            }
-            return allSheetData;
-        }
+        return getAllSheetDataFromCache();
     }
 
 
