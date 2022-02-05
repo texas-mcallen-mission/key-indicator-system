@@ -84,7 +84,7 @@ jobs:
       - name: Push script to scripts.google.com
         id: clasp-push
         if: ${{ github.event_name	!= 'schedule'}}
-        run: clasp push
+        run: clasp push -f
 
       - name: Deploy Script
         id: clasp-deploy
