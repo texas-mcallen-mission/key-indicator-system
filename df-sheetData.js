@@ -654,20 +654,25 @@ class RawSheetData {
 
 
 /**
- * Gets the allSheetData object from the cache and returns it.
+ * Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
  */
-function getAllSheetDataFromCache(sheetDataObjectLiteral) {
+function getAllSheetDataFromCache() {
+    let cache = CacheService.getDocumentCache();
     let allSheetData_JSON = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
-    if (allSheetData_JSON != null) {
-        Logger.log('Pulled allSheetData from cache, parsing now');
-        let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
-        let allSheetData = {};
-        let log = "Parsed SheetData objects:";
-        for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
-            let sheetData = parseLiteralToSheetData(sheetDataObjectLiteral);
-            log += ", '" + sheetData.getTabName() + "'";
-        }
-        return allSheetData;
+    if (allSheetData_JSON == null) {
+        console.warn("Tried to pull allSheetData from the cache but nothing was there.")
+        return null;
+    }
+
+    Logger.log('Pulled allSheetData from cache, parsing now');
+    let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
+    let allSheetData = {};
+    let log = "Parsed SheetData objects:";
+    for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
+        let sheetData = parseLiteralToSheetData(sheetDataObjectLiteral);
+        log += ", '" + sheetData.getTabName() + "'";
+    }
+    return allSheetData;
     }
 
     let jsonObj = JSON.parse(jsonStr);
@@ -675,6 +680,16 @@ function getAllSheetDataFromCache(sheetDataObjectLiteral) {
     let rawSheetData = new RawSheetData(oldRSD.tabName, oldRSD.headerRow, oldRSD.keyToIndex);
     rawSheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rawSheetData.tabName);
     return new SheetData(rawSheetData);
+}
+
+/**
+ * Formats and stores the allSheetData object in the cache. Can be retrieved with getAllSheetDataFromCache().
+ * @param {*} allSheetData
+ */
+function cacheAllSheetData(allSheetData) {
+    Logger.log('Caching allSheetData');
+    let cache = CacheService.getDocumentCache();
+    cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
 }
 
 
@@ -812,9 +827,9 @@ function setSheetUp_(sheetData) {
 function constructSheetData(force = false) {
 
     //Check the cache for allSheetData
-    let cache = CacheService.getDocumentCache();
-    if (DBCONFIG.CACHE_SHEET_DATA && !force) {
-        return getAllSheetDataFromCache();
+    if (CONFIG.CACHE_SHEET_DATA_ENABLED && !force) {
+        let allSheetData = getAllSheetDataFromCache();
+        if (allSheetData != null) return allSheetData;
     }
 
 
@@ -1082,10 +1097,7 @@ function constructSheetData(force = false) {
     //?   Object.freeze(allSheetData);
 
 
-    if (CONFIG.CACHE_SHEET_DATA_ENABLED) {
-        Logger.log('Caching allSheetData')
-        cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
-    }
+    if (CONFIG.CACHE_SHEET_DATA_ENABLED) cacheAllSheetData(allSheetData);
 
     return allSheetData;
 }
