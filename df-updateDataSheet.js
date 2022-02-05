@@ -228,7 +228,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
     function logNeither(key, areaID, areaName, sourceID) {
-        console.warn("Warning: couldn't find key '"+key+"' for area '"+areaName+"' (id '"+areaID+"') in either mission data or source '"+source+"'");
+        console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + source + "'");
     }
 
     function logDataCollision(key, areaID, areaName, sourceID, sourceAreaDataOfKey, missionAreaDataOfKey) {

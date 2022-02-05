@@ -1,6 +1,8 @@
 //@ts-check
 // Shortcut functions just to make full-system testing from GAS easier
 
+
+
 function run_updateDataSheet() {
     updateDataSheet();
 }
@@ -35,7 +37,11 @@ function run_updateForm() {
 }
 
 function clearCache() {
-    let cacheIds = [AREA_IDS_CACHE_KEY];
+    let cacheIds = [CONFIG.CACHE_AREA_IDS_KEY, CONFIG.CACHE_SHEET_DATA_KEY];
     let cache = CacheService.getDocumentCache();
     cache.removeAll(cacheIds);
+}
+
+function run_constructSheetData() {
+    let allSheetData = constructSheetData();
 }
