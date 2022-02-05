@@ -799,8 +799,6 @@ function setSheetUp_(sheetData) {
  */
 function constructSheetData(force = false) {
 
-    let ALL_SHEET_DATA_CACHE_ID = "rainbows and french fries";
-
     //Check the cache for allSheetData
     let cache = CacheService.getDocumentCache();
     if (DBCONFIG.CACHE_SHEET_DATA && !force) {
@@ -809,9 +807,11 @@ function constructSheetData(force = false) {
             Logger.log('Pulled allSheetData from cache, parsing now');
             let sheetDataObjectLiterals = JSON.parse(allSheetData_JSON); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
             let allSheetData = {};
+            let log = "Parsed SheetData objects:";
             for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
                 //!NONFUNCTIONAL
                 //TODO
+                log += ", '" + sheetData.getTabName() + "'";
             }
             return allSheetData;
         }
@@ -1083,6 +1083,7 @@ function constructSheetData(force = false) {
 
 
     if (CONFIG.CACHE_SHEET_DATA_ENABLED) {
+        Logger.log('Caching allSheetData')
         cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
     }
 
