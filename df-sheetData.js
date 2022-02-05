@@ -211,12 +211,12 @@ class RawSheetData {
 
     /*
     Fields
-  
+
     tabName: The name of the Sheet this RawSheetData is tied to.
     nextFreeColumn: The index of the leftmost column with no defined key.
     sheet: The Sheet object this RawSheetData is tied to.
     headerRow: The row index of the header row.
-    
+
     keyToIndex: An object whose properties are keys (strings) representing what data goes in a column (ex "areaID", "stl2", "np").
     Its values are the indices (starting with 0) of the column with that data.
     indexToKey: The reverse of keyToIndex. An array whose value at a given index is the key corresponding to that index.
@@ -660,26 +660,30 @@ function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
     let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_ID);
     if (allSheetData_JSONString == null) {
-        console.warn("Tried to pull allSheetData from the cache but nothing was saved there.")
+        console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
         return null;
     }
 
     console.log('Pulled allSheetData from cache, parsing now');
-    let sheetDataObjectLiterals = JSON.parse(allSheetData_JSONString); //*List of object literals representing SheetData objects. NOT members of the SheetData class yet!
+    let allSheetData_fromCache = JSON.parse(allSheetData_JSONString); //*Contains object literals representing SheetData objects. NOT members of the SheetData class yet!
 
     let allSheetData = {};
     let parsedObjects = [];
-    for (let sheetDataObjectLiteral of sheetDataObjectLiterals) {
-
+    for (let sdKey in allSheetData_fromCache) {
+        let sheetDataLiteral = allSheetData_fromCache[sdKey];
         //Parse into SheetData class instance
-        let sheetData = parseLiteralToSheetData(sheetDataObjectLiteral);
-        
-        
+        let sheetData = new SheetData(sheetDataLiteral.rsd);
+
+        //Fix changes caused by JSON.stringify()
+        //@ts-ignore
+        sheetData.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetData.tabName);
+
+        allSheetData[sdKey] = sheetData;
         parsedObjects.push(sheetData.getTabName());
     }
 
     if (parsedObjects.length == 0) {
-        console.warn("Unable to parse, no SheetData objects found. Cache had value: " + sheetDataObjectLiterals);
+        console.warn("Unable to parse, no SheetData objects found. Cache had value: " + allSheetData_fromCache);
         return null;
     }
 
