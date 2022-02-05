@@ -688,7 +688,7 @@ function getAllSheetDataFromCache() {
         console.warn("Unable to parse, no SheetData objects found. Cache had value: " + allSheetData_fromCache);
         return null;
     }
-
+    console.info("Parsed " + parsedObjects.length + " SheetData objects: " + parsedObjects);
     return allSheetData;
 }
 
