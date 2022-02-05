@@ -2,3 +2,7 @@ reference-files/**
 all-vsc-settings.json
 useful-extensions.txt
 vsc-settings.json 
+node_modules/**
+docs/**
+.vscode/**
+.github/**
