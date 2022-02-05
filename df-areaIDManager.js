@@ -57,7 +57,7 @@ function loadAreaIDs(allSheetData) {
     }
 
     let areaIDs_JSONString = JSON.stringify(areaIDs);
-    cache.put(CONFIG.CACHE_AREA_IDS_KEY, areaIDs_JSONString, CONFIG.CACHE_AREA_IDS_EXP_LIMIT); //TODO Add config option for exp time?
+    cache.put(CONFIG.CACHE_AREA_IDS_KEY, areaIDs_JSONString, CONFIG.CACHE_AREA_IDS_EXP_LIMIT);
 
     console.timeEnd('Time loading areaIDs');
     return areaIDs;
