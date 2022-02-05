@@ -130,6 +130,7 @@ function createFilesystemV3() {
     // let orgLeaderData = getMissionLeadershipData(contacts)
     // Logger.log(orgLeaderData)
 
+    //@ts-ignore
     let orgData = getMissionOrgData(allSheetData);
 
     let zoneMeta = dataLoader_(allSheetData, reportLevel.zone);
