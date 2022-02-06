@@ -26,73 +26,73 @@ function createTemplates_(filesystemObject, templateID) {
   return filesystemObjectCopy;
 }
 
-function modifyZoneTemplates_(filesystemObject, referenceDataSheet) {
-  // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
-  // currently not implemented, but *REALLLLLY* IMPORTANT
-  // Logger.log(filesysObject)
-  Logger.log("initializing data");
-  let currentDate = new Date();
-  // step 1: load data from reference sheet
-  let kicData = referenceDataSheet.getDataRange().getValues();
-  let kicHeader = kicData[0];
-  kicData.shift();
-  let zoneColumnPosition = kicHeader.indexOf("Zone");
-  Logger.log("pre-Split");
-  let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
-  let splitDataByZone = splitDataByTagEliminateDupes_(
-    kicData,
-    zoneColumnPosition,
-    isDuplicateColumnPosition
-  );
-  Logger.log("post-Split");
-  // let zoneNameCell = "B3"
-  // let scopeCell = "C3"
-  let scopeString = "Zone";
-  // let lastUpdatedRange = "C4"
+// function modifyZoneTemplates_(filesystemObject, referenceDataSheet) {
+//   // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
+//   // currently not implemented, but *REALLLLLY* IMPORTANT
+//   // Logger.log(filesysObject)
+//   Logger.log("initializing data");
+//   let currentDate = new Date();
+//   // step 1: load data from reference sheet
+//   let kicData = referenceDataSheet.getDataRange().getValues();
+//   let kicHeader = kicData[0];
+//   kicData.shift();
+//   let zoneColumnPosition = kicHeader.indexOf("Zone");
+//   Logger.log("pre-Split");
+//   let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
+//   let splitDataByZone = splitDataByTagEliminateDupes_(
+//     kicData,
+//     zoneColumnPosition,
+//     isDuplicateColumnPosition
+//   );
+//   Logger.log("post-Split");
+//   // let zoneNameCell = "B3"
+//   // let scopeCell = "C3"
+//   let scopeString = "Zone";
+//   // let lastUpdatedRange = "C4"
 
-  let configPushData = [
-    ["zone_name", scopeString],
-    ["last update: ", currentDate],
-  ];
+//   let configPushData = [
+//     ["zone_name", scopeString],
+//     ["last update: ", currentDate],
+//   ];
 
-  // TO DO:  CHANGE THE DATA PARSING TO HAPPEN ONLY ONCE, AND MAKE AN ARRAY PER ZONE.
-  // this should in theory make this the number of zones (or districts, or areas) * 100% FASTER
-  // which is basically a necessity at this point.
+//   // TO DO:  CHANGE THE DATA PARSING TO HAPPEN ONLY ONCE, AND MAKE AN ARRAY PER ZONE.
+//   // this should in theory make this the number of zones (or districts, or areas) * 100% FASTER
+//   // which is basically a necessity at this point.
 
-  for (let i = 0; i < filesystemObject.name.length; i++) {
-    let zoneName = filesystemObject.name[i];
-    configPushData[0][0] = zoneName;
-    Logger.log("beginning report for tag");
-    let templateSpreadsheetObject = SpreadsheetApp.openById(
-      filesystemObject.docID[i]
-    );
-    let targetDataSheet = getSheetOrSetUpFromOtherSource(
-      outputDataDumpSheetName,
-      kicHeader,
-      templateSpreadsheetObject
-    );
-    let configPage = getSheetOrSetUpFromOtherSource(
-      configPageSheetName,
-      ["", ""],
-      templateSpreadsheetObject
-    );
-    Logger.log("Sheets loaded");
-    // @ts-ignore
-    let zoneData = splitDataByZone.data[zoneName];
+//   for (let i = 0; i < filesystemObject.name.length; i++) {
+//     let zoneName = filesystemObject.name[i];
+//     configPushData[0][0] = zoneName;
+//     Logger.log("beginning report for tag");
+//     let templateSpreadsheetObject = SpreadsheetApp.openById(
+//       filesystemObject.docID[i]
+//     );
+//     let targetDataSheet = getSheetOrSetUpFromOtherSource(
+//       outputDataDumpSheetName,
+//       kicHeader,
+//       templateSpreadsheetObject
+//     );
+//     let configPage = getSheetOrSetUpFromOtherSource(
+//       configPageSheetName,
+//       ["", ""],
+//       templateSpreadsheetObject
+//     );
+//     Logger.log("Sheets loaded");
+//     // @ts-ignore
+//     let zoneData = splitDataByZone.data[zoneName];
 
-    Logger.log("zoneData Loaded");
-    sendDataToDisplayV3_(kicHeader, zoneData, targetDataSheet);
-    Logger.log("Data Sent To Display");
-    let configDataRange = configPage
-      .getRange("B3:C4")
-      .setValues(configPushData);
-    Logger.log("config page Sent");
-    // SpreadsheetApp.flush()
-    Logger.log("flushed!");
-  }
+//     Logger.log("zoneData Loaded");
+//     sendDataToDisplayV3_(kicHeader, zoneData, targetDataSheet);
+//     Logger.log("Data Sent To Display");
+//     let configDataRange = configPage
+//       .getRange("B3:C4")
+//       .setValues(configPushData);
+//     Logger.log("config page Sent");
+//     // SpreadsheetApp.flush()
+//     Logger.log("flushed!");
+//   }
 
-  // SpreadsheetApp.flush()
-}
+//   // SpreadsheetApp.flush()
+// }
 function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
   // currently not implemented, but *REALLLLLY* IMPORTANT
@@ -122,11 +122,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   }
   Logger.log("pre-Split");
   let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
-  let splitDataByTag = splitDataByTag_(
-    kicData,
-    columnPosition,
-    isDuplicateColumnPosition
-  );
+  let splitDataByTag = splitDataByTagEliminateDupes_(kicData,columnPosition,isDuplicateColumnPosition);
   // Logger.log(["TAGARRAY",splitDataByTag.tagArray])
   Logger.log("post-Split");
   // let zoneNameCell = "B3"
@@ -158,6 +154,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
       configPageSheetName,
       templateSpreadsheetObject
     );
+
     Logger.log("Sheets loaded");
     // @ts-ignore
     let tagData = splitDataByTag.data[tagName];
@@ -197,19 +194,14 @@ function updateZoneReports() {
   let newData = zoneSheetData.getValues();
 
   Logger.log(newData);
-  // return
-  // let storedZoneData = getSheetDataWithHeader_(storedZoneDataSheet); // was 'zoneDataSheetName'
-  // Logger.log(storedZoneData)
 
   let filesysObject = splitToDataStruct(newData);
 
   Logger.log("making modifiedFilesysObject");
-  // Logger.log(filesysObject)
   let modifiedFilesysObject = createTemplates_(
     filesysObject,
     zoneTemplateSpreadsheetId
   );
-  // Logger.log(modifiedFilesysObject)
 
   let filesysData = [];
   for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
