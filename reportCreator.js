@@ -162,6 +162,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     // Logger.log(tagData)
 
     Logger.log("zoneData Loaded");
+    Logger.log([tagName,tagData])
     sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
     Logger.log("Data Sent To Display");
     let configDataRange = configPage
