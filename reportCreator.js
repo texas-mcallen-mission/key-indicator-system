@@ -124,16 +124,21 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
   let splitDataByTag = splitDataByTagEliminateDupes_(kicData,columnPosition,isDuplicateColumnPosition);
   // Logger.log(["TAGARRAY",splitDataByTag.tagArray])
-  Logger.log("post-Split");
+    Logger.log("post-Split");   
+    
+  Logger.log(typeof splitDataByTag.data);
+  for (let splitTag in splitDataByTag) {
+    Logger.log(splitTag);
+    for (let data in splitDataByTag[splitTag]) {
+      Logger.log(typeof data);
+      Logger.log(splitDataByTag[splitTag][data]);
+    }
+  } 
   // let zoneNameCell = "B3"
   // let scopeCell = "C3"
-
   // let lastUpdatedRange = "C4"
 
-  let configPushData = [
-    ["_name", scopeString],
-    ["last update: ", currentDate],
-  ];
+  let configPushData = [["_name", scopeString],["last update: ", currentDate],];
 
   // TO DO:  CHANGE THE DATA PARSING TO HAPPEN ONLY ONCE, AND MAKE AN ARRAY PER ZONE.
   // this should in theory make this the number of zones (or districts, or areas) * 100% FASTER
@@ -143,17 +148,9 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     let tagName = filesystemObject.name[i];
     configPushData[0][0] = tagName;
     Logger.log("beginning report for tag");
-    let templateSpreadsheetObject = SpreadsheetApp.openById(
-      filesystemObject.docID[i]
-    );
-    let targetDataSheet = getReportFromOtherSource(
-      outputDataDumpSheetName,
-      templateSpreadsheetObject
-    );
-    let configPage = getReportFromOtherSource(
-      configPageSheetName,
-      templateSpreadsheetObject
-    );
+    let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
+    let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName,templateSpreadsheetObject);
+    let configPage = getReportFromOtherSource(configPageSheetName,templateSpreadsheetObject);
 
     Logger.log("Sheets loaded");
     // @ts-ignore
@@ -165,9 +162,7 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     Logger.log([tagName,tagData])
     sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
     Logger.log("Data Sent To Display");
-    let configDataRange = configPage
-      .getRange("B3:C4")
-      .setValues(configPushData);
+    let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
     Logger.log("config page Sent");
     SpreadsheetApp.flush();
     Logger.log("flushed!");
