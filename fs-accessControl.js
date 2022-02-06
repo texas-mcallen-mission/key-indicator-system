@@ -79,8 +79,8 @@ function shareFileSys() {
 
         // zoneFolder.addEditors(zEmails);
         // zoneFolder.addEditors(officeEmails);
-        silentAddEditors_(zoneFolderID, zEmails);
-        silentAddEditors_(zoneFolderID, officeEmails);
+        silentShareToGroup(zoneFolderID, zEmails);
+        silentShareToGroup(zoneFolderID, officeEmails);
 
         let editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
         if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
@@ -149,7 +149,7 @@ function shareFileSys() {
             }
 
             // distFolder.addEditors(dEmails);
-            silentAddEditors_(distFolderID, dEmails);
+            silentShareToGroup(distFolderID, dEmails);
 
 
 
@@ -213,8 +213,7 @@ function shareFileSys() {
                     }
                 }
 
-                areaFolder.addEditors(aEmails);
-                silentAddEditors_(areaFolderID, aEmails);
+                silentShareToGroup(areaFolderID, aEmails);
 
 
 
