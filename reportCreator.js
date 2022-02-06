@@ -178,7 +178,13 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   SpreadsheetApp.flush();
 }
 
-// let HOTFIX_HEADERS = ['Folder Name String', 'Parent Folder ID', 'Zone Folder ID', 'Sheet Report ID', '2nd Report ID (unimp)'];
+let HOTFIX_HEADERS = [
+  "Folder Name String",
+  "Parent Folder ID",
+  "Zone Folder ID",
+  "Sheet Report ID",
+  "2nd Report ID (unimp)",
+];
 
 function updateZoneReports() {
   // return ""
@@ -187,12 +193,15 @@ function updateZoneReports() {
 
   let zoneSheetData = allSheetData.zoneFilesys;
 
-  let storedZoneDataSheet = zoneSheetData.sheet;
+  let storedZoneDataSheet = zoneSheetData.getSheet();
+  let newData = zoneSheetData.getValues();
 
-  let storedZoneData = getSheetDataWithHeader_(storedZoneDataSheet); // was 'zoneDataSheetName'
+  Logger.log(newData);
+  // return
+  // let storedZoneData = getSheetDataWithHeader_(storedZoneDataSheet); // was 'zoneDataSheetName'
   // Logger.log(storedZoneData)
 
-  let filesysObject = splitToDataStruct(storedZoneData.data);
+  let filesysObject = splitToDataStruct(newData);
 
   Logger.log("making modifiedFilesysObject");
   // Logger.log(filesysObject)
