@@ -8,6 +8,9 @@
  * Pulls contact data from the Contacts sheet and file structure data from the Filesys sheets.
  */
 function shareFileSystem() {
+
+    throw "Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission."
+
     Logger.log('Beginning read/write file sharing...');
 
     let allSheetData = constructSheetData();
