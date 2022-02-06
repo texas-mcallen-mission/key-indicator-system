@@ -86,32 +86,32 @@ function shareFileSys() {
         if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
-        if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+        // if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
 
-            //      Update Spreadsheet page protections: officeEmails only
+        //     //      Update Spreadsheet page protections: officeEmails only
 
-            let zFiles = zoneFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+        //     let zFiles = zoneFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
 
-            while (zFiles.hasNext()) {  //for each spreadsheet file
-                let file = zFiles.next();
-                let ss = SpreadsheetApp.openById(file.getId());
-                let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                    ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                );
-                if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
+        //     while (zFiles.hasNext()) {  //for each spreadsheet file
+        //         let file = zFiles.next();
+        //         let ss = SpreadsheetApp.openById(file.getId());
+        //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
+        //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+        //         );
+        //         if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
-                for (let protection of protections) {
-                    for (let editor of protection.getEditors()) {
-                        if (!officeEmails.includes(editor)) {
-                            protection.removeEditor(editor);
-                        }
-                    }
-                    protection.addEditors(officeEmails);
-                }
-            }
+        //         for (let protection of protections) {
+        //             for (let editor of protection.getEditors()) {
+        //                 if (!officeEmails.includes(editor)) {
+        //                     protection.removeEditor(editor);
+        //                 }
+        //             }
+        //             protection.addEditors(officeEmails);
+        //         }
+        //     }
 
-        }
+        // }
 
 
 
@@ -153,29 +153,29 @@ function shareFileSys() {
 
 
 
-            if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+            // if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
 
-                //      Update Spreadsheet page protections: officeEmails only
+            //     //      Update Spreadsheet page protections: officeEmails only
 
-                let dFiles = distFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+            //     let dFiles = distFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
-                while (dFiles.hasNext()) {  //for each spreadsheet file
-                    let ss = SpreadsheetApp.openById(dFiles.next().getId());
-                    let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                        ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                    );
-                    if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
+            //     while (dFiles.hasNext()) {  //for each spreadsheet file
+            //         let ss = SpreadsheetApp.openById(dFiles.next().getId());
+            //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
+            //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+            //         );
+            //         if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
-                    for (let protection of protections) {
-                        for (let editor of protection.getEditors()) {
-                            if (!officeEmails.includes(editor)) {
-                                protection.removeEditor(editor);
-                            }
-                        }
-                        protection.addEditors(officeEmails);
-                    }
-                }
-            }
+            //         for (let protection of protections) {
+            //             for (let editor of protection.getEditors()) {
+            //                 if (!officeEmails.includes(editor)) {
+            //                     protection.removeEditor(editor);
+            //                 }
+            //             }
+            //             protection.addEditors(officeEmails);
+            //         }
+            //     }
+            // }
 
 
 
@@ -218,29 +218,29 @@ function shareFileSys() {
 
 
 
-                if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
-                    //      Update Spreadsheet page protections: officeEmails only
+                // if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+                //     //      Update Spreadsheet page protections: officeEmails only
 
 
-                    let aFiles = areaFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+                //     let aFiles = areaFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
-                    while (aFiles.hasNext()) {  //for each spreadsheet file
-                        let ss = SpreadsheetApp.openById(aFiles.next().getId());
-                        let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                            ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                        );
-                        if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
+                //     while (aFiles.hasNext()) {  //for each spreadsheet file
+                //         let ss = SpreadsheetApp.openById(aFiles.next().getId());
+                //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
+                //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+                //         );
+                //         if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
-                        for (let protection of protections) {
-                            for (let editor of protection.getEditors()) {
-                                if (!officeEmails.includes(editor)) {
-                                    protection.removeEditor(editor);
-                                }
-                            }
-                            protection.addEditors(officeEmails);
-                        }
-                    }
-                }
+                //         for (let protection of protections) {
+                //             for (let editor of protection.getEditors()) {
+                //                 if (!officeEmails.includes(editor)) {
+                //                     protection.removeEditor(editor);
+                //                 }
+                //             }
+                //             protection.addEditors(officeEmails);
+                //         }
+                //     }
+                // }
 
 
 
