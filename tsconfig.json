@@ -5,6 +5,8 @@
         "lib": ["ESNext"],
         "types": [
             "google-apps-script"
-        ]
+        ],
+        "outDir": "./",
+        
     }
 }
