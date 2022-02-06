@@ -277,7 +277,6 @@ function shareFileSystem() {
 function silentShare(fileId, recipient) {
     try {
         let file = DriveApp.getFileById(fileId);
-        Logger.log(file.getName());
 
         Drive.Permissions.insert(
             {
@@ -301,6 +300,9 @@ function silentShare(fileId, recipient) {
  * @param {string} recipients - An array of email address of the users to add.
  */
 function silentShareToGroup(fileId, recipient) {
+    if (DBCONFIG.LOG_FILE_SHARING)
+        Logger.log("Sharing file/folder '" + file.getName() + "' with " + recipient);
+    
     for (let recipient of recipients) {
         silentShare(fileId, recipient);
     }
