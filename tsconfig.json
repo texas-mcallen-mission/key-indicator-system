@@ -6,7 +6,7 @@
         "types": [
             "google-apps-script"
         ],
-        "outDir": "./",
+        "outDir": "./"
         
     }
 }

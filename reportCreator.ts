@@ -51,6 +51,7 @@ function updateSingleReport(reportScope: String, allSheetData): void {
 
     let filesysData = [];
     for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
+        //@ts-ignore
         filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
     }
 
@@ -61,7 +62,7 @@ function updateSingleReport(reportScope: String, allSheetData): void {
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
 
-function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
+function modifyTemplates_(filesystemObject, referenceDataSheet, scope:String) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
