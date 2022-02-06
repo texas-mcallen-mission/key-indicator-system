@@ -20,7 +20,7 @@ function importContacts(allSheetData) {
 
 
 
-    if (DBCONFIG.FREEZE_CONTACT_DATA) {
+    if (CONFIG.FREEZE_CONTACT_DATA) {
         Logger.log("Execution halted - FREEZE_CONTACT_DATA is set to true");
         return;
     }

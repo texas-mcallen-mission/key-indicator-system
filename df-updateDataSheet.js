@@ -79,7 +79,7 @@ function pullFormData(allSheetData) {
         if (response.responsePulled == true || response.areaName == "")
             continue;
 
-        if (DBCONFIG.LOG_RESPONSE_PULLED) Logger.log("Pulling response for area: '" + response.areaName + "'");
+        if (CONFIG.LOG_RESPONSE_PULLED) Logger.log("Pulling response for area: '" + response.areaName + "'");
 
         response.areaID = getAreaID(allSheetData, response.areaName);
 
@@ -99,7 +99,7 @@ function pullFormData(allSheetData) {
 
     //Mark responses as having been pulled
     console.info("TODO: Improve marking responses as pulled");
-    if (DBCONFIG.SKIP_MARKING_PULLED) {
+    if (CONFIG.SKIP_MARKING_PULLED) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: SKIP_MARKING_PULLED is set to true");
     }
     else {
@@ -175,7 +175,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
         let areaName = missionAreaData.areaName;
         let sourceAreaData = sourceData[missionAreaData.areaID];
 
-        if (DBCONFIG.LOG_MERGE_DATA) Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
+        if (CONFIG.LOG_MERGE_DATA) Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
 
         if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
             throw "Found a form response for area '" + areaName + "' (id '" + areaID + "'), but couldn't find that area in source '" + sourceID + "'";

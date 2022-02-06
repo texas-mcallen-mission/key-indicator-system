@@ -152,7 +152,7 @@ function loadFSObjectIntoData_(fsObject) {
 function createNewFolder_(parentFolderId, name) {
     // creates new folder in parent folder, and then returns that folder's ID.
     if (isFolderAccessible_(parentFolderId) == false) {
-        if (DBCONFIG.LOG_FILESYS) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]); }
+        if (CONFIG.LOG_FILESYS) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]); }
         // Logger.log()
 
         let parentFolderID = DriveApp.getFolderById(getParentFolderID_());
@@ -162,7 +162,7 @@ function createNewFolder_(parentFolderId, name) {
         let parentFolder = DriveApp.getFolderById(parentFolderId);
         let newFolder = parentFolder.createFolder(name);
         let newFolderID = newFolder.getId();
-        if (DBCONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
+        if (CONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
         return newFolderID;
 
     }
