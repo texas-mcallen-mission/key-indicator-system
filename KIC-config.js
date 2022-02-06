@@ -38,8 +38,8 @@ let CONFIG =
     MARK_DUPLICATES_MAX_ROW_TO_CHECK: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
 
-    //WARNING: If set to true, loading the filesystem will take a VERY long time!
-    UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
+    
+    UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
 
     FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
@@ -51,20 +51,15 @@ let CONFIG =
     INCLUDE_SCOPE_IN_FOLDER_NAME: true,
 
     
-    //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs).
-    //gcopy: 1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw
-    //live: 1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g
-    KIC_FORM_ID: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',
+    
+    KIC_FORM_ID: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',     //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs).      gcopy: 1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw       live: 1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g
 
     
-    //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
-    DEL_OLD_RESPONSES_AGE_LIMIT: 0,
+    
+    DEL_OLD_RESPONSES_AGE_LIMIT: 0,    //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
 
     
-    EXCLUDE_FORM_COLS_FROM_DATA: [
-        "responsePulled",
-        "submissionEmail"
-    ],
+    EXCLUDE_FORM_COLS_FROM_DATA: ["responsePulled", "submissionEmail"],
 
     
     //Allow triggers to run
