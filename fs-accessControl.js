@@ -293,6 +293,13 @@ function silentShare(fileId, recipient) {
     }
 }
 
+/*
+ * Adds all of the given users to the list of editors for the file or folder without sending a notification email.
+ * @param {string} fileId - The file or folder ID.
+ * @param {string} recipients - An array of email address of the users to add.
+ */
+function silentShareToGroup(fileId, recipient)
+
 
 
 
