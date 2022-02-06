@@ -109,6 +109,15 @@ function updateZoneReports_TimeBasedTrigger() {
     updateZoneReports();
 }
 
+function shareFileSystem_TimeBasedTrigger() {
+    Logger.log("[TRIGGER] Running shareFileSystem() from a time-based trigger");
+    if (!DBCONFIG.ALLOW_TIMEBASED_TRIGGER_SHARE_FILE_SYSTEM) {
+        Logger.log("[TRIGGER] Execution canceled: DBCONFIG parameter ALLOW_TIMEBASED_TRIGGER_SHARE_FILE_SYSTEM is set to false");
+        return;
+    }
+    shareFileSystem();
+}
+
 
 
 
