@@ -270,7 +270,7 @@ function shareFileSystem() {
 
 
 /*
- * Adds the given user to the list of editors for the file or folder without sending a notification email.
+ * Adds the given user to the list of editors for the file or folder without sending them a notification email.
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipient - The email address of the user to add.
  */
@@ -281,8 +281,8 @@ function silentShare(fileId, recipient) {
 
         Drive.Permissions.insert(
             {
-                'role': 'reader', // or writer, fileOrganizer, organizer, owner
-                'type': 'user', // or group, domain, anyone
+                'role': 'writer',
+                'type': 'user',
                 'value': recipient
             },
             file.getId(),
@@ -296,7 +296,7 @@ function silentShare(fileId, recipient) {
 }
 
 /*
- * Adds all of the given users to the list of editors for the file or folder without sending a notification email.
+ * Adds all of the given users to the list of editors for the file or folder without sending them notification emails.
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipients - An array of email address of the users to add.
  */
