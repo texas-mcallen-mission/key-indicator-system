@@ -16,7 +16,6 @@ general
 let CONFIG =
 {
 
-    //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
     CACHE_AREA_IDS_EXP_LIMIT: 1800,   //Maximum time in seconds before the cache gets reset
 
 
@@ -61,9 +60,7 @@ let CONFIG =
     
     EXCLUDE_FORM_COLS_FROM_DATA: ["responsePulled", "submissionEmail"],
 
-    
-    //Allow triggers to run
-    //These are overridden if the associated functions are disabled, ex. if DBCONFIG.FREEZE_FILESYS is true.
+
     ALLOW_INSTALLABLE_TRIGGER_ON_OPEN: true,
     ALLOW_INSTALLABLE_TRIGGER_ON_EDIT: false,  //Not currently used
     ALLOW_TIMEBASED_TRIGGER_UPDATE_DATA_SHEET: true,
@@ -94,7 +91,6 @@ let DBCONFIG =
 
 
 
-    //Enable more detailed logger statements
     LOG_IMPORT_CONTACTS: false,
 
 
@@ -116,8 +112,7 @@ let DBCONFIG =
     LOG_OLD_sendReportToDisplayV3_: false,
 
 
-    //Disable updating spreadsheets in certain ways
-    //Direct calls to the associated functions will simply return null. If set to true, these override all relevant trigger permissions.
+
     SKIP_MARKING_PULLED: true,  //Stops marking Form Responses as having been pulled into the data sheet
 
 
