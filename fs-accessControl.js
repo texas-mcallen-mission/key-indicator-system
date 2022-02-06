@@ -298,7 +298,11 @@ function silentShare(fileId, recipient) {
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipients - An array of email address of the users to add.
  */
-function silentShareToGroup(fileId, recipient)
+function silentShareToGroup(fileId, recipient) {
+    for (let recipient of recipients) {
+        silentShare(fileId, recipient);
+    }
+}
 
 
 
