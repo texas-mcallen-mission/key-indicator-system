@@ -13,8 +13,14 @@ let CONFIG =
     //      WARNING: Caching is a work in progress! If you get a "... is not a function" error, it's probably because pulling allSheetData from the cache didn't work properly - just disable caching in the config to fix.
 
     //Store certain pieces of data in the cache, so they don't have to be recalculated as frequently
-    CACHE_SHEET_DATA: false,  //Cache allSheetData, the object returned by constructSheetData()
-    CACHE_ORG_DATA: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
+    CACHE_AREA_IDS_EXP_LIMIT: 1800,   //Maximum time in seconds before the cache gets reset
+    CACHE_AREA_IDS_KEY: "butterflies and clouds", //ID to use when storing areaIDs in the cache
+
+    CACHE_SHEET_DATA_ENABLED: true,  //Cache allSheetData, the object returned by constructSheetData()
+    CACHE_SHEET_DATA_EXP_LIMIT: 1800,   //Maximum time in seconds before the cache gets reset
+    CACHE_SHEET_DATA_KEY: "puppies and flowers", //ID to use when storing allSheetData in the cache
+
+    CACHE_ORG_DATA_ENABLED: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
     MARK_DUPLICATES_MAX_ROW_TO_CHECK: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
