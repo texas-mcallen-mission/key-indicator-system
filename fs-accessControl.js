@@ -312,7 +312,7 @@ function testSharing() {
     let fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
     let editor = 'nathaniel.gerlek@gmail.com';
 
-    silentShare('nathaniel.gerlek@missionary.org', fileId);
+    silentShare(fileId, 'nathaniel.gerlek@missionary.org');
 
 }
 
