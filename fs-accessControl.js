@@ -299,9 +299,9 @@ function silentShare(fileId, recipient) {
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipients - An array of email address of the users to add.
  */
-function silentShareToGroup(fileId, recipient) {
+function silentShareToGroup(fileId, recipients) {
     if (DBCONFIG.LOG_FILE_SHARING)
-        Logger.log("Sharing file/folder '" + file.getName() + "' with " + recipient);
+        Logger.log("Sharing file/folder '" + file.getName() + "' with " + recipients);
     
     for (let recipient of recipients) {
         silentShare(fileId, recipient);
