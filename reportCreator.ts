@@ -1,4 +1,6 @@
 //@ts-check
+let HOTFIX_HEADERS = ["Folder Name String","Parent Folder ID","Zone Folder ID","Sheet Report ID","2nd Report ID (unimp)"];
+
 function createTemplates_(filesystemObject, templateID) {
     // creates per-zone templates, moves them into the correct folders, and then
     // returns a modified filesystemObject for working with later on down the line.
@@ -89,7 +91,6 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     Logger.log("pre-Split");
     let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
     let splitDataByTag = splitDataByTagEliminateDupes_(kicData, columnPosition, isDuplicateColumnPosition);
-    // Logger.log(["TAGARRAY",splitDataByTag.tagArray])
     Logger.log("post-Split");
 
     Logger.log(typeof splitDataByTag.data);
@@ -101,10 +102,11 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
         }
     }
     Logger.log(splitDataByTag["tagArray"])
-    // let zoneNameCell = "B3"
-    // let scopeCell = "C3"
-    // let lastUpdatedRange = "C4"
-
+    /*
+     let zoneNameCell = "B3"
+     let scopeCell = "C3"
+     let lastUpdatedRange = "C4"
+    */
     let configPushData = [
         ["_name", scopeString],
         ["last update: ", currentDate],
@@ -141,13 +143,6 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     SpreadsheetApp.flush();
 }
 
-let HOTFIX_HEADERS = [
-    "Folder Name String",
-    "Parent Folder ID",
-    "Zone Folder ID",
-    "Sheet Report ID",
-    "2nd Report ID (unimp)",
-];
 
 
 // function test(){
