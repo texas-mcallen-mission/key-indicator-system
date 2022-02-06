@@ -267,38 +267,32 @@ function shareFileSys() {
 
 
 
-
-
 /*
  * Adds the given user to the list of editors for the file or folder without sending a notification email.
- * @param {string} fileId The file or folder ID.
- * @param {string} emailAddress The email address of the user to add.
+ * @param {string} fileId - The file or folder ID.
+ * @param {string} recipient - The email address of the user to add.
  */
-function silentAddEditor_(fileId, emailAddress) {
+function silentShare(fileId, recipient) {
+    try {
+        let file = DriveApp.getFileById(fileId);
+        Logger.log(file.getName());
 
-    Drive.Permissions.insert(
-        {
-            'role': 'writer',
-            'type': 'user',
-            'value': emailAddress
-        },
-        fileId,
-        {
-            'sendNotificationEmails': 'false'
-        });
-
-
+        Drive.Permissions.insert(
+            {
+                'role': 'reader', // or writer, fileOrganizer, organizer, owner
+                'type': 'user', // or group, domain, anyone
+                'value': recipient
+            },
+            file.getId(),
+            {
+                'sendNotificationEmails': 'false'
+            }
+        );
+    } catch (e) {
+        Logger.log("Failed to share:\n" + e);
+    }
 }
 
-/*
- * Adds the given array of users to the list of editors for the file or folder without sending notification emails.
- * @param {string} fileId The ID of the file or folder to be edited.
- * @param {string[]} emailAddresses An array of email addresses of the users to add.
- */
-function silentAddEditors_(fileId, emailAddresses) {
-    for (let email of emailAddresses)
-        silentAddEditor_(fileId, email);
-}
 
 
 
@@ -306,11 +300,9 @@ function silentAddEditors_(fileId, emailAddresses) {
 
 function testSharing() {
     let fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
-    let editors = ['nathaniel.gerlek@gmail.com', '20929917@missionary.org'];
+    let editor = 'nathaniel.gerlek@gmail.com';
 
-    silentAddEditorSE_('nathaniel.gerlek@missionary.org', fileId);
-
-    return;
+    silentShare('nathaniel.gerlek@missionary.org', fileId);
 
 }
 
