@@ -1,5 +1,5 @@
 //@ts-check
-let HOTFIX_HEADERS = ["Folder Name String","Parent Folder ID","Zone Folder ID","Sheet Report ID","2nd Report ID (unimp)"];
+let HOTFIX_HEADERS = ["Folder Name String", "Parent Folder ID", "Zone Folder ID", "Sheet Report ID", "2nd Report ID (unimp)"];
 
 function createTemplates_(filesystemObject, templateID) {
     // creates per-zone templates, moves them into the correct folders, and then
@@ -20,6 +20,25 @@ function createTemplates_(filesystemObject, templateID) {
     return filesystemObjectCopy;
 }
 
+function testGetScopedKIData(): void {
+    let allSheetData = constructSheetData()
+    let kiDataObj = allSheetData.data
+
+    let data = kiDataObj.getData()
+    Logger.log(data)
+    getScopedKIData(data)
+}
+
+// TODO define interface for data entry?
+function getScopedKIData(sheetData_data): any[] {
+    Logger.log(data)
+    /*  WHERE YOU LEFT OFF:
+        * Building function to load the data & scope it
+        * figuring out how to use it properly in the reports so that I don't have a bunch of weird errors
+        * basically learning TypeScript the wrong way by messing about.
+
+    */
+}
 
 function testUpdateSingleReport() {
     let allSheetData = constructSheetData()
@@ -27,6 +46,8 @@ function testUpdateSingleReport() {
     updateSingleReport(reportScope, allSheetData)
     Logger.log("Report generation completed for " + reportScope)
 }
+
+
 
 function updateSingleReport(reportScope: String, allSheetData): void {
 
@@ -62,17 +83,17 @@ function updateSingleReport(reportScope: String, allSheetData): void {
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
 
-function modifyTemplates_(filesystemObject, referenceDataSheet, scope:String) {
+function modifyTemplates_(filesystemObject, referenceData: any[], scope: String) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
     Logger.log("initializing data");
     let currentDate = new Date();
     // step 1: load data from reference sheet
-    let kicData = referenceDataSheet.getDataRange().getValues();
-    let kicHeader = kicData[0];
+    // let kicData = referenceDataSheet.getDataRange().getValues();
+    // let kicHeader = kicData[0];
     // Logger.log(["HEADEEEER",kicHeader])
-    kicData.shift();
+    // kicData.shift();
     let columnPosition = -1;
     let scopeString = "";
     switch (scope) {
