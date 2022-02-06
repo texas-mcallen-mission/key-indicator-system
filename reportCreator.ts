@@ -18,6 +18,47 @@ function createTemplates_(filesystemObject, templateID) {
     return filesystemObjectCopy;
 }
 
+
+function testUpdateSingleReport() {
+    let allSheetData = constructSheetData()
+    let reportScope = reportLevel.zone
+    updateSingleReport(reportScope, allSheetData)
+    Logger.log("Report generation completed for " + reportScope)
+}
+
+function updateSingleReport(reportScope: String, allSheetData): void {
+
+    let sheetData
+    switch (reportScope) {
+        case reportLevel.area:
+            sheetData = allSheetData.areaFilesys
+            return
+        case reportLevel.dist:
+            sheetData = allSheetData.distFilesys
+            return
+        case reportLevel.zone:
+            sheetData = allSheetData.zoneFilesys
+    }
+    // let areaSheetData = allSheetData.areaFilesys;
+
+    let storedDataSheet = sheetData.sheet;
+    let filesysObject = splitToDataStruct(sheetData.data);
+
+    Logger.log("making modifiedFilesysObject");
+    let modifiedFilesysObject = createTemplates_(filesysObject, areaTemplateSpreadsheetId);
+
+    let filesysData = [];
+    for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
+        filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
+    }
+
+    sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
+
+    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
+
+    modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
+}
+
 function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
@@ -117,45 +158,6 @@ let HOTFIX_HEADERS = [
 
 
 
-function testUpdateSingleReport() {
-    let allSheetData = constructSheetData()
-    let reportScope = reportLevel.zone
-    updateSingleReport(reportScope, allSheetData)
-    Logger.log("Report generation completed for " + reportScope)
-}
-
-function updateSingleReport(reportScope: String, allSheetData): void {
-
-    let sheetData
-    switch (reportScope) {
-        case reportLevel.area:
-            sheetData = allSheetData.areaFilesys
-            return
-        case reportLevel.dist:
-            sheetData = allSheetData.distFilesys
-            return
-        case reportLevel.zone:
-            sheetData = allSheetData.zoneFilesys
-    }
-    // let areaSheetData = allSheetData.areaFilesys;
-
-    let storedDataSheet = sheetData.sheet;
-    let filesysObject = splitToDataStruct(sheetData.data);
-
-    Logger.log("making modifiedFilesysObject");
-    let modifiedFilesysObject = createTemplates_(filesysObject, areaTemplateSpreadsheetId);
-
-    let filesysData = [];
-    for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-        filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
-    }
-
-    sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
-
-    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
-
-    modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
-}
 
 
 // 259 hope of israel
