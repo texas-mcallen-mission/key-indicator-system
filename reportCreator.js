@@ -9,19 +9,19 @@ function createTemplates_(filesystemObject, templateID) {
   let templateFile = DriveApp.getFileById(templateID);
 
   for (let i = 0; i < filesystemObjectCopy.name.length; i++) {
-    if (
-      filesystemObjectCopy.docID[i] == "Doc Id" ||
-      filesystemObjectCopy.docID[i] == "DOC ID" ||
-      filesystemObjectCopy.docID[i] == ""
-    ) {
-      // if(functionGUBED == true){Logger.log([i,filesystemObjectCopy.parentFolderID[i],filesystemObjectCopy.folderID[i]])}
-      let targetFolder = filesystemObjectCopy.folderID[i];
-      // if(functionGUBED == true){Logger.log(filesystemObjectCopy.folderID[i])}
-      let folderObject = DriveApp.getFolderById(targetFolder);
-      let fileName = filesystemObjectCopy.name[i];
-      let templateCopy = templateFile.makeCopy(fileName, folderObject);
-      filesystemObjectCopy.docID[i] = templateCopy.getId();
-    }
+	if (
+	  filesystemObjectCopy.docID[i] == "Doc Id" ||
+	  filesystemObjectCopy.docID[i] == "DOC ID" ||
+	  filesystemObjectCopy.docID[i] == ""
+	) {
+	  // if(functionGUBED == true){Logger.log([i,filesystemObjectCopy.parentFolderID[i],filesystemObjectCopy.folderID[i]])}
+	  let targetFolder = filesystemObjectCopy.folderID[i];
+	  // if(functionGUBED == true){Logger.log(filesystemObjectCopy.folderID[i])}
+	  let folderObject = DriveApp.getFolderById(targetFolder);
+	  let fileName = filesystemObjectCopy.name[i];
+	  let templateCopy = templateFile.makeCopy(fileName, folderObject);
+	  filesystemObjectCopy.docID[i] = templateCopy.getId();
+	}
   }
   return filesystemObjectCopy;
 }
@@ -107,33 +107,34 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   let columnPosition = -1;
   let scopeString = "";
   switch (scope) {
-    case reportLevel.area:
-      scopeString = "Area";
-      columnPosition = 0;
-      break;
-    case reportLevel.dist:
-      scopeString = "District";
-      columnPosition = kicHeader.indexOf("District");
-      break;
-    case reportLevel.zone:
-      scopeString = "Zone";
-      columnPosition = kicHeader.indexOf("Zone");
-      break;
+	case reportLevel.area:
+	  scopeString = "Area";
+	  columnPosition = 0;
+	  break;
+	case reportLevel.dist:
+	scopeString = "District";
+	columnPosition = kicHeader.indexOf("District");
+	break;
+	case reportLevel.zone:
+	  scopeString = "Zone";
+	  columnPosition = kicHeader.indexOf("Zone");
+	  break;
   }
   Logger.log("pre-Split");
   let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
   let splitDataByTag = splitDataByTagEliminateDupes_(kicData,columnPosition,isDuplicateColumnPosition);
   // Logger.log(["TAGARRAY",splitDataByTag.tagArray])
-    Logger.log("post-Split");   
-    
+	Logger.log("post-Split");   
+	
   Logger.log(typeof splitDataByTag.data);
   for (let splitTag in splitDataByTag) {
-    Logger.log(splitTag);
-    for (let data in splitDataByTag[splitTag]) {
-      Logger.log(typeof data);
-      Logger.log(splitDataByTag[splitTag][data]);
-    }
-  } 
+	Logger.log(splitTag);
+	for (let data in splitDataByTag[splitTag]) {
+	  Logger.log(typeof data);
+	  Logger.log(splitDataByTag[splitTag][data]);
+	}
+    } 
+    Logger.log(splitDataByTag["tagArray"])
   // let zoneNameCell = "B3"
   // let scopeCell = "C3"
   // let lastUpdatedRange = "C4"
@@ -145,27 +146,27 @@ function modifyTemplates_(filesystemObject, referenceDataSheet, scope) {
   // which is basically a necessity at this point.
 
   for (let i = 0; i < filesystemObject.name.length; i++) {
-    let tagName = filesystemObject.name[i];
-    configPushData[0][0] = tagName;
-    Logger.log("beginning report for tag");
-    let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
-    let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName,templateSpreadsheetObject);
-    let configPage = getReportFromOtherSource(configPageSheetName,templateSpreadsheetObject);
+	let tagName = filesystemObject.name[i];
+	configPushData[0][0] = tagName;
+	Logger.log("beginning report for tag");
+	let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
+	let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName,templateSpreadsheetObject);
+	let configPage = getReportFromOtherSource(configPageSheetName,templateSpreadsheetObject);
 
-    Logger.log("Sheets loaded");
-    // @ts-ignore
-    let tagData = splitDataByTag.data[tagName];
+	Logger.log("Sheets loaded");
+	// @ts-ignore
+	let tagData = splitDataByTag.data[tagName];
 
-    // Logger.log(tagData)
+	// Logger.log(tagData)
 
-    Logger.log("zoneData Loaded");
-    Logger.log([tagName,tagData])
-    sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
-    Logger.log("Data Sent To Display");
-    let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
-    Logger.log("config page Sent");
-    SpreadsheetApp.flush();
-    Logger.log("flushed!");
+	Logger.log("zoneData Loaded");
+	Logger.log([tagName,tagData])
+	sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
+	Logger.log("Data Sent To Display");
+	let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
+	Logger.log("config page Sent");
+	SpreadsheetApp.flush();
+	Logger.log("flushed!");
   }
 
   SpreadsheetApp.flush();
@@ -195,18 +196,18 @@ function updateZoneReports() {
 
   Logger.log("making modifiedFilesysObject");
   let modifiedFilesysObject = createTemplates_(
-    filesysObject,
-    zoneTemplateSpreadsheetId
+	filesysObject,
+	zoneTemplateSpreadsheetId
   );
 
   let filesysData = [];
   for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-    filesysData.push([
-      modifiedFilesysObject.name[i],
-      modifiedFilesysObject.parentFolderID[i],
-      modifiedFilesysObject.folderID[i],
-      modifiedFilesysObject.docID[i],
-    ]);
+	filesysData.push([
+	  modifiedFilesysObject.name[i],
+	  modifiedFilesysObject.parentFolderID[i],
+	  modifiedFilesysObject.folderID[i],
+	  modifiedFilesysObject.docID[i],
+	]);
   }
   // Logger.log(zoneDataHeaders)
 
@@ -229,7 +230,7 @@ function updateAreaReports() {
   let areaSheetData = allSheetData.areaFilesys;
 
   let storedAreaDataSheet =
-    areaSheetData.sheet; /*getSheetOrSetUp_(areaDataSheetName, areaDataHeaders)*/
+	areaSheetData.sheet; /*getSheetOrSetUp_(areaDataSheetName, areaDataHeaders)*/
   let storedAreaData = getSheetDataWithHeader_(storedAreaDataSheet); // was 'zoneDataSheetName'
   // Logger.log(storedZoneData)
 
@@ -238,19 +239,19 @@ function updateAreaReports() {
   Logger.log("making modifiedFilesysObject");
   // Logger.log(filesysObject)
   let modifiedFilesysObject = createTemplates_(
-    filesysObject,
-    areaTemplateSpreadsheetId
+	filesysObject,
+	areaTemplateSpreadsheetId
   );
   // Logger.log(modifiedFilesysObject)
 
   let filesysData = [];
   for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-    filesysData.push([
-      modifiedFilesysObject.name[i],
-      modifiedFilesysObject.parentFolderID[i],
-      modifiedFilesysObject.folderID[i],
-      modifiedFilesysObject.docID[i],
-    ]);
+	filesysData.push([
+	  modifiedFilesysObject.name[i],
+	  modifiedFilesysObject.parentFolderID[i],
+	  modifiedFilesysObject.folderID[i],
+	  modifiedFilesysObject.docID[i],
+	]);
   }
 
   sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedAreaDataSheet);
@@ -277,19 +278,19 @@ function updateDistrictReports() {
   Logger.log("making modifiedFilesysObject");
   // Logger.log(filesysObject)
   let modifiedFilesysObject = createTemplates_(
-    filesysObject,
-    distTemplateSpreadsheetId
+	filesysObject,
+	distTemplateSpreadsheetId
   );
   // Logger.log(modifiedFilesysObject)
 
   let filesysData = [];
   for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-    filesysData.push([
-      modifiedFilesysObject.name[i],
-      modifiedFilesysObject.parentFolderID[i],
-      modifiedFilesysObject.folderID[i],
-      modifiedFilesysObject.docID[i],
-    ]);
+	filesysData.push([
+	  modifiedFilesysObject.name[i],
+	  modifiedFilesysObject.parentFolderID[i],
+	  modifiedFilesysObject.folderID[i],
+	  modifiedFilesysObject.docID[i],
+	]);
   }
 
   sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedDistrictDataSheet);
