@@ -7,7 +7,7 @@
  * Shares folders in the file structure with the appropriate area emails.
  * Pulls contact data from the Contacts sheet and file structure data from the Filesys sheets.
  */
-function shareFileSys() {
+function shareFileSystem() {
     Logger.log('Beginning read/write file sharing...');
 
     let allSheetData = constructSheetData();
