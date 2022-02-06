@@ -2,7 +2,7 @@
     "compilerOptions": {
         "allowJs": true,
         "checkJs": true,
-        "lib": ["ESNext"]
+        "lib": ["ESNext"],
         "types": [
             "google-apps-script"
         ]
