@@ -26,30 +26,35 @@ function testGetScopedKIData(): void {
 
     let data = kiDataObj.getData()
     Logger.log(data)
-    getScopedKIData(data)
+    getScopedKIData(kiDataObj)
 }
 
 
 function flog(input: any) {
-    Logger.log([typeof input, "Length: " + input.length])
+    Logger.log([input.getAttribute("name"), typeof input, "Length: " + input.length])
     Logger.log(input)
 }
 
 // TODO define interface for data entry?
-function getScopedKIData(data_object_thingy): any[] {
-    Logger.log(data_object_thingy)
+function getScopedKIData(sheetData): any[] {
+    Logger.log(data)
     /*  WHERE YOU LEFT OFF:
         * Building function to load the data & scope it
         * figuring out how to use it properly in the reports so that I don't have a bunch of weird errors
         * basically learning TypeScript the wrong way by messing about.
 
     */
-    flog(data_object_thingy)
-    let data = data_object_thingy.getData()
-    let values = data_object_thingy.getValues()
-    let range = data_object_thingy.getRange()
-    
-    
+    flog(data)
+    let data = data.getData()
+    let values = data.getValues()
+    let header = data.getHeader()
+    flog(data);
+    flog(values);
+    flog(header)
+
+
+
+
 }
 
 function testUpdateSingleReport() {
