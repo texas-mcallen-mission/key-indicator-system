@@ -56,7 +56,7 @@ function flog(input: any) {
 
 // define data entry class thingy and constructor for it so that I can have an easy - to - use and consistent way of editing stuff ?
 
-function splitDataByTagV2_(data: any{}, tag:String) {
+function splitDataByTagV2_(data, tag:String) {
     let listOfTags = []
     let dataByTag = {}
     for (let entry of data) {
