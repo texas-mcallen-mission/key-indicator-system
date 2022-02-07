@@ -27,7 +27,17 @@ function testSplitData(): void {
     // let data = kiDataObj.getData()
     // Logger.log(data)
     let data = getScopedKIData(kiDataObj);
-    let splitData = splitDataByTagV2_(data, "areaName");
+    let splitData = splitDataByTagV2_(data, "zone");
+    
+    for (zone of splitData) {
+        console.log(zone)
+        let distData = splitData(splitData[zone], "district")
+        for (let district of distData) {
+            let areaData = splitData(distData[district], "areaName")
+            let areaName = areaData[1]["areaName"]
+            console.log("Zone: ",zone," District: ",district," Area: ",areaName)
+        }
+    }
     Logger.log(splitData);
 }
 
@@ -60,13 +70,6 @@ function splitDataByTagV2_(data, tag: String) {
     let uniqueTagValues = [];
     let dataByTag = {};
 
-    /*
-        looks something like
-
-
-
-    */
-
     for (let entry of data) {
         let tagValue = entry[tag];
         if (!uniqueTagValues.includes(tagValue)) {
@@ -78,8 +81,8 @@ function splitDataByTagV2_(data, tag: String) {
         dataByTag[tagValue].push(entry);
 
     }
-    console.log("Split into  ", uniqueTagValues.length, " groups");
-    console.log(dataByTag);
+    // console.log("Split into  ", uniqueTagValues.length, " groups");
+    // console.log(dataByTag);
     return dataByTag;
 }
 
