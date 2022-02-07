@@ -165,7 +165,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
 
-    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
+    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]); //TODO Remove global sheetName variable (deprecated)
 
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
@@ -230,8 +230,8 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
         configPushData[0][0] = tagName;
         Logger.log("beginning report for tag");
         let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
-        let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject);
-        let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject);
+        let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject); // TODO @HarrierPigeon Remove global sheetName variable (deprecated)
+        let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject); // TODO @HarrierPigeon Remove global sheetName variable (deprecated)
 
         Logger.log("Sheets loaded");
         // @ts-ignore

@@ -13,7 +13,7 @@ function updateForm() {
     let areaNames = cSheetData.getAllOfKey('areaName');
     areaNames.unshift("I can't find the right area name!");
 
-    let form = FormApp.openById(CONFIG.KIC_FORM_ID);
+    let form = FormApp.openById(CONFIG.docIds_kicFormId);
 
     //Find Area Names question
     let items = form.getItems(FormApp.ItemType.LIST);
