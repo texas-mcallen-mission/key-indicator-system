@@ -64,8 +64,7 @@ function splitDataByTagV2_(data: any{}, tag:String) {
         if (listOfTags.includes(entry[tag]) == false){
             listOfTags.push(tagValue)
             dataByTag[tagValue] = []
-            // TODO - where you left off:  This little bit right here is giving me some trouble- 
-            // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
+            // TODO - where you left off:  This little bit right here is giving me some trouble - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
             dataByTag[tagValue].push(entry)
         } else {
             dataByTag[tagValue].push(entry)
@@ -165,7 +164,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
 
-    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]); //TODO Remove global sheetName variable (deprecated)
+    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]); //TODO @HarrierPigeon Remove global sheetName variable (deprecated)
 
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }

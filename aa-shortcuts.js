@@ -15,7 +15,6 @@ function run_importContacts() {
 
 function run_shareFileSys() {
     shareFileSystem();
-    //TODO Fix typescript error!
 }
 
 function run_updateReports() {
