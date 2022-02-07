@@ -27,12 +27,13 @@ function testFullUpdate() {
     let kiDataObj = allSheetData.data
     let data = removeDupesAndPII_(kiDataObj)
 
-    let contactSheetData = allSheetData.contactData
-    let contactData = contactSheetData.getData
+    // I don't think I actually need contactData for this sub-system.  :)
+    // // let contactSheetData = allSheetData.contactData
+    // // let contactData = contactSheetData.getData()
 
-    Logger.log(contactData.getData())
-    Logger.log(contactData.getHeaders())
-    Logger.log(contactData.getKeys())
+    // // Logger.log(contactData.getData())
+    // // Logger.log(contactData.getHeaders())
+    // // Logger.log(contactData.getKeys())
 
     fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope)
 
