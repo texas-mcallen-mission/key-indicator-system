@@ -177,8 +177,8 @@ function getScopedKIData_(ki_sheetData): any[] {
 function testUpdateSingleReportLevel() {
     let allSheetData = constructSheetData();
     let reportScope = reportLevel.zone;
-    updateSingleReportLevel(reportScope, allSheetData);
-    Logger.log("Report generation completed for " + reportScope);
+    // updateSingleReportLevel(reportScope, allSheetData);
+    // Logger.log("Report generation completed for " + reportScope);
     let filesysSheet
     switch (reportScope) {
         case reportLevel.area:
@@ -199,10 +199,13 @@ function testUpdateSingleReportLevel() {
 
     
 
+
+
+
 }
 
 
-
+// THIS FUNCTION, AND MOST OF ITS DEPENDENTS NEED TO BE DEPRECATED
 function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     let sheetData;
