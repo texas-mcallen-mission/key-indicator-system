@@ -20,6 +20,7 @@ let districtDataHeaders = [""]; //No more refs
 let zoneDataHeaders = [""]; //No more refs
 
 
+const functionGUBED = true; //TODO No more refs - remove?
 
 
 
@@ -45,7 +46,6 @@ let CONFIG =
     // general
 
 
-    functionGUBED: true, //TODO No more refs - remove?
 
     AREA_NAME_QUESTION_TITLE: 'Area Name',
     general_areaNameQuestionTitle: 'Area Name',
