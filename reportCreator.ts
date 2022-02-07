@@ -32,8 +32,8 @@ function testGetScopedKIData(): void {
 
 function flog(input: any) {
     // This function 
-    console.log(typeof input)
-    console.log(input)
+    Logger.log(typeof input)
+    Logger.log(input)
 }
 
 // TODO define interface for data entry?
@@ -79,26 +79,28 @@ function getScopedKIData(ki_sheetData): any[] {
     // first:  check to see if 
 
     for (let entry of data) {
-        console.log("Pre-Modifications",entry)
+        // console.log("Pre-Modifications",entry)
         for (let property of listToHide) {
             entry[property] = ""
         }
         for (let exclusions of valuesToExclude) {
             //@ts-ignore
             // loops through values we want to exclude and checks to see if they match or not. 
-            if(entry[exclusions[0]] == exclusions[1]){console.log(exclusions[0])}
+            if (entry[exclusions[0]] == exclusions[1]) {
+                
+                console.log("removed entry for",entry["areaName"],"that matched rule for",exclusions[0]);
+            }
         }
-        console.log("Post-Mods",entry)
+        // console.log("Post-Mods",entry)
     }
 
     return data
-}
 
 function testUpdateSingleReport() {
     let allSheetData = constructSheetData()
     let reportScope = reportLevel.zone
     updateSingleReportLevel(reportScope, allSheetData)
-    console.log("Report generation completed for " + reportScope)
+    Logger.log("Report generation completed for " + reportScope)
 }
 
 
@@ -121,7 +123,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
     let storedDataSheet = sheetData.sheet;
     let filesysObject = splitToDataStruct(sheetData.data);
 
-    console.log("making modifiedFilesysObject");
+    Logger.log("making modifiedFilesysObject");
     let modifiedFilesysObject = createTemplates_(filesysObject, areaTemplateSpreadsheetId);
 
     let filesysData = [];
@@ -141,7 +143,7 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
-    console.log("initializing data");
+    Logger.log("initializing data");
     let currentDate = new Date();
     // step 1: load data from reference sheet
     // let kicData = referenceDataSheet.getDataRange().getValues();
@@ -164,20 +166,20 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
             columnPosition = kicHeader.indexOf("Zone");
             break;
     }
-    console.log("pre-Split");
+    Logger.log("pre-Split");
     let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
     let splitDataByTag = splitDataByTagEliminateDupes_(referenceData, columnPosition, isDuplicateColumnPosition);
-    console.log("post-Split");
+    Logger.log("post-Split");
 
-    console.log(typeof splitDataByTag.data);
+    Logger.log(typeof splitDataByTag.data);
     for (let splitTag in splitDataByTag) {
-        console.log(splitTag);
+        Logger.log(splitTag);
         for (let data in splitDataByTag[splitTag]) {
-            console.log(typeof data);
-            console.log(splitDataByTag[splitTag][data]);
+            Logger.log(typeof data);
+            Logger.log(splitDataByTag[splitTag][data]);
         }
     }
-    console.log(splitDataByTag["tagArray"])
+    Logger.log(splitDataByTag["tagArray"])
     /*
      let zoneNameCell = "B3"
      let scopeCell = "C3"
@@ -195,25 +197,25 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
     for (let i = 0; i < filesystemObject.name.length; i++) {
         let tagName = filesystemObject.name[i];
         configPushData[0][0] = tagName;
-        console.log("beginning report for tag");
+        Logger.log("beginning report for tag");
         let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
         let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject);
         let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject);
 
-        console.log("Sheets loaded");
+        Logger.log("Sheets loaded");
         // @ts-ignore
         let tagData = splitDataByTag.data[tagName];
 
         // Logger.log(tagData)
 
-        console.log("zoneData Loaded");
-        console.log([tagName, tagData])
+        Logger.log("zoneData Loaded");
+        Logger.log([tagName, tagData])
         sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
-        console.log("Data Sent To Display");
+        Logger.log("Data Sent To Display");
         let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
-        console.log("config page Sent");
+        Logger.log("config page Sent");
         SpreadsheetApp.flush();
-        console.log("flushed!");
+        Logger.log("flushed!");
     }
 
     SpreadsheetApp.flush();
