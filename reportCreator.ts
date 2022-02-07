@@ -112,7 +112,9 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
         let line = []
         let preDate2 = new Date
         for (let headee of header) {
-            line.push(data[keys[header.indexOf(headee)]])
+            let keyPosition = header.indexOf(headee)
+            let keyName = keys[keyPosition]
+            line.push(entry[keyName]])
         }
         let postDate2 = new Date
         durations += timerFunction(preDate2, postDate2)
@@ -120,7 +122,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
         output.push(line)
     }
     let postDate = new Date
-    console.log("Single data array duration:" timerFunction(preDate, postDate), "ms - Average entry time: " durations / count, " ms")
+    console.log("Single data array duration:" timerFunction(preDate, postDate), "ms - Average entry time: ", durations / count, " ms")
     return output
     
 }
