@@ -72,7 +72,7 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
         let keyName = keys[keyPosition]
         let entryValue = entry[keyName]
     */
-    let updatedFSData = createTemplatesV2_(filesysData, reportTemplateID)
+    let updatedFSData = createTemplatesV2_(filesysObj, reportTemplateID)
     
     Logger.log("filesystem should be up to date!")
 
@@ -82,7 +82,7 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
 function createTemplatesV2_(filesysObj, templateID: String): {} {
     // This function creates copies of the template, and gives them names and moves them to the right spot.
     // returns a modified data object.
-    let fsDataCopy = fsData
+    let fsDataCopy = filesysObj.getData()
     let templateFile = DriveApp.getFileById(templateID)
     for (entry of fsDataCopy) {
         let sheet1 = entry.sheetID1;
@@ -93,6 +93,7 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
         }
     }
     Logger.log("sending Data To Display with setData()")
+    Logger.log(fsDataCopy)
     filesysObj.setData(fsDataCopy)
     Logger.log("Sent!")
     
