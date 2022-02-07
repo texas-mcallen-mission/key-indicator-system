@@ -29,15 +29,27 @@ function testGetScopedKIData(): void {
     getScopedKIData(data)
 }
 
+
+function flog(input: any) {
+    Logger.log([typeof input, "Length: " + input.length])
+    Logger.log(input)
+}
+
 // TODO define interface for data entry?
-function getScopedKIData(sheetData_data): any[] {
-    Logger.log(data)
+function getScopedKIData(data_object_thingy): any[] {
+    Logger.log(data_object_thingy)
     /*  WHERE YOU LEFT OFF:
         * Building function to load the data & scope it
         * figuring out how to use it properly in the reports so that I don't have a bunch of weird errors
         * basically learning TypeScript the wrong way by messing about.
 
     */
+    flog(data_object_thingy)
+    let data = data_object_thingy.getData()
+    let values = data_object_thingy.getValues()
+    let range = data_object_thingy.getRange()
+    
+    
 }
 
 function testUpdateSingleReport() {
