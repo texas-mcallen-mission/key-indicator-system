@@ -212,9 +212,9 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
     }
     Logger.log(splitDataByTag["tagArray"])
     /*
-     let zoneNameCell = "B3"
-     let scopeCell = "C3"
-     let lastUpdatedRange = "C4"
+    let zoneNameCell = "B3"
+    let scopeCell = "C3"
+    let lastUpdatedRange = "C4"
     */
     let configPushData = [
         ["_name", scopeString],
