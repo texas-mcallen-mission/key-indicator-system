@@ -20,29 +20,32 @@ function createTemplates_(filesystemObject, templateID) {
     return filesystemObjectCopy;
 }
 
-function testSplitData(): void {
+function testDataToArray(): void {
     let allSheetData = constructSheetData();
     let kiDataObj = allSheetData.data;
 
     // let data = kiDataObj.getData()
     // Logger.log(data)
     let data = getScopedKIData(kiDataObj);
+    let header = (kiDataObj.getHeaders()
+    let keys = getKeys()
+    
     let splitData = splitDataByTagV2_(data, "zone");
-    Logger.log(kiDataObj.getKeys())
-    Logger.log(kiDataObj.getHeaders())
-
+    
     // test to see if splitData would work well or not
-    /*for (let zone in splitData) {
+    for (let zone in splitData) {
         console.log(zone)
         let distData = splitDataByTagV2_(splitData[zone], "district")
         for (let district in distData) {
             let areaData = splitDataByTagV2_(distData[district], "areaName")
             for (let area in areaData) {
-                console.log("Zone: ",zone," District: ",district," Area: ",area)
+                console.log("Zone: ", zone, " District: ", district, " Area: ", area)
+                
                 
             }
         }
-    }*/
+    }
+    let dataArray = turnDataIntoArray(data, header, keys)
     Logger.log(splitData);
 }
 
@@ -91,7 +94,36 @@ function splitDataByTagV2_(data, tag: String) {
     return dataByTag;
 }
 
+function timerFunction(pre: Date, post: Date) {
+    return post.getMilliseconds() - pre.getMilliseconds()
+}
 
+function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
+    // returns an array that stays in the same format as the input header.
+    // for this to work:
+    // * the input key array & header array have to be in the same order and match up
+    // * the keys sent to this function have to be any subset of the ones sent in the data array
+    // once fully tested, this function will be super powerful :)
+    let preDate = new Date
+    let output = []
+    let count = 0
+    let durations = 0
+    for (let entry of data) {
+        let line = []
+        let preDate2 = new Date
+        for (let headee of header) {
+            line.push(data[keys[header.indexOf(headee)]])
+        }
+        let postDate2 = new Date
+        durations += timerFunction(preDate2, postDate2)
+        count +=1
+        output.push(line)
+    }
+    let postDate = new Date
+    console.log("Single data array duration:" timerFunction(preDate, postDate), "Average entry time: " durations / count)
+    return output
+    
+}
 
 function getScopedKIData(ki_sheetData): any[] {
 
