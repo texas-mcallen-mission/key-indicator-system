@@ -21,21 +21,21 @@ function createTemplates_(filesystemObject, templateID) {
 }
 
 function testSplitData(): void {
-    let allSheetData = constructSheetData()
-    let kiDataObj = allSheetData.data
+    let allSheetData = constructSheetData();
+    let kiDataObj = allSheetData.data;
 
     // let data = kiDataObj.getData()
     // Logger.log(data)
-    let data = getScopedKIData(kiDataObj)
-    let splitData = splitDataByTagV2_(data, "Area Name")
-    Logger.log(splitData)
+    let data = getScopedKIData(kiDataObj);
+    let splitData = splitDataByTagV2_(data, "Area Name");
+    Logger.log(splitData);
 }
 
 
 function thanDoesntLikeMeLogger(input: any) {
     // This function 
-    Logger.log(typeof input)
-    Logger.log(input)
+    Logger.log(typeof input);
+    Logger.log(input);
 }
 
 // TODO define interface for data entry?
@@ -56,9 +56,9 @@ function thanDoesntLikeMeLogger(input: any) {
 
 // define data entry class thingy and constructor for it so that I can have an easy - to - use and consistent way of editing stuff ?
 
-function splitDataByTagV2_(data, tag:String) {
-    let listOfTags = []
-    let dataByTag = {}
+function splitDataByTagV2_(data, tag: String) {
+    let listOfTags = [];
+    let dataByTag = {};
 
     /*
         looks something like
@@ -68,22 +68,22 @@ function splitDataByTagV2_(data, tag:String) {
     */
 
     for (let entry of data) {
-        let tagValue = entry[tag]
-        if (listOfTags.includes(entry[tag]) == false){
-            listOfTags.push(tagValue)
-            dataByTag[tagValue] = []
+        let tagValue = entry[tag];
+        if (!listOfTags.includes(entry[tag])) {
+            listOfTags.push(tagValue);
+            dataByTag[tagValue] = [];
             // TODO - where you left off:  This little bit right here is giving me some trouble- 
             // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
-            dataByTag[tagValue].push(entry)
+            dataByTag[tagValue].push(entry);
         } else {
-            dataByTag[tagValue].push(entry)
+            dataByTag[tagValue].push(entry);
         }
 
 
     }
-    console.log("split into  ", listOfTags.length, " groups")
-    console.log(dataByTag)
-    return dataByTag
+    console.log("split into  ", listOfTags.length, " groups");
+    console.log(dataByTag);
+    return dataByTag;
 }
 
 
@@ -122,7 +122,7 @@ function getScopedKIData(ki_sheetData): any[] {
         for (let exclusions of valuesToExclude) {
             // loops through values we want to exclude and checks to see if they match or not. 
             if (entry[exclusions[0]] == exclusions[1]) {
-                
+
                 console.log("removed entry for", entry["areaName"], "that matched rule for", exclusions[0]);
             }
         }
@@ -135,26 +135,26 @@ function getScopedKIData(ki_sheetData): any[] {
 }
 
 function testUpdateSingleReport() {
-    let allSheetData = constructSheetData()
-    let reportScope = reportLevel.zone
-    updateSingleReportLevel(reportScope, allSheetData)
-    Logger.log("Report generation completed for " + reportScope)
+    let allSheetData = constructSheetData();
+    let reportScope = reportLevel.zone;
+    updateSingleReportLevel(reportScope, allSheetData);
+    Logger.log("Report generation completed for " + reportScope);
 }
 
 
 
 function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
-    let sheetData
+    let sheetData;
     switch (reportScope) {
         case reportLevel.area:
-            sheetData = allSheetData.areaFilesys
-            return
+            sheetData = allSheetData.areaFilesys;
+            return;
         case reportLevel.dist:
-            sheetData = allSheetData.distFilesys
-            return
+            sheetData = allSheetData.distFilesys;
+            return;
         case reportLevel.zone:
-            sheetData = allSheetData.zoneFilesys
+            sheetData = allSheetData.zoneFilesys;
     }
     // let areaSheetData = allSheetData.areaFilesys;
 
@@ -167,7 +167,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
     let filesysData = [];
     for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
         //@ts-ignore
-        filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]])
+        filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]]);
     }
 
     sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
@@ -177,7 +177,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
 
-function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String) {
+function modifyTemplates_(filesystemObject, referenceData: any[], scope: String) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
@@ -217,7 +217,7 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
             Logger.log(splitDataByTag[splitTag][data]);
         }
     }
-    Logger.log(splitDataByTag["tagArray"])
+    Logger.log(splitDataByTag["tagArray"]);
     /*
     let zoneNameCell = "B3"
     let scopeCell = "C3"
@@ -247,7 +247,7 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
         // Logger.log(tagData)
 
         Logger.log("zoneData Loaded");
-        Logger.log([tagName, tagData])
+        Logger.log([tagName, tagData]);
         sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
         Logger.log("Data Sent To Display");
         let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
