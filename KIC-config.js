@@ -26,32 +26,36 @@ let zoneDataHeaders = [""];
 
 let CONFIG =
 {
-    zoneTemplateSpreadsheetId: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
-    distTemplateSpreadsheetId: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
-    areaTemplateSpreadsheetId: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
-    functionGUBED: true,
-    
-    reportLevel: //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
-    {
-        zone: "Zone",
-        dist: "District",
-        area: "Area",
-    },
 
-    
+    // document ids
+
+    KIC_FORM_ID: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',
+    docIds_kicFormId: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',     //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
+
+    zoneTemplateSpreadsheetId: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
+    docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
+
+    distTemplateSpreadsheetId: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
+    docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
+
+    areaTemplateSpreadsheetId: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
+    docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
+
+
     // general
-    
+
+
+    functionGUBED: true,
+
     AREA_NAME_QUESTION_TITLE: 'Area Name',
     general_areaNameQuestionTitle: 'Area Name',
 
-    KIC_FORM_ID: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',
-    general_kicFormId: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',     //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
     DEL_OLD_RESPONSES_AGE_LIMIT: 0,
     general_deleteOldResponsesAgeLimit: 0,    //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
-    
-    
-    
+
+
+
     // dataFlow
 
     SKIP_MARKING_PULLED: true,
@@ -68,7 +72,7 @@ let CONFIG =
 
     FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
     dataFlow_forceAreaIdReloadOnUpdateDataSheet: false,
-    
+
     CACHE_AREA_IDS_EXP_LIMIT: 1800,
     dataFlow_areaId_cacheExpirationLimit: 1800,   //Maximum time in seconds before the cache gets reset
 
@@ -88,11 +92,14 @@ let CONFIG =
 
     MARK_DUPLICATES_MAX_ROW_TO_CHECK: 500,
     dataFlow_maxRowToMarkDuplicates: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
-    
-    
-    
+
+
+
     // fileSystem
-    
+
+    reportLevel: { zone: "Zone", dist: "District", area: "Area", },
+    fileSystem_reportLevel: { zone: "Zone", dist: "District", area: "Area", }, //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
+
     UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
     fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
@@ -101,11 +108,11 @@ let CONFIG =
 
     FREEZE_FILESYS: false,
     fileSystem_freezeFilesys: false,
-    
-    
-    
+
+
+
     // logging
-    
+
     LOG_FILESYS: false,
     fileSystem_log_update: false,
 
@@ -126,12 +133,12 @@ let CONFIG =
 
     LOG_DUPLICATES: false,
     dataFlow_log_duplicates: false,
-    
-    
-    
-    
+
+
+
+
     // triggers
-    
+
     ALLOW_INSTALLABLE_TRIGGER_ON_OPEN: true,
     triggers_installable_onOpen: true,
 
@@ -140,25 +147,25 @@ let CONFIG =
 
     ALLOW_TIMEBASED_TRIGGER_UPDATE_FORM: true,
     triggers_timeBased_updateForm: true,
-    
+
     ALLOW_TIMEBASED_TRIGGER_UPDATE_DATA_SHEET: true,
     triggers_timeBased_updateDataSheet: true,
 
-    ALLOW_TIMEBASED_TRIGGER_IMPORT_CONTACTS: true,    
+    ALLOW_TIMEBASED_TRIGGER_IMPORT_CONTACTS: true,
     triggers_timeBased_importContacts: true,
 
     ALLOW_TIMEBASED_TRIGGER_UPDATE_FS: true,
     triggers_timeBased_updateFileSystem: true,
-    
+
     ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS: true,
     triggers_timeBased_updateAreaReports: true,
-    
+
     ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS: true,
     triggers_timeBased_updateDistReports: true,
-    
+
     ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS: true,
     triggers_timeBased_updateZoneReports: true,
-    
+
     ALLOW_TIMEBASED_TRIGGER_SHARE_FILE_SYSTEM: false,
     triggers_timeBased_shareFileSystem: false,
 
