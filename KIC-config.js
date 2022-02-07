@@ -33,11 +33,11 @@ let CONFIG =
     
     reportLevel: //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
     {
-        zone: "ZONE",
-        dist: "DISTRICT",
-        area: "AREA",
+        zone: "Zone",
+        dist: "District",
+        area: "Area",
     },
-        
+
     
     // general
     
