@@ -135,10 +135,12 @@ function loadFSObjectIntoData_(fsObject) {
 } // Irrelevant in V3, because there's a METHOD that does that for me.  :)
 
 function createNewFolder_(parentFolderId, name) {
-  // creates new folder in parent folder, and then returns that folder's ID.
-  if (isFolderAccessible_(parentFolderId) == false) {
-    if (DBCONFIG.LOG_FILESYS) {
-      Logger.log(["folder Doesn't exist!",DriveApp.getRootFolder(),parentFolderId]);
+
+    // creates new folder in parent folder, and then returns that folder's ID.
+    if (isFolderAccessible_(parentFolderId) == false) {
+        if (CONFIG.LOG_FILESYS) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]); }
+        // Logger.log()
+
     }
     // Logger.log()
 

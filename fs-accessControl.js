@@ -7,7 +7,10 @@
  * Shares folders in the file structure with the appropriate area emails.
  * Pulls contact data from the Contacts sheet and file structure data from the Filesys sheets.
  */
-function shareFileSys() {
+function shareFileSystem() {
+
+    throw "Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission."
+
     Logger.log('Beginning read/write file sharing...');
 
     let allSheetData = constructSheetData();
@@ -56,7 +59,7 @@ function shareFileSys() {
 
         let zoneOrgData = missionOrgData.zones[zoneName];
 
-        if (DBCONFIG.LOG_FILE_SHARING) Logger.log("Sharing folder for zone '" + zoneName + "'");
+        if (CONFIG.LOG_FILE_SHARING) Logger.log("Sharing folder for zone '" + zoneName + "'");
 
 
         //      Update folder access: zEmails, officeEmails
@@ -67,7 +70,7 @@ function shareFileSys() {
         zEmails.push(zoneOrgData.zlArea.areaEmail);  //Add ZL area email
         if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail);  //Add STL area email if it exists
 
-        if (DBCONFIG.LOG_FILE_SHARING) Logger.log('zEmails: ' + zEmails);
+        if (CONFIG.LOG_FILE_SHARING) Logger.log('zEmails: ' + zEmails);
 
         //Remove old editors, then add new ones
         let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
@@ -79,39 +82,39 @@ function shareFileSys() {
 
         // zoneFolder.addEditors(zEmails);
         // zoneFolder.addEditors(officeEmails);
-        silentAddEditors_(zoneFolderID, zEmails);
-        silentAddEditors_(zoneFolderID, officeEmails);
+        silentShareToGroup(zoneFolderID, zEmails);
+        silentShareToGroup(zoneFolderID, officeEmails);
 
         let editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
-        if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
+        if (CONFIG.LOG_FILE_SHARING) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
-        if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+        // if (CONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
 
-            //      Update Spreadsheet page protections: officeEmails only
+        //     //      Update Spreadsheet page protections: officeEmails only
 
-            let zFiles = zoneFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+        //     let zFiles = zoneFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
 
-            while (zFiles.hasNext()) {  //for each spreadsheet file
-                let file = zFiles.next();
-                let ss = SpreadsheetApp.openById(file.getId());
-                let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                    ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                );
-                if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
+        //     while (zFiles.hasNext()) {  //for each spreadsheet file
+        //         let file = zFiles.next();
+        //         let ss = SpreadsheetApp.openById(file.getId());
+        //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
+        //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+        //         );
+        //         if (CONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
-                for (let protection of protections) {
-                    for (let editor of protection.getEditors()) {
-                        if (!officeEmails.includes(editor)) {
-                            protection.removeEditor(editor);
-                        }
-                    }
-                    protection.addEditors(officeEmails);
-                }
-            }
+        //         for (let protection of protections) {
+        //             for (let editor of protection.getEditors()) {
+        //                 if (!officeEmails.includes(editor)) {
+        //                     protection.removeEditor(editor);
+        //                 }
+        //             }
+        //             protection.addEditors(officeEmails);
+        //         }
+        //     }
 
-        }
+        // }
 
 
 
@@ -128,7 +131,7 @@ function shareFileSys() {
             let distOrgData = zoneOrgData.districts[districtName];
 
 
-            if (DBCONFIG.LOG_FILE_SHARING) Logger.log("Sharing folder for district '" + districtName + "'");
+            if (CONFIG.LOG_FILE_SHARING) Logger.log("Sharing folder for district '" + districtName + "'");
 
 
             //      Update folder access: everyone with zone level access, plus the DL
@@ -149,33 +152,33 @@ function shareFileSys() {
             }
 
             // distFolder.addEditors(dEmails);
-            silentAddEditors_(distFolderID, dEmails);
+            silentShareToGroup(distFolderID, dEmails);
 
 
 
-            if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+            // if (CONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
 
-                //      Update Spreadsheet page protections: officeEmails only
+            //     //      Update Spreadsheet page protections: officeEmails only
 
-                let dFiles = distFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+            //     let dFiles = distFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
-                while (dFiles.hasNext()) {  //for each spreadsheet file
-                    let ss = SpreadsheetApp.openById(dFiles.next().getId());
-                    let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                        ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                    );
-                    if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
+            //     while (dFiles.hasNext()) {  //for each spreadsheet file
+            //         let ss = SpreadsheetApp.openById(dFiles.next().getId());
+            //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
+            //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+            //         );
+            //         if (CONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
-                    for (let protection of protections) {
-                        for (let editor of protection.getEditors()) {
-                            if (!officeEmails.includes(editor)) {
-                                protection.removeEditor(editor);
-                            }
-                        }
-                        protection.addEditors(officeEmails);
-                    }
-                }
-            }
+            //         for (let protection of protections) {
+            //             for (let editor of protection.getEditors()) {
+            //                 if (!officeEmails.includes(editor)) {
+            //                     protection.removeEditor(editor);
+            //                 }
+            //             }
+            //             protection.addEditors(officeEmails);
+            //         }
+            //     }
+            // }
 
 
 
@@ -192,7 +195,7 @@ function shareFileSys() {
                 let areaOrgData = distOrgData.areas[areaName];
 
 
-                if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Sharing folder for area ' + areaName);
+                if (CONFIG.LOG_FILE_SHARING) Logger.log('Sharing folder for area ' + areaName);
 
 
                 //      Update folder access: everyone with zone or district level access, plus the area email
@@ -213,34 +216,33 @@ function shareFileSys() {
                     }
                 }
 
-                areaFolder.addEditors(aEmails);
-                silentAddEditors_(areaFolderID, aEmails);
+                silentShareToGroup(areaFolderID, aEmails);
 
 
 
-                if (DBCONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
-                    //      Update Spreadsheet page protections: officeEmails only
+                // if (CONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+                //     //      Update Spreadsheet page protections: officeEmails only
 
 
-                    let aFiles = areaFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
+                //     let aFiles = areaFolder.getFilesByType("application/vnd.google-apps.spreadsheet"); //Get all the spreadsheet files in this folder
 
-                    while (aFiles.hasNext()) {  //for each spreadsheet file
-                        let ss = SpreadsheetApp.openById(aFiles.next().getId());
-                        let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
-                            ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
-                        );
-                        if (DBCONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
+                //     while (aFiles.hasNext()) {  //for each spreadsheet file
+                //         let ss = SpreadsheetApp.openById(aFiles.next().getId());
+                //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
+                //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
+                //         );
+                //         if (CONFIG.LOG_FILE_SHARING) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
-                        for (let protection of protections) {
-                            for (let editor of protection.getEditors()) {
-                                if (!officeEmails.includes(editor)) {
-                                    protection.removeEditor(editor);
-                                }
-                            }
-                            protection.addEditors(officeEmails);
-                        }
-                    }
-                }
+                //         for (let protection of protections) {
+                //             for (let editor of protection.getEditors()) {
+                //                 if (!officeEmails.includes(editor)) {
+                //                     protection.removeEditor(editor);
+                //                 }
+                //             }
+                //             protection.addEditors(officeEmails);
+                //         }
+                //     }
+                // }
 
 
 
@@ -267,38 +269,45 @@ function shareFileSys() {
 
 
 
-
-
 /*
- * Adds the given user to the list of editors for the file or folder without sending a notification email.
- * @param {string} fileId The file or folder ID.
- * @param {string} emailAddress The email address of the user to add.
+ * Adds the given user to the list of editors for the file or folder without sending them a notification email.
+ * @param {string} fileId - The file or folder ID.
+ * @param {string} recipient - The email address of the user to add.
  */
-function silentAddEditor_(fileId, emailAddress) {
+function silentShare(fileId, recipient) {
+    try {
+        let file = DriveApp.getFileById(fileId);
 
-    Drive.Permissions.insert(
-        {
-            'role': 'writer',
-            'type': 'user',
-            'value': emailAddress
-        },
-        fileId,
-        {
-            'sendNotificationEmails': 'false'
-        });
-
-
+        Drive.Permissions.insert(
+            {
+                'role': 'writer',
+                'type': 'user',
+                'value': recipient
+            },
+            file.getId(),
+            {
+                'sendNotificationEmails': 'false'
+            }
+        );
+    } catch (e) {
+        Logger.log("Failed to share:\n" + e);
+    }
 }
 
 /*
- * Adds the given array of users to the list of editors for the file or folder without sending notification emails.
- * @param {string} fileId The ID of the file or folder to be edited.
- * @param {string[]} emailAddresses An array of email addresses of the users to add.
+ * Adds all of the given users to the list of editors for the file or folder without sending them notification emails.
+ * @param {string} fileId - The file or folder ID.
+ * @param {string} recipients - An array of email address of the users to add.
  */
-function silentAddEditors_(fileId, emailAddresses) {
-    for (let email of emailAddresses)
-        silentAddEditor_(fileId, email);
+function silentShareToGroup(fileId, recipients) {
+    if (CONFIG.LOG_FILE_SHARING)
+        Logger.log("Sharing file/folder '" + file.getName() + "' with " + recipients);
+    
+    for (let recipient of recipients) {
+        silentShare(fileId, recipient);
+    }
 }
+
 
 
 
@@ -306,11 +315,9 @@ function silentAddEditors_(fileId, emailAddresses) {
 
 function testSharing() {
     let fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
-    let editors = ['nathaniel.gerlek@gmail.com', '20929917@missionary.org'];
+    let editor = 'nathaniel.gerlek@gmail.com';
 
-    silentAddEditorSE_('nathaniel.gerlek@missionary.org', fileId);
-
-    return;
+    silentShare(fileId, editor);
 
 }
 

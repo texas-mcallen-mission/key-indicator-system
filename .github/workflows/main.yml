@@ -1,12 +1,14 @@
-name: Main Branch GAS
+name: MAIN Branch GAS
 
 on:
   workflow_dispatch:
   push:
-
+    # CHANGE THIS TO REFERENCE THE BRANCH YOU WANT TO PUSH
     branches: [main]
   release:
     types: [published]
+  # DO NOT TOUCH: this updates the authorization 
+  # token so that it keeps working in the future.
   schedule:
     - cron: "0 0 * * SUN"
 
@@ -52,6 +54,26 @@ jobs:
         if: ${{github.event_name	!= 'schedule' }}
         uses: actions/checkout@v2
 
+      - name: get current contents of .clasp.json
+        id: cat-clasp-1
+        run: echo | cat .clasp.json
+
+      # TO UPDATE: MODIFY SCRIPTID & PARENTID TO POINT TO NEW SECRETS
+      # read the guide at docs/ci-setup.md!
+      - name: modify .clasp.json
+        id: modify-clasp
+        run: sed -i "s/SCRIPT_ID/$SCRIPTID/;s/PARENT_ID/$PARENTID/" .clasp.json
+        env:
+          SCRIPTID: ${{ secrets.MAIN_INSTANCE_SCRIPT_ID }}
+          PARENTID: ${{ secrets.MAIN_INSTANCE_PARENT_ID }}
+          # 🐧
+
+        
+
+      - name: get modified contents of .clasp.json
+        id: cat-clasp-2
+        run: echo | cat .clasp.json
+
       - name: Set scriptId in .clasp.json file
         id: set-script-id
         if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
@@ -70,30 +92,3 @@ jobs:
         run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-  # dump-context:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Dump GitHub context
-  #       env:
-  #         GITHUB_CONTEXT: ${{ toJSON(github) }}
-  #       run: echo "$GITHUB_CONTEXT"
-  #     - name: Dump job context
-  #       env:
-  #         JOB_CONTEXT: ${{ toJSON(job) }}
-  #       run: echo "$JOB_CONTEXT"
-  #     - name: Dump steps context
-  #       env:
-  #         STEPS_CONTEXT: ${{ toJSON(steps) }}
-  #       run: echo "$STEPS_CONTEXT"
-  #     - name: Dump runner context
-  #       env:
-  #         RUNNER_CONTEXT: ${{ toJSON(runner) }}
-  #       run: echo "$RUNNER_CONTEXT"
-  #     - name: Dump strategy context
-  #       env:
-  #         STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-  #       run: echo "$STRATEGY_CONTEXT"
-  #     - name: Dump matrix context
-  #       env:
-  #         MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-  #       run: echo "$MATRIX_CONTEXT"
