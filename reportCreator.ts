@@ -34,8 +34,10 @@ function testSplitData(): void {
         let distData = splitDataByTagV2_(splitData[zone], "district")
         for (let district in distData) {
             let areaData = splitDataByTagV2_(distData[district], "areaName")
-            let areaName = areaData[1]["areaName"]
-            console.log("Zone: ",zone," District: ",district," Area: ",areaName)
+            for (let area in areaData) {
+                console.log("Zone: ",zone," District: ",district," Area: ",area)
+                
+            }
         }
     }
     Logger.log(splitData);
