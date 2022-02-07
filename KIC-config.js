@@ -115,55 +115,25 @@ let CONFIG =
 
     // triggers
 
-    ALLOW_INSTALLABLE_TRIGGER_ON_OPEN: true,
     triggers_installable_onOpen: true,
-
-    ALLOW_INSTALLABLE_TRIGGER_ON_EDIT: false,
     triggers_installable_onEdit: false,  //Not currently used
 
-    ALLOW_TIMEBASED_TRIGGER_UPDATE_FORM: true,
     triggers_timeBased_updateForm: true,
-
-    ALLOW_TIMEBASED_TRIGGER_UPDATE_DATA_SHEET: true,
     triggers_timeBased_updateDataSheet: true,
-
-    ALLOW_TIMEBASED_TRIGGER_IMPORT_CONTACTS: true,
     triggers_timeBased_importContacts: true,
-
-    ALLOW_TIMEBASED_TRIGGER_UPDATE_FS: true,
     triggers_timeBased_updateFileSystem: true,
-
-    ALLOW_TIMEBASED_TRIGGER_UPDATE_AREA_REPORTS: true,
     triggers_timeBased_updateAreaReports: true,
-
-    ALLOW_TIMEBASED_TRIGGER_UPDATE_DIST_REPORTS: true,
     triggers_timeBased_updateDistReports: true,
-
-    ALLOW_TIMEBASED_TRIGGER_UPDATE_ZONE_REPORTS: true,
     triggers_timeBased_updateZoneReports: true,
-
-    ALLOW_TIMEBASED_TRIGGER_SHARE_FILE_SYSTEM: false,
     triggers_timeBased_shareFileSystem: false,
 
-    ALLOW_MENU_TRIGGER_UPDATE_DATA_SHEET: true,
     triggers_menu_updateDataSheet: true,
-
-    ALLOW_MENU_TRIGGER_UPDATE_AREA_REPORTS: true,
+    triggers_menu_updateFileSystem: false,
     triggers_menu_updateAreaReports: true,
-
-    ALLOW_MENU_TRIGGER_UPDATE_DIST_REPORTS: true,
     triggers_menu_updateDistReports: true,
-
-    ALLOW_MENU_TRIGGER_UPDATE_ZONE_REPORTS: true,
     triggers_menu_updateZoneReports: true,
-
-    ALLOW_MENU_TRIGGER_IMPORT_CONTACTS: true,
     triggers_menu_importContacts: true,
-
-    ALLOW_MENU_TRIGGER_MARK_DUPLICATES: true,
     triggers_menu_markDuplicates: true,
-
-    ALLOW_MENU_TRIGGER_LOAD_AREA_IDS: true,
     triggers_menu_loadAreaIds: true,
 
 };
