@@ -37,6 +37,22 @@ function flog(input: any) {
 }
 
 // TODO define interface for data entry?
+// THIS WILL HAPPEN IN THE PROPER RESTRUCTURE REWRITE THING THAT I'LL DO EVENTUALLY, BUT NOT WHEN I NEED TO GET SOMETHING DONE THE SAME NIGHT
+// interface dataEntry {
+//     areaId: string;
+//     date: Date;
+//     isDuplicate: boolean;
+//     data: any[];
+
+// }
+
+// const testDataEntry: dataEntry = {
+//     areaId: "AAAAA",
+//     date: new Date,
+//     data: ["test"]
+// }
+
+// define data entry class thingy and constructor for it so that I can have an easy-to-use and consistent way of editing stuff?
 function getScopedKIData(ki_sheetData): any[] {
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
@@ -55,21 +71,38 @@ function getScopedKIData(ki_sheetData): any[] {
     flog(values);
     flog(header)
 
+    let listToHide = ["aptAddress"]
+    let valuesToExclude = [["isDuplicate",true],["Questions, comments, concerns?","TEST DATA"]]
+    // Iterate through data and set all values of columns in listToHide to null
+    // then iterate through the list of values to exclude and remove those as well.
+    // -- actually maybe we'll do that one first because then the second one has a smaller data set?
+    // first:  check to see if 
 
+    for (let entry of data) {
+        Logger.log(entry)
+        for (let property of listToHide) {
+            entry[property] = ""
+        }
+        for (let exclusions of valuesToExclude) {
+            //@ts-ignore
+            if(entry[exclusions[0]] = exclusions[1]){Logger.log(exclusions[0])}
+        }
+        Logger.log(entry)
+    }
 
-
+    return data
 }
 
 function testUpdateSingleReport() {
     let allSheetData = constructSheetData()
     let reportScope = reportLevel.zone
-    updateSingleReport(reportScope, allSheetData)
+    updateSingleReportLevel(reportScope, allSheetData)
     Logger.log("Report generation completed for " + reportScope)
 }
 
 
 
-function updateSingleReport(reportScope: String, allSheetData): void {
+function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     let sheetData
     switch (reportScope) {
@@ -103,7 +136,7 @@ function updateSingleReport(reportScope: String, allSheetData): void {
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
 
-function modifyTemplates_(filesystemObject, referenceData: any[], scope: String) {
+function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
@@ -132,7 +165,7 @@ function modifyTemplates_(filesystemObject, referenceData: any[], scope: String)
     }
     Logger.log("pre-Split");
     let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
-    let splitDataByTag = splitDataByTagEliminateDupes_(kicData, columnPosition, isDuplicateColumnPosition);
+    let splitDataByTag = splitDataByTagEliminateDupes_(referenceData, columnPosition, isDuplicateColumnPosition);
     Logger.log("post-Split");
 
     Logger.log(typeof splitDataByTag.data);
