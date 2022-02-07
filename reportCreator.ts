@@ -24,8 +24,8 @@ function testGetScopedKIData(): void {
     let allSheetData = constructSheetData()
     let kiDataObj = allSheetData.data
 
-    let data = kiDataObj.getData()
-    Logger.log(data)
+    // let data = kiDataObj.getData()
+    // Logger.log(data)
     getScopedKIData(kiDataObj)
 }
 
@@ -40,7 +40,7 @@ function flog(input: any) {
 function getScopedKIData(ki_sheetData): any[] {
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
-    Logger.log(data)
+    // Logger.log(data)
     /*  WHERE YOU LEFT OFF:
         * Building function to load the data & scope it
         * figuring out how to use it properly in the reports so that I don't have a bunch of weird errors
@@ -50,7 +50,7 @@ function getScopedKIData(ki_sheetData): any[] {
     flog(ki_sheetData)
     let data = ki_sheetData.getData()
     let values = ki_sheetData.getValues()
-    let header = ki_sheetData.getHeader()
+    let header = ki_sheetData.getHeaders()
     flog(data);
     flog(values);
     flog(header)
