@@ -79,7 +79,7 @@ function createTemplatesV2_(filesysObj, templateID:String) {
     let templateFile = DriveApp.getFileById(templateID)
     for (entry of fsDataCopy) {
         let sheet1 = entry.sheetID1;
-        if (sheet1 == "Doc Id" || sheet1 = "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
+        if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
             let parentFolderObject = DriveApp.getFolderById(entry.parentFolder);
             let fileName = entry.folderName;
             let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
