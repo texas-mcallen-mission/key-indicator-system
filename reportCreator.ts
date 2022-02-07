@@ -32,7 +32,7 @@ function testSplitData(): void {
 }
 
 
-function flog(input: any) {
+function thanDoesntLikeMeLogger(input: any) {
     // This function 
     Logger.log(typeof input)
     Logger.log(input)
@@ -91,13 +91,13 @@ function getScopedKIData(ki_sheetData): any[] {
         * basically learning TypeScript the wrong way by messing about.
 
     */
-    flog(ki_sheetData);
+    thanDoesntLikeMeLogger(ki_sheetData);
     let data = ki_sheetData.getData();
     let values = ki_sheetData.getValues();
     let header = ki_sheetData.getHeaders();
-    flog(data);
-    flog(values);
-    flog(header);
+    thanDoesntLikeMeLogger(data);
+    thanDoesntLikeMeLogger(values);
+    thanDoesntLikeMeLogger(header);
 
     let listToHide = ["aptAddress"];
     let valuesToExclude = [["isDuplicate", true], ["Questions, comments, concerns?", "TEST DATA"]];
