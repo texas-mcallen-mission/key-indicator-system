@@ -5,7 +5,7 @@ General and debugging configuration parameters
 */
 
 
-
+// TO BE DEPRECATED
 const templateDataDumpSheetName = "Data"; //No more refs
 const outputDataDumpSheetName = "Data"; //TODO Still has refs
 const configPageSheetName = "config"; //TODO Still has refs
@@ -18,8 +18,6 @@ let zoneDataSheetName = "Data"; //No more refs
 let areaDataHeaders = [""]; //No more refs
 let districtDataHeaders = [""]; //No more refs
 let zoneDataHeaders = [""]; //No more refs
-
-
 const functionGUBED = true; //TODO No more refs - remove?
 
 
@@ -43,9 +41,9 @@ let CONFIG =
     docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
 
 
+
+
     // general
-
-
 
     AREA_NAME_QUESTION_TITLE: 'Area Name',
     general_areaNameQuestionTitle: 'Area Name',
