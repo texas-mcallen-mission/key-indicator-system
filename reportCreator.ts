@@ -20,13 +20,15 @@ function createTemplates_(filesystemObject, templateID) {
     return filesystemObjectCopy;
 }
 
-function testGetScopedKIData(): void {
+function testSplitData(): void {
     let allSheetData = constructSheetData()
     let kiDataObj = allSheetData.data
 
     // let data = kiDataObj.getData()
     // Logger.log(data)
-    getScopedKIData(kiDataObj)
+    let data = getScopedKIData(kiDataObj)
+    let splitData = splitDataByTagV2_(data, "Area Name")
+    Logger.log(splitData)
 }
 
 
@@ -71,6 +73,7 @@ function splitDataByTagV2_(data: any{}, tag:String) {
     }
     console.log("split into  ", listOfTags.length, " groups")
     console.log(dataByTag)
+    return dataByTag
 }
 
 
