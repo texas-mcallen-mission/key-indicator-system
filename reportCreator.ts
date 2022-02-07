@@ -115,7 +115,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
             let keyPosition = header.indexOf(headee)
             let keyName = keys[keyPosition]
             let entryValue = entry[keyName]
-            console.log(entryValue)
+            // console.log(entryValue)
             line.push(entryValue)
         }
         console.log(line)
