@@ -77,9 +77,8 @@ function splitDataByTagV2_(data, tag: String) {
         }
         dataByTag[tagValue].push(entry);
 
-
     }
-    console.log("split into  ", uniqueTagValues.length, " groups");
+    console.log("Split into  ", uniqueTagValues.length, " groups");
     console.log(dataByTag);
     return dataByTag;
 }
