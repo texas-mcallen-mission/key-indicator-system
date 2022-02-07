@@ -61,7 +61,7 @@ function splitDataByTagV2_(data: any{}, tag:String) {
     let dataByTag = {}
     for (let entry of data) {
         let tagValue = entry[tag]
-        if (listOfTags.includes(entry[tag] == false){
+        if (listOfTags.includes(entry[tag]) == false){
             listOfTags.push(tagValue)
             dataByTag[tagValue] = []
             // TODO - where you left off:  This little bit right here is giving me some trouble- 
