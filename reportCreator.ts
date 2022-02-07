@@ -52,8 +52,31 @@ function flog(input: any) {
 //     data: ["test"]
 // }
 
-// define data entry class thingy and constructor for it so that I can have an easy-to-use and consistent way of editing stuff?
+// define data entry class thingy and constructor for it so that I can have an easy - to - use and consistent way of editing stuff ?
+
+function splitDataByTagV2_(data: any{}, tag:String) {
+    let listOfTags = []
+    let dataByTag = {}
+    for (let entry of data) {
+        let tagValue = entry[tag]
+        if (listOfTags.includes(entry[tag] == false){
+            listOfTags.push(tagValue)
+            dataByTag[tagValue] = []
+            dataByTag[tagValue].push(entry)
+        } else {
+            dataByTag[tagValue].push(entry)
+        }
+
+
+    }
+    console.log("split into  ", listOfTags.length, " groups")
+    console.log(dataByTag)
+}
+
+
+
 function getScopedKIData(ki_sheetData): any[] {
+
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
     // Logger.log(data)
@@ -63,40 +86,41 @@ function getScopedKIData(ki_sheetData): any[] {
         * basically learning TypeScript the wrong way by messing about.
 
     */
-    flog(ki_sheetData)
-    let data = ki_sheetData.getData()
-    let values = ki_sheetData.getValues()
-    let header = ki_sheetData.getHeaders()
+    flog(ki_sheetData);
+    let data = ki_sheetData.getData();
+    let values = ki_sheetData.getValues();
+    let header = ki_sheetData.getHeaders();
     flog(data);
     flog(values);
-    flog(header)
+    flog(header);
 
-    let listToHide = ["aptAddress"]
-    let valuesToExclude = [["isDuplicate",true],["Questions, comments, concerns?","TEST DATA"]]
+    let listToHide = ["aptAddress"];
+    let valuesToExclude = [["isDuplicate", true], ["Questions, comments, concerns?", "TEST DATA"]];
     // Iterate through data and set all values of columns in listToHide to null
     // then iterate through the list of values to exclude and remove those as well.
     // -- actually maybe we'll do that one first because then the second one has a smaller data set?
     // first:  check to see if 
-    let preDate = new Date
+    let preDate = new Date;
     for (let entry of data) {
         // console.log("Pre-Modifications",entry)
         for (let property of listToHide) {
-            entry[property] = ""
+            entry[property] = "";
         }
         for (let exclusions of valuesToExclude) {
             //@ts-ignore
             // loops through values we want to exclude and checks to see if they match or not. 
             if (entry[exclusions[0]] == exclusions[1]) {
                 
-                console.log("removed entry for",entry["areaName"],"that matched rule for",exclusions[0]);
+                console.log("removed entry for", entry["areaName"], "that matched rule for", exclusions[0]);
             }
         }
         // console.log("Post-Mods",entry)
     }
-    let postDate = new Date
-    let durationInMillis = postDate.getTime() - preDate.getTime()
-    console.log("Scoping Data- Time Started: ", preDate, "Time Finished:", postDate, "Duration: ",durationInMillis, "ms")
-    return data
+    let postDate = new Date;
+    let durationInMillis = postDate.getTime() - preDate.getTime();
+    console.log("Scoping Data- Time Started: ", preDate, "Time Finished:", postDate, "Duration: ", durationInMillis, "ms");
+    return data;
+}
 
 function testUpdateSingleReport() {
     let allSheetData = constructSheetData()
