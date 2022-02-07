@@ -466,8 +466,6 @@ class RawSheetData {
 
 
 
-
-
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
@@ -665,7 +663,7 @@ class RawSheetData {
 function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
     // @ts-ignore
-    let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_KEY);
+    let allSheetData_JSONString = cache.get(CONFIG.dataFlow_allSheetData_cacheKey);
     if (allSheetData_JSONString == null) {
         console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
         return null;
@@ -707,7 +705,9 @@ function cacheAllSheetData(allSheetData) {
     Logger.log('Caching allSheetData');
     let cache = CacheService.getDocumentCache();
     // @ts-ignore
-    cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
+    cache.put(CONFIG.dataFlow_allSheetData_cacheKey,
+        JSON.stringify(allSheetData),
+        CONFIG.dataFlow_allSheetData_cacheExpirationLimit);
 }
 
 
@@ -743,7 +743,8 @@ function syncDataFlowCols_(allSheetData) {
     let addedKeys = [];
 
     for (let key of formSheetData.getKeys()) {
-        if (!dataSheetData.hasKey(key) && !CONFIG.EXCLUDE_FORM_COLS_FROM_DATA.includes(key)) {
+        if (!CONFIG.dataFlow_formColumnsToExcludeFromDataSheet.includes(key)
+            && !dataSheetData.hasKey(key)) {
             let header = formSheetData.getHeaders()[formSheetData.getIndex(key)];
             dataSheetData.rsd.addColumnWithHeader_(key, header);
             addedKeys.push(key);
@@ -848,7 +849,7 @@ function setSheetUp_(sheetData) {
 function constructSheetData(force = false) {
 
     //Check the cache for allSheetData
-    if (CONFIG.CACHE_SHEET_DATA_ENABLED && !force) {
+    if (CONFIG.dataFlow_allSheetData_cacheEnabled && !force) {
         let allSheetData = getAllSheetDataFromCache();
         if (allSheetData != null) return allSheetData;
     }
@@ -1119,7 +1120,7 @@ function constructSheetData(force = false) {
     //?   Object.freeze(allSheetData);
 
 
-    if (CONFIG.CACHE_SHEET_DATA_ENABLED) cacheAllSheetData(allSheetData);
+    if (CONFIG.dataFlow_allSheetData_cacheEnabled) cacheAllSheetData(allSheetData);
 
     return allSheetData;
 }

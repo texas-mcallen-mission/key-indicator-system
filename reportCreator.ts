@@ -64,8 +64,7 @@ function splitDataByTagV2_(data: any{}, tag:String) {
         if (listOfTags.includes(entry[tag]) == false){
             listOfTags.push(tagValue)
             dataByTag[tagValue] = []
-            // TODO - where you left off:  This little bit right here is giving me some trouble- 
-            // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
+            // TODO - where you left off:  This little bit right here is giving me some trouble - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
             dataByTag[tagValue].push(entry)
         } else {
             dataByTag[tagValue].push(entry)
@@ -129,7 +128,7 @@ function getScopedKIData(ki_sheetData): any[] {
 
 function testUpdateSingleReport() {
     let allSheetData = constructSheetData()
-    let reportScope = reportLevel.zone
+    let reportScope = CONFIG.fileSystem_reportLevel.zone
     updateSingleReportLevel(reportScope, allSheetData)
     Logger.log("Report generation completed for " + reportScope)
 }
@@ -140,13 +139,13 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     let sheetData
     switch (reportScope) {
-        case reportLevel.area:
+        case CONFIG.fileSystem_reportLevel.area:
             sheetData = allSheetData.areaFilesys
             return
-        case reportLevel.dist:
+        case CONFIG.fileSystem_reportLevel.dist:
             sheetData = allSheetData.distFilesys
             return
-        case reportLevel.zone:
+        case CONFIG.fileSystem_reportLevel.zone:
             sheetData = allSheetData.zoneFilesys
     }
     // let areaSheetData = allSheetData.areaFilesys;
@@ -165,7 +164,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
 
-    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
+    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]); //TODO @HarrierPigeon Remove global sheetName variable (deprecated)
 
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
@@ -184,15 +183,15 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
     let columnPosition = -1;
     let scopeString = "";
     switch (scope) {
-        case reportLevel.area:
+        case CONFIG.fileSystem_reportLevel.area:
             scopeString = "Area";
             columnPosition = 0;
             break;
-        case reportLevel.dist:
+        case CONFIG.fileSystem_reportLevel.dist:
             scopeString = "District";
             columnPosition = kicHeader.indexOf("District");
             break;
-        case reportLevel.zone:
+        case CONFIG.fileSystem_reportLevel.zone:
             scopeString = "Zone";
             columnPosition = kicHeader.indexOf("Zone");
             break;
@@ -230,8 +229,8 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
         configPushData[0][0] = tagName;
         Logger.log("beginning report for tag");
         let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
-        let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject);
-        let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject);
+        let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject); // TODO @HarrierPigeon Remove global sheetName variable (deprecated)
+        let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject); // TODO @HarrierPigeon Remove global sheetName variable (deprecated)
 
         Logger.log("Sheets loaded");
         // @ts-ignore
@@ -304,7 +303,7 @@ function updateZoneReports() {
 
     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
 
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.zone);
+    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, CONFIG.fileSystem_reportLevel.zone);
 }
 
 function updateDistrictReports() {
@@ -343,7 +342,7 @@ function updateDistrictReports() {
 
     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
 
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.dist);
+    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, CONFIG.fileSystem_reportLevel.dist);
 }
 
 function updateAreaReports() {
@@ -382,5 +381,5 @@ function updateAreaReports() {
 
     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
 
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.area);
+    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, CONFIG.fileSystem_reportLevel.area);
 }

@@ -13,14 +13,14 @@ function updateForm() {
     let areaNames = cSheetData.getAllOfKey('areaName');
     areaNames.unshift("I can't find the right area name!");
 
-    let form = FormApp.openById(CONFIG.KIC_FORM_ID);
+    let form = FormApp.openById(CONFIG.docIds_kicFormId);
 
     //Find Area Names question
     let items = form.getItems(FormApp.ItemType.LIST);
 
     //For each item, or until the right item is found
     for (let i = 0; i < items.length && typeof areaNamesItem == 'undefined'; i++) {
-        if (items[i].asListItem().getTitle() == CONFIG.AREA_NAME_QUESTION_TITLE) {
+        if (items[i].asListItem().getTitle() == CONFIG.general_areaNameQuestionTitle) {
             var areaNamesItem = items[i];
         }
     }
@@ -33,13 +33,13 @@ function updateForm() {
 
 
     //Delete old form responses
-    if (CONFIG.DEL_OLD_RESPONSES_AGE_LIMIT > 0) {
+    if (CONFIG.general_deleteOldResponsesAgeLimit > 0) {
         for (let formResponse of form.getResponses()) {
             let tstamp = formResponse.getTimestamp();
             if (tstamp == null) continue; //Skip responses that haven't been submitted yet
 
             let ageInDays = Math.floor(tstamp.getTime() / (1000 * 60 * 60 * 24));
-            if (ageInDays > CONFIG.DEL_OLD_RESPONSES_AGE_LIMIT) {
+            if (ageInDays > CONFIG.general_deleteOldResponsesAgeLimit) {
                 form.deleteResponse(formResponse.getId());
             }
         }

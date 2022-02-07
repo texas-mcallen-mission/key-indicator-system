@@ -14,8 +14,7 @@ function run_importContacts() {
 }
 
 function run_shareFileSys() {
-    shareFileSys();
-    //TODO Fix typescript error!
+    shareFileSystem();
 }
 
 function run_updateReports() {
@@ -37,7 +36,7 @@ function run_updateForm() {
 }
 
 function clearCache() {
-    let cacheIds = [CONFIG.CACHE_AREA_IDS_KEY, CONFIG.CACHE_SHEET_DATA_KEY];
+    let cacheIds = [CONFIG.dataFlow_areaId_cacheKey, CONFIG.dataFlow_allSheetData_cacheKey];
     let cache = CacheService.getDocumentCache();
     cache.removeAll(cacheIds);
 }
