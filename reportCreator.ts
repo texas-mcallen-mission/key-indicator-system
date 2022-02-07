@@ -128,7 +128,7 @@ function getScopedKIData(ki_sheetData): any[] {
 
 function testUpdateSingleReport() {
     let allSheetData = constructSheetData()
-    let reportScope = reportLevel.zone
+    let reportScope = CONFIG.fileSystem_reportLevel.zone
     updateSingleReportLevel(reportScope, allSheetData)
     Logger.log("Report generation completed for " + reportScope)
 }
@@ -139,13 +139,13 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
     let sheetData
     switch (reportScope) {
-        case reportLevel.area:
+        case CONFIG.fileSystem_reportLevel.area:
             sheetData = allSheetData.areaFilesys
             return
-        case reportLevel.dist:
+        case CONFIG.fileSystem_reportLevel.dist:
             sheetData = allSheetData.distFilesys
             return
-        case reportLevel.zone:
+        case CONFIG.fileSystem_reportLevel.zone:
             sheetData = allSheetData.zoneFilesys
     }
     // let areaSheetData = allSheetData.areaFilesys;
@@ -183,15 +183,15 @@ function modifyTemplates_(filesystemObject,  referenceData: any[], scope: String
     let columnPosition = -1;
     let scopeString = "";
     switch (scope) {
-        case reportLevel.area:
+        case CONFIG.fileSystem_reportLevel.area:
             scopeString = "Area";
             columnPosition = 0;
             break;
-        case reportLevel.dist:
+        case CONFIG.fileSystem_reportLevel.dist:
             scopeString = "District";
             columnPosition = kicHeader.indexOf("District");
             break;
-        case reportLevel.zone:
+        case CONFIG.fileSystem_reportLevel.zone:
             scopeString = "Zone";
             columnPosition = kicHeader.indexOf("Zone");
             break;
@@ -303,7 +303,7 @@ function updateZoneReports() {
 
     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
 
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.zone);
+    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, CONFIG.fileSystem_reportLevel.zone);
 }
 
 function updateDistrictReports() {
@@ -342,7 +342,7 @@ function updateDistrictReports() {
 
     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
 
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.dist);
+    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, CONFIG.fileSystem_reportLevel.dist);
 }
 
 function updateAreaReports() {
@@ -381,5 +381,5 @@ function updateAreaReports() {
 
     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
 
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.area);
+    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, CONFIG.fileSystem_reportLevel.area);
 }
