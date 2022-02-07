@@ -118,6 +118,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
             console.log(entryValue)
             line.push(entryValue)
         }
+        console.log(line)
         let postDate2 = new Date
         durations += timerFunction(preDate2, postDate2)
         count +=1
