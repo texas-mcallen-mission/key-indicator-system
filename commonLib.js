@@ -28,8 +28,8 @@ function sendDataToDisplayV3_(header, finalData, sheet) {
 function sendReportToDisplayV3_(header, finalData, sheet) {
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     sheet.clearContents();
-    sheet.appendRow(header);
-    if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { Logger.log(finalData.length); }
+    // sheet.appendRow(header);
+    // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { Logger.log(finalData.length); }
     Logger.log("adding Header");
     sheet.getRange(2, 1, 1, header.length).setValues([header]);
     Logger.log("added header, adding data");

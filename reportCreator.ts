@@ -20,6 +20,9 @@ function createTemplates_(filesystemObject, templateID) {
     return filesystemObjectCopy;
 }
 
+
+
+
 function testDataToArray(): void {
     let allSheetData = constructSheetData();
     let kiDataObj = allSheetData.data;
@@ -30,14 +33,14 @@ function testDataToArray(): void {
     let header = kiDataObj.getHeaders()
     let keys = kiDataObj.getKeys()
     
-    let splitData = splitDataByTagV2_(data, "zone");
+    let splitData = splitDataByKey_(data, "zone");
     
     // test to see if splitData would work well or not
     for (let zone in splitData) {
         console.log(zone)
-        let distData = splitDataByTagV2_(splitData[zone], "district")
+        let distData = splitDataByKey_(splitData[zone], "district")
         for (let district in distData) {
-            let areaData = splitDataByTagV2_(distData[district], "areaName")
+            let areaData = splitDataByKey_(distData[district], "areaName")
             for (let area in areaData) {
                 console.log("Zone: ", zone, " District: ", district, " Area: ", area)
                 
@@ -74,24 +77,24 @@ function thanDoesntLikeMeLogger(input: any) {
 
 // define data entry class thingy and constructor for it so that I can have an easy - to - use and consistent way of editing stuff ?
 
-function splitDataByTagV2_(data, tag: String) {
-    let uniqueTagValues = [];
-    let dataByTag = {};
+function splitDataByKey_(data, tag: String) {
+    let uniqueKeys = [];
+    let dataByKey = {};
 
     for (let entry of data) {
-        let tagValue = entry[tag];
-        if (!uniqueTagValues.includes(tagValue)) {
-            uniqueTagValues.push(tagValue);
-            dataByTag[tagValue] = [];
+        let keyValue = entry[tag];
+        if (!uniqueKeys.includes(keyValue)) {
+            uniqueKeys.push(keyValue);
+            dataByKey[keyValue] = [];
             // TODO - where you left off:  This little bit right here is giving me some trouble- 
             // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
         }
-        dataByTag[tagValue].push(entry);
+        dataByKey[keyValue].push(entry);
 
     }
-    // console.log("Split into  ", uniqueTagValues.length, " groups");
-    // console.log(dataByTag);
-    return dataByTag;
+    // console.log("Split into  ", uniqueKeys.length, " groups");
+    // console.log(dataByKey);
+    return dataByKey;
 }
 
 function timerFunction(pre: Date, post: Date) {
@@ -220,7 +223,7 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
 }
 
-function modifyTemplates_(filesystemObject, referenceData: any[], scope: String) {
+function modifyTemplates_(filesystemObject, referenceData: any[][], scope: String) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
@@ -247,10 +250,10 @@ function modifyTemplates_(filesystemObject, referenceData: any[], scope: String)
             columnPosition = kicHeader.indexOf("Zone");
             break;
     }
-    Logger.log("pre-Split");
-    let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
-    let splitDataByTag = splitDataByTagEliminateDupes_(referenceData, columnPosition, isDuplicateColumnPosition);
-    Logger.log("post-Split");
+    // Logger.log("pre-Split");
+    // let isDuplicateColumnPosition = kicHeader.indexOf("isDuplicate");
+    // let splitDataByTag = splitDataByTagEliminateDupes_(referenceData, columnPosition, isDuplicateColumnPosition);
+    // Logger.log("post-Split");
 
     Logger.log(typeof splitDataByTag.data);
     for (let splitTag in splitDataByTag) {
@@ -274,6 +277,7 @@ function modifyTemplates_(filesystemObject, referenceData: any[], scope: String)
     // TO DO:  CHANGE THE DATA PARSING TO HAPPEN ONLY ONCE, AND MAKE AN ARRAY PER ZONE.
     // this should in theory make this the number of zones (or districts, or areas) * 100% FASTER
     // which is basically a necessity at this point.
+    // THIS IS DONEEEEE!!!!!
 
     for (let i = 0; i < filesystemObject.name.length; i++) {
         let tagName = filesystemObject.name[i];
