@@ -20,8 +20,8 @@ function importContacts(allSheetData) {
 
 
 
-    if (CONFIG.FREEZE_CONTACT_DATA) {
-        Logger.log("Execution halted - FREEZE_CONTACT_DATA is set to true");
+    if (CONFIG.dataFlow_freezeContactData) {
+        Logger.log("Execution halted - dataFlow_freezeContactData is set to true");
         return;
     }
 
@@ -228,15 +228,3 @@ function languageParser(multipleUnits, unitString) {
 
     return { 'languageString': returnData.toString() };
 }
-
-
-
-
-
-
-
-
-
-
-
-

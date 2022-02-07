@@ -21,7 +21,7 @@ function updateDataSheet() {
     Logger.log("BEGINNING UPDATE");
 
     let allSheetData = constructSheetData();
-    if (CONFIG.FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET) loadAreaIDs(allSheetData); //Force a full recalculation
+    if (CONFIG.dataFlow_forceAreaIdReloadOnUpdateDataSheet) loadAreaIDs(allSheetData); //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
 
@@ -99,8 +99,8 @@ function pullFormData(allSheetData) {
 
     //Mark responses as having been pulled
     console.info("TODO: Improve marking responses as pulled");
-    if (CONFIG.SKIP_MARKING_PULLED) {
-        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: SKIP_MARKING_PULLED is set to true");
+    if (CONFIG.dataFlow_skipMarkingPulled) {
+        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow_skipMarkingPulled is set to true");
     }
     else {
         let formSheet = fSheetData.getSheet();
@@ -259,8 +259,3 @@ function pushToDataSheetV2(allSheetData, missionData) {
 function pushErrorMessages() {
     console.info("TODO: implement pushErrorMessages()");
 }
-
-
-
-
-

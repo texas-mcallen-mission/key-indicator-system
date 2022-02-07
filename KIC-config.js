@@ -51,39 +51,29 @@ let CONFIG =
 
     // dataFlow
 
-    SKIP_MARKING_PULLED: true,
     dataFlow_skipMarkingPulled: true,  //Stops marking Form Responses as having been pulled into the data sheet
 
-    SKIP_MARKING_DUPLICATES: false,
+    SKIP_MARKING_DUPLICATES: false, //TODO Re-implement?
     dataFlow_skipMarkingDuplicates: false,
 
-    FREEZE_CONTACT_DATA: false,
     dataFlow_freezeContactData: false,
 
-    EXCLUDE_FORM_COLS_FROM_DATA: ["responsePulled", "submissionEmail"],
     dataFlow_formColumnsToExcludeFromDataSheet: ["responsePulled", "submissionEmail"],
 
-    FORCE_AREA_ID_RELOAD_ON_UPDATE_DATA_SHEET: false,
     dataFlow_forceAreaIdReloadOnUpdateDataSheet: false,
 
-    CACHE_AREA_IDS_EXP_LIMIT: 1800,
     dataFlow_areaId_cacheExpirationLimit: 1800,   //Maximum time in seconds before the cache gets reset
 
-    CACHE_AREA_IDS_KEY: "butterflies and clouds",
     dataFlow_areaId_cacheKey: "butterflies and clouds", //ID to use when storing areaIDs in the cache
 
-    CACHE_SHEET_DATA_ENABLED: true,
     dataFlow_allSheetData_cacheEnabled: true,  //Cache allSheetData, the object returned by constructSheetData()
 
-    CACHE_SHEET_DATA_EXP_LIMIT: 1800,
     dataFlow_allSheetData_cacheExpirationLimit: 1800,   //Maximum time in seconds before the cache gets reset
 
-    CACHE_SHEET_DATA_KEY: "puppies and flowers",
     dataFlow_allSheetData_cacheKey: "puppies and flowers", //ID to use when storing allSheetData in the cache
 
-    CACHE_ORG_DATA_ENABLED: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
+    dataFlow_missionOrgData_cacheEnabled: false,   //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
-    MARK_DUPLICATES_MAX_ROW_TO_CHECK: 500,
     dataFlow_maxRowToMarkDuplicates: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
 

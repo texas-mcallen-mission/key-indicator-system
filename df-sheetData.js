@@ -466,114 +466,115 @@ class RawSheetData {
 
 
 
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Sets the data in the Sheet, erasing data already there. Takes a 2D array.
- * @param {any[][]} values The values to insert.
- */
-setValues(values) {
-    if (values.length == 0) return;
-    this.clearContent();
-    let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
-    range.setValues(values);
-}
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Sets the data in the Sheet, erasing data already there. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    setValues(values) {
+        if (values.length == 0) return;
+        this.clearContent();
+        let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
+        range.setValues(values);
+    }
 
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Inserts rows of data into the Sheet, formatted as an array of row objects.
- * @param {Object} data The data to insert.
- */
-setData(data) {
-    if (data.length == 0) return;
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Inserts rows of data into the Sheet, formatted as an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    setData(data) {
+        if (data.length == 0) return;
 
-    let values = [];
-    let skippedKeys = new Set();
-    let maxIndex = 0;
+        let values = [];
+        let skippedKeys = new Set();
+        let maxIndex = 0;
 
-    for (let rowData of data) {
-        let arr = [];
-        for (let key in rowData) {
+        for (let rowData of data) {
+            let arr = [];
+            for (let key in rowData) {
 
-            if (!this.hasKey(key)) {
-                skippedKeys.add(key);
-            } else {
-                arr[this.getIndex(key)] = rowData[key];
-                maxIndex = Math.max(maxIndex, this.getIndex(key));
+                if (!this.hasKey(key)) {
+                    skippedKeys.add(key);
+                } else {
+                    arr[this.getIndex(key)] = rowData[key];
+                    maxIndex = Math.max(maxIndex, this.getIndex(key));
+                }
+
             }
-
+            values.push(arr);
         }
-        values.push(arr);
+
+        //Force all rows to be of the same length
+        for (let arr of values)
+            if (typeof arr[maxIndex] == 'undefined')
+                arr[maxIndex] = "";
+
+        // @ts-ignore
+        for (let key of skippedKeys)
+            Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
+
+        this.setValues(values);
     }
 
-    //Force all rows to be of the same length
-    for (let arr of values)
-        if (typeof arr[maxIndex] == 'undefined')
-            arr[maxIndex] = "";
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Inserts rows of data into the Sheet. Takes a 2D array.
+     * @param {any[][]} values The values to insert.
+     */
+    insertValues(values) {
+        if (values.length == 0) return;
+        this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+        let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
+        range.setValues(values);
+    }
 
-    // @ts-ignore
-    for (let key of skippedKeys)
-        Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Sets the data in the Sheet, erasing data already there. Takes an array of row objects.
+     * @param {Object} data The data to insert.
+     */
+    insertData(data) {
+        if (data.length == 0) return;
 
-    this.setValues(values);
-}
+        let values = [];
+        let skippedKeys = new Set();
+        let maxIndex = 0;
 
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Inserts rows of data into the Sheet. Takes a 2D array.
- * @param {any[][]} values The values to insert.
- */
-insertValues(values) {
-    if (values.length == 0) return;
-    this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
-    let range = this.getSheet().getRange(this.headerRow + 2, 1, values.length, values[0].length);
-    range.setValues(values);
-}
+        for (let rowData of data) {
+            let arr = [];
+            for (let key in rowData) {
 
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Sets the data in the Sheet, erasing data already there. Takes an array of row objects.
- * @param {Object} data The data to insert.
- */
-insertData(data) {
-    if (data.length == 0) return;
+                if (!this.hasKey(key)) {
+                    skippedKeys.add(key);
+                } else {
+                    arr[this.getIndex(key)] = rowData[key];
+                    maxIndex = Math.max(maxIndex, this.getIndex(key));
+                }
 
-    let values = [];
-    let skippedKeys = new Set();
-    let maxIndex = 0;
-
-    for (let rowData of data) {
-        let arr = [];
-        for (let key in rowData) {
-
-            if (!this.hasKey(key)) {
-                skippedKeys.add(key);
-            } else {
-                arr[this.getIndex(key)] = rowData[key];
-                maxIndex = Math.max(maxIndex, this.getIndex(key));
             }
-
+            values.push(arr);
         }
-        values.push(arr);
+
+        //Force all rows to be of the same length
+        for (let arr of values)
+            if (typeof arr[maxIndex] == 'undefined')
+                arr[maxIndex] = "";
+
+        for (let key of skippedKeys)
+            Logger.log("Skipped key " + key + " while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
+
+        this.insertValues(values);
     }
 
-    //Force all rows to be of the same length
-    for (let arr of values)
-        if (typeof arr[maxIndex] == 'undefined')
-            arr[maxIndex] = "";
-
-    for (let key of skippedKeys)
-        Logger.log("Skipped key " + key + " while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
-
-    this.insertValues(values);
-}
 
 
 
@@ -581,69 +582,68 @@ insertData(data) {
 
 
 
-
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Clears the content of this Sheet below the header row, leaving formatting intact.
- */
-clearContent() {
-    let startRow = this.getHeaderRow() + 2;
-    let numRows = this.getSheet().getLastRow() + 1 - startRow;
-    if (numRows == 0) return; //End if the sheet is already empty
-    let numCols = this.getSheet().getLastColumn();
-    this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
-}
-
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Returns an array of all the defined keys in this RawSheetData, ordered by column index. Undefined indices will have undefined values.
- * @returns {string[]} An array of defined keys in this sheet.
- */
-getKeys() {
-    let keyList = Object.keys(this.keyToIndex);
-    let orderedKeyList = [];
-    for (let key of keyList) {
-        orderedKeyList[this.getIndex(key)] = key;
-    }
-    return orderedKeyList;
-}
-
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Returns an array of all the values in the sheet for the given key.
- * @returns An array containing all values for the given key.
- * @param {string} key The key string.
- */
-getAllOfKey(key) {
-    let index = this.keyToIndex[key];
-    return this.getAllOfIndex(index);
-}
-
-/**
- * !!WARNING!!
- * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
- *
- * Returns an array of all the values in the sheet for the column with the given index.
- * @returns An array containing all values from the given column.
- * @param {number} index The index of the column, starting from 0.
- */
-getAllOfIndex(index) {
-    let values = this.getValues();
-    let arr = [];
-
-    for (let row = 0; row < values.length; row++) {
-        let val = values[row][index];
-        arr.push(val);
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Clears the content of this Sheet below the header row, leaving formatting intact.
+     */
+    clearContent() {
+        let startRow = this.getHeaderRow() + 2;
+        let numRows = this.getSheet().getLastRow() + 1 - startRow;
+        if (numRows == 0) return; //End if the sheet is already empty
+        let numCols = this.getSheet().getLastColumn();
+        this.getSheet().getRange(startRow, 1, numRows, numCols).clearContent();
     }
 
-    return arr;
-}
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Returns an array of all the defined keys in this RawSheetData, ordered by column index. Undefined indices will have undefined values.
+     * @returns {string[]} An array of defined keys in this sheet.
+     */
+    getKeys() {
+        let keyList = Object.keys(this.keyToIndex);
+        let orderedKeyList = [];
+        for (let key of keyList) {
+            orderedKeyList[this.getIndex(key)] = key;
+        }
+        return orderedKeyList;
+    }
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Returns an array of all the values in the sheet for the given key.
+     * @returns An array containing all values for the given key.
+     * @param {string} key The key string.
+     */
+    getAllOfKey(key) {
+        let index = this.keyToIndex[key];
+        return this.getAllOfIndex(index);
+    }
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Returns an array of all the values in the sheet for the column with the given index.
+     * @returns An array containing all values from the given column.
+     * @param {number} index The index of the column, starting from 0.
+     */
+    getAllOfIndex(index) {
+        let values = this.getValues();
+        let arr = [];
+
+        for (let row = 0; row < values.length; row++) {
+            let val = values[row][index];
+            arr.push(val);
+        }
+
+        return arr;
+    }
 
 
 
@@ -663,7 +663,7 @@ getAllOfIndex(index) {
 function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
     // @ts-ignore
-    let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_KEY);
+    let allSheetData_JSONString = cache.get(CONFIG.dataFlow_allSheetData_cacheKey);
     if (allSheetData_JSONString == null) {
         console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
         return null;
@@ -705,7 +705,9 @@ function cacheAllSheetData(allSheetData) {
     Logger.log('Caching allSheetData');
     let cache = CacheService.getDocumentCache();
     // @ts-ignore
-    cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
+    cache.put(CONFIG.dataFlow_allSheetData_cacheKey,
+        JSON.stringify(allSheetData),
+        CONFIG.dataFlow_allSheetData_cacheExpirationLimit);
 }
 
 
@@ -741,7 +743,8 @@ function syncDataFlowCols_(allSheetData) {
     let addedKeys = [];
 
     for (let key of formSheetData.getKeys()) {
-        if (!dataSheetData.hasKey(key) && !CONFIG.EXCLUDE_FORM_COLS_FROM_DATA.includes(key)) {
+        if (!CONFIG.dataFlow_formColumnsToExcludeFromDataSheet.includes(key)
+            && !dataSheetData.hasKey(key)) {
             let header = formSheetData.getHeaders()[formSheetData.getIndex(key)];
             dataSheetData.rsd.addColumnWithHeader_(key, header);
             addedKeys.push(key);
@@ -846,7 +849,7 @@ function setSheetUp_(sheetData) {
 function constructSheetData(force = false) {
 
     //Check the cache for allSheetData
-    if (CONFIG.CACHE_SHEET_DATA_ENABLED && !force) {
+    if (CONFIG.dataFlow_allSheetData_cacheEnabled && !force) {
         let allSheetData = getAllSheetDataFromCache();
         if (allSheetData != null) return allSheetData;
     }
@@ -1117,7 +1120,7 @@ function constructSheetData(force = false) {
     //?   Object.freeze(allSheetData);
 
 
-    if (CONFIG.CACHE_SHEET_DATA_ENABLED) cacheAllSheetData(allSheetData);
+    if (CONFIG.dataFlow_allSheetData_cacheEnabled) cacheAllSheetData(allSheetData);
 
     return allSheetData;
 }

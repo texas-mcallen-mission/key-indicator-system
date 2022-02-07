@@ -26,8 +26,8 @@ function markDuplicates_old(allSheetData) { //                                  
     let maxRow = vals.length - 1;   //Used for bounds on the edit range
 
     //WARNING: this assumes header is on the top row
-    if (CONFIG.MARK_DUPLICATES_MAX_ROW_TO_CHECK > -1)
-        maxRow = Math.min(maxRow, CONFIG.MARK_DUPLICATES_MAX_ROW_TO_CHECK);
+    if (CONFIG.dataFlow_maxRowToMarkDuplicates > -1)
+        maxRow = Math.min(maxRow, CONFIG.dataFlow_maxRowToMarkDuplicates);
 
 
 
@@ -139,6 +139,3 @@ function markDuplicates_old(allSheetData) { //                                  
     Logger.log("Finished marking duplicate responses.");
 
 }
-
-
-
