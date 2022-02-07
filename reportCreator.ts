@@ -49,14 +49,14 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
     // updateSingleReportLevel(reportScope, allSheetData);
     // Logger.log("Report generation completed for " + reportScope);
 
-    let filesysHeader = filesysObj.getHeaders()
-    let filesysKeys = filesysObj.getKeys()
-    let filesysData = filesysObj.getData()
+    // let filesysHeader = filesysObj.getHeaders()
+    // let filesysKeys = filesysObj.getKeys()
+    // let filesysData = filesysObj.getData()
 
-    Logger.log(filesysHeader)
-    Logger.log(filesysKeys)
+    // Logger.log(filesysHeader)
+    // Logger.log(filesysKeys)
 
-    Logger.log(filesysKeys)
+    // Logger.log(filesysKeys)
 
     let storedSheet = filesysObj.getSheet()
 
@@ -72,6 +72,7 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
         let keyName = keys[keyPosition]
         let entryValue = entry[keyName]
     */
+    
     let updatedFSData = createTemplatesV2_(filesysObj, reportTemplateID)
     
     Logger.log("filesystem should be up to date!")
@@ -84,13 +85,18 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
     // returns a modified data object.
     let fsDataCopy = filesysObj.getData()
     let templateFile = DriveApp.getFileById(templateID)
+    console.log("testing")
     for (entry of fsDataCopy) {
+        Logger.log(entry);
+        
         let sheet1 = entry.sheetID1;
         if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
             let parentFolderObject = DriveApp.getFolderById(entry.parentFolder);
             let fileName = entry.folderName;
             let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
         }
+        Logger.log(entry);
+        
     }
     Logger.log("sending Data To Display with setData()")
     Logger.log(fsDataCopy)
