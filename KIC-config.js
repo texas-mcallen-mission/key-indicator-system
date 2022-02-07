@@ -6,19 +6,9 @@ General and debugging configuration parameters
 
 
 // TO BE DEPRECATED
-const templateDataDumpSheetName = "Data"; //No more refs
-const outputDataDumpSheetName = "Data"; //TODO Still has refs
-const configPageSheetName = "config"; //TODO Still has refs
-// let outputDataDumpSheetName = "";
-// let configPageSheetName = "";
-let kicDataStoreSheetName = "Data"; //TODO Still has refs
-let areaDataSheetName = "Data"; //No more refs
-let districtDataSheetName = "Data"; //No more refs
-let zoneDataSheetName = "Data"; //No more refs
-let areaDataHeaders = [""]; //No more refs
-let districtDataHeaders = [""]; //No more refs
-let zoneDataHeaders = [""]; //No more refs
-const functionGUBED = true; //TODO No more refs - remove?
+const outputDataDumpSheetName = "Data"; //TODO Change references (deprecated)
+const configPageSheetName = "config"; //TODO Change references (deprecated)
+let kicDataStoreSheetName = "Data"; //TODO Change references (deprecated)
 
 
 
@@ -30,14 +20,9 @@ let CONFIG =
 
     docIds_kicFormId: '1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw',     //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
-    zoneTemplateSpreadsheetId: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs", //TODO No more refs - remove?
-    docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
-
-    distTemplateSpreadsheetId: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM", //TODO No more refs - remove?
-    docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
-
-    areaTemplateSpreadsheetId: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE", //TODO No more refs - remove?
-    docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
+    docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs", //TODO No references - remove?
+    docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM", //TODO No references - remove?
+    docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE", //TODO No references - remove?
 
 
 
