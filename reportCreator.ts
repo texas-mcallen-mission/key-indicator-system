@@ -46,7 +46,7 @@ function testDataToArray(): void {
         }
     }
     let dataArray = turnDataIntoArray(data, header, keys)
-    Logger.log(splitData);
+    Logger.log(dataArray);
 }
 
 
