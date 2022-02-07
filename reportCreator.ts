@@ -14,13 +14,13 @@ function testFullUpdate() {
     let filesysSheetData
     switch (reportScope) {
         case reportLevel.area:
-            filesysSheet = allSheetData.areaFilesys
+            filesysSheetData = allSheetData.areaFilesys
             break
         case reportLevel.dist:
-            filesysSheet = allSheetData.distFilesys
+            filesysSheetData = allSheetData.distFilesys
             break
         case reportLevel.zone:
-            filesysSheet = allSheetData.zoneFilesys
+            filesysSheetData = allSheetData.zoneFilesys
             break
     }
 
