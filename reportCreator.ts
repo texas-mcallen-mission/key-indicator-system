@@ -94,7 +94,8 @@ function getScopedKIData(ki_sheetData): any[] {
         // console.log("Post-Mods",entry)
     }
     let postDate = new Date
-    console.log("Time Started: ",preDate,"Time Finished:",postDate)
+    let durationInMillis = postDate.getTime() - preDate.getTime()
+    console.log("Scoping Data- Time Started: ", preDate, "Time Finished:", postDate, "Duration: ",durationInMillis, "ms")
     return data
 
 function testUpdateSingleReport() {
