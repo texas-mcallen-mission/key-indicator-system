@@ -27,8 +27,8 @@ function testDataToArray(): void {
     // let data = kiDataObj.getData()
     // Logger.log(data)
     let data = getScopedKIData(kiDataObj);
-    let header = (kiDataObj.getHeaders()
-    let keys = getKeys()
+    let header = kiDataObj.getHeaders()
+    let keys = kiDataObj.getKeys()
     
     let splitData = splitDataByTagV2_(data, "zone");
     
