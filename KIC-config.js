@@ -5,22 +5,6 @@ General and debugging configuration parameters
 */
 
 
-const general_zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
-const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
-const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
-const functionGUBED = true;
-
-const reportLevel = {
-    zone: "ZONE",
-    dist: "DISTRICT",
-    area: "AREA",
-    /*
-    theoretically, since there's no difference between this anywhere you 
-    should be able to change this to be whatever gibberish you want as 
-    long as they're unique.  These strings also included in folder naming if 
-    INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
-    */
-};
 
 const templateDataDumpSheetName = "Data";
 const outputDataDumpSheetName = "Data";
@@ -42,6 +26,18 @@ let zoneDataHeaders = [""];
 
 let CONFIG =
 {
+    zoneTemplateSpreadsheetId: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
+    distTemplateSpreadsheetId: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
+    areaTemplateSpreadsheetId: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
+    functionGUBED: true,
+    
+    reportLevel: //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
+    {
+        zone: "ZONE",
+        dist: "DISTRICT",
+        area: "AREA",
+    },
+        
     
     // general
     
