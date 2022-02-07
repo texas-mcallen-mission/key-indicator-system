@@ -77,7 +77,7 @@ function getScopedKIData(ki_sheetData): any[] {
     // then iterate through the list of values to exclude and remove those as well.
     // -- actually maybe we'll do that one first because then the second one has a smaller data set?
     // first:  check to see if 
-
+    let preDate = new Date
     for (let entry of data) {
         // console.log("Pre-Modifications",entry)
         for (let property of listToHide) {
@@ -93,7 +93,8 @@ function getScopedKIData(ki_sheetData): any[] {
         }
         // console.log("Post-Mods",entry)
     }
-
+    let postDate = new Date
+    console.log("Time Started: ",preDate,"Time Finished:",postDate)
     return data
 
 function testUpdateSingleReport() {
