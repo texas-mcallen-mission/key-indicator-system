@@ -114,7 +114,9 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
         for (let headee of header) {
             let keyPosition = header.indexOf(headee)
             let keyName = keys[keyPosition]
-            line.push(entry[keyName]])
+            let entryValue = entry[keyName]
+            console.log(entryValue)
+            line.push(entryValue)
         }
         let postDate2 = new Date
         durations += timerFunction(preDate2, postDate2)
