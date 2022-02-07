@@ -53,7 +53,7 @@ function markDuplicates_old(allSheetData) { //                                  
             log += '\nSkipping row';
             skippedRows.push(row);
 
-            if (CONFIG.LOG_DUPLICATES) Logger.log(log);
+            if (CONFIG.dataFlow_log_duplicates) Logger.log(log);
             continue;
         }
 
@@ -80,7 +80,7 @@ function markDuplicates_old(allSheetData) { //                                  
             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
 
             log += "\nFirst ocurrence, continuing.";
-            if (CONFIG.LOG_DUPLICATES) Logger.log(log);
+            if (CONFIG.dataFlow_log_duplicates) Logger.log(log);
             continue;
         }
 
@@ -117,7 +117,7 @@ function markDuplicates_old(allSheetData) { //                                  
             }
         }
 
-        if (CONFIG.LOG_DUPLICATES) Logger.log(log);
+        if (CONFIG.dataFlow_log_duplicates) Logger.log(log);
     }
 
     Logger.log("Finished pulling duplicate data. Pushing to sheet...");
