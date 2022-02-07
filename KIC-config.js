@@ -38,8 +38,7 @@ let CONFIG =
 
     dataFlow_skipMarkingPulled: true,  //Stops marking Form Responses as having been pulled into the data sheet
 
-    SKIP_MARKING_DUPLICATES: false, //TODO Re-implement?
-    dataFlow_skipMarkingDuplicates: false,
+    dataFlow_skipMarkingDuplicates: false, //TODO Re-implement?
 
     dataFlow_freezeContactData: false,
 
@@ -70,7 +69,7 @@ let CONFIG =
 
     fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-    INCLUDE_SCOPE_IN_FOLDER_NAME: true,
+    INCLUDE_SCOPE_IN_FOLDER_NAME: true, //TODO Update references
     fileSystem_includeScopeInFolderName: true,
 
     fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
@@ -79,11 +78,12 @@ let CONFIG =
 
     // logging
 
-    LOG_FILESYS: false,
+    LOG_FILESYS: false, //TODO Update references
     fileSystem_log_update: false,
+
     fileSystem_log_fileShare: false,
 
-    LOG_OLD_sendReportToDisplayV3_: false,
+    LOG_OLD_sendReportToDisplayV3_: false, //TODO Update references
     fileSystem_log_sendReportToDisplayV3_: false,
 
     dataFlow_log_importContacts: false,
