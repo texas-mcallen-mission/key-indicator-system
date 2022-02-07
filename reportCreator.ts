@@ -1,7 +1,97 @@
 //@ts-check
 let HOTFIX_HEADERS = ["Folder Name String", "Parent Folder ID", "Zone Folder ID", "Sheet Report ID", "2nd Report ID (unimp)"];
 
-function createTemplates_(filesystemObject, templateID) {
+// TODO: PHASE THESE OUT!!!
+const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
+const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
+const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
+
+
+function testFullUpdate() {
+    let allSheetData = constructSheetData();
+    
+    let reportScope = reportLevel.zone
+    let filesysSheetData
+    switch (reportScope) {
+        case reportLevel.area:
+            filesysSheet = allSheetData.areaFilesys
+            break
+        case reportLevel.dist:
+            filesysSheet = allSheetData.distFilesys
+            break
+        case reportLevel.zone:
+            filesysSheet = allSheetData.zoneFilesys
+            break
+    }
+
+    fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope)
+
+}
+
+function fullUpdateSingleLevel(filesysObj: {}, data: {},reportTemplateID:String,scope:String):void {
+    let allSheetData = constructSheetData();
+    let reportScope = reportLevel.zone;
+    // updateSingleReportLevel(reportScope, allSheetData);
+    // Logger.log("Report generation completed for " + reportScope);
+
+    let filesysHeader = filesysObj.getHeaders()
+    let filesysKeys = filesysObj.getKeys()
+    let filesysData = filesysObj.getData()
+
+    Logger.log(filesysHeader)
+    Logger.log(filesysKeys)
+
+    Logger.log(filesysKeys)
+
+    let storedSheet = filesysObj.getSheet()
+
+    Logger.log("adding reports to FS!")
+
+    
+
+
+
+
+}
+
+// THIS FUNCTION, AND MOST OF ITS DEPENDENTS NEED TO BE DEPRECATED
+function updateSingleReportLevel(reportScope: String, allSheetData): void {
+
+    let sheetData;
+    switch (reportScope) {
+        case reportLevel.area:
+            sheetData = allSheetData.areaFilesys;
+            return;
+        case reportLevel.dist:
+            sheetData = allSheetData.distFilesys;
+            return;
+        case reportLevel.zone:
+            sheetData = allSheetData.zoneFilesys;
+    }
+    // let areaSheetData = allSheetData.areaFilesys;
+
+    let storedDataSheet = sheetData.sheet;
+    let filesysObject = splitToDataStruct(sheetData.data);
+
+    Logger.log("making modifiedFilesysObject");
+    let modifiedFilesysObject = createTemplates_(filesysObject, areaTemplateSpreadsheetId);
+
+    let filesysData = [];
+    for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
+        //@ts-ignore
+        filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]]);
+    }
+
+    sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
+
+    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
+
+    modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
+}
+
+
+
+function createTemplatesV2_(filesystemObject, templateID) {
     // creates templates, moves them into the correct folders, and then
     // returns a modified filesystemObject for working with later on down the line.
     // if the template already exists, it leaves it alone and moves along.
@@ -23,15 +113,13 @@ function createTemplates_(filesystemObject, templateID) {
 
 
 
-
-
 function testDataToArray(): void {
     let allSheetData = constructSheetData();
     let kiDataObj = allSheetData.data;
 
     // let data = kiDataObj.getData()
     // Logger.log(data)
-    let data = getScopedKIData_(kiDataObj);
+    let data = removeDupesAndPII_(kiDataObj);
     let header = kiDataObj.getHeaders()
     let keys = kiDataObj.getKeys()
     
@@ -131,7 +219,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
     
 }
 
-function getScopedKIData_(ki_sheetData): any[] {
+function removeDupesAndPII_(ki_sheetData): any[] {
 
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
@@ -174,71 +262,8 @@ function getScopedKIData_(ki_sheetData): any[] {
     return data;
 }
 
-function testUpdateSingleReportLevel() {
-    let allSheetData = constructSheetData();
-    let reportScope = reportLevel.zone;
-    // updateSingleReportLevel(reportScope, allSheetData);
-    // Logger.log("Report generation completed for " + reportScope);
-    let filesysSheet
-    switch (reportScope) {
-        case reportLevel.area:
-            filesysSheet = allSheetData.areaFilesys
-            break
-        case reportLevel.dist:
-            filesysSheet = allSheetData.distFilesys
-            break
-        case reportLevel.zone:
-            filesysSheet = allSheetData.zoneFilesys
-            break
-    }
-    let filesysHeader = filesysSheet.getHeaders()
-    let filesysKeys = filesysSheet.getKeys()
-    let filesysData = filesysSheet.getData()
-
-    Logger.log(filesysKeys)
-
-    
 
 
-
-
-}
-
-
-// THIS FUNCTION, AND MOST OF ITS DEPENDENTS NEED TO BE DEPRECATED
-function updateSingleReportLevel(reportScope: String, allSheetData): void {
-
-    let sheetData;
-    switch (reportScope) {
-        case reportLevel.area:
-            sheetData = allSheetData.areaFilesys;
-            return;
-        case reportLevel.dist:
-            sheetData = allSheetData.distFilesys;
-            return;
-        case reportLevel.zone:
-            sheetData = allSheetData.zoneFilesys;
-    }
-    // let areaSheetData = allSheetData.areaFilesys;
-
-    let storedDataSheet = sheetData.sheet;
-    let filesysObject = splitToDataStruct(sheetData.data);
-
-    Logger.log("making modifiedFilesysObject");
-    let modifiedFilesysObject = createTemplates_(filesysObject, areaTemplateSpreadsheetId);
-
-    let filesysData = [];
-    for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-        //@ts-ignore
-        filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]]);
-    }
-
-    sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
-
-    let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
-
-    modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
-}
 
 function modifyTemplates_(filesystemObject, referenceData: any[][], scope: String) {
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
