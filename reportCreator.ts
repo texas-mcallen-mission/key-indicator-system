@@ -28,8 +28,11 @@ function testSplitData(): void {
     // Logger.log(data)
     let data = getScopedKIData(kiDataObj);
     let splitData = splitDataByTagV2_(data, "zone");
-    
-    for (let zone in splitData) {
+    Logger.log(kiDataObj.getKeys())
+    Logger.log(kiDataObj.getHeaders())
+
+    // test to see if splitData would work well or not
+    /*for (let zone in splitData) {
         console.log(zone)
         let distData = splitDataByTagV2_(splitData[zone], "district")
         for (let district in distData) {
@@ -39,7 +42,7 @@ function testSplitData(): void {
                 
             }
         }
-    }
+    }*/
     Logger.log(splitData);
 }
 
