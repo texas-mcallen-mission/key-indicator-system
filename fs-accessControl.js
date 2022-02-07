@@ -89,7 +89,7 @@ function shareFileSystem() {
         if (CONFIG.LOG_FILE_SHARING) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
-        // if (CONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+        // if (CONFIG.fileSystem_updateSheetProtectionsOnLoad) {
 
         //     //      Update Spreadsheet page protections: officeEmails only
 
@@ -156,7 +156,7 @@ function shareFileSystem() {
 
 
 
-            // if (CONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+            // if (CONFIG.fileSystem_updateSheetProtectionsOnLoad) {
 
             //     //      Update Spreadsheet page protections: officeEmails only
 
@@ -220,7 +220,7 @@ function shareFileSystem() {
 
 
 
-                // if (CONFIG.UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD) {
+                // if (CONFIG.fileSystem_updateSheetProtectionsOnLoad) {
                 //     //      Update Spreadsheet page protections: officeEmails only
 
 
@@ -320,16 +320,3 @@ function testSharing() {
     silentShare(fileId, editor);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

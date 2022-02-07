@@ -83,14 +83,12 @@ let CONFIG =
     reportLevel: { zone: "Zone", dist: "District", area: "Area", },
     fileSystem_reportLevel: { zone: "Zone", dist: "District", area: "Area", }, //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
 
-    UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
     fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
     INCLUDE_SCOPE_IN_FOLDER_NAME: true,
     fileSystem_includeScopeInFolderName: true,
 
-    FREEZE_FILESYS: false,
-    fileSystem_freezeFilesys: false,
+    fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 
 
 
