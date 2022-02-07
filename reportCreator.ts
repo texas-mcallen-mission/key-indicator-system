@@ -2,7 +2,7 @@
 let HOTFIX_HEADERS = ["Folder Name String", "Parent Folder ID", "Zone Folder ID", "Sheet Report ID", "2nd Report ID (unimp)"];
 
 function createTemplates_(filesystemObject, templateID) {
-    // creates per-zone templates, moves them into the correct folders, and then
+    // creates templates, moves them into the correct folders, and then
     // returns a modified filesystemObject for working with later on down the line.
     // if the template already exists, it leaves it alone and moves along.
     let filesystemObjectCopy = filesystemObject;
@@ -23,13 +23,15 @@ function createTemplates_(filesystemObject, templateID) {
 
 
 
+
+
 function testDataToArray(): void {
     let allSheetData = constructSheetData();
     let kiDataObj = allSheetData.data;
 
     // let data = kiDataObj.getData()
     // Logger.log(data)
-    let data = getScopedKIData(kiDataObj);
+    let data = getScopedKIData_(kiDataObj);
     let header = kiDataObj.getHeaders()
     let keys = kiDataObj.getKeys()
     
@@ -53,11 +55,6 @@ function testDataToArray(): void {
 }
 
 
-function thanDoesntLikeMeLogger(input: any) {
-    // This function 
-    Logger.log(typeof input);
-    Logger.log(input);
-}
 
 // TODO define interface for data entry?
 // THIS WILL HAPPEN IN THE PROPER RESTRUCTURE REWRITE THING THAT I'LL DO EVENTUALLY, BUT NOT WHEN I NEED TO GET SOMETHING DONE THE SAME NIGHT
@@ -97,7 +94,7 @@ function splitDataByKey_(data, tag: String) {
     return dataByKey;
 }
 
-function timerFunction(pre: Date, post: Date) {
+function timerFunction_(pre: Date, post: Date) {
     return post.getMilliseconds() - pre.getMilliseconds()
 }
 
@@ -123,18 +120,18 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
         }
         console.log(line)
         // let postDate2 = new Date
-        // durations += timerFunction(preDate2, postDate2)
+        // durations += timerFunction_(preDate2, postDate2)
         count +=1
         output.push(line)
     }
     let postDate = new Date
-    let duration = timerFunction(preDate, postDate)
+    let duration = timerFunction_(preDate, postDate)
     console.log("Single data array duration:" ,duration, "ms - Average entry time: ", duration / count, " ms")
     return output
     
 }
 
-function getScopedKIData(ki_sheetData): any[] {
+function getScopedKIData_(ki_sheetData): any[] {
 
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
@@ -145,13 +142,10 @@ function getScopedKIData(ki_sheetData): any[] {
         * basically learning TypeScript the wrong way by messing about.
 
     */
-    thanDoesntLikeMeLogger(ki_sheetData);
     let data = ki_sheetData.getData();
     let values = ki_sheetData.getValues();
     let header = ki_sheetData.getHeaders();
-    thanDoesntLikeMeLogger(data);
-    thanDoesntLikeMeLogger(values);
-    thanDoesntLikeMeLogger(header);
+
 
     let listToHide = ["aptAddress"];
     let valuesToExclude = [["isDuplicate", true], ["Questions, comments, concerns?", "TEST DATA"]];
@@ -180,11 +174,31 @@ function getScopedKIData(ki_sheetData): any[] {
     return data;
 }
 
-function testUpdateSingleReport() {
+function testUpdateSingleReportLevel() {
     let allSheetData = constructSheetData();
     let reportScope = reportLevel.zone;
     updateSingleReportLevel(reportScope, allSheetData);
     Logger.log("Report generation completed for " + reportScope);
+    let filesysSheet
+    switch (reportScope) {
+        case reportLevel.area:
+            filesysSheet = allSheetData.areaFilesys
+            break
+        case reportLevel.dist:
+            filesysSheet = allSheetData.distFilesys
+            break
+        case reportLevel.zone:
+            filesysSheet = allSheetData.zoneFilesys
+            break
+    }
+    let filesysHeader = filesysSheet.getHeaders()
+    let filesysKeys = filesysSheet.getKeys()
+    let filesysData = filesysSheet.getData()
+
+    Logger.log(filesysKeys)
+
+    
+
 }
 
 
