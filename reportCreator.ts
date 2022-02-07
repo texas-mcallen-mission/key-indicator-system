@@ -27,7 +27,7 @@ function testSplitData(): void {
     // let data = kiDataObj.getData()
     // Logger.log(data)
     let data = getScopedKIData(kiDataObj);
-    let splitData = splitDataByTagV2_(data, "Area Name");
+    let splitData = splitDataByTagV2_(data, "areaName");
     Logger.log(splitData);
 }
 
