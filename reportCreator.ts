@@ -31,12 +31,15 @@ function testGetScopedKIData(): void {
 
 
 function flog(input: any) {
-    Logger.log([input.getAttribute("name"), typeof input, "Length: " + input.length])
+    // This function 
+    Logger.log([/*input.getAttribute("name"),*/ typeof input, "Length: " + input.length])
     Logger.log(input)
 }
 
 // TODO define interface for data entry?
 function getScopedKIData(sheetData): any[] {
+    // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
+    // ^ this is so that I can modify which columns get displayed easily.  :)
     Logger.log(data)
     /*  WHERE YOU LEFT OFF:
         * Building function to load the data & scope it
