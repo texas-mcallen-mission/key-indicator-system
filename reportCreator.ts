@@ -31,6 +31,9 @@ function testFullUpdate() {
 function fullUpdateSingleLevel(filesysObj: {}, data: {},reportTemplateID:String,scope:String):void {
     let allSheetData = constructSheetData();
     let reportScope = reportLevel.zone;
+
+    let kiDataObj = allSheetData.data
+        let data = removeDupesAndPII_(kiDataObj);
     // updateSingleReportLevel(reportScope, allSheetData);
     // Logger.log("Report generation completed for " + reportScope);
 
