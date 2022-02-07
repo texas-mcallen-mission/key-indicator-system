@@ -133,7 +133,7 @@ class SheetData {
     }
 
     /**
-     * Returns an array of all the defined keys in this SheetData.
+     * Returns an array of all the defined keys in this RawSheetData, ordered by column index. Undefined indices will have undefined values.
      * @returns {string[]} An array of defined keys in this sheet.
      */
     getKeys() {
@@ -602,11 +602,16 @@ class RawSheetData {
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
      *
-     * Returns an array of all the defined keys in this RawSheetData.
+     * Returns an array of all the defined keys in this RawSheetData, ordered by column index. Undefined indices will have undefined values.
      * @returns {string[]} An array of defined keys in this sheet.
      */
     getKeys() {
-        return Object.keys(this.keyToIndex);
+        let keyList = Object.keys(this.keyToIndex);
+        let orderedKeyList = [];
+        for (let key of keyList) {
+            orderedKeyList[this.getIndex(key)] = key;
+        }
+        return orderedKeyList;
     }
 
     /**
