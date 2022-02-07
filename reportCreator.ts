@@ -24,11 +24,19 @@ function testFullUpdate() {
             break
     }
 
+    let contactSheetData = allSheetData.contactData
+    let contactData = contactSheetData.getData
+
+    Logger.log(contactData.getData())
+    Logger.log(contactData.getHeaders())
+    Logger.log(contactData.getKeys())
+
     fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope)
 
 }
 
-function fullUpdateSingleLevel(filesysObj: {}, data: {},reportTemplateID:String,scope:String):void {
+
+function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String, contactData: {}):void {
     let allSheetData = constructSheetData();
     let reportScope = reportLevel.zone;
 
@@ -50,12 +58,62 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {},reportTemplateID:String,
 
     Logger.log("adding reports to FS!")
 
+    //   // console.log(entryValue)
+    
+    /*
+    header names:  [Folder Name String, Parent Folder ID, Zone Folder ID, Sheet Report ID, 2nd Report ID (unimp)]
+    key names:     [folderName, parentFolder, folder, sheetID1, sheetID2]
+    For this section, we'll just use the internal key names for simplicity.  To switch back, you'll need to use something like the following:
+        let keyPosition = header.indexOf(<"HEADER NAME STRING">)
+        let keyName = keys[keyPosition]
+        let entryValue = entry[keyName]
+    */
+    
     
 
 
+}
 
+function createTemplatesV2_(filesysObj, templateID:String) {
+    let fsDataCopy = fsData
+    let templateFile = DriveApp.getFileById(templateID)
+    for (entry of fsDataCopy) {
+        let sheet1 = entry.sheetID1;
+        if (sheet1 == "Doc Id" || sheet1 = "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
+            let parentFolderObject = DriveApp.getFolderById(entry.parentFolder);
+            let fileName = entry.folderName;
+            let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
+        } else {
+            // we don't have to do anything because it already exists!
+        }
+    }
+
+    filesysObj.setData(fsDataCopy)
+    
 
 }
+
+
+function createTemplatesV2REFERENCE_(filesystemObject, templateID) {
+    // this basically requires driveHandler to go first so that it doesn't have to deal with contactData junk
+    // creates templates, moves them into the correct folders, and then
+    // returns a modified filesystemObject for working with later on down the line.
+    // if the template already exists, it leaves it alone and moves along.
+    let filesystemObjectCopy = filesystemObject;
+    let templateFile = DriveApp.getFileById(templateID);
+
+    for (let i = 0; i < filesystemObjectCopy.name.length; i++) {
+        if (filesystemObjectCopy.sheetID1[i] == "Doc Id" || filesystemObjectCopy.sheetID1[i] == "DOC ID" || filesystemObjectCopy.sheetID1[i] == "") {
+            let targetFolder = filesystemObjectCopy.folderID[i];
+            let parentFolderObject = DriveApp.getFolderById(targetFolder);
+            let fileName = filesystemObjectCopy.name[i];
+            let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
+            filesystemObjectCopy.docID[i] = templateCopy.getId();
+        }
+    }
+    return filesystemObjectCopy;
+}
+
 
 // THIS FUNCTION, AND MOST OF ITS DEPENDENTS NEED TO BE DEPRECATED
 function updateSingleReportLevel(reportScope: String, allSheetData): void {
@@ -94,24 +152,6 @@ function updateSingleReportLevel(reportScope: String, allSheetData): void {
 
 
 
-function createTemplatesV2_(filesystemObject, templateID) {
-    // creates templates, moves them into the correct folders, and then
-    // returns a modified filesystemObject for working with later on down the line.
-    // if the template already exists, it leaves it alone and moves along.
-    let filesystemObjectCopy = filesystemObject;
-    let templateFile = DriveApp.getFileById(templateID);
-
-    for (let i = 0; i < filesystemObjectCopy.name.length; i++) {
-        if (filesystemObjectCopy.docID[i] == "Doc Id" || filesystemObjectCopy.docID[i] == "DOC ID" || filesystemObjectCopy.docID[i] == "") {
-            let targetFolder = filesystemObjectCopy.folderID[i];
-            let folderObject = DriveApp.getFolderById(targetFolder);
-            let fileName = filesystemObjectCopy.name[i];
-            let templateCopy = templateFile.makeCopy(fileName, folderObject);
-            filesystemObjectCopy.docID[i] = templateCopy.getId();
-        }
-    }
-    return filesystemObjectCopy;
-}
 
 
 

@@ -44,9 +44,59 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
     // SpreadsheetApp.flush()
     // Logger.log("data added")
 }
+/*
+ * @param {any} folderID
+ */
+function isFolderAccessible_(folderID:String) {
+    // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
+    let output = true;
+    let folder;
+    let gone = false;
+    try {
+        folder = DriveApp.getFolderById(folderID);
+        // test = DriveApp.getFolderById(folderID).getName();
 
+        folder.getDescription();
+    } catch (e) {
+        output = false;
+        gone = true;
+        Logger.log("Folder deleted with ID " + folderID);
+    }
+    if (gone == false) {
+        //@ts-ignore
+        if (folder.isTrashed() == true) {
+            Logger.log("folder exists but in the bin");
+            output = false;
+        }
+    }
 
+    return output;
+}
 
+function isFileAccessible_(fileID: String) {
+  // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
+    let file;
+    let gone = false;
+    try {
+    file = DriveApp.getFileById(fileID);
+    // test = DriveApp.getFolderById(folderID).getName();
+
+    file.getDescription();
+    } catch (e) {
+    output = false;
+    gone = true;
+    Logger.log("Folder deleted with ID " + folderID);
+    }
+    if (gone == false) {
+    //@ts-ignore
+        if (file.isTrashed() == true) {
+            Logger.log("file exists but in the bin");
+            output = false;
+        }
+    }
+
+    return output;
+}
 
 function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
     //currently just for zones, but we'll change that once I know this thing actually works.
