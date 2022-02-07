@@ -57,7 +57,7 @@ function thanDoesntLikeMeLogger(input: any) {
 // define data entry class thingy and constructor for it so that I can have an easy - to - use and consistent way of editing stuff ?
 
 function splitDataByTagV2_(data, tag: String) {
-    let listOfTags = [];
+    let uniqueTagValues = [];
     let dataByTag = {};
 
     /*
@@ -69,19 +69,17 @@ function splitDataByTagV2_(data, tag: String) {
 
     for (let entry of data) {
         let tagValue = entry[tag];
-        if (!listOfTags.includes(entry[tag])) {
-            listOfTags.push(tagValue);
+        if (!uniqueTagValues.includes(tagValue)) {
+            uniqueTagValues.push(tagValue);
             dataByTag[tagValue] = [];
             // TODO - where you left off:  This little bit right here is giving me some trouble- 
             // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
-            dataByTag[tagValue].push(entry);
-        } else {
-            dataByTag[tagValue].push(entry);
         }
+        dataByTag[tagValue].push(entry);
 
 
     }
-    console.log("split into  ", listOfTags.length, " groups");
+    console.log("split into  ", uniqueTagValues.length, " groups");
     console.log(dataByTag);
     return dataByTag;
 }
