@@ -32,7 +32,7 @@ function testGetScopedKIData(): void {
 
 function flog(input: any) {
     // This function 
-    Logger.log([/*input.getAttribute("name"),*/ typeof input, "Length: " + input.length])
+    Logger.log([/*input.getAttribute("name"),*/ typeof input/*, "Length: " + input.length]*/)
     Logger.log(input)
 }
 
