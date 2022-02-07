@@ -32,12 +32,12 @@ function testGetScopedKIData(): void {
 
 function flog(input: any) {
     // This function 
-    Logger.log([/*input.getAttribute("name"),*/ typeof input/*, "Length: " + input.length]*/)
+    Logger.log(typeof input)
     Logger.log(input)
 }
 
 // TODO define interface for data entry?
-function getScopedKIData(sheetData): any[] {
+function getScopedKIData(ki_sheetData): any[] {
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
     Logger.log(data)
@@ -47,10 +47,10 @@ function getScopedKIData(sheetData): any[] {
         * basically learning TypeScript the wrong way by messing about.
 
     */
-    flog(data)
-    let data = data.getData()
-    let values = data.getValues()
-    let header = data.getHeader()
+    flog(ki_sheetData)
+    let data = ki_sheetData.getData()
+    let values = ki_sheetData.getValues()
+    let header = ki_sheetData.getHeader()
     flog(data);
     flog(values);
     flog(header)
