@@ -125,7 +125,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
         output.push(line)
     }
     let postDate = new Date
-    console.log("Single data array duration:" timerFunction(preDate, postDate), "ms - Average entry time: ", durations / count, " ms")
+    console.log("Single data array duration:" ,timerFunction(preDate, postDate), "ms - Average entry time: ", durations / count, " ms")
     return output
     
 }
