@@ -64,7 +64,6 @@ let CONFIG =
 
     // fileSystem
 
-    reportLevel: { zone: "Zone", dist: "District", area: "Area", },
     fileSystem_reportLevel: { zone: "Zone", dist: "District", area: "Area", }, //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
 
     fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
