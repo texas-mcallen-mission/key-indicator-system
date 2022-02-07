@@ -516,6 +516,7 @@ class RawSheetData {
             if (typeof arr[maxIndex] == 'undefined')
                 arr[maxIndex] = "";
 
+        // @ts-ignore
         for (let key of skippedKeys)
             Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
 
@@ -658,6 +659,7 @@ class RawSheetData {
  */
 function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
+    // @ts-ignore
     let allSheetData_JSONString = cache.get(CONFIG.CACHE_SHEET_DATA_KEY);
     if (allSheetData_JSONString == null) {
         console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
@@ -699,6 +701,7 @@ function getAllSheetDataFromCache() {
 function cacheAllSheetData(allSheetData) {
     Logger.log('Caching allSheetData');
     let cache = CacheService.getDocumentCache();
+    // @ts-ignore
     cache.put(CONFIG.CACHE_SHEET_DATA_KEY, JSON.stringify(allSheetData), CONFIG.CACHE_SHEET_DATA_EXP_LIMIT);
 }
 
@@ -799,10 +802,12 @@ function buildIndexToKey_(allSheetData) {
 function setSheetUp_(sheetData) {
     throw "UNIMPLEMENTED";
     // @ts-ignore
+    // @ts-ignore
     let sheetName = sheetData.getTabName();
     let headers = sheetData.getHeaders();
 
     let ss = SpreadsheetApp.getActiveSpreadsheet();
+    // @ts-ignore
     // @ts-ignore
     let ui = SpreadsheetApp.getUi();
 
@@ -811,6 +816,7 @@ function setSheetUp_(sheetData) {
     if (!sheet) {
         Logger.log("Sheet '" + sheetName + "' not found. Creating");
         sheet = ss.insertSheet(sheetName);
+        // @ts-ignore
         sheet.appendRow(headers);     // Creating Header
     }
 
@@ -847,6 +853,7 @@ function constructSheetData(force = false) {
     /*    Static properties and parameters     */
 
 
+    // @ts-ignore
     const KEY_FROM_HEADER = {     //NOT USED
         "Area Name": "areaName",
         "Status Log": "log",
@@ -1143,5 +1150,6 @@ function testSheetData() {
 
 function clearAllSheetDataCache() {
     let cache = CacheService.getDocumentCache();
+    // @ts-ignore
     cache.remove('allSheetData');
 }

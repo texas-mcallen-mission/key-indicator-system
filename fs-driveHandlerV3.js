@@ -289,7 +289,7 @@ function createNewFolderV3_(parentFolderId, name) {
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();
-    if (DBCONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
+    if (CONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
     return newFolderID;
 
     // }
@@ -352,6 +352,7 @@ function isFolderAccessible_(folderID) {
         Logger.log("Folder deleted with ID " + folderID);
     }
     if (gone == false) {
+        //@ts-ignore
         if (folder.isTrashed() == true) {
             Logger.log("folder exists but in the bin");
             output = false;
