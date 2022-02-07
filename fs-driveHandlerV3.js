@@ -352,6 +352,7 @@ function isFolderAccessible_(folderID) {
         Logger.log("Folder deleted with ID " + folderID);
     }
     if (gone == false) {
+        //@ts-ignore
         if (folder.isTrashed() == true) {
             Logger.log("folder exists but in the bin");
             output = false;

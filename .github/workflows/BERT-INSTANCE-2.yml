@@ -1,10 +1,10 @@
-name: BERT-INSTANCE-2 - pre-hotfix-merge-test
+name: BERT-INSTANCE-2 - report-creator-rewrite
 
 on:
   workflow_dispatch:
   push:
     # CHANGE THIS TO REFERENCE THE BRANCH YOU WANT TO PUSH
-    branches: [pre-hotfix-merge-test]
+    branches: [report-creator-rewrite]
   release:
     types: [published]
   # DO NOT TOUCH: this updates the authorization 
@@ -92,4 +92,3 @@ jobs:
         run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-
