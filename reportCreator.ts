@@ -86,7 +86,7 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
     let fsDataCopy = filesysObj.getData()
     let templateFile = DriveApp.getFileById(templateID)
     console.log("testing")
-    for (entry of fsDataCopy) {
+    for (let entry of fsDataCopy) {
         Logger.log(entry);
         
         let sheet1 = entry.sheetID1;
@@ -94,7 +94,9 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
             let parentFolderObject = DriveApp.getFolderById(entry.parentFolder);
             let fileName = entry.folderName;
             let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
-            console.log("created template for ",entry.folderName," with ID ",)
+            // templateCopy.getId()
+            entry.sheetID1 = templateCopy.getId() 
+            console.log("created template for ",entry.folderName," with ID ",entry.sheetID1)
         }
         Logger.log(entry);
         
