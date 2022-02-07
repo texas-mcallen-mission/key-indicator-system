@@ -112,7 +112,6 @@ function getScopedKIData(ki_sheetData): any[] {
             entry[property] = "";
         }
         for (let exclusions of valuesToExclude) {
-            //@ts-ignore
             // loops through values we want to exclude and checks to see if they match or not. 
             if (entry[exclusions[0]] == exclusions[1]) {
                 
