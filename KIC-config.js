@@ -96,18 +96,14 @@ let CONFIG =
 
     LOG_FILESYS: false,
     fileSystem_log_update: false,
-
     fileSystem_log_fileShare: false,
 
     LOG_OLD_sendReportToDisplayV3_: false,
     fileSystem_log_sendReportToDisplayV3_: false,
 
     dataFlow_log_importContacts: false,
-
     dataFlow_log_dataMerge: false,
-
     dataFlow_log_responsePulled: false,
-
     dataFlow_log_duplicates: false,
 
 
