@@ -59,6 +59,14 @@ function thanDoesntLikeMeLogger(input: any) {
 function splitDataByTagV2_(data, tag:String) {
     let listOfTags = []
     let dataByTag = {}
+
+    /*
+        looks something like
+
+
+
+    */
+
     for (let entry of data) {
         let tagValue = entry[tag]
         if (listOfTags.includes(entry[tag]) == false){
