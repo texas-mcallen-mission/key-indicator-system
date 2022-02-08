@@ -7,10 +7,42 @@ const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM"
 const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
 
 
-function testFullUpdate() {
+function updateAllReports() {
+    updateZoneReports()
+    updateDistrictReports()
+    
+    updateAreaReports()
+}
+
+function updateZoneReports() {
+    let allSheetData = constructSheetData()
+
+    let reportScope = reportLevel.zone
+
+    updateAnyLevelReport_(allSheetData, reportScope)
+}
+
+function updateDistrictReports() {
+    let allSheetData = constructSheetData()
+
+    let reportScope = reportLevel.dist
+
+    updateAnyLevelReport_(allSheetData, reportScope)
+}
+
+function updateAreaReports() {
+    let allSheetData = constructSheetData()
+
+    let reportScope = reportLevel.area
+
+    updateAnyLevelReport_(allSheetData, reportScope)
+}
+
+function updateAnyLevelReport_(allSheetData, scope) {
+    let preRun = new Date
     let allSheetData = constructSheetData();
     
-    let reportScope = reportLevel.zone
+    let reportScope = scope
     let filesysSheetData
     switch (reportScope) {
         case reportLevel.area:
@@ -32,7 +64,8 @@ function testFullUpdate() {
     // I don't think I actually need contactData for this sub-system.  :)
     // ONCE DRIVEHANDLER has been rewritten to 
     fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope,kiDataHeaders,dataKeys)
-
+    let postRun = new Date
+    console.log("SCOPE:,",scope,",Updating reports took, ", postRun.getMilliseconds()-preRun.getMilliseconds()," ms")
 }
 
 
@@ -111,39 +144,6 @@ function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName
 
 }
 
-
-// function modifyTemplatesOLDTODEPRECATE_(filesystemObject, referenceData: any[][], scope: String) {
-//     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
-//     // currently not implemented, but *REALLLLLY* IMPORTANT
-//     // Logger.log(filesysObject)
-//     // Logger.log("initializing data");
-//     // let currentDate = new Date();
-//     // let scopeString = scope
-
-
-//     // Logger.log(typeof splitDataByTag.data);
-//     // for (let splitTag in splitDataByTag) {
-//     //     Logger.log(splitTag);
-//     //     for (let data in splitDataByTag[splitTag]) {
-//     //         Logger.log(typeof data);
-//     //         Logger.log(splitDataByTag[splitTag][data]);
-//     //     }
-//     // }
-//     // let configPushData = [
-//     //     ["_name", scopeString],
-//     //     ["last update: ", currentDate],
-//     // ];
-
-//     for (let i = 0; i < filesystemObject.name.length; i++) {
-
-//         let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
-//         Logger.log("config page Sent");
-//         SpreadsheetApp.flush();
-//         Logger.log("flushed!");
-//     }
-
-//     SpreadsheetApp.flush();
-// }
 
 function createTemplatesV2_(filesysObj, templateID: String): {} {
     // This function creates copies of the template, and gives them names and moves them to the right spot.
@@ -318,14 +318,3 @@ function removeDupesAndPII_(ki_sheetData): any[] {
 
 
 
-function updateZoneReports() {
-
-}
-
-function updateDistrictReports() {
-
-}
-
-function updateAreaReports() {
-
-}
