@@ -2,7 +2,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     // returns a boolean to let you know whether or not it worked- if it doesn't work, then you can retry later on somehow // TODO: This is unimplemented
     let worked = true
-    try {
+    // try {
         sheetObj.clearContents();
         // sheetObj.appendRow(header);
         // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { Logger.log(finalData.length); }
@@ -23,10 +23,10 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
         // going to run this one more time without a flush to see what happens when this changes.
         // SpreadsheetApp.flush()
         // Logger.log("data added")
-    } catch (error) {
-        worked = false
-        console.log("error occured in sendReportToDisplay: ",error)
-    }
+    // } catch (error) {
+    //     worked = false
+    //     console.log("error occured in sendReportToDisplay: ",error)
+    // }
     return worked
 
 }
@@ -39,18 +39,19 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
     let complete = false
     let promises = []
     for (let entry of fsData) {
+        console.log("entry begin for ",entry.folderName) // TODO- replace folderName with name once driveHandler has been rewritten
         let targetID = entry.sheetID1
         let targetWorksheet = SpreadsheetApp.openById(targetID)
         let outData = turnDataIntoArray(referenceData[entry.folderName],header,keyArray) // TODO- replace folderName with name once driveHandler has been rewritten
         // Logger.log(outData)
         const dataSheetName = outputDataDumpSheetName;    // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
 
-        const configSheetName = configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
-        let configPushData = [[entry.folderName,scope],["Last Updated:",currentDate]] // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
-        const configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
+        // const configSheetName = configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
+        // let configPushData = [[entry.folderName,scope],["Last Updated:",currentDate]] // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
+        // const configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
         
-        let targetDataSheet = getReportFromOtherSource(dataSheetName, targetWorksheet); // NEEDS TO BE ASYNC BECAUSE IT TAKES A NON-TRIVIAL AMOUNT OF TIME
-        let targetConfSheet = getReportFromOtherSource(configSheetName,targetWorksheet)
+        let targetDataSheet = await getReportFromOtherSource_async_(dataSheetName, targetWorksheet); // NEEDS TO BE ASYNC BECAUSE IT TAKES A NON-TRIVIAL AMOUNT OF TIME
+        // let targetConfSheet = await getReportFromOtherSource_async_(configSheetName,targetWorksheet)
         // WHERE YOU LEFT OFF:
         // TODO: FINISH PORTING OVER CODE FROM modifyTEmplatesOLDTODEPRECATE_()
         // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
@@ -58,8 +59,9 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
         // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
 
         promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
-        console.log(entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
-        targetConfSheet.getRange(configPosition).setValues(configPushData)
+        console.log("entry completed for ",entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
+        // targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
+                                                                              //TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
