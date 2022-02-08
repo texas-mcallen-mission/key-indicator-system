@@ -42,7 +42,7 @@ function testFullUpdate() {
 }
 
 
-function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String, contactData: {},headers:String[],keyArray:String[]):void {
+function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String,headers:String[],keyArray:String[]):void {
     // let allSheetData = constructSheetData();
     // let reportScope = reportLevel.zone;
 
