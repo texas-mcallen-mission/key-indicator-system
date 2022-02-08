@@ -8,12 +8,15 @@ const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE"
 
 
 function updateAllReports() {
+    let allSheetData = constructSheetData()
+    
     let preTotal = new Date
-    updateZoneReports()
-    updateDistrictReports()
-    updateAreaReports()
+    updateAnyLevelReport_(allSheetData,reportLevel.zone)
+    updateAnyLevelReport_(allSheetData,reportLevel.dist)
+    updateAnyLevelReport_(allSheetData,reportLevel.area)
     let postTotal = new Date
-    console.log("running all reportUpdates took ",postTotal.getMilliseconds()-preTotal.getMilliseconds()," ms")
+
+    console.log("running all reportUpdates took ", postTotal.getMilliseconds() - preTotal.getMilliseconds(), " ms")
 }
 
 function updateZoneReports() {
@@ -42,7 +45,6 @@ function updateAreaReports() {
 
 function updateAnyLevelReport_(allSheetData, scope) {
     let preRun = new Date
-    let allSheetData = constructSheetData();
     
     let reportScope = scope
     let filesysSheetData
