@@ -30,7 +30,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj):boolean
 
 }
 
-async function modifyTemplatesV2_async_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[],keyArray:String[]):boolean {
+async function modifyTemplatesV2_async_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[],keyArray:String[]) {
     let currentDate = new Date();
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT

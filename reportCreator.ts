@@ -112,7 +112,7 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
                 
     let splitByKey = splitDataByKey_(data, keyName)
     // let header = data.getHeaders()
-    let completed = await modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
+    let test = await modifyTemplatesV2_async_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
                 
                 // time to send the data to the reports
 
