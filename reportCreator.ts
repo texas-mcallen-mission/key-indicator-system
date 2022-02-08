@@ -7,9 +7,11 @@ const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM"
 const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
 
 
+
+
 function updateAllReports() {
     let allSheetData = constructSheetData()
-    
+
     let preTotal = new Date
     updateAnyLevelReport_(allSheetData,reportLevel.zone)
     updateAnyLevelReport_(allSheetData,reportLevel.dist)
@@ -110,7 +112,7 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
                 
     let splitByKey = splitDataByKey_(data, keyName)
     // let header = data.getHeaders()
-    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
+    let completed = await modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
                 
                 // time to send the data to the reports
 
