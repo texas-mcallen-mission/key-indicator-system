@@ -1,4 +1,4 @@
-async function sendReportToDisplayV4_async_(header, finalData, sheetObj):boolean{
+async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     // returns a boolean to let you know whether or not it worked- if it doesn't work, then you can retry later on somehow // TODO: This is unimplemented
     let worked = true
@@ -31,7 +31,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj):boolean
 
 }
 
-async function modifyTemplatesV2_async_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[],keyArray:String[]) {
+async function modifyTemplatesV2_async_(fsData, referenceData, scope: String,keyName:String,header:String[],keyArray:String[]) {
     let currentDate = new Date();
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT

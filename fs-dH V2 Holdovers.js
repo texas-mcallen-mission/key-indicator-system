@@ -151,7 +151,7 @@ function createNewFolder_(parentFolderId, name) {
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();
-    if (DBCONFIG.LOG_FILESYS) {Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID])}
+    if (CONFIG.LOG_FILESYS) {Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID])}
     return newFolderID;
     }
   //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.

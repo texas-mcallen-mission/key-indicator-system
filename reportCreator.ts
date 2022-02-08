@@ -75,7 +75,7 @@ function updateAnyLevelReport_(allSheetData, scope) {
 }
 
 
-function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String,headers:String[],keyArray:String[]):void {
+function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, scope: String,headers:String[],keyArray:String[]):void {
 
     let storedSheet = filesysObj.getSheet()
 
@@ -112,13 +112,13 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
                 
     let splitByKey = splitDataByKey_(data, keyName)
     // let header = data.getHeaders()
-    let test = await modifyTemplatesV2_async_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
+    let test = modifyTemplatesV2_async_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
                 
                 // time to send the data to the reports
 
 }
 
-function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[],keyArray:String[]) {
+function modifyTemplatesV2_(fsData, referenceData, scope: String,keyName:String,header:String[],keyArray:String[]) {
     let currentDate = new Date();
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
@@ -151,7 +151,7 @@ function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName
 }
 
 
-function createTemplatesV2_(filesysObj, templateID: String): {} {
+function createTemplatesV2_(filesysObj, templateID: string): {} {
     // This function creates copies of the template, and gives them names and moves them to the right spot.
     // returns a modified data object.
     let fsDataCopy = filesysObj.getData()
@@ -230,14 +230,16 @@ function testDataToArray(): void {
 // }
 
 
-function splitDataByKey_(data, tag: String) {
+function splitDataByKey_(data, tag: string) {
     // This function basically splits any SheetData.getData() into groupings based on unique values of a specified key.
     let uniqueKeys = [];
     let dataByKey = {};
 
     for (let entry of data) {
         let keyValue = entry[tag];
+        //@ts-ignore
         if (!uniqueKeys.includes(keyValue)) {
+            //@ts-ignore
             uniqueKeys.push(keyValue);
             dataByKey[keyValue] = [];
             // TODO - where you left off:  This little bit right here is giving me some trouble- 
@@ -271,10 +273,12 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
             let keyName = keys[keyPosition]
             let entryValue = entry[keyName]
             // console.log(entryValue)
+            // @ts-ignore
             line.push(entryValue)
         }
 
-        count +=1
+        count += 1
+        //@ts-ignore
         output.push(line)
     }
     let postDate = new Date
@@ -308,6 +312,7 @@ function removeDupesAndPII_(ki_sheetData): any[] {
         }
         for (let exclusions of valuesToExclude) {
             // loops through values we want to exclude and checks to see if they match or not. 
+            // @ts-ignore
             if (entry[exclusions[0]] == exclusions[1]) {
 
                 console.log("removed entry for", entry["areaName"], "that matched rule for", exclusions[0]);

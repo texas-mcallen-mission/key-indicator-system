@@ -51,7 +51,7 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
 /*
  * @param {any} folderID
  */
-function isFolderAccessible_(folderID:String) {
+function isFolderAccessible_(folderID:string) {
     // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
     let output = true;
     let folder;
@@ -77,7 +77,7 @@ function isFolderAccessible_(folderID:String) {
     return output;
 }
 
-function isFileAccessible_(fileID: String) {
+function isFileAccessible_(fileID: string) {
   // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
     let file;
     let output = true;
@@ -90,7 +90,7 @@ function isFileAccessible_(fileID: String) {
     } catch (e) {
     output = false;
     gone = true;
-    Logger.log("Folder deleted with ID " + folderID);
+    Logger.log("Folder deleted with ID " + fileID);
     }
     if (gone == false) {
     //@ts-ignore
