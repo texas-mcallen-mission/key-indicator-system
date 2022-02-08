@@ -30,41 +30,19 @@ function testFullUpdate() {
     let data = removeDupesAndPII_(kiDataObj)
 
     // I don't think I actually need contactData for this sub-system.  :)
-    // // let contactSheetData = allSheetData.contactData
-    // // let contactData = contactSheetData.getData()
-
-    // // Logger.log(contactData.getData())
-    // // Logger.log(contactData.getHeaders())
-    // // Logger.log(contactData.getKeys())
-
+    // ONCE DRIVEHANDLER has been rewritten to 
     fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope,kiDataHeaders,dataKeys)
 
 }
 
 
 function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String,headers:String[],keyArray:String[]):void {
-    // let allSheetData = constructSheetData();
-    // let reportScope = reportLevel.zone;
-
-    // let kiDataObj = allSheetData.data
-    // let data = removeDupesAndPII_(kiDataObj);
-    // updateSingleReportLevel(reportScope, allSheetData);
-    // Logger.log("Report generation completed for " + reportScope);
-
-    // let filesysHeader = filesysObj.getHeaders()
-    // let filesysKeys = filesysObj.getKeys()
-    // let filesysData = filesysObj.getData()
-
-    // Logger.log(filesysHeader)
-    // Logger.log(filesysKeys)
-
-    // Logger.log(filesysKeys)
 
     let storedSheet = filesysObj.getSheet()
 
     Logger.log("adding reports to FS!")
 
-    //   // console.log(entryValue)
+
     
     /*
     header names:  [Folder Name String, Parent Folder ID, Zone Folder ID, Sheet Report ID, 2nd Report ID (unimp)]
@@ -134,54 +112,38 @@ function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName
 }
 
 
-function modifyTemplatesOLDTODEPRECATE_(filesystemObject, referenceData: any[][], scope: String) {
-    // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
-    // currently not implemented, but *REALLLLLY* IMPORTANT
-    // Logger.log(filesysObject)
-    // Logger.log("initializing data");
-    // let currentDate = new Date();
-    // let scopeString = scope
+// function modifyTemplatesOLDTODEPRECATE_(filesystemObject, referenceData: any[][], scope: String) {
+//     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
+//     // currently not implemented, but *REALLLLLY* IMPORTANT
+//     // Logger.log(filesysObject)
+//     // Logger.log("initializing data");
+//     // let currentDate = new Date();
+//     // let scopeString = scope
 
 
-    // Logger.log(typeof splitDataByTag.data);
-    // for (let splitTag in splitDataByTag) {
-    //     Logger.log(splitTag);
-    //     for (let data in splitDataByTag[splitTag]) {
-    //         Logger.log(typeof data);
-    //         Logger.log(splitDataByTag[splitTag][data]);
-    //     }
-    // }
-    // let configPushData = [
-    //     ["_name", scopeString],
-    //     ["last update: ", currentDate],
-    // ];
+//     // Logger.log(typeof splitDataByTag.data);
+//     // for (let splitTag in splitDataByTag) {
+//     //     Logger.log(splitTag);
+//     //     for (let data in splitDataByTag[splitTag]) {
+//     //         Logger.log(typeof data);
+//     //         Logger.log(splitDataByTag[splitTag][data]);
+//     //     }
+//     // }
+//     // let configPushData = [
+//     //     ["_name", scopeString],
+//     //     ["last update: ", currentDate],
+//     // ];
 
-    for (let i = 0; i < filesystemObject.name.length; i++) {
-        // let tagName = filesystemObject.name[i];
-        // // // configPushData[0][0] = tagName;
-        // // // Logger.log("beginning report for tag");
-        // // // // // let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
-        // // // // let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject);
-        // // // // // let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject);
+//     for (let i = 0; i < filesystemObject.name.length; i++) {
 
-        // // // // Logger.log("Sheets loaded");
-        // // // // // @ts-ignore
-        // // // // let tagData = splitDataByTag.data[tagName];
+//         let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
+//         Logger.log("config page Sent");
+//         SpreadsheetApp.flush();
+//         Logger.log("flushed!");
+//     }
 
-        // // // // Logger.log(tagData)
-
-        // // // Logger.log("zoneData Loaded");
-        // // // Logger.log([tagName, tagData]);
-        // // sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
-        // Logger.log("Data Sent To Display");
-        let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
-        Logger.log("config page Sent");
-        SpreadsheetApp.flush();
-        Logger.log("flushed!");
-    }
-
-    SpreadsheetApp.flush();
-}
+//     SpreadsheetApp.flush();
+// }
 
 function createTemplatesV2_(filesysObj, templateID: String): {} {
     // This function creates copies of the template, and gives them names and moves them to the right spot.
@@ -216,40 +178,6 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
 }
 
 
-// // THIS FUNCTION, AND MOST OF ITS DEPENDENTS NEED TO BE DEPRECATED
-// function updateSingleReportLevel(reportScope: String, allSheetData): void {
-
-//     let sheetData;
-//     switch (reportScope) {
-//         case reportLevel.area:
-//             sheetData = allSheetData.areaFilesys;
-//             return;
-//         case reportLevel.dist:
-//             sheetData = allSheetData.distFilesys;
-//             return;
-//         case reportLevel.zone:
-//             sheetData = allSheetData.zoneFilesys;
-//     }
-//     // let areaSheetData = allSheetData.areaFilesys;
-
-//     let storedDataSheet = sheetData.sheet;
-//     let filesysObject = splitToDataStruct(sheetData.data);
-
-//     // Logger.log("making modifiedFilesysObject");
-//     // let modifiedFilesysObject = createTemplates_(filesysObject, areaTemplateSpreadsheetId);
-
-//     // let filesysData = [];
-//     // for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-//     //     //@ts-ignore
-//     //     filesysData.push([modifiedFilesysObject.name[i], modifiedFilesysObject.parentFolderID[i], modifiedFilesysObject.folderID[i], modifiedFilesysObject.docID[i]]);
-//     // }
-
-//     // sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, sheetData);
-
-//     // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
-
-//     modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportScope);
-// }
 
 
 
@@ -261,8 +189,6 @@ function testDataToArray(): void {
     let allSheetData = constructSheetData();
     let kiDataObj = allSheetData.data;
 
-    // let data = kiDataObj.getData()
-    // Logger.log(data)
     let data = removeDupesAndPII_(kiDataObj);
     let header = kiDataObj.getHeaders()
     let keys = kiDataObj.getKeys()
@@ -278,12 +204,11 @@ function testDataToArray(): void {
             for (let area in areaData) {
                 console.log("Zone: ", zone, " District: ", district, " Area: ", area)
                 
-                
             }
         }
     }
     let dataArray = turnDataIntoArray(data, header, keys)
-    Logger.log(dataArray);
+    // Logger.log(dataArray);
 }
 
 
@@ -298,15 +223,9 @@ function testDataToArray(): void {
 
 // }
 
-// const testDataEntry: dataEntry = {
-//     areaId: "AAAAA",
-//     date: new Date,
-//     data: ["test"]
-// }
-
-// define data entry class thingy and constructor for it so that I can have an easy - to - use and consistent way of editing stuff ?
 
 function splitDataByKey_(data, tag: String) {
+    // This function basically splits any SheetData.getData() into groupings based on unique values of a specified key.
     let uniqueKeys = [];
     let dataByKey = {};
 
@@ -321,8 +240,6 @@ function splitDataByKey_(data, tag: String) {
         dataByKey[keyValue].push(entry);
 
     }
-    // console.log("Split into  ", uniqueKeys.length, " groups");
-    // console.log(dataByKey);
     return dataByKey;
 }
 
@@ -350,9 +267,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
             // console.log(entryValue)
             line.push(entryValue)
         }
-        // console.log(line)
-        // let postDate2 = new Date
-        // durations += timerFunction_(preDate2, postDate2)
+
         count +=1
         output.push(line)
     }
@@ -367,13 +282,7 @@ function removeDupesAndPII_(ki_sheetData): any[] {
 
     // the reason we're using sheetData instead of the values is so that I can easily access header positions in the same function
     // ^ this is so that I can modify which columns get displayed easily.  :)
-    // Logger.log(data)
-    /*  WHERE YOU LEFT OFF:
-        * Building function to load the data & scope it
-        * figuring out how to use it properly in the reports so that I don't have a bunch of weird errors
-        * basically learning TypeScript the wrong way by messing about.
 
-    */
     let data = ki_sheetData.getData();
     let values = ki_sheetData.getValues();
     let header = ki_sheetData.getHeaders();
@@ -409,136 +318,14 @@ function removeDupesAndPII_(ki_sheetData): any[] {
 
 
 
-
-
-
-// function test(){
-//   Logger.log(zoneDataSheetName)
-// }
-
-
-
-
-
-
-
-// 259 hope of israel
-// 86 How Great Thou Art
-// 108 the lord is my shepherd
-
-
 function updateZoneReports() {
-    // // return ""
-    // // Logger.log(zoneDataSheetName)
-    // let allSheetData = constructSheetData();
 
-    // let zoneSheetData = allSheetData.zoneFilesys;
-
-    // let storedZoneDataSheet = zoneSheetData.getSheet();
-    // let newData = zoneSheetData.getValues();
-
-    // Logger.log(newData);
-
-    // let filesysObject = splitToDataStruct(newData);
-
-    // Logger.log("making modifiedFilesysObject");
-    // let modifiedFilesysObject = createTemplates_(
-    //     filesysObject,
-    //     zoneTemplateSpreadsheetId
-    // );
-
-    // let filesysData = [];
-    // for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-    //     filesysData.push([
-    //         modifiedFilesysObject.name[i],
-    //         modifiedFilesysObject.parentFolderID[i],
-    //         modifiedFilesysObject.folderID[i],
-    //         modifiedFilesysObject.docID[i],
-    //     ]);
-    // }
-    // // Logger.log(zoneDataHeaders)
-
-    // sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedZoneDataSheet);
-
-    // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
-
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.zone);
 }
 
 function updateDistrictReports() {
-    // // return ""
-    // // Logger.log(areaDataSheetName)
 
-    // let allSheetData = constructSheetData();
-
-    // let distSheetData = allSheetData.distFilesys;
-
-    // let storedDistrictDataSheet = distSheetData.sheet;
-    // let storedDistrictData = getSheetDataWithHeader_(storedDistrictDataSheet); // was 'zoneDataSheetName'
-    // // Logger.log(storedZoneData)
-
-    // let filesysObject = splitToDataStruct(storedDistrictData.data);
-
-    // Logger.log("making modifiedFilesysObject");
-    // // Logger.log(filesysObject)
-    // let modifiedFilesysObject = createTemplates_(
-    //     filesysObject,
-    //     distTemplateSpreadsheetId
-    // );
-    // // Logger.log(modifiedFilesysObject)
-
-    // let filesysData = [];
-    // for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-    //     filesysData.push([
-    //         modifiedFilesysObject.name[i],
-    //         modifiedFilesysObject.parentFolderID[i],
-    //         modifiedFilesysObject.folderID[i],
-    //         modifiedFilesysObject.docID[i],
-    //     ]);
-    // }
-
-    // sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedDistrictDataSheet);
-
-    // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
-
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.dist);
 }
 
 function updateAreaReports() {
-    // // return ""
-    // // Logger.log(areaDataSheetName)
-    // let allSheetData = constructSheetData();
 
-    // let areaSheetData = allSheetData.areaFilesys;
-
-    // let storedAreaDataSheet =
-    //     areaSheetData.sheet; /*getSheetOrSetUp_(areaDataSheetName, areaDataHeaders)*/
-    // let storedAreaData = getSheetDataWithHeader_(storedAreaDataSheet); // was 'zoneDataSheetName'
-    // // Logger.log(storedZoneData)
-
-    // let filesysObject = splitToDataStruct(storedAreaData.data);
-
-    // Logger.log("making modifiedFilesysObject");
-    // // Logger.log(filesysObject)
-    // let modifiedFilesysObject = createTemplates_(
-    //     filesysObject,
-    //     areaTemplateSpreadsheetId
-    // );
-    // // Logger.log(modifiedFilesysObject)
-
-    // let filesysData = [];
-    // for (let i = 0; i < modifiedFilesysObject.name.length; i++) {
-    //     filesysData.push([
-    //         modifiedFilesysObject.name[i],
-    //         modifiedFilesysObject.parentFolderID[i],
-    //         modifiedFilesysObject.folderID[i],
-    //         modifiedFilesysObject.docID[i],
-    //     ]);
-    // }
-
-    // sendDataToDisplayV3_(HOTFIX_HEADERS, filesysData, storedAreaDataSheet);
-
-    // let kicDataSheet = getSheetOrSetUp_(kicDataStoreSheetName, ["", ""]);
-
-    // modifyTemplates_(modifiedFilesysObject, kicDataSheet, reportLevel.area);
 }
