@@ -108,12 +108,16 @@ function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName
     for (entry of fsData) {
         let targetID = entry.sheetID1
         let targetSheet = SpreadsheetApp.openById(targetID)
-        let outData = referenceData[entry]
+        let outData = referenceData[entry.folderName]
         Logger.log(outData)
 
         let configPushData = [[entry,scope],["Last Updated:",currentDate]] // this winds up on the config page
         
-        
+        // WHERE YOU LEFT OFF:
+        // TODO: FINISH PORTING OVER CODE FROM modifyTEmplatesOLDTODEPRECATE_()
+        // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
+        // After that, I *should* be done with it
+        // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
     }
 
 }
