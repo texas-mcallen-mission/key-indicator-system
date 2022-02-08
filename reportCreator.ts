@@ -25,6 +25,7 @@ function testFullUpdate() {
     }
 
     let kiDataObj = allSheetData.data
+    let kiDataHeaders = kiDataObj.getHeaders()
     let data = removeDupesAndPII_(kiDataObj)
 
     // I don't think I actually need contactData for this sub-system.  :)
@@ -35,12 +36,12 @@ function testFullUpdate() {
     // // Logger.log(contactData.getHeaders())
     // // Logger.log(contactData.getKeys())
 
-    fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope)
+    fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope,kiDataHeaders)
 
 }
 
 
-function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String, contactData: {}):void {
+function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String, contactData: {},headers:String[]):void {
     // let allSheetData = constructSheetData();
     // let reportScope = reportLevel.zone;
 
@@ -92,14 +93,14 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
     }
                 
     let splitByKey = splitDataByKey_(data, keyName)
-    let header = data.getHeaders()
-    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,header)
+    // let header = data.getHeaders()
+    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,headers)
                 
                 // time to send the data to the reports
 
 }
 
-function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String,header:any[]) {
+function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[]) {
     let currentDate = new Date();
     
     for (split of referenceData) {
