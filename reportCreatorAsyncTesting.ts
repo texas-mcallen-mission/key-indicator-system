@@ -36,7 +36,7 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String,key
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
     let complete = false
-    for await (let entry of fsData) {
+    for (let entry of fsData) {
         let targetID = entry.sheetID1
         let targetWorksheet = SpreadsheetApp.openById(targetID)
         let outData = turnDataIntoArray(referenceData[entry.folderName],header,keyArray) // TODO- replace folderName with name once driveHandler has been rewritten
@@ -60,7 +60,8 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String,key
         targetConfSheet.getRange(configPosition).setValues(configPushData)
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
-    Logger.log("Async modify completed for " + scope)
+    let newDate = new Date() 
+    console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
     complete = true
     return complete
 }
