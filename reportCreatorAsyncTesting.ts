@@ -65,9 +65,11 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
-    console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    console.log("Async modify loop completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
     complete = true
     return Promise.all(promises)
+    console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    
 }
 
 async function getReportFromOtherSource_async_(sheetName, targetSpreadsheet) {
