@@ -8,10 +8,12 @@ const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE"
 
 
 function updateAllReports() {
+    let preTotal = new Date
     updateZoneReports()
     updateDistrictReports()
-    
     updateAreaReports()
+    let postTotal = new Date
+    console.log("running all reportUpdates took ",postTotal.getMilliseconds()-preTotal.getMilliseconds()," ms")
 }
 
 function updateZoneReports() {
