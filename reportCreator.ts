@@ -110,7 +110,7 @@ function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName
         let targetID = entry.sheetID1
         let targetWorksheet = SpreadsheetApp.openById(targetID)
         let outData = turnDataIntoArray(referenceData[entry.folderName],header,keyArray) // TODO- replace folderName with name once driveHandler has been rewritten
-        Logger.log(outData)
+        // Logger.log(outData)
         let dataSheetName = outputDataDumpSheetName;    // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
 
         let configSheetName = configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
@@ -188,9 +188,9 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
     // returns a modified data object.
     let fsDataCopy = filesysObj.getData()
     let templateFile = DriveApp.getFileById(templateID)
-    console.log("testing")
+    // console.log("testing")
     for (let entry of fsDataCopy) {
-        Logger.log(entry);
+        // Logger.log(entry);
         
         let sheet1 = entry.sheetID1;
         if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
@@ -201,13 +201,16 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
             entry.sheetID1 = templateCopy.getId() 
             console.log("created template for ",entry.folderName," with ID ",entry.sheetID1) // TODO- replace folderName with name once driveHandler has been rewritten
         }
-        Logger.log(entry);
+        // Logger.log(entry);
         
     }
     Logger.log("sending Data To Display with setData()")
-    Logger.log(fsDataCopy)
+
+    // Logger.log(fsDataCopy)
+    let preDate = new Date
     filesysObj.setData(fsDataCopy)
-    Logger.log("Sent!")
+    let postDate = new Date
+    console.log("Sent Data To Display! - Duration: ",postDate.getMilliseconds()- preDate.getMilliseconds()," ms")
     
     return fsDataCopy
 }
@@ -268,7 +271,7 @@ function testDataToArray(): void {
     
     // test to see if splitData would work well or not
     for (let zone in splitData) {
-        console.log(zone)
+        // console.log(zone)
         let distData = splitDataByKey_(splitData[zone], "district")
         for (let district in distData) {
             let areaData = splitDataByKey_(distData[district], "areaName")
@@ -347,7 +350,7 @@ function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
             // console.log(entryValue)
             line.push(entryValue)
         }
-        console.log(line)
+        // console.log(line)
         // let postDate2 = new Date
         // durations += timerFunction_(preDate2, postDate2)
         count +=1
