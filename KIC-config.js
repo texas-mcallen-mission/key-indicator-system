@@ -66,7 +66,7 @@ let CONFIG =
     UPDATE_SHEET_PROTECTIONS_ON_FILESYS_LOAD: false,
     fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-    INCLUDE_SCOPE_IN_FOLDER_NAME: true,
+    INCLUDE_SCOPE_IN_FOLDER_NAME: false,
     fileSystem_includeScopeInFolderName: true,
 
     FREEZE_FILESYS: false,

@@ -76,42 +76,18 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
     let updatedFSData = createTemplatesV2_(filesysObj, reportTemplateID)
     
     Logger.log("filesystem should be up to date!")
+    modifyTemplatesV2_(updatedFSData, referenceData, scope)
 
+    // time to send the data to the reports
 
-}
-
-function createTemplatesV2_(filesysObj, templateID: String): {} {
-    // This function creates copies of the template, and gives them names and moves them to the right spot.
-    // returns a modified data object.
-    let fsDataCopy = filesysObj.getData()
-    let templateFile = DriveApp.getFileById(templateID)
-    console.log("testing")
-    for (let entry of fsDataCopy) {
-        Logger.log(entry);
-        
-        let sheet1 = entry.sheetID1;
-        if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
-            let parentFolderObject = DriveApp.getFolderById(entry.folder);
-            let fileName = entry.folderName;
-            let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
-            // templateCopy.getId()
-            entry.sheetID1 = templateCopy.getId() 
-            console.log("created template for ",entry.folderName," with ID ",entry.sheetID1)
-        }
-        Logger.log(entry);
-        
-    }
-    Logger.log("sending Data To Display with setData()")
-    Logger.log(fsDataCopy)
-    filesysObj.setData(fsDataCopy)
-    Logger.log("Sent!")
-    
-    return fsDataCopy
 }
 
 function modifyTemplatesV2_(fsData, referenceData: any[][], scope: String) {
     let currentDate = new Date();
 
+    for (entry of fsData) {
+        
+    }
 
 }
 
@@ -164,6 +140,36 @@ function modifyTemplatesOLDTODEPRECATE_(filesystemObject, referenceData: any[][]
 
     SpreadsheetApp.flush();
 }
+
+function createTemplatesV2_(filesysObj, templateID: String): {} {
+    // This function creates copies of the template, and gives them names and moves them to the right spot.
+    // returns a modified data object.
+    let fsDataCopy = filesysObj.getData()
+    let templateFile = DriveApp.getFileById(templateID)
+    console.log("testing")
+    for (let entry of fsDataCopy) {
+        Logger.log(entry);
+        
+        let sheet1 = entry.sheetID1;
+        if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
+            let parentFolderObject = DriveApp.getFolderById(entry.folder);
+            let fileName = entry.folderName;
+            let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
+            // templateCopy.getId()
+            entry.sheetID1 = templateCopy.getId() 
+            console.log("created template for ",entry.folderName," with ID ",entry.sheetID1)
+        }
+        Logger.log(entry);
+        
+    }
+    Logger.log("sending Data To Display with setData()")
+    Logger.log(fsDataCopy)
+    filesysObj.setData(fsDataCopy)
+    Logger.log("Sent!")
+    
+    return fsDataCopy
+}
+
 
 // // THIS FUNCTION, AND MOST OF ITS DEPENDENTS NEED TO BE DEPRECATED
 // function updateSingleReportLevel(reportScope: String, allSheetData): void {
