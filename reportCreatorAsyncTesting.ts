@@ -27,6 +27,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj):boolean
         worked = false
         console.log("error occured in sendReportToDisplay: ",error)
     }
+    return worked
 
 }
 
