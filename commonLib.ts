@@ -37,9 +37,13 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
         Logger.log("no data, skipping");
         return;
     }
+    let prepredate = new Date
     sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData);
     Logger.log("data added, sorting");
+    let preDate = new Date
     sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
+    let postDate = new Date
+    console.log("Adding Data: ",preDate.getMilliseconds() - prepredate.getMilliseconds(), "ms, Sorting Data: ",postDate.getMilliseconds()-preDate.getMilliseconds())
     // going to run this one more time without a flush to see what happens when this changes.
     // SpreadsheetApp.flush()
     // Logger.log("data added")
