@@ -76,16 +76,41 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
     let updatedFSData = createTemplatesV2_(filesysObj, reportTemplateID)
     
     Logger.log("filesystem should be up to date!")
-    modifyTemplatesV2_(updatedFSData, referenceData, scope)
+
+    let splitByKey = splitDataByKey_(data, "Zone")
+    
+    let keyName = ""
+    switch (scope) {
+        case reportLevel.area:
+            keyName = "Area Name"
+            break
+        case reportLevel.dist:
+            keyName = "District"
+            break
+        case reportLevel.zone:
+            keyName = "Zone"
+            break
+    }
+
+    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName)
 
     // time to send the data to the reports
 
 }
 
-function modifyTemplatesV2_(fsData, referenceData: any[][], scope: String) {
+function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String) {
     let currentDate = new Date();
+    
+    
 
     for (entry of fsData) {
+        let targetID = entry.sheetID1
+        let targetSheet = SpreadSheetApp.openById(targetID)
+        let outData = referenceData[entry]
+        Logger.log(outData)
+
+        let configPushData = [[entry,scope],["Last Updated:",currentDate]] // this winds up on the config page
+        
         
     }
 
