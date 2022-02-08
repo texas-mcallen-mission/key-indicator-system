@@ -46,9 +46,9 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
         // Logger.log(outData)
         const dataSheetName = outputDataDumpSheetName;    // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
 
-        // const configSheetName = configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
-        // let configPushData = [[entry.folderName,scope],["Last Updated:",currentDate]] // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
-        // const configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
+        const configSheetName = configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
+        let configPushData = [[entry.folderName,scope],["Last Updated:",currentDate]] // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
+        const configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
         
         let targetDataSheet = await getReportFromOtherSource_async_(dataSheetName, targetWorksheet); // NEEDS TO BE ASYNC BECAUSE IT TAKES A NON-TRIVIAL AMOUNT OF TIME
         // let targetConfSheet = await getReportFromOtherSource_async_(configSheetName,targetWorksheet)
@@ -60,9 +60,9 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
 
         promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
         console.log("entry completed for ",entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
-        // targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
-                                                                              //TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER
-        // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
+        targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
+                                                                          //   TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER
+        leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
     console.log("Async modify loop completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
