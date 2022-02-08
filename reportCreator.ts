@@ -92,13 +92,14 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
     }
                 
     let splitByKey = splitDataByKey_(data, keyName)
-    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName)
+    let header = data.getHeaders()
+    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,header)
                 
                 // time to send the data to the reports
 
 }
 
-function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String) {
+function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String,header:any[]) {
     let currentDate = new Date();
     
     for (split of referenceData) {
@@ -107,17 +108,27 @@ function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName
 
     for (entry of fsData) {
         let targetID = entry.sheetID1
-        let targetSheet = SpreadsheetApp.openById(targetID)
+        let targetWorksheet = SpreadsheetApp.openById(targetID)
         let outData = referenceData[entry.folderName]
         Logger.log(outData)
+        let dataSheetName = outputDataDumpSheetName;    // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
 
+        let configSheetName = configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
         let configPushData = [[entry,scope],["Last Updated:",currentDate]] // this winds up on the config page
+        let configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
         
+        let targetDataSheet = getReportFromOtherSource(dataSheetName, targetWorksheet);
+        let targetConfSheet = getReportFromOtherSource(configSheetName,targetWorksheet)
         // WHERE YOU LEFT OFF:
         // TODO: FINISH PORTING OVER CODE FROM modifyTEmplatesOLDTODEPRECATE_()
         // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
         // After that, I *should* be done with it
         // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
+
+        sendReportToDisplayV3_(header, outData, targetDataSheet)
+        
+        targetConfSheet.getRange(configPosition).setValues(configPushData)
+        // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
 
 }
@@ -127,42 +138,42 @@ function modifyTemplatesOLDTODEPRECATE_(filesystemObject, referenceData: any[][]
     // this function is responsible for modifying the templates and putting up-to-date, sorted data into them.
     // currently not implemented, but *REALLLLLY* IMPORTANT
     // Logger.log(filesysObject)
-    Logger.log("initializing data");
-    let currentDate = new Date();
-    let scopeString = scope
+    // Logger.log("initializing data");
+    // let currentDate = new Date();
+    // let scopeString = scope
 
 
-    Logger.log(typeof splitDataByTag.data);
-    for (let splitTag in splitDataByTag) {
-        Logger.log(splitTag);
-        for (let data in splitDataByTag[splitTag]) {
-            Logger.log(typeof data);
-            Logger.log(splitDataByTag[splitTag][data]);
-        }
-    }
-    let configPushData = [
-        ["_name", scopeString],
-        ["last update: ", currentDate],
-    ];
+    // Logger.log(typeof splitDataByTag.data);
+    // for (let splitTag in splitDataByTag) {
+    //     Logger.log(splitTag);
+    //     for (let data in splitDataByTag[splitTag]) {
+    //         Logger.log(typeof data);
+    //         Logger.log(splitDataByTag[splitTag][data]);
+    //     }
+    // }
+    // let configPushData = [
+    //     ["_name", scopeString],
+    //     ["last update: ", currentDate],
+    // ];
 
     for (let i = 0; i < filesystemObject.name.length; i++) {
-        let tagName = filesystemObject.name[i];
-        configPushData[0][0] = tagName;
-        Logger.log("beginning report for tag");
-        let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
-        let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject);
-        let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject);
+        // let tagName = filesystemObject.name[i];
+        // // // configPushData[0][0] = tagName;
+        // // // Logger.log("beginning report for tag");
+        // // // // // let templateSpreadsheetObject = SpreadsheetApp.openById(filesystemObject.docID[i]);
+        // // // // let targetDataSheet = getReportFromOtherSource(outputDataDumpSheetName, templateSpreadsheetObject);
+        // // // // // let configPage = getReportFromOtherSource(configPageSheetName, templateSpreadsheetObject);
 
-        Logger.log("Sheets loaded");
-        // @ts-ignore
-        let tagData = splitDataByTag.data[tagName];
+        // // // // Logger.log("Sheets loaded");
+        // // // // // @ts-ignore
+        // // // // let tagData = splitDataByTag.data[tagName];
 
-        // Logger.log(tagData)
+        // // // // Logger.log(tagData)
 
-        Logger.log("zoneData Loaded");
-        Logger.log([tagName, tagData]);
-        sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
-        Logger.log("Data Sent To Display");
+        // // // Logger.log("zoneData Loaded");
+        // // // Logger.log([tagName, tagData]);
+        // // sendReportToDisplayV3_(kicHeader, tagData, targetDataSheet);
+        // Logger.log("Data Sent To Display");
         let configDataRange = configPage.getRange("B3:C4").setValues(configPushData);
         Logger.log("config page Sent");
         SpreadsheetApp.flush();
