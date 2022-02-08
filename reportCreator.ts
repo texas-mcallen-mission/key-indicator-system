@@ -90,8 +90,8 @@ function createTemplatesV2_(filesysObj, templateID: String): {} {
         Logger.log(entry);
         
         let sheet1 = entry.sheetID1;
-        if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == ""/* || isFileAccessible_(entry.sheetID1) == false*/) {
-            let parentFolderObject = DriveApp.getFolderById(entry.parentFolder);
+        if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
+            let parentFolderObject = DriveApp.getFolderById(entry.folder);
             let fileName = entry.folderName;
             let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
             // templateCopy.getId()
