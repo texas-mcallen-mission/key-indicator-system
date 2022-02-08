@@ -1,4 +1,4 @@
-# Learning how to use reportCreatorAsyncTesting
+# Learning how to use async functions
 
 apparently, JavaScript only uses a single thread.  This means that asynchronous computing is a lot more LAME than it should be.
 
