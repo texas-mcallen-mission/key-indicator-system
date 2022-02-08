@@ -26,6 +26,7 @@ function testFullUpdate() {
 
     let kiDataObj = allSheetData.data
     let kiDataHeaders = kiDataObj.getHeaders()
+    let dataKeys = kiDataObj.getKeys()
     let data = removeDupesAndPII_(kiDataObj)
 
     // I don't think I actually need contactData for this sub-system.  :)
@@ -36,12 +37,12 @@ function testFullUpdate() {
     // // Logger.log(contactData.getHeaders())
     // // Logger.log(contactData.getKeys())
 
-    fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope,kiDataHeaders)
+    fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope,kiDataHeaders,dataKeys)
 
 }
 
 
-function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String, contactData: {},headers:String[]):void {
+function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: String, scope: String, contactData: {},headers:String[],keyArray:String[]):void {
     // let allSheetData = constructSheetData();
     // let reportScope = reportLevel.zone;
 
@@ -94,21 +95,21 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
                 
     let splitByKey = splitDataByKey_(data, keyName)
     // let header = data.getHeaders()
-    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,headers)
+    modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName,headers,keyArray)
                 
                 // time to send the data to the reports
 
 }
 
-function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[]) {
+function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String,header:String[],keyArray:String[]) {
     let currentDate = new Date();
     
-
+    // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
 
     for (let entry of fsData) {
         let targetID = entry.sheetID1
         let targetWorksheet = SpreadsheetApp.openById(targetID)
-        let outData = referenceData[entry.folderName]
+        let outData = turnDataIntoArray(referenceData[entry.folderName],header,keyArray)
         Logger.log(outData)
         let dataSheetName = outputDataDumpSheetName;    // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
 
