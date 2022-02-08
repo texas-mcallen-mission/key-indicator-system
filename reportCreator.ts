@@ -77,24 +77,24 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
     
     Logger.log("filesystem should be up to date!")
 
-    let splitByKey = splitDataByKey_(data, "Zone")
     
     let keyName = ""
     switch (scope) {
         case reportLevel.area:
-            keyName = "Area Name"
+            keyName = "areaName"
             break
         case reportLevel.dist:
-            keyName = "District"
+            keyName = "district"
             break
         case reportLevel.zone:
-            keyName = "Zone"
+            keyName = "zone"
             break
     }
-
+                
+    let splitByKey = splitDataByKey_(data, keyName)
     modifyTemplatesV2_(updatedFSData, splitByKey, scope,keyName)
-
-    // time to send the data to the reports
+                
+                // time to send the data to the reports
 
 }
 
