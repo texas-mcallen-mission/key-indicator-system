@@ -76,6 +76,7 @@ function isFolderAccessible_(folderID:String) {
 function isFileAccessible_(fileID: String) {
   // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
     let file;
+    let output = true;
     let gone = false;
     try {
     file = DriveApp.getFileById(fileID);

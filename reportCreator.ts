@@ -101,11 +101,13 @@ function fullUpdateSingleLevel(filesysObj: {}, data: {}, reportTemplateID: Strin
 function modifyTemplatesV2_(fsData, referenceData: {}[][], scope: String,keyName:String) {
     let currentDate = new Date();
     
-    
+    for (split of referenceData) {
+        Logger.log(split)
+    }    
 
     for (entry of fsData) {
         let targetID = entry.sheetID1
-        let targetSheet = SpreadSheetApp.openById(targetID)
+        let targetSheet = SpreadsheetApp.openById(targetID)
         let outData = referenceData[entry]
         Logger.log(outData)
 
