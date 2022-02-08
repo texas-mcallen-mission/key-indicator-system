@@ -31,11 +31,13 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
 
 }
 
-async function modifyTemplatesV2_async_(fsData, referenceData, scope: String,keyName:String,header:String[],keyArray:String[]) {
+async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, keyName: String, header: String[], keyArray: String[]) {
+    // TODO https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
     let currentDate = new Date();
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
     let complete = false
+    let promises = []
     for (let entry of fsData) {
         let targetID = entry.sheetID1
         let targetWorksheet = SpreadsheetApp.openById(targetID)
@@ -55,15 +57,15 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String,key
         // After that, I *should* be done with it
         // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
 
-        let didItWork = await sendReportToDisplayV4_async_(header, outData, targetDataSheet)
-        console.log(didItWork,entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
+        promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
+        console.log(entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
         targetConfSheet.getRange(configPosition).setValues(configPushData)
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
     console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
     complete = true
-    return complete
+    return Promise.all(promises)
 }
 
 async function getReportFromOtherSource_async_(sheetName, targetSpreadsheet) {
