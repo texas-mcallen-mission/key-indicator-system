@@ -12,13 +12,12 @@ const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE"
 function updateAllReports() {
     let allSheetData = constructSheetData()
 
-    let preTotal = new Date
+    console.time("Total reportUpdate runtime");
     updateAnyLevelReport_(allSheetData,reportLevel.zone)
     updateAnyLevelReport_(allSheetData,reportLevel.dist)
     updateAnyLevelReport_(allSheetData,reportLevel.area)
-    let postTotal = new Date
 
-    console.log("running all reportUpdates took ", postTotal.getMilliseconds() - preTotal.getMilliseconds(), " ms")
+    console.timeEnd("Total reportUpdate runtime");
 }
 
 function updateZoneReports() {
@@ -47,7 +46,8 @@ function updateAreaReports() {
 }
 
 function updateAnyLevelReport_(allSheetData, scope) {
-    let preRun = new Date
+    let reportUpdateTimer = "Total time updating reports for scope " + scope + ":";
+    console.time(reportUpdateTimer);
     
     let reportScope = scope
     let filesysSheetData
@@ -60,6 +60,8 @@ function updateAnyLevelReport_(allSheetData, scope) {
           return
       case CONFIG.fileSystem_reportLevel.zone:
           sheetData = allSheetData.zoneFilesys
+        default:
+            throw "Invalid scope: '" + scope + "'"
     }
 
     let kiDataObj = allSheetData.data
@@ -69,9 +71,9 @@ function updateAnyLevelReport_(allSheetData, scope) {
 
     // I don't think I actually need contactData for this sub-system.  :)
     // ONCE DRIVEHANDLER has been rewritten to 
-    fullUpdateSingleLevel(filesysSheetData,data,zoneTemplateSpreadsheetId,reportScope,kiDataHeaders,dataKeys)
+    fullUpdateSingleLevel(filesysSheetData, data, zoneTemplateSpreadsheetId, reportScope, kiDataHeaders, dataKeys)
     let postRun = new Date
-    console.log("SCOPE:,",scope,",Updating reports took, ", postRun.getMilliseconds()-preRun.getMilliseconds()," ms")
+    console.timeEnd(reportUpdateTimer);
 }
 
 
@@ -109,6 +111,8 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
         case reportLevel.zone:
             keyName = "zone"
             break
+        default:
+            throw "Invalid scope: '" + scope + "'"
     }
                 
     let splitByKey = splitDataByKey_(data, keyName)
@@ -177,10 +181,10 @@ function createTemplatesV2_(filesysObj, templateID: string): {} {
     Logger.log("sending Data To Display with setData()")
 
     // Logger.log(fsDataCopy)
-    let preDate = new Date
+    let displayTimer = "Time to send data to display:";
+    console.time(displayTimer);
     filesysObj.setData(fsDataCopy)
-    let postDate = new Date
-    console.log("Sent Data To Display! - Duration: ",postDate.getMilliseconds()- preDate.getMilliseconds()," ms")
+    console.timeEnd(displayTimer);
     
     return fsDataCopy
 }
@@ -232,17 +236,17 @@ function testDataToArray(): void {
 // }
 
 
-function splitDataByKey_(data, tag: string) {
+function splitDataByKey_(data, key: string) {
     // This function basically splits any SheetData.getData() into groupings based on unique values of a specified key.
-    let uniqueKeys = [];
+    let allKeyValues = [];
     let dataByKey = {};
 
     for (let entry of data) {
-        let keyValue = entry[tag];
+        let keyValue = entry[key];
         //@ts-ignore
-        if (!uniqueKeys.includes(keyValue)) {
+        if (!allKeyValues.includes(keyValue)) {
             //@ts-ignore
-            uniqueKeys.push(keyValue);
+            allKeyValues.push(keyValue);
             dataByKey[keyValue] = [];
             // TODO - where you left off:  This little bit right here is giving me some trouble- 
             // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
