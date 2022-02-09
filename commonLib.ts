@@ -90,7 +90,8 @@ function isFileAccessible_(fileID: string) {
     } catch (e) {
     output = false;
     gone = true;
-    Logger.log("Folder deleted with ID " + fileID);
+    Logger.log("File deleted with ID " + fileID);
+
     }
     if (gone == false) {
     //@ts-ignore
