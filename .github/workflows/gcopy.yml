@@ -1,10 +1,10 @@
-name: CI Workflow - Gcopy
+name: GCopy
 
 on:
   workflow_dispatch:
   push:
     # CHANGE THIS TO REFERENCE THE BRANCH YOU WANT TO PUSH
-    branches: [v4.6.1-1-testingBranch]
+    branches: [gcopy]
   release:
     types: [published]
   # DO NOT TOUCH: this updates the authorization 
