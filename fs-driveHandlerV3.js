@@ -340,34 +340,8 @@ function getUniqueV3_(gimmeDatArray) {
     return uniqueData;
 }
 
-/*
- * @param {any} folderID
- */
-function isFolderAccessible_(folderID) {
-    // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
-    let output = true;
-    let folder;
-    let gone = false;
-    try {
-        folder = DriveApp.getFolderById(folderID);
-        // test = DriveApp.getFolderById(folderID).getName();
 
-        folder.getDescription();
-    } catch (e) {
-        output = false;
-        gone = true;
-        Logger.log("Folder deleted with ID " + folderID);
-    }
-    if (gone == false) {
-        //@ts-ignore
-        if (folder.isTrashed() == true) {
-            Logger.log("folder exists but in the bin");
-            output = false;
-        }
-    }
 
-    return output;
-}
 
 /*
  * @param {any} data

@@ -10,6 +10,7 @@
         "oouo-diogo-perdigao.docthis",
 
         "christian-kohler.npm-intellisense",
-        "eg2.vscode-npm-script"
+        "eg2.vscode-npm-script",
+        "HookyQR.beautify"
     ]
 }

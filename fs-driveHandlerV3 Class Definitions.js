@@ -27,11 +27,11 @@ class FilesystemEntry {
 }
 
 /*
-      "folderName": 0,
-      "parentFolder":1,
-      "folder":2,
-      "sheetID1":3,
-      "sheetID2":4,
+    "folderName": 0,
+    "parentFolder":1,
+    "folder":2,
+    "sheetID1":3,
+    "sheetID2":4,
 */
 
 function getDataFromArray_(fsObjArray, sheetData) {
