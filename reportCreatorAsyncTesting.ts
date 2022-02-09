@@ -51,7 +51,7 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
         const configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
         
         let targetDataSheet = await getReportFromOtherSource_async_(dataSheetName, targetWorksheet); // NEEDS TO BE ASYNC BECAUSE IT TAKES A NON-TRIVIAL AMOUNT OF TIME
-        // let targetConfSheet = await getReportFromOtherSource_async_(configSheetName,targetWorksheet)
+        let targetConfSheet = await getReportFromOtherSource_async_(configSheetName,targetWorksheet)
         // WHERE YOU LEFT OFF:
         // TODO: FINISH PORTING OVER CODE FROM modifyTEmplatesOLDTODEPRECATE_()
         // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
@@ -62,13 +62,13 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: String, ke
         console.log("entry completed for ",entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
         targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
                                                                           //   TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER
-        leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
+        // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
     console.log("Async modify loop completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
     complete = true
-    return Promise.all(promises)
     console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    return Promise.all(promises)
     
 }
 

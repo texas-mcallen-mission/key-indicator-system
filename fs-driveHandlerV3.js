@@ -9,6 +9,11 @@ function createFS() {
 }
 
 
+function updateFS() {
+    verifyFilesystem()
+    createFilesystemV3()
+}
+
 
 function verifyFilesystem() {
     let allSheetData = constructSheetData();
