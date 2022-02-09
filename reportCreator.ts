@@ -40,6 +40,7 @@ function updateDistrictReports() {
 function updateAreaReports() {
     let allSheetData = constructSheetData()
 
+
     let reportScope = reportLevel.area
 
     updateAnyLevelReport_(allSheetData, reportScope)
@@ -51,15 +52,14 @@ function updateAnyLevelReport_(allSheetData, scope) {
     let reportScope = scope
     let filesysSheetData
     switch (reportScope) {
-        case reportLevel.area:
-            filesysSheetData = allSheetData.areaFilesys
-            break
-        case reportLevel.dist:
-            filesysSheetData = allSheetData.distFilesys
-            break
-        case reportLevel.zone:
-            filesysSheetData = allSheetData.zoneFilesys
-            break
+      case CONFIG.fileSystem_reportLevel.area:
+          sheetData = allSheetData.areaFilesys
+          return
+      case CONFIG.fileSystem_reportLevel.dist:
+          sheetData = allSheetData.distFilesys
+          return
+      case CONFIG.fileSystem_reportLevel.zone:
+          sheetData = allSheetData.zoneFilesys
     }
 
     let kiDataObj = allSheetData.data
@@ -79,7 +79,7 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
 
     let storedSheet = filesysObj.getSheet()
 
-    Logger.log("adding reports to FS!")
+
 
 
     
@@ -99,6 +99,7 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     
     let keyName = ""
     switch (scope) {
+
         case reportLevel.area:
             keyName = "areaName"
             break
@@ -146,6 +147,7 @@ function modifyTemplatesV2_(fsData, referenceData, scope: String,keyName:String,
         
         targetConfSheet.getRange(configPosition).setValues(configPushData)
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
+
     }
 
 }
@@ -251,8 +253,11 @@ function splitDataByKey_(data, tag: string) {
     return dataByKey;
 }
 
+
+
 function timerFunction_(pre: Date, post: Date) {
     return post.getMilliseconds() - pre.getMilliseconds()
+
 }
 
 function turnDataIntoArray(data , header: any[], keys:any[]):any[][] {
@@ -325,7 +330,6 @@ function removeDupesAndPII_(ki_sheetData): any[] {
     console.log("Scoping Data- Time Started: ", preDate, "Time Finished:", postDate, "Duration: ", durationInMillis, "ms");
     return data;
 }
-
 
 
 

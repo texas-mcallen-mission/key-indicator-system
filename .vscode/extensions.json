@@ -2,16 +2,13 @@
     "recommendations": [
         "aaron-bond.better-comments",
         "dbaeumer.vscode-eslint",
-        "github.vscode-pull-request-github",
         "davidanson.vscode-markdownlint",
         "gruntfuggly.todo-tree",
         "bierner.markdown-preview-github-styles",
-        "oouo-diogo-perdigao.docthis",
-        "cschleiden.vscode-github-actions",
         "bierner.github-markdown-preview",
-        "github.remotehub",
         "eamodio.gitlens",
-        "labnol.google-apps-script",
+        "oouo-diogo-perdigao.docthis",
+
         "christian-kohler.npm-intellisense",
         "eg2.vscode-npm-script",
         "HookyQR.beautify"
