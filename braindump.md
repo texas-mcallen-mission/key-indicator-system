@@ -22,9 +22,9 @@ Now that all the mechanics are hidden inside a wrapper class, SheetData doesn't 
 
 #### Internals
 
+SheetData uses key strings to identify columns in different sheets. Different sheets, same key string, same column, and e.g. inserting data will happen in the right column. By default, SheetData uses the values in the header row as the key strings (which means they can be in any column index as long as corresponding columns in different sheets have the same headers), but by supplying a keyToIndex object, the key strings can be hardcoded (which means the headers can be anything as long as the column are not reordered). If you want to use a column in external code, e.g. area name, it needs to be hardcoded in the code, so the key string and the index need to be hardcoded from the start. A future version might relax the requirement that header strings be exact by cleaning header values (toLowerCase(), remove whitespace, etc) before using them as key strings, and/or by implementing hardcoded header string options, almost like aliases (so "Name of Area" and "Area Name" headers would be recognized as referring to the key string "areaName"). That might not be necessary though.
 
-
-#### Public SheetData functions
+#### SheetData functions
 
 Explore any you're not sure about.
 
