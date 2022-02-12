@@ -250,7 +250,7 @@ class RawSheetData {
 
     //Private class methods
 
-    /*
+    /***
      * Build indexToKey, the complement of keyToIndex.
      */
     buildIndexToKey_() {
@@ -262,7 +262,7 @@ class RawSheetData {
         this.indexToKey = newIndexToKey;
     }
 
-    /*
+    /***
      * Get the next blank column not assigned a key. It is NOT guaranteed to eventually return every blank column.
      * @returns The next column not assigned a key.
      */
@@ -271,7 +271,7 @@ class RawSheetData {
         return this.indexToKey.length;
     }
 
-    /*
+    /***
      * @param {string} key
      * @param {string} header
      * @param {number} index
@@ -293,7 +293,7 @@ class RawSheetData {
         this.indexToKey[index] = key;
     }
 
-    /*
+    /***
      * @param {any} key
      * @param {any} header
      */
@@ -302,7 +302,7 @@ class RawSheetData {
         this.addColumnWithHeaderAt_(key, header, index);
     }
 
-    /*
+    /***
      * @param {any} key
      * @param {number} index
      */
@@ -311,7 +311,7 @@ class RawSheetData {
         this.addColumnWithHeaderAt_(key, header, index);
     }
 
-    /*
+    /***
      * @param {any} key
      */
     addColumn_(key) {
@@ -733,8 +733,8 @@ function cacheAllSheetData(allSheetData) {
 
 
 
-/*
- * @param {any} allSheetData
+/***
+ * @param {{ form?: any; data?: any; }} allSheetData
  */
 function syncDataFlowCols_(allSheetData) {
     let formSheetData = allSheetData.form;
@@ -757,7 +757,7 @@ function syncDataFlowCols_(allSheetData) {
 
 
 
-/*
+/***
  * Populate this SheetData with column data from the Sheet.
  * @param {any} sheetData
  */
@@ -772,8 +772,8 @@ function populateExtraColumnData_(sheetData) {
 
 
 
-/*
- * @param {{ [x: string]: any; }} allSheetData
+/***
+ * @param {any} allSheetData
  */
 function buildIndexToKey_(allSheetData) {
     for (let sdKey in allSheetData) {
@@ -801,7 +801,7 @@ function buildIndexToKey_(allSheetData) {
 
 
 
-/*
+/***
  * WIP - nonfunctional
  * @param {SheetData} sheetData
  */
