@@ -174,6 +174,7 @@ class SheetData {
     setData(data) {
         this.rsd.setData(data);
     }
+
 }
 
 
@@ -239,6 +240,7 @@ class RawSheetData {
         this.sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.tabName);
         if (this.sheet == null) throw "Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'";
 
+        this.populateExtraColumnData_();
     }
 
 
@@ -249,6 +251,18 @@ class RawSheetData {
 
 
     //Private class methods
+
+    /***
+     * Populate this SheetData with column data from the Sheet.
+     */
+    populateExtraColumnData_() {
+        let headers = this.getHeaders();
+        for (let i = 0; i < headers.length; i++) {
+            let key = headers[i];
+            if (this.hasIndex(i) || key == "") continue; //Skip already defined or blank columns
+            this.addColumnAt_(key, i); //Access RawSheetData to add column
+        }
+    }
 
     /***
      * Build indexToKey, the complement of keyToIndex.
@@ -307,7 +321,7 @@ class RawSheetData {
      * @param {number} index
      */
     addColumnAt_(key, index) {
-        let header = key;   //TODO Add preset headers?
+        let header = key; //TODO Add preset headers?
         this.addColumnWithHeaderAt_(key, header, index);
     }
 
@@ -433,7 +447,8 @@ class RawSheetData {
         let values = [];
         let rawValues = this.getSheet().getDataRange().getValues();
         for (let i = this.headerRow + 1; i > 0; i--) rawValues.shift(); //Skip header rows
-        for (let row of rawValues) if (row[0] != "") values.push(row); //Skip blank rows
+        for (let row of rawValues)
+            if (row[0] != "") values.push(row); //Skip blank rows
         return values;
     }
 
@@ -718,23 +733,14 @@ function cacheAllSheetData(allSheetData) {
 
 
 
-
-
-
-
-
-//                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
-//                populateExtraColumnData()
-//                sheetDataConstructor()
-
-
+//       External functions
 
 
 
 
 
 /***
- * @param {{ form?: any; data?: any; }} allSheetData
+ * @param {any} allSheetData
  */
 function syncDataFlowCols_(allSheetData) {
     let formSheetData = allSheetData.form;
@@ -743,8 +749,8 @@ function syncDataFlowCols_(allSheetData) {
     let addedKeys = [];
 
     for (let key of formSheetData.getKeys()) {
-        if (!CONFIG.dataFlow_formColumnsToExcludeFromDataSheet.includes(key)
-            && !dataSheetData.hasKey(key)) {
+        if (!CONFIG.dataFlow_formColumnsToExcludeFromDataSheet.includes(key) &&
+            !dataSheetData.hasKey(key)) {
             let header = formSheetData.getHeaders()[formSheetData.getIndex(key)];
             dataSheetData.rsd.addColumnWithHeader_(key, header);
             addedKeys.push(key);
@@ -757,77 +763,7 @@ function syncDataFlowCols_(allSheetData) {
 
 
 
-/***
- * Populate this SheetData with column data from the Sheet.
- * @param {any} sheetData
- */
-function populateExtraColumnData_(sheetData) {
-    let headers = sheetData.getHeaders();
-    for (let i = 0; i < headers.length; i++) {
-        let key = headers[i];
-        if (sheetData.hasIndex(i) || key == "") continue; //Skip already defined or blank columns
-        sheetData.rsd.addColumnAt_(key, i); //Access RawSheetData to add column
-    }
-}
 
-
-
-/***
- * @param {any} allSheetData
- */
-function buildIndexToKey_(allSheetData) {
-    for (let sdKey in allSheetData) {
-
-        let sd = allSheetData[sdKey];
-
-        sd.indexToKey = [];
-        for (let key in sd.keyToIndex) {
-            let i = sd.keyToIndex[key];
-
-            if (typeof sd.indexToKey[i] != 'undefined')
-                throw "Data collision on index " + i + " while building indexToKey in SheetData '" + sdKey + "' - tried to add key '" + key + "' but found value '" + sd.indexToKey[i] + "'";
-
-            sd.indexToKey[i] = key;
-        }
-
-
-    }
-}
-
-
-
-
-
-
-
-
-// /***
-//  * WIP - nonfunctional
-//  * @param {SheetData} sheetData
-//  */
-// function setSheetUp_(sheetData) {
-//     throw "UNIMPLEMENTED";
-//     // @ts-ignore
-//     // @ts-ignore
-//     let sheetName = sheetData.getTabName();
-//     let headers = sheetData.getHeaders();
-
-//     let ss = SpreadsheetApp.getActiveSpreadsheet();
-//     // @ts-ignore
-//     // @ts-ignore
-//     let ui = SpreadsheetApp.getUi();
-
-//     // Checks to see if the sheet exists or not.
-//     let sheet = ss.getSheetByName(sheetName);
-//     if (!sheet) {
-//         Logger.log("Sheet '" + sheetName + "' not found. Creating");
-//         sheet = ss.insertSheet(sheetName);
-//         // @ts-ignore
-//         sheet.appendRow(headers);     // Creating Header
-//     }
-
-//     return sheet;
-// }
 
 
 
@@ -860,7 +796,7 @@ function constructSheetData(force = false) {
 
 
     // @ts-ignore
-    const KEY_FROM_HEADER = {     //NOT USED
+    const KEY_FROM_HEADER = { //NOT USED
         "Area Name": "areaName",
         "Status Log": "log",
         "hasContactData": "hasContactData",
@@ -1019,19 +955,19 @@ function constructSheetData(force = false) {
             "log": 1,
             "areaEmail": 2,
             "isDuplicate": 3,
-            "formTimestamp": 4,    //form data
+            "formTimestamp": 4, //form data
             "areaID": 5,
-            "kiDate": 6,    //form data
+            "kiDate": 6, //form data
 
 
-            "np": 7,    //form data
-            "sa": 8,    //form data
-            "bd": 9,    //form data
-            "bc": 10,    //form data
-            "rca": 11,    //form data
-            "rc": 12,    //form data
-            "cki": 13,    //form data
-            "serviceHrs": 14,    //form data
+            "np": 7, //form data
+            "sa": 8, //form data
+            "bd": 9, //form data
+            "bc": 10, //form data
+            "rca": 11, //form data
+            "rc": 12, //form data
+            "cki": 13, //form data
+            "serviceHrs": 14, //form data
 
             "name1": 15,
             "position1": 16,
@@ -1068,7 +1004,7 @@ function constructSheetData(force = false) {
             "vehicleMiles": 45,
             "vinLast8": 46,
             "aptAddress": 47,
-            "formNotes": 48,    //form data
+            "formNotes": 48, //form data
             //...additional form data (ex. baptism sources)
         }
 
@@ -1101,8 +1037,10 @@ function constructSheetData(force = false) {
     //Define SheetData instances
     let allSheetData = {};
     for (let sdKey in tabNames) {
-        let sheetData = new SheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
-        populateExtraColumnData_(sheetData);
+        let sheetData = new SheetData(
+            tabNames[sdKey],
+            headerRows[sdKey],
+            initialColumnOrders[sdKey]);
 
         allSheetData[sdKey] = sheetData;
         log += " '" + sheetData.getTabName() + "'";
