@@ -18,9 +18,15 @@ g
 
 Contains all the definitions and methods relating to the SheetData class. Most of the documentation is inside the file, but there are some things to note.
 
-Now that all the mechanics are hidden inside a wrapper class, SheetData doesn't have to be an enum. That means you can run `new SheetData(params)` if you want to to create instances other than the predefined ones in `sheetData.js`. Just make sure you give it parameters in the right format. If you want to use the predefined ones though, you still probably want to use constructSheetData(), because in addition to constructing the objects, it does things like cache the values and sync columns between the Data and Form Responses sheet.
+Now that all the mechanics are hidden inside a wrapper class, SheetData doesn't have to be an enum. It requires a quick change I never did (change SheetData's constructor function to take the same inputs as RawSheetData, so that `new RawSheetData` is only ever called internally), but it would mean you can run `new SheetData(params)` if you want to to create instances other than the predefined ones in `sheetData.js`. Just make sure you give it parameters in the right format. If you want to use the predefined ones though, you still probably want to use constructSheetData(), because in addition to constructing the objects, it does things like cache the values and sync columns between the Data and Form Responses sheet.
 
-Complete list of SheetData functions:
+#### Internals
+
+A SheetData only has a single variable, this.rsd, which contains the RawSheetData object. One of my //TODO
+
+#### Public SheetData functions
+
+Explore any you're not sure about.
 
 - clearContent()
 - getData()

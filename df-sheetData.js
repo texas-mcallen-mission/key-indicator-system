@@ -24,12 +24,13 @@
 class SheetData {
 
     /**
-     * Wrap a RawSheetData into a full SheetData.
-     * @see SheetData
-     * @param {RawSheetData} rawSheetData - The RawSheetData to wrap.
+     * Create a SheetData object.
+     * @param {string} tabName
+     * @param {number} headerRow
+     * @param keyToIndex Optional. An object containing key-index pairs which will be hardcoded into the SheetData. Any column index not included will use the value in the header row as the key. Defaults to {}.
      */
-    constructor(rawSheetData) {
-        this.rsd = rawSheetData;
+    constructor(tabName, headerRow, keyToIndex = {}) {
+        this.rsd = new RawSheetData(tabName, headerRow, keyToIndex);
     }
 
     /**
@@ -1101,10 +1102,8 @@ function constructSheetData(force = false) {
     //Define SheetData instances
     let allSheetData = {};
     for (let sdKey in tabNames) {
-        let rawSheetData = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
-        let sheetData = new SheetData(rawSheetData);
-
-        populateExtraColumnData_(sheetData);    //Add non-hardcoded key strings
+        let sheetData = new SheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey]);
+        populateExtraColumnData_(sheetData);
 
         allSheetData[sdKey] = sheetData;
         log += " '" + sheetData.getTabName() + "'";
