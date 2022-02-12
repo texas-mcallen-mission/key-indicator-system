@@ -16,7 +16,30 @@ g
 
 ### sheetData.js
 
-g
+Contains all the definitions and methods relating to the SheetData class. Most of the documentation is inside the file, but there are some things to note.
+
+Now that all the mechanics are hidden inside a wrapper class, SheetData doesn't have to be an enum. That means you can run `new SheetData(params)` if you want to to create instances other than the predefined ones in `sheetData.js`. Just make sure you give it parameters in the right format. If you want to use the predefined ones though, you still probably want to use constructSheetData(), because in addition to constructing the objects, it does things like cache the values and sync columns between the Data and Form Responses sheet.
+
+Complete list of SheetData functions:
+
+- clearContent()
+- getData()
+- setData(data)
+- getHeaders()
+- getHeaderRow()
+- getTabName()
+- getIndex(key)
+- getKey(index)
+- getValues()
+- setValues(values)
+- hasIndex(index)
+- hasKey(key)
+- getKeys()
+- getAllOfKey(key)
+- getAllOfIndex(index)
+- getSheet()
+- insertData(data)
+- insertValues(values)
 
 ### updateDataSheet.js
 
@@ -24,7 +47,7 @@ g
 
 ### errorDetection.js
 
-g
+Not written yet. This might get decentralized throughout the various processes rather than being its own file.
 
 ### accessControl.js
 
@@ -32,19 +55,19 @@ g
 
 ### kic-config.js
 
-g
+Fairly obvious, just make sure everything is organized nicely and the naming conventions are consistent. Maybe organize it into settings that APs or MPs might touch and configs that only devs will mess with
 
-### kic-histroy.js
+### kic-history.js
 
-g
+Can probably be deleted
 
 ### kic-reference.js
 
-g
+Should probably be deleted
 
 ### README.md
 
-g
+Should include
 
 ### scheduler.js
 
@@ -52,11 +75,11 @@ g
 
 ### triggers.js
 
-g
+Fairly obvious, only thing to note is that it might be possible to replace the majority of the duplicated code with some kind of lambda thing (which would make it a lot less prone to typos)
 
 ### tsignore-gas-classes.js
 
-g
+Fairly obvious
 
 ### updateForm.js
 
