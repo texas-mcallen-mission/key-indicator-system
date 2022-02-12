@@ -675,16 +675,15 @@ function getAllSheetDataFromCache() {
 
     let allSheetData = {};
     let parsedObjects = [];
-    //Dig down to find the rawSheetData, fix it, and build it back up properly.
+    //Dig down to find the rawSheetData and build it back up properly.
     for (let sdKey in allSheetData_fromCache) {
         //Extract literal (aka fake) SheetData from cache's version of allSheetData
         let sheetDataLiteral = allSheetData_fromCache[sdKey];
         //Extract literal RawSheetData from literal SheetData
         let rawSheetDataLiteral = sheetDataLiteral.rsd;
-        //Turn literal RawSheetData into a real RawSheetData
-        let rawSheetData = new RawSheetData(rawSheetDataLiteral.tabName, rawSheetDataLiteral.headerRow, rawSheetDataLiteral.keyToIndex);
-        //Re-wrap real RawSheetData in a real SheetData
-        let sheetData = new SheetData(rawSheetData);
+        //Turn literal RawSheetData into a real SheetData
+        let sheetData = new SheetData(rawSheetDataLiteral.tabName, rawSheetDataLiteral.headerRow, rawSheetDataLiteral.keyToIndex);
+
         //Re-add real SheetData to the proper version of allSheetData
         allSheetData[sdKey] = sheetData;
         parsedObjects.push(sheetData.getTabName()); //For logging purposes
