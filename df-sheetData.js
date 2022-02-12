@@ -801,33 +801,33 @@ function buildIndexToKey_(allSheetData) {
 
 
 
-/***
- * WIP - nonfunctional
- * @param {SheetData} sheetData
- */
-function setSheetUp_(sheetData) {
-    throw "UNIMPLEMENTED";
-    // @ts-ignore
-    // @ts-ignore
-    let sheetName = sheetData.getTabName();
-    let headers = sheetData.getHeaders();
+// /***
+//  * WIP - nonfunctional
+//  * @param {SheetData} sheetData
+//  */
+// function setSheetUp_(sheetData) {
+//     throw "UNIMPLEMENTED";
+//     // @ts-ignore
+//     // @ts-ignore
+//     let sheetName = sheetData.getTabName();
+//     let headers = sheetData.getHeaders();
 
-    let ss = SpreadsheetApp.getActiveSpreadsheet();
-    // @ts-ignore
-    // @ts-ignore
-    let ui = SpreadsheetApp.getUi();
+//     let ss = SpreadsheetApp.getActiveSpreadsheet();
+//     // @ts-ignore
+//     // @ts-ignore
+//     let ui = SpreadsheetApp.getUi();
 
-    // Checks to see if the sheet exists or not.
-    let sheet = ss.getSheetByName(sheetName);
-    if (!sheet) {
-        Logger.log("Sheet '" + sheetName + "' not found. Creating");
-        sheet = ss.insertSheet(sheetName);
-        // @ts-ignore
-        sheet.appendRow(headers);     // Creating Header
-    }
+//     // Checks to see if the sheet exists or not.
+//     let sheet = ss.getSheetByName(sheetName);
+//     if (!sheet) {
+//         Logger.log("Sheet '" + sheetName + "' not found. Creating");
+//         sheet = ss.insertSheet(sheetName);
+//         // @ts-ignore
+//         sheet.appendRow(headers);     // Creating Header
+//     }
 
-    return sheet;
-}
+//     return sheet;
+// }
 
 
 
