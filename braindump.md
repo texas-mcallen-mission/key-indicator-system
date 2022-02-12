@@ -12,7 +12,11 @@ g
 
 ### missionOrgData.js
 
-g
+Fairly self-explanatory from the code as to how they work, but have some nuances. The functions are getMissionOrgData(), which takes allSheetData as a parameter; and getMissionLeadershipData() and getLeadershipAreaData(), which both take as a parameter the object returned by getContactData() (in updateDataSheet.js). getMissionLeadershipData() is the most general, and the other two are sort of subsets of it. I've considered implementing caching of getMissionOrgData()
+
+getMissionLeadershipData() is kind of a simpler and differently organized version of getContactData. It returns an object containing all the data about the mission leadership (of junior missionaries at least). It is organized in a hierarchy of object properties: mission-wide data -> zones -> a single zone's data -> districts in that zone -> a single district's data -> areas in that district -> a single area's data. More details about the precise format are in the file. It includes area names, area emails, and missionary names of every junior missionary leader, as well as flags indicating if each zone has an STL area and whether an STLT area exists.
+
+getLeadershipAreaData() returns a reorganized version of getMissionLeaderShipData().
 
 ### sheetData.js
 
