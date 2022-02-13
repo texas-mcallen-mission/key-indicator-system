@@ -30,7 +30,7 @@ function shareFileSystem() {
 
     function getFolders(sheetData) {
         let allFoldersList = sheetData.getData(); //List of objects containing the folder data for each folder
-        let allFolders = {};                      //Turn allFoldersList into an object keyed by name, rather than a list
+        let allFolders = {}; //Turn allFoldersList into an object keyed by name, rather than a list
         //i.e. allZoneFolders["BROWNSVILLE"] returns Brownsville zone's folder data
         for (let i = 0; i < allFoldersList.length; i++) {
             let folder = allFoldersList[i];
@@ -67,13 +67,15 @@ function shareFileSystem() {
 
         //List of emails with limited editor access at the zone level
         let zEmails = [];
-        zEmails.push(zoneOrgData.zlArea.areaEmail);  //Add ZL area email
-        if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail);  //Add STL area email if it exists
+        zEmails.push(zoneOrgData.zlArea.areaEmail); //Add ZL area email
+        if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail); //Add STL area email if it exists
 
         if (CONFIG.fileSystem_log_fileShare) Logger.log('zEmails: ' + zEmails);
 
         //Remove old editors, then add new ones
-        let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
+        let editorEmails = zoneFolder.getEditors().map(editor => {
+            return editor.getEmail();
+        }); //Get a list of Editor objects, then convert to list of emails
         for (let editor of editorEmails) {
             if (!zEmails.includes(editor) && !officeEmails.includes(editor)) {
                 zoneFolder.removeEditor(editor);
@@ -85,7 +87,9 @@ function shareFileSystem() {
         silentShareToGroup(zoneFolderID, zEmails);
         silentShareToGroup(zoneFolderID, officeEmails);
 
-        let editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
+        let editorNames = zoneFolder.getEditors().map(e => {
+            return e.getName();
+        });
         if (CONFIG.fileSystem_log_fileShare) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
@@ -139,14 +143,16 @@ function shareFileSystem() {
 
             //List of emails with limited editor access at the district level
             let dEmails = [];
-            dEmails.push(distOrgData.dlArea.areaEmail);  //Add DL area email
+            dEmails.push(distOrgData.dlArea.areaEmail); //Add DL area email
 
             //Remove old editors (except for the ZLs and office emails), then add back the DL area email
-            let editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
+            let editorEmails = distFolder.getEditors().map(editor => {
+                return editor.getEmail();
+            }); //Get a list of Editor objects, then convert to list of emails
             for (let editor of editorEmails) {
-                if (!dEmails.includes(editor)
-                    && !zEmails.includes(editor)
-                    && !officeEmails.includes(editor)) {
+                if (!dEmails.includes(editor) &&
+                    !zEmails.includes(editor) &&
+                    !officeEmails.includes(editor)) {
                     distFolder.removeEditor(editor);
                 }
             }
@@ -203,15 +209,17 @@ function shareFileSystem() {
 
                 //List of emails with limited editor access at the area level
                 let aEmails = [];
-                aEmails.push(areaOrgData.areaEmail);  //Add area email
+                aEmails.push(areaOrgData.areaEmail); //Add area email
 
                 //Remove old editors (except for the DL, ZLs, and office emails), then add back the DL area email
-                let editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
+                let editorEmails = distFolder.getEditors().map(editor => {
+                    return editor.getEmail();
+                }); //Get a list of Editor objects, then convert to list of emails
                 for (let editor of editorEmails) {
-                    if (!aEmails.includes(editor)
-                        && !dEmails.includes(editor)
-                        && !zEmails.includes(editor)
-                        && !officeEmails.includes(editor)) {
+                    if (!aEmails.includes(editor) &&
+                        !dEmails.includes(editor) &&
+                        !zEmails.includes(editor) &&
+                        !officeEmails.includes(editor)) {
                         areaFolder.removeEditor(editor);
                     }
                 }
@@ -269,7 +277,7 @@ function shareFileSystem() {
 
 
 
-/*
+/**
  * Adds the given user to the list of editors for the file or folder without sending them a notification email.
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipient - The email address of the user to add.
@@ -278,14 +286,12 @@ function silentShare(fileId, recipient) {
     try {
         let file = DriveApp.getFileById(fileId);
 
-        Drive.Permissions.insert(
-            {
+        Drive.Permissions.insert({
                 'role': 'writer',
                 'type': 'user',
                 'value': recipient
             },
-            file.getId(),
-            {
+            file.getId(), {
                 'sendNotificationEmails': 'false'
             }
         );
@@ -294,7 +300,7 @@ function silentShare(fileId, recipient) {
     }
 }
 
-/*
+/**
  * Adds all of the given users to the list of editors for the file or folder without sending them notification emails.
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipients - An array of email address of the users to add.
@@ -302,21 +308,8 @@ function silentShare(fileId, recipient) {
 function silentShareToGroup(fileId, recipients) {
     if (CONFIG.fileSystem_log_fileShare)
         Logger.log("Sharing file/folder '" + file.getName() + "' with " + recipients);
-    
+
     for (let recipient of recipients) {
         silentShare(fileId, recipient);
     }
-}
-
-
-
-
-
-
-function testSharing() {
-    let fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
-    let editor = 'nathaniel.gerlek@gmail.com';
-
-    silentShare(fileId, editor);
-
 }
