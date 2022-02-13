@@ -147,6 +147,10 @@ You've asked me several times for markdown documentation, but I just can't. The 
 
 You need npm to install the program, so if you don't already have it, run `sudo apt install npm` from a wsl terminal. (Trying to get jsdoc to work on Windows was a nightmare.) You might want to `npm update` and `npm upgrade` (possibly in the reverse order) as well - I don't know the difference or really what they do, but it stopped yelling at me about package.json versions after I did, so I guess it worked.
 
-The program for generating HTML files from JSDoc is included in package.json, since I ran `npm install --save-dev jsdoc`, so it might install on its own somehow I think. I don't know how that works. For a global install use `npm install -g jsdoc`. (There's another for local installation w/o adding it to package.json.) Then the command to generate html files is `jsdoc -d=docs/jsdoc`. `-r` makes it include folders recursively. (The documentation claims it defaults to -d=out and you don't need -d but it's lying.)
+The program for generating HTML files from JSDoc is included in package.json, since I ran `npm install --save-dev jsdoc`, so it might install on its own somehow I think. I don't know how that works. For a global install use `npm install -g jsdoc`. (There's another for local installation w/o adding it to package.json.)
 
-Once it's generated you can run `_global_.html` to view it. It includes every documented function (except private ones I think). It's not pretty, not really organized or anything, and I couldn't get it to recognize classes. But it works.
+The command to generate html files is `jsdoc -d=docs/jsdoc .` where `-d` defines the output location (you want definitely want it inside its own jsdoc folder!) The documentation claims it defaults to -d=out and you don't need -d but it's lying. `-r` makes it include folders recursively, but that will include ALL of your node_modules as well if you're not careful.
+
+Once it's generated, you can open `docs/jsdoc/symbols/_global_.html` in your browser (or hit Ctrl+Shift+V in VSCode, but then the links don't work properly) to view it. It includes every properly documented function (including private ones, but not class functions) documented with `/** */`. More stars, like `/*** */`, will also be documented, but fewer, like `/* */`, will not.
+
+It's not pretty, only organized alphabetically, and I couldn't get it to recognize classes. But it works.
