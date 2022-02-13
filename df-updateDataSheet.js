@@ -241,7 +241,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 /**
   * Inserts responses from missionData into the Data sheet.
   */
-function pushToDataSheetV2(allSheetData, missionData) {
+function pushToDataSheet(allSheetData, missionData) {
     Logger.log("Pushing data to Data sheet...");
 
     let dSheetData = allSheetData.data;
