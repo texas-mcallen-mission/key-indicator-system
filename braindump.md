@@ -127,7 +127,7 @@ Fairly obvious. Not sure if it should be aimed at devs or Mission Presidents.
 
 ## scheduler.js
 
-g
+Fairly well documented in-file.
 
 ## triggers.js
 
@@ -139,11 +139,11 @@ Fairly obvious.
 
 ## updateForm.js
 
-g
+Fairly obvious.
 
 ## Side Note: Using jsdoc
 
-You've asked me several times for markdown documentation, but I just can't. The info would be useless for Mission Presidents or APs, and it takes way too much time to go into enough detail for the devs. What JSDoc does is give the most important framework, which I think is enough for anyone like you or me to start having a play and figuring out the rest, and it takes almost no time to write. VSCode and GAS both natively parse jsdoc for auto-suggestions and linting when editing .js files. However, you wanted external files containing the details, which is a bit more complex, but here's what I found.
+You've asked me several times for markdown documentation, but for what I'm doing, that doesn't really work. The info would be useless for Mission Presidents or APs, and it would take waaaaay too much time to go into enough detail for the devs. What JSDoc does is give the most important framework, which should be enough for anyone like you or me to start having a play and figuring out the rest, and it takes almost no time to write. VSCode and GAS both natively parse jsdoc for auto-suggestions and linting when editing .js files. However, you wanted external files containing the details, which is a bit more complex, but here's what I found.
 
 You need npm to install the program, so if you don't already have it, run `sudo apt install npm` from a wsl terminal. (Trying to get jsdoc to work on Windows was a nightmare.) You might want to `npm update` and `npm upgrade` (possibly in the reverse order) as well - I don't know the difference or really what they do, but it stopped yelling at me about package.json versions after I did, so I guess it worked.
 
