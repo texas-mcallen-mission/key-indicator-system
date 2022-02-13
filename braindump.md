@@ -101,11 +101,17 @@ Not written yet. This might get decentralized throughout the various processes r
 
 ## accessControl.js
 
-shareFileSystem()
+The main function here is shareFileSystem(). It uses getMissionLeadershipData() to figure out zone/dist/area structure as well as identify who needs access to what and what their emails are. The internal getFolders() function basically calls getData() on a zoneFilesys SheetData and keys the rows by name rather than index number. Then it calls a massive nested for-loop that can probably shrink to a third its size.*
+
+Most of the complexity is not fundamental to the algorithm, it's just manipulating variables. It's actually pretty simple internally. One thing to note though is that as I go down in scope, I'm building a list for each scope (including one that's mission-wide) that everything lower down should be shared with. For each folder, I remove any editors that aren't in at least one of those lists, then add back all the ones for the current scope, since I've already shared the higher ones.
+
+One thing to note is all the commented-out code inside the for loops. That's the part that updates the page protections within the sheets themselves, not just the folder sharing. (They're commented out, but there's also a config option that skips them.) It is INSANELY slow to run, and the sheets should inherit protections from the templates anyway, but I didn't want to delete it in case you want to pull it into its own function. Another important note is that there's no automated updating of protections on the templates, for when office emails or the AP area changes. Those are changes that happen rarely enough that I doubt anyone will remember that they need to update the templates, and the APs will wonder why they can't see everything. So it might be worth adapting the commented-out code to do that automatically - it should be quick on only three sheets.
+
+*The problem is that right on the inside of the duplicate code, there's a couple lines of code that's just slightly different on each level, meaning you can't just have one function run three times. However, you can if you use lambdas (aka anonymous functions) or if you just define three mini-functions next to your big one, and have your big one just pick which one to call based on the scope.
 
 ## kic-config.js
 
-Fairly obvious, just make sure everything is organized nicely and the naming conventions are consistent. Maybe organize it into settings that APs or MPs might touch and configs that only devs will mess with
+Fairly obvious, just make sure everything is organized nicely and the naming conventions are consistent. Maybe separate settings (things that APs or MPs might want to touch) and configs (which only devs will ever mess with).
 
 ## kic-history.js
 
@@ -113,11 +119,11 @@ Can probably be deleted
 
 ## kic-reference.js
 
-Should probably be deleted
+Can probably be deleted. The most important info it contains is the formatting of a couple different objects, so that should be put elsewhere in the code first, probably just at the top of updateDataSheet.js is fine.
 
 ## README.md
 
-Should include
+Fairly obvious. Not sure if it should be aimed at devs or Mission Presidents.
 
 ## scheduler.js
 
@@ -125,7 +131,7 @@ g
 
 ## triggers.js
 
-Fairly obvious, only thing to note is that it might be possible to replace the majority of the duplicated code with some kind of lambda thing (which would make it a lot less prone to typos).
+Fairly obvious, only thing to note is that it might be possible to replace the majority of the duplicated code with some kind of lambda thing, which would make it a lot less prone to typos - that's a problem I've had a couple of times when adding triggers or updating to config v2.
 
 ## tsignore-gas-classes.js
 
@@ -135,10 +141,12 @@ Fairly obvious.
 
 g
 
-## Using jsdoc
+## Side Note: Using jsdoc
 
-SVCode and GAS both natively parse jsdoc to give suggestions and for linting when editing the corresponding .js files. Generating external files containing the details is a bit more complex. The program is included in package.json, since I ran `npm install --save-dev jsdoc`, so it might install on its own somehow I think, I don't know how that works. For a global install use `npm install -g jsdoc`. Then the command to generate html files is `jsdoc -d=docs/jsdoc` (the documentation claims you don't need -d but it's lying). `-r` makes it include folders recursively.
+You've asked me several times for markdown documentation, but I just can't. The info would be useless for Mission Presidents or APs, and it takes way too much time to go into enough detail for the devs. What JSDoc does is give the most important framework, which I think is enough for anyone like you or me to start having a play and figuring out the rest, and it takes almost no time to write. VSCode and GAS both natively parse jsdoc for auto-suggestions and linting when editing .js files. However, you wanted external files containing the details, which is a bit more complex, but here's what I found.
 
-To do that though, you need npm, so `sudo apt install npm` from a wsl terminal (windows was a nightmare) if you don't already have it. You might want to `npm update` and `npm upgrade` as well - I don't know the difference or really what they do, but it stopped yelling at me about package.json versions after I did. It might need to be a specific order as well, I dunno.
+You need npm to install the program, so if you don't already have it, run `sudo apt install npm` from a wsl terminal. (Trying to get jsdoc to work on Windows was a nightmare.) You might want to `npm update` and `npm upgrade` (possibly in the reverse order) as well - I don't know the difference or really what they do, but it stopped yelling at me about package.json versions after I did, so I guess it worked.
+
+The program for generating HTML files from JSDoc is included in package.json, since I ran `npm install --save-dev jsdoc`, so it might install on its own somehow I think. I don't know how that works. For a global install use `npm install -g jsdoc`. (There's another for local installation w/o adding it to package.json.) Then the command to generate html files is `jsdoc -d=docs/jsdoc`. `-r` makes it include folders recursively. (The documentation claims it defaults to -d=out and you don't need -d but it's lying.)
 
 Once it's generated you can run `_global_.html` to view it. It includes every documented function (except private ones I think). It's not pretty, not really organized or anything, and I couldn't get it to recognize classes. But it works.
