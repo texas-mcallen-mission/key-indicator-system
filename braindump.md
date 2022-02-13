@@ -30,7 +30,7 @@ Possible ways to improve:
 
 ## missionOrgData.js
 
-These are fairy complex for what they do.
+These are fairly complex for what they do.
 
 Important note: getMissionOrgData() takes `allSheetData` as a parameter, but getMissionLeadershipData() and getLeadershipAreaData() both take `contacts` as a parameter, which is the object returned by getContactData() in updateDataSheet.js. The reason for this rather than all three taking allSheetData is the overhead of running getContactData() every time, but if that were cached it would be much faster, and all three could just take `allSheetData` as a parameter. (Or, if allSheetData is being cached, none of them would need any parameters, and could just call constructSheetData() at the beginning. Not much reason for that though other than to show off my epic caching skillz.)
 
