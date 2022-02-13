@@ -1,5 +1,7 @@
 # Braindump
 
+Everything I could think of that might be important for you to know that you might not already know
+
 ## areaIDManager.js
 
 Contains functions that manage area IDs. This is what I had to rewrite to fix the McAllen 1A bug.
@@ -12,29 +14,31 @@ The getAreaID() function takes an area name and returns the current area ID for 
 
 Contains functions relating to deduping the data sheet. IT HAS NOT YET BEEN UPDATED TO USE SHEETDATA PROPERLY.
 
-Important TODO: since loadAreaIDs() only checks the contact data sheet (it used to check all historical data as well), markDuplicates fails sometimes (only for individual rows) on unrecognized historical records, so it wraps each in a try/catch. That's because it calls getAreaID() on the area name of the row instead of checking the area ID column, which is really dumb in hindsight but I never got around to fixing. It shouldn't need any references to getAreaID.
+Important TODO: since loadAreaIDs() only checks the contact data sheet (it used to check all historical data as well), markDuplicates fails sometimes (only for individual rows) on unrecognized historical records, so it wraps each in a try/catch. That's because it calls getAreaID() on the area name of the row instead of checking the area ID column, which is really dumb in hindsight but I never got around to fixing (it shouldn't need any references to getAreaID).
 
 ### The Algorithm
 
 Feel free to rewrite this entirely if you can find a better solution. It always felt a little inelegant. It can certainly use being split into multiple smaller functions rather than one big one.
 
-The program first runs through the (currently entire) Data sheet, bottom to top. It builds an object called mostRecentResponse that is keyed by "response ID" (which is just areaID + "|" + kiDate for a given row. The idea is that rows have the same rID iff they are duplicates). The values are objects containing the form-submit timestamp, and the row index, of the most recent response with that rID. If it finds a row with the same rID, it checks which is more recent, updates the object if needed with the newer one, and adds the older one's row index to a duplicates list. After the loop terminates, it marks all the rows in the duplicates list as dupes and the rest as not dupes.
+The program first runs through the Data sheet (currently the entire thing I believe), bottom to top. It builds an object called mostRecentResponse that is keyed by "response ID" (which is just concat(areaID, "|", kiDate) for a given row. The idea is that rows have the same rID iff they are duplicates.) The value for a given rID is an object containing the form-submit timestamp, and the row index, of the most recent response with that rID. If it later finds a row with the same rID, it checks which is more recent, updates the object if needed with the newer one, and adds the older one's row index to a duplicates list. After the loop terminates, it marks all the rows in the duplicates list as dupes and the rest as not dupes.
 
-Ways to improve:
+Possible ways to improve:
 
 - Don't run through the entire sheet, only recent entries (maybe add a getDataUpTo(maxRows) function or something like that to SheetData?)
 - Ignore rows that are already marked as dupes (non-dupes can become dupes, but once a dupe, always a dupe)
-- ? Run through the whole loop twice (that's what the unused firstPass bool is for) so that it works even if the rows are not in timestamp order
+- Run through the whole loop twice (that's what the unused firstPass bool is for) so that it works even if the rows are not in timestamp order (significantly slower? Not enough gain since it's almost completely sorted anyway?)
 
 ## missionOrgData.js
 
-Fairly self-explanatory from the code as to how they work, but have some nuances. Fairly inconsistently, getMissionOrgData() takes allSheetData as a parameter, but getMissionLeadershipData() and getLeadershipAreaData() both take contacts as a parameter, which is the object returned by getContactData() in updateDataSheet.js. The reason for this rather than all three taking allSheetData is the overhead of running getContactData() every time, but if that were cached it would be much faster, and all three could just take allSheetData as a parameter.
+These are fairy complex for what they do.
 
-getMissionLeadershipData() returns an object containing all the data about the mission leadership (of junior missionaries at least). It is organized in a hierarchy: mission-wide data -> zones -> a single zone's data -> districts in that zone -> a single district's data -> etc. More details about the precise format are in the file. It includes area names, area emails, and missionary names of every junior missionary leader, as well as flags indicating if each zone has an STL area and whether an STLT area exists. It does not include every missionary or area though, only the leaders.
+Important note: getMissionOrgData() takes `allSheetData` as a parameter, but getMissionLeadershipData() and getLeadershipAreaData() both take `contacts` as a parameter, which is the object returned by getContactData() in updateDataSheet.js. The reason for this rather than all three taking allSheetData is the overhead of running getContactData() every time, but if that were cached it would be much faster, and all three could just take `allSheetData` as a parameter.
+
+getMissionLeadershipData() returns an object containing all the data about the mission leadership (of junior missionaries at least). It is organized in a hierarchy: mission-wide data -> zones in the mission -> a single zone's data -> districts in the zone -> a single district's data -> areas in the district. More details about the precise format are in the file. It includes area names, area emails, and missionary names of every junior missionary leader, as well as flags indicating if each zone has an STL area and whether an STLT area exists. It does not include every missionary or area email though, only the leaders.
 
 getMissionOrgData() returns a simpler version of getMissionLeadershipData(). It contains only zones, districts in each zone, and areas in each district.
 
-getLeadershipAreaData() returns a reorganized version of getMissionLeadershipData().
+getLeadershipAreaData() returns a reorganized version of getMissionLeadershipData() - it puts it in areaData format. See the entry below on updateSheetData.js for what that is.
 
 ## sheetData.js
 
