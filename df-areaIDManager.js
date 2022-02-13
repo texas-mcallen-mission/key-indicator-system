@@ -73,11 +73,3 @@ function loadAreaIDs(allSheetData) {
         return "A" + email.split("@")[0];
     }
 }
-
-
-
-
-function runLoadAreaIDs() {
-    let allSheetData = constructSheetData();
-    loadAreaIDs(allSheetData);
-}
