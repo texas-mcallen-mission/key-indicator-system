@@ -32,13 +32,13 @@ Possible ways to improve:
 
 These are fairy complex for what they do.
 
-Important note: getMissionOrgData() takes `allSheetData` as a parameter, but getMissionLeadershipData() and getLeadershipAreaData() both take `contacts` as a parameter, which is the object returned by getContactData() in updateDataSheet.js. The reason for this rather than all three taking allSheetData is the overhead of running getContactData() every time, but if that were cached it would be much faster, and all three could just take `allSheetData` as a parameter.
+Important note: getMissionOrgData() takes `allSheetData` as a parameter, but getMissionLeadershipData() and getLeadershipAreaData() both take `contacts` as a parameter, which is the object returned by getContactData() in updateDataSheet.js. The reason for this rather than all three taking allSheetData is the overhead of running getContactData() every time, but if that were cached it would be much faster, and all three could just take `allSheetData` as a parameter. (Or, if allSheetData is being cached, none of them would need any parameters, and could just call constructSheetData() at the beginning. Not much reason for that though other than to show off my epic caching skillz.)
 
-getMissionLeadershipData() returns an object containing all the data about the mission leadership (of junior missionaries at least). It is organized in a hierarchy: mission-wide data -> zones in the mission -> a single zone's data -> districts in the zone -> a single district's data -> areas in the district. More details about the precise format are in the file. It includes area names, area emails, and missionary names of every junior missionary leader, as well as flags indicating if each zone has an STL area and whether an STLT area exists. It does not include every missionary or area email though, only the leaders.
+getMissionLeadershipData() returns an object containing all the data about the mission leadership (of junior missionaries at least). It is organized in a hierarchy: mission-wide data -> zones in the mission -> a single zone's data -> districts in the zone -> a single district's data -> areas in the district. More details about the precise format are in the file. It includes area names, area emails, and missionary names of every junior missionary leader, as well as flags indicating if each zone has an STL area and whether an STLT area exists. It does not include every missionary or area email though, only the leaders. The algorithm is loop through each area (since that's how contacts is organized); initialize any relevant branches of the output object that might not have been initialized yet; loop through the companions (so three runs per area); switch/case by role; and if this companion is a leader, fill in the corresponding parts of the object.
 
 getMissionOrgData() returns a simpler version of getMissionLeadershipData(). It contains only zones, districts in each zone, and areas in each district.
 
-getLeadershipAreaData() returns a reorganized version of getMissionLeadershipData() - it puts it in areaData format. See the entry below on updateSheetData.js for what that is.
+getLeadershipAreaData() calls getMissionLeadershipData() and reorganizes it into areaData format. See the entry below on updateSheetData.js for what that is.
 
 ## sheetData.js
 
@@ -75,7 +75,12 @@ Explore any you're not sure about.
 
 ## updateDataSheet.js
 
-g
+updateDataSheet
+pullFormData
+getContactData
+mergeIntoMissionData
+pushToDataSheetV2
+pushErrorMessages
 
 I have a convention/format all throughout dataFlow (that I should have turned into a class but never did) of using objects keyed by areaID instead of lists of areas. I called objects in that format "area data" objects.
 
