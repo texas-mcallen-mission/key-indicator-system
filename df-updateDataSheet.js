@@ -15,8 +15,8 @@
 
 
 /**
-  * Updates the Data sheet.
-  */
+ * Updates the Data sheet.
+ */
 function updateDataSheet() {
     Logger.log("BEGINNING UPDATE");
 
@@ -46,7 +46,7 @@ function updateDataSheet() {
 
     markDuplicates(allSheetData);
 
-    pushErrorMessages();  //Unimplemented
+    pushErrorMessages(); //Unimplemented
 
     Logger.log("UPDATE COMPLETED");
 }
@@ -63,8 +63,8 @@ function updateDataSheet() {
 
 
 /**
-  * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
-  */
+ * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
+ */
 function pullFormData(allSheetData) {
     Logger.log("Pulling Form Data...");
 
@@ -83,8 +83,7 @@ function pullFormData(allSheetData) {
 
         response.areaID = getAreaID(allSheetData, response.areaName);
 
-        response.log =
-        {
+        response.log = {
             'areaID': response.areaID,
             'areaName': response.areaName,
             'processDate': (new Date()).toDateString(),
@@ -101,8 +100,7 @@ function pullFormData(allSheetData) {
     console.info("TODO: Improve marking responses as pulled");
     if (CONFIG.dataFlow_skipMarkingPulled) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow_skipMarkingPulled is set to true");
-    }
-    else {
+    } else {
         let formSheet = fSheetData.getSheet();
         let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
         formSheet.getRange("B2").setValue(true);
@@ -122,8 +120,8 @@ function pullFormData(allSheetData) {
 
 
 /**
-  * Pulls data from the Contact Data sheet and adds areaIDs.
-  */
+ * Pulls data from the Contact Data sheet and adds areaIDs.
+ */
 function getContactData(allSheetData) {
 
     Logger.log("Getting data from Contact Data sheet...");
@@ -157,10 +155,10 @@ function getContactData(allSheetData) {
 
 
 /**
-  * Merges data from an additional data source (contact data, config data, etc) into missionData, assuming the formatting Reference.gs describes.
-  * Used to pull contact and leader data into missionData.
-  * Takes a reference to missionData, a reference to the datasource, and an ID string for that datasource.
-  */
+ * Merges data from an additional data source (contact data, config data, etc) into missionData, assuming the formatting Reference.gs describes.
+ * Used to pull contact and leader data into missionData.
+ * Takes a reference to missionData, a reference to the datasource, and an ID string for that datasource.
+ */
 function mergeIntoMissionData(missionData, sourceData, sourceID) {
     Logger.log("Beginning to merge source '" + sourceID + "' into missionData");
 
@@ -182,8 +180,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
         let newAreaData = {};
-        let mergeLog =
-        {
+        let mergeLog = {
             'missingKeys': [],
             'collisions': {},
         };
@@ -197,11 +194,9 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
             if (!mHasKey && !sHasKey) {
                 logNeither(key, areaID, areaName);
                 mergeLog.missingKeys.push(key);
-            }
-            else if (mHasKey && sHasKey && missionAreaData[key] != sourceAreaData[key]) {
+            } else if (mHasKey && sHasKey && missionAreaData[key] != sourceAreaData[key]) {
                 logDataCollision(key, areaID, areaName, sourceID, sourceAreaData[key], missionAreaData[key]);
-                mergeLog.collisions[key] =
-                {
+                mergeLog.collisions[key] = {
                     'missionVal': missionAreaData[key],
                     'sourceVal': sourceAreaData[key]
                 };
@@ -238,24 +233,11 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 }
 
 
-/**
-  * Inserts responses from missionData into the Data sheet.
-  */
-function pushToDataSheet(allSheetData, missionData) {
-    Logger.log("Pushing data to Data sheet...");
-
-    let dSheetData = allSheetData.data;
-    dSheetData.insertData(missionData);
-
-    Logger.log("Finished pushing to Data sheet.");
-}
-
-
 
 
 /**
-  * Unimplemented
-  */
+ * Unimplemented
+ */
 function pushErrorMessages() {
     //TODO pushErrorMessages()
     console.info("TODO: implement pushErrorMessages()");
