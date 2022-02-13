@@ -2,49 +2,6 @@
 // Shortcut functions just to make full-system testing from GAS easier
 
 
-/**
- * A private function.
- */
-function a_aPrivateFunction_() {
-    //do stuff
-}
-
-//An undocumented function.
-function a_anUndoccedFunction_() {
-    //do stuff
-}
-
-/**
- * A documented function.
- */
-function a_aDoccedFunction_() {
-    //do stuff
-}
-
-/*
- * A singly documented function.
- */
-function a_aSinglyDoccedFunction_() {
-    //do stuff
-}
-
-/***
- * A triply documented function.
- */
-function a_aTriplyDoccedFunction_() {
-    //do stuff
-}
-
-
-
-
-
-
-
-
-
-
-
 
 function run_updateDataSheet() {
     updateDataSheet();
