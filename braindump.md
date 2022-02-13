@@ -75,18 +75,25 @@ Explore any you're not sure about.
 
 ## updateDataSheet.js
 
-Contains all of the main dataFlow functions except refreshContacts and getLeadershipAreaData. These are:
+Contains all of the main dataFlow functions except refreshContacts and getLeadershipAreaData.
+
+The biggest things to know are about object formatting, and the first is areaData. I have a convention/object format all throughout dataFlow (that I should have turned into a class but never did) which I called areaData. It's basically just an object returned by sheetData.getData(), but reformatted slightly. getData() returns a list of area objects - in other words, an object keyed by index number, whose values are area objects. In areaData format, it's instead an object keyed by area ID, whose values are those same area objects. (The area objects still include areaID as a property, which might seem redundant, but it makes things nicer.) That format makes it easy to combine these area objects.
+
+The second is missionData. It's a single variable, which I intended to be the storage container for all the various areaData objects - they would each get merged into missionData until it contained everything I needed. I didn't know it at the time, since SheetData hadn't been written yet (this is bien old code), but it's exactly the same format as an object returned by getData().
+
+In effect: Each of the "getFromSomeSheet" functions calls getData() on the sheet, reformats it into areaData format so it's easier to manipulate, maybe adds a few calculated fields, and returns the result. Then mergeIntoMissionData() takes it and merges it into the previous missionData, lining up by ID and adding anything new, changing it back into SheetData format along the way. Finally, since it's already in the right format, I just call insertData(missionData). Which by the way replaced an entire pushIntoDataSheet() function, originally as long as any of the others are, with not just a single line of code, but a single function call.
+
+So yeah. I'm pretty sure someone who's a lot smarter than I am has been helping us along.
+
+### Main dataFlow Functions
 
 - updateDataSheet - The main, overarching function. This calls all the others.
-- pullFormData - Converts Form Response sheet data into areaData format... almost. Names the result missionData, which is a list rather than an object literal.
+- pullFormData - Converts Form Response sheet data into areaData format, then into missionData format, giving our inital value of missionData.
 - refreshContacts - see importContacts.js
 - getContactData - Converts Contact Data sheet data into areaData format.
 - getLeadershipAreaData - Converts Contact Data sheet data into areaData format. See missionOrgData.js
-- mergeIntoMissionData - Takes two objects in areaData format and combines them. Any properties (key strings) in either one will be present in the output. In case of differing values for the same key, I believe one is overridden
-- pushToDataSheet
-- pushErrorMessages
-
-I have a convention/format all throughout dataFlow (that I should have turned into a class but never did) of using objects keyed by areaID instead of lists of areas. I called objects in that format "area data" objects.
+- mergeIntoMissionData - Takes missionData and an object in areaData format and combines them, returning the new missionData. Any properties in either parameter will be present in the output. In the case of differing values for the same key in the same area, an error is thrown.
+- pushErrorMessages - Unimplemented. Probably deprecated anyway in favor of scheduler.js, but not sure yet.
 
 ## errorDetection.js
 
@@ -94,7 +101,7 @@ Not written yet. This might get decentralized throughout the various processes r
 
 ## accessControl.js
 
-g
+shareFileSystem()
 
 ## kic-config.js
 
