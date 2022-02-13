@@ -12,9 +12,9 @@ The getAreaID() function takes an area name and returns the current area ID for 
 
 ### markDuplicates.js
 
-g
+Contains functions relating to deduping the data sheet. IT HAS NOT YET BEEN UPDATED TO USE SHEETDATA PROPERLY.
 
-Potentially important note: since loadAreaIDs() only checks the contact data sheet, markDuplicates() fails sometimes for unrecognized historical records, so it wraps each in a try/catch. I believe only on areas not currently open, but it's probably worth double checking. That's because it just calls getAreaID() on the area name of the row, instead of just checking the area ID column, which is really dumb in hindsight but I never got around to fixing.
+Important TODO: since loadAreaIDs() only checks the contact data sheet (it used to check all historical data as well), markDuplicates fails sometimes (only for individual rows) on unrecognized historical records, so it wraps each in a try/catch. That's because it calls getAreaID() on the area name of the row instead of checking the area ID column, which is really dumb in hindsight but I never got around to fixing. It shouldn't need any references to getAreaID.
 
 ### missionOrgData.js
 
