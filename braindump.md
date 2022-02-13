@@ -4,11 +4,17 @@
 
 ### areaIDManager.js
 
-g
+Contains functions that manage area IDs. This is what I had to rewrite to fix the McAllen 1A bug.
+
+The loadAreaIDs() function pulls from the contact data sheet, calculates the area IDs for each of the area names it finds there, and stores them in the cache as an object keyed by area name.
+
+The getAreaID() function takes an area name and returns the current area ID for that area name. It uses the data from loadAreaIDs, which uses the Contact Data sheet, so of course it only returns IDs based on current area names; using it on historical data (like I'm doing in markDuplicates - that should really be fixed) is unreliable.
 
 ### markDuplicates.js
 
 g
+
+Potentially important note: since loadAreaIDs() only checks the contact data sheet, markDuplicates() fails sometimes for unrecognized historical records, so it wraps each in a try/catch. I believe only on areas not currently open, but it's probably worth double checking. That's because it just calls getAreaID() on the area name of the row, instead of just checking the area ID column, which is really dumb in hindsight but I never got around to fixing.
 
 ### missionOrgData.js
 

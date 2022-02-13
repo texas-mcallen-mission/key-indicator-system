@@ -3,6 +3,8 @@
   */
 function markDuplicates(allSheetData) {
     console.warn("TODO: markDuplicates() v2 not yet implemented");
+    //TODO: update markDuplicates using SheetData? Add limit to how far back it checks?
+    //TODO: get rid of getAreaID() calls, just use the areaID column
     markDuplicates_old(allSheetData);
 }
 

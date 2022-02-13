@@ -32,6 +32,7 @@ function getAreaID(allSheetData, areaName) {
 
 
 /**
+ * Calculates the area ID corresponding to each area name in the Contact Data sheet and stores it in the cache.
  * @param {*} allSheetData
  */
 function loadAreaIDs(allSheetData) {
