@@ -75,12 +75,14 @@ Explore any you're not sure about.
 
 ## updateDataSheet.js
 
-updateDataSheet
-pullFormData
-getContactData
-mergeIntoMissionData
-pushToDataSheetV2
-pushErrorMessages
+Contains all of the main dataFlow functions (except importContacts). These are:
+
+- updateDataSheet
+- pullFormData
+- getContactData
+- mergeIntoMissionData
+- pushToDataSheetV2
+- pushErrorMessages
 
 I have a convention/format all throughout dataFlow (that I should have turned into a class but never did) of using objects keyed by areaID instead of lists of areas. I called objects in that format "area data" objects.
 
