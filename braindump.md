@@ -75,12 +75,14 @@ Explore any you're not sure about.
 
 ## updateDataSheet.js
 
-Contains all of the main dataFlow functions (except importContacts). These are:
+Contains all of the main dataFlow functions except refreshContacts and getLeadershipAreaData. These are:
 
-- updateDataSheet
-- pullFormData
-- getContactData
-- mergeIntoMissionData
+- updateDataSheet - The main, overarching function. This calls all the others.
+- pullFormData - Converts Form Response sheet data into areaData format... almost. Names the result missionData, which is a list rather than an object literal.
+- refreshContacts - see importContacts.js
+- getContactData - Converts Contact Data sheet data into areaData format.
+- getLeadershipAreaData - Converts Contact Data sheet data into areaData format. See missionOrgData.js
+- mergeIntoMissionData - Takes two objects in areaData format and combines them. Any properties (key strings) in either one will be present in the output. In case of differing values for the same key, I believe one is overridden
 - pushToDataSheet
 - pushErrorMessages
 
