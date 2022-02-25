@@ -6,7 +6,7 @@ This guide will walk you through what you need to do to get your branch automati
 
 ## Step 1: Set up secrets
 
-*This has to be done from the `tmm-dev`account because it has ownership of the repository.*
+*This has to be done from an account that can access & modify repository secrets.*
 
 1. In the `key-indicator-system` respository, go to Settings > Secrets > Actions
 2. Click `New repository secret`
