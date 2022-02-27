@@ -13,9 +13,9 @@ function updateAllReports() {
     let allSheetData = constructSheetData()
 
     console.time("Total reportUpdate runtime");
-    updateAnyLevelReport_(allSheetData,reportLevel.zone)
-    updateAnyLevelReport_(allSheetData,reportLevel.dist)
-    updateAnyLevelReport_(allSheetData,reportLevel.area)
+    updateAnyLevelReport_(allSheetData,CONFIG.fileSystem_reportLevel.zone)
+    updateAnyLevelReport_(allSheetData,CONFIG.fileSystem_reportLevel.dist)
+    updateAnyLevelReport_(allSheetData,CONFIG.fileSystem_reportLevel.area)
 
     console.timeEnd("Total reportUpdate runtime");
 }
@@ -23,7 +23,7 @@ function updateAllReports() {
 function updateZoneReports() {
     let allSheetData = constructSheetData()
 
-    let reportScope = reportLevel.zone
+    let reportScope = CONFIG.fileSystem_reportLevel.zone
 
     updateAnyLevelReport_(allSheetData, reportScope)
 }
@@ -31,7 +31,7 @@ function updateZoneReports() {
 function updateDistrictReports() {
     let allSheetData = constructSheetData()
 
-    let reportScope = reportLevel.dist
+    let reportScope = CONFIG.fileSystem_reportLevel.dist
 
     updateAnyLevelReport_(allSheetData, reportScope)
 }
@@ -40,7 +40,7 @@ function updateAreaReports() {
     let allSheetData = constructSheetData()
 
 
-    let reportScope = reportLevel.area
+    let reportScope = CONFIG.fileSystem_reportLevel.area
 
     updateAnyLevelReport_(allSheetData, reportScope)
 }
@@ -52,13 +52,13 @@ function updateAnyLevelReport_(allSheetData, scope) {
     let reportScope = scope
     let filesysSheetData
     switch (reportScope) {
-      case CONFIG.fileSystem_reportLevel.area:
+      case CONFIG.fileSystem_CONFIG.fileSystem_reportLevel.area:
           sheetData = allSheetData.areaFilesys
           return
-      case CONFIG.fileSystem_reportLevel.dist:
+      case CONFIG.fileSystem_CONFIG.fileSystem_reportLevel.dist:
           sheetData = allSheetData.distFilesys
           return
-      case CONFIG.fileSystem_reportLevel.zone:
+      case CONFIG.fileSystem_CONFIG.fileSystem_reportLevel.zone:
           sheetData = allSheetData.zoneFilesys
         default:
             throw "Invalid scope: '" + scope + "'"
@@ -102,13 +102,13 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     let keyName = ""
     switch (scope) {
 
-        case reportLevel.area:
+        case CONFIG.fileSystem_reportLevel.area:
             keyName = "areaName"
             break
-        case reportLevel.dist:
+        case CONFIG.fileSystem_reportLevel.dist:
             keyName = "district"
             break
-        case reportLevel.zone:
+        case CONFIG.fileSystem_reportLevel.zone:
             keyName = "zone"
             break
         default:
