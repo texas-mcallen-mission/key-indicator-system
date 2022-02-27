@@ -77,10 +77,10 @@ let CONFIG = {
 
   fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 
-  filesystem_log_existing_folders:false
+  filesystem_log_existing_folders:false,
   // logging
 
-  LOG_FILESYS: false, //TODO Update references
+  log_filesys: false, //TODO Update references
   fileSystem_log_update: false,
 
   fileSystem_log_fileShare: false,
