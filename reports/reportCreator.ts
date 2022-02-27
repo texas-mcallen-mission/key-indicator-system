@@ -2,7 +2,7 @@
 let HOTFIX_HEADERS = ["Folder Name String", "Parent Folder ID", "Zone Folder ID", "Sheet Report ID", "2nd Report ID (unimp)"];
 
 // TODO: PHASE THESE OUT!!!
-const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
+// const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
 const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
 const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
 
@@ -51,15 +51,19 @@ function updateAnyLevelReport_(allSheetData, scope) {
     console.time(reportUpdateTimer);
     let reportScope = scope;
     let filesysSheetData;
+    let templateID:string = ""
     switch (scope) {
         case CONFIG.fileSystem_reportLevel.area:
             filesysSheetData = allSheetData.areaFilesys;
+            templateID = CONFIG.reportCreator.docIDs.areaTemplate
             break;
         case CONFIG.fileSystem_reportLevel.dist:
             filesysSheetData = allSheetData.distFilesys;
+            templateID = CONFIG.reportCreator.docIDs.distTemplate
             break;
         case CONFIG.fileSystem_reportLevel.zone:
             filesysSheetData = allSheetData.zoneFilesys;
+            templateID = CONFIG.reportCreator.docIDs.zoneTemplate
             break
         // default:
         //     throw "Invalid scope: '" + scope + "'";
@@ -70,7 +74,7 @@ function updateAnyLevelReport_(allSheetData, scope) {
     let data = removeDupesAndPII_(kiDataObj);
     // I don't think I actually need contactData for this sub-system.  :)
     // ONCE DRIVEHANDLER has been rewritten to 
-    fullUpdateSingleLevel(filesysSheetData, data, zoneTemplateSpreadsheetId, reportScope, kiDataHeaders, dataKeys);
+    fullUpdateSingleLevel(filesysSheetData, data, templateID, reportScope, kiDataHeaders, dataKeys);
     let postRun = new Date;
     console.timeEnd(reportUpdateTimer);
     return true
@@ -124,7 +128,7 @@ function modifyTemplatesV2_(fsData, referenceData, scope: string, keyName: strin
         let targetWorksheet = SpreadsheetApp.openById(targetID);
         let outData = turnDataIntoArray(referenceData[entry.folderName], header, keyArray); // TODO- replace folderName with name once driveHandler has been rewritten
         // Logger.log(outData)
-        let dataSheetName = outputDataDumpSheetName; // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
+        let dataSheetName = CONFIG.; // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
         let configSheetName = configPageSheetName; // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
         let configPushData = [[entry.folderName, scope], ["Last Updated:", currentDate]]; // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
         let configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.

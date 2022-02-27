@@ -288,24 +288,13 @@ function updateFilesysV3_(
  */
 function createNewFolderV3_(parentFolderId, name) {
     // creates new folder in parent folder, and then returns that folder's ID.
-    // if (isFolderAccessible_(parentFolderId) == false) {
-    //   // this was basically  a workaround to make sure that I could create folders while the subdirectory handler wasn't implemented, but I stand by the design decision and it stays.  -JR 12/30/2021
-    //   if (functionGUBED == true) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
-    //   // Logger.log()
 
-    //   // let parentFolderID = DriveApp.getFolderById(getParentFolderID_())
-    //   let newFolderID = parentFolderID.createFolder(name).getId()
-    //   return newFolderID
-    // } else {
     Logger.log(parentFolderId);
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();
     if (CONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
     return newFolderID;
-
-    // }
-    //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
 }
 
 /*
