@@ -5,45 +5,53 @@
 // CLASP PIPING TEST
 
 function sendDataToDisplayV3_(header, finalData, sheet) {
+    let preDate = new Date
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     sheet.clearContents();
     sheet.appendRow(header);
     Logger.log(finalData.length);
-    Logger.log("adding Header");
+    if (CONFIG.commonLib.log_display_info) { Logger.log("adding Header"); }
     Logger.log(header);
     sheet.getRange(1, 1, 1, header.length).setValues([header]);
-    Logger.log("added header, adding data");
+    if (CONFIG.commonLib.log_display_info) { Logger.log("added header, adding data"); }
     if (finalData.length == 0 || typeof finalData == null) {
         Logger.log("no data, skipping");
         return;
     } else {
         sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData);
-        Logger.log("Data added, sorting");
+        if (CONFIG.commonLib.log_display_info) { Logger.log("Data added, sorting"); }
         sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
         // Logger.log("data added")
     }
-
+    let postDate = new Date
+    if (CONFIG.commonLib.log_time_taken) {
+        console.log("Total duration of report display: ", postDate.getMilliseconds() - preDate.getMilliseconds());
+    }
 }
 
 function sendReportToDisplayV3_(header, finalData, sheet) {
+    let preDate = new Date
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     sheet.clearContents();
     // sheet.appendRow(header);
     // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { Logger.log(finalData.length); }
-    Logger.log("adding Header");
+    if (CONFIG.commonLib.log_display_info) { Logger.log("adding Header"); }
     sheet.getRange(2, 1, 1, header.length).setValues([header]);
-    Logger.log("added header, adding data");
-    if (finalData == null) {
-        Logger.log("no data, skipping");
+    if (CONFIG.commonLib.log_display_info) {Logger.log("added header, adding data");}
+        if (finalData == null) {
+            if (CONFIG.commonLib.log_display_info_extended) { Logger.log("no data, skipping"); }
         return;
     }
     let prepredate = new Date
     sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData);
-    Logger.log("data added, sorting");
-    let preDate = new Date
+    if (CONFIG.commonLib.log_display_info) {
+        Logger.log("data added, sorting");
+    }
     sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
     let postDate = new Date
-    console.log("Adding Data: ",preDate.getMilliseconds() - prepredate.getMilliseconds(), "ms, Sorting Data: ",postDate.getMilliseconds()-preDate.getMilliseconds())
+    if (CONFIG.commonLib.log_time_taken) {
+        console.log("Total duration of report display: ", postDate.getMilliseconds() - preDate.getMilliseconds());
+    }
     // going to run this one more time without a flush to see what happens when this changes.
     // SpreadsheetApp.flush()
     // Logger.log("data added")
@@ -64,12 +72,12 @@ function isFolderAccessible_(folderID:string) {
     } catch (e) {
         output = false;
         gone = true;
-        Logger.log("Folder deleted with ID " + folderID);
+        if (CONFIG.commonLib.log_access_info) { Logger.log("Folder deleted with ID " + folderID); }
     }
     if (gone == false) {
         //@ts-ignore
         if (folder.isTrashed() == true) {
-            Logger.log("folder exists but in the bin");
+            if (CONFIG.commonLib.log_access_info) { Logger.log("folder exists but in the bin"); }
             output = false;
         }
     }
@@ -90,13 +98,13 @@ function isFileAccessible_(fileID: string) {
     } catch (e) {
     output = false;
     gone = true;
-    Logger.log("File deleted with ID " + fileID);
+        if (CONFIG.commonLib.log_access_info) { Logger.log("File deleted with ID " + fileID); }
 
     }
     if (gone == false) {
     //@ts-ignore
         if (file.isTrashed() == true) {
-            Logger.log("file exists but in the bin");
+            if (CONFIG.commonLib.log_access_info) { Logger.log("file exists but in the bin"); }
             output = false;
         }
     }

@@ -60,7 +60,12 @@ let CONFIG =
 
     dataFlow_maxRowToMarkDuplicates: 500,  //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
-
+    commonLib: {
+        log_access_info: false,
+        log_display_info: false,
+        log_display_info_extended: false,
+        log_time_taken:true
+    },
 
     // fileSystem
 
