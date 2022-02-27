@@ -14,9 +14,9 @@ let CONFIG = {
 
   reportCreator: {
     docIDs: {
-      zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
-      distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
-      areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
+      zoneTemplate: "1QqT4HTFzks-5NUQEhylZUN2G90oFA2SrHyCe1X_3Tfw",
+      distTemplate: "1EXiF2wswaRc83YNt0goZ1WWgtuaVnW4KoYSXPIfGfcc",
+      areaTemplate: "1TLAo1myW6fNUnWyo_RLBpl1gLq8hW8RqXyK91V_Uu2g",
     },
     outputDataSheetName: "Data",
     configPageSheetName: "config",
@@ -77,7 +77,7 @@ let CONFIG = {
 
   fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 
-  filesystem_log_existing_folders:false,
+  filesystem_log_existing_folders: false,
   // logging
 
   log_filesys: false, //TODO Update references
