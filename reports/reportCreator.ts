@@ -1,4 +1,3 @@
-// Compiled using undefined undefined (TypeScript 4.5.5)
 //@ts-check
 let HOTFIX_HEADERS = ["Folder Name String", "Parent Folder ID", "Zone Folder ID", "Sheet Report ID", "2nd Report ID (unimp)"];
 

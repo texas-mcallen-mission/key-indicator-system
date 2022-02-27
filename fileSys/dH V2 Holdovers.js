@@ -65,97 +65,97 @@
 //       sendDataToDisplayV3_(fsHeader, verifiedData, dataSheet);
 //     }
 //   }
+// // }
+
+// function loadFSIntoObject_(data) {
+//   let name = [];
+//   let emails = [];
+//   let parentFolderIDs = [];
+//   let childFolderIDs = [];
+//   let sheetsIDs = [];
+
+//   for (let item of data) {
+//     name.push(item[0]);
+//     let email = [];
+//     Logger.log([item[1], item[2]]);
+//     email.push(item[5]);
+//     email.push(item[6]);
+//     emails.push(email);
+//     let folders = [];
+//     let parentFolderID = item[1];
+//     let folderID = item[2];
+//     parentFolderIDs.push(item[1]);
+//     childFolderIDs.push(item[2]);
+//     // folders.push(item[1])
+//     // folders.push(item[2])
+//     // folderIDs.push(folders)
+//     let sheetIDs = [];
+//     sheetIDs.push(item[3]);
+//     sheetIDs.push(item[4]);
+//     sheetsIDs.push(sheetIDs);
+//   }
+
+//   return {
+//     name: name,
+//     emails: emails,
+//     pFolderID: parentFolderIDs,
+//     cFolderID: childFolderIDs,
+//     // folderIDs,folderIDs,
+//     sheetsIDs: sheetsIDs
+//   };
 // }
 
-function loadFSIntoObject_(data) {
-  let name = [];
-  let emails = [];
-  let parentFolderIDs = [];
-  let childFolderIDs = [];
-  let sheetsIDs = [];
+// function loadFSObjectIntoData_(fsObject) {
+//   let output = [];
+//   for (let i = 0; i < fsObject.name.length; i++) {
+//     let outputPrototype = [fsObject.name[i]];
 
-  for (let item of data) {
-    name.push(item[0]);
-    let email = [];
-    Logger.log([item[1], item[2]]);
-    email.push(item[5]);
-    email.push(item[6]);
-    emails.push(email);
-    let folders = [];
-    let parentFolderID = item[1];
-    let folderID = item[2];
-    parentFolderIDs.push(item[1]);
-    childFolderIDs.push(item[2]);
-    // folders.push(item[1])
-    // folders.push(item[2])
-    // folderIDs.push(folders)
-    let sheetIDs = [];
-    sheetIDs.push(item[3]);
-    sheetIDs.push(item[4]);
-    sheetsIDs.push(sheetIDs);
-  }
+//     outputPrototype.push(fsObject.pFolderID);
+//     outputPrototype.push(fsObject.cFolderID);
+//     let reportSheets = fsObject.sheetsIDs[i];
+//     if (typeof reportSheets == "string") {
+//       outputPrototype.push(reportSheets);
+//     } else {
+//       for (let sheet of reportSheets) {
+//         outputPrototype.push(sheet);
+//       }
+//     }
+//     let emails = fsObject.emails[i];
+//     if (typeof emails == "string") {
+//       outputPrototype.push(emails);
+//     } else {
+//       for (let email of emails) {
+//         outputPrototype.push(email);
+//       }
+//     }
 
-  return {
-    name: name,
-    emails: emails,
-    pFolderID: parentFolderIDs,
-    cFolderID: childFolderIDs,
-    // folderIDs,folderIDs,
-    sheetsIDs: sheetsIDs
-  };
-}
+//     output.push(outputPrototype);
+//   }
+//   return output;
+// } // Irrelevant in V3, because there's a METHOD that does that for me.  :)
 
-function loadFSObjectIntoData_(fsObject) {
-  let output = [];
-  for (let i = 0; i < fsObject.name.length; i++) {
-    let outputPrototype = [fsObject.name[i]];
+// function createNewFolder_(parentFolderId, name) {
 
-    outputPrototype.push(fsObject.pFolderID);
-    outputPrototype.push(fsObject.cFolderID);
-    let reportSheets = fsObject.sheetsIDs[i];
-    if (typeof reportSheets == "string") {
-      outputPrototype.push(reportSheets);
-    } else {
-      for (let sheet of reportSheets) {
-        outputPrototype.push(sheet);
-      }
-    }
-    let emails = fsObject.emails[i];
-    if (typeof emails == "string") {
-      outputPrototype.push(emails);
-    } else {
-      for (let email of emails) {
-        outputPrototype.push(email);
-      }
-    }
-
-    output.push(outputPrototype);
-  }
-  return output;
-} // Irrelevant in V3, because there's a METHOD that does that for me.  :)
-
-function createNewFolder_(parentFolderId, name) {
-
-    // creates new folder in parent folder, and then returns that folder's ID.
-    if (isFolderAccessible_(parentFolderId) == false) {
-        if (CONFIG.LOG_FILESYS) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]); }
-        // Logger.log()
+//     // creates new folder in parent folder, and then returns that folder's ID.
+//     if (isFolderAccessible_(parentFolderId) == false) {
+//         if (CONFIG.LOG_FILESYS) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]); }
+//         // Logger.log()
 
     
-    // Logger.log()
+//     // Logger.log()
 
-    let parentFolderID = DriveApp.getFolderById(getParentFolderID_());
-    let newFolderID = parentFolderID.createFolder(name).getId();
-    return newFolderID;
-    } else {
-    let parentFolder = DriveApp.getFolderById(parentFolderId);
-    let newFolder = parentFolder.createFolder(name);
-    let newFolderID = newFolder.getId();
-    if (CONFIG.LOG_FILESYS) {Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID])}
-    return newFolderID;
-    }
-  //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
-}
+//     let parentFolderID = DriveApp.getFolderById(getParentFolderID_());
+//     let newFolderID = parentFolderID.createFolder(name).getId();
+//     return newFolderID;
+//     } else {
+//     let parentFolder = DriveApp.getFolderById(parentFolderId);
+//     let newFolder = parentFolder.createFolder(name);
+//     let newFolderID = newFolder.getId();
+//     if (CONFIG.LOG_FILESYS) {Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID])}
+//     return newFolderID;
+//     }
+//   //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
+// }
 
 // function sendDataToDisplayV3_(header, finalData, sheet) {
 //   // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
@@ -188,72 +188,74 @@ function createNewFolder_(parentFolderId, name) {
 //   // Logger.log("data added")
 // }
 
-function getUniqueFromPositionAndReturnArray_(gimmeDatArray, position) {
-  // this does the same thing as above, but keeps me from needing to iterate through everything twice.
-  let uniqueDataFromPosition = [];
-  let uniqueData = [];
-  for (let i = 0; i < gimmeDatArray.length; i++) {
-    if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
-      uniqueData.push(gimmeDatArray[i]);
-      uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
-    }
-  }
-  return {
-    testForStringArray: uniqueDataFromPosition,
-    uniquedData: uniqueData
-  };
-}
+// function getUniqueFromPositionAndReturnArray_(gimmeDatArray, position) {
+//   // this does the same thing as above, but keeps me from needing to iterate through everything twice.
+//   let uniqueDataFromPosition = [];
+//   let uniqueData = [];
+//   for (let i = 0; i < gimmeDatArray.length; i++) {
+//     if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
+//       uniqueData.push(gimmeDatArray[i]);
+//       uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
+//     }
+//   }
+//   return {
+//     testForStringArray: uniqueDataFromPosition,
+//     uniquedData: uniqueData
+//   };
+// }
 
-function splitRelevantContactData_(contactDataArray) {
-  ///  let relevantContactDataHeader = ["Area Email","Area","District","Zone"]
-  // for the big fat lookup function, whooooo
-  let areaEmail = [];
-  let area = [];
-  let district = [];
-  let zone = [];
-  for (let contact of contactDataArray) {
-    areaEmail.push(contact[0]);
-    area.push(contact[1]);
-    district.push(contact[2]);
-    zone.push(contact[3]);
-    // role1.push(contact[4])
-    // role2.push(contact[7])
-    // role3.push(contact[10])
-  }
-  return {
-    areaEmailAddress: areaEmail,
-    areaName: area,
-    districtName: district,
-    zoneName: zone,
-    // role1:role1,
-    // role2:role2,
-    // role3:role3
-  };
-}
+// function splitRelevantContactData_(contactDataArray) {
+//   ///  let relevantContactDataHeader = ["Area Email","Area","District","Zone"]
+//   // for the big fat lookup function, whooooo
+//   let areaEmail = [];
+//   let area = [];
+//   let district = [];
+//   let zone = [];
+//   for (let contact of contactDataArray) {
+//     areaEmail.push(contact[0]);
+//     area.push(contact[1]);
+//     district.push(contact[2]);
+//     zone.push(contact[3]);
+//     // role1.push(contact[4])
+//     // role2.push(contact[7])
+//     // role3.push(contact[10])
+//   }
+//   return {
+//     areaEmailAddress: areaEmail,
+//     areaName: area,
+//     districtName: district,
+//     zoneName: zone,
+//     // role1:role1,
+//     // role2:role2,
+//     // role3:role3
+//   };
+// }
 
-function splitParentData_(parentDataArray) {
-  let area = [];
-  let areaEmail = [];
-  let areaParentFolder = [];
-  let areaFolderID = [];
-  let documentID = [];
+// function splitParentData_(parentDataArray) {
+//   let area = [];
+//   let areaEmail = [];
+//   let areaParentFolder = [];
+//   let areaFolderID = [];
+//   let documentID = [];
 
-  for (let data of parentDataArray) {
-    area.push(data[0]);
-    areaEmail.push(data[1]);
-    areaParentFolder.push(data[2]);
-    areaFolderID.push(data[3]);
-    documentID.push(data[4]);
-  }
-  return {
-    parentArea: area,
-    parentEmail: areaEmail,
-    grandparentFolder: areaParentFolder,
-    parentFolder: areaFolderID,
-    parentDocID: documentID
-  };
-}
+//   for (let data of parentDataArray) {
+//     area.push(data[0]);
+//     areaEmail.push(data[1]);
+//     areaParentFolder.push(data[2]);
+//     areaFolderID.push(data[3]);
+//     documentID.push(data[4]);
+//   }
+//   return {
+//     parentArea: area,
+//     parentEmail: areaEmail,
+//     grandparentFolder: areaParentFolder,
+//     parentFolder: areaFolderID,
+//     parentDocID: documentID
+//   };
+// }
 
+
+// TODO MOVE
 function getParentFolderID_() {
   // from https://stackoverflow.com/questions/17582161/google-apps-spreadsheet-parents-folder-id
   let ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -264,6 +266,7 @@ function getParentFolderID_() {
   return folderinDrive;
 }
 
+// TODO MOVE
 function isSheetReal_(docID) {
   // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
   let output = true;
@@ -275,6 +278,7 @@ function isSheetReal_(docID) {
   return output;
 }
 
+// TODO MOVE OR UPDATE
 function getSheetOrSetUp_(sheetName, headerData) {
   let ss; //Get currently Active sheet
   ss = SpreadsheetApp.getActiveSpreadsheet();
