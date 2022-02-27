@@ -1,12 +1,4 @@
 //@ts-check
-let HOTFIX_HEADERS = ["Folder Name String", "Parent Folder ID", "Zone Folder ID", "Sheet Report ID", "2nd Report ID (unimp)"];
-
-// TODO: PHASE THESE OUT!!!
-// const zoneTemplateSpreadsheetId = "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs";
-const distTemplateSpreadsheetId = "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM";
-const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE";
-
-
 
 function debugTesting() {
     
@@ -55,15 +47,15 @@ function updateAnyLevelReport_(allSheetData, scope) {
     switch (scope) {
         case CONFIG.fileSystem_reportLevel.area:
             filesysSheetData = allSheetData.areaFilesys;
-            templateID = CONFIG.reportCreator.docIDs.areaTemplate
+            templateID = CONFIG.reportCreator.docIDs.areaTemplate;
             break;
         case CONFIG.fileSystem_reportLevel.dist:
             filesysSheetData = allSheetData.distFilesys;
-            templateID = CONFIG.reportCreator.docIDs.distTemplate
+            templateID = CONFIG.reportCreator.docIDs.distTemplate;
             break;
         case CONFIG.fileSystem_reportLevel.zone:
             filesysSheetData = allSheetData.zoneFilesys;
-            templateID = CONFIG.reportCreator.docIDs.zoneTemplate
+            templateID = CONFIG.reportCreator.docIDs.zoneTemplate;
             break
         // default:
         //     throw "Invalid scope: '" + scope + "'";
@@ -224,8 +216,6 @@ function splitDataByKey_(data, key:string) {
             //@ts-ignore
             allKeyValues.push(keyValue);
             dataByKey[keyValue] = [];
-            // TODO - where you left off:  This little bit right here is giving me some trouble- 
-            // TODO - if I can figure out how to add to a programatticaly defined array inside of an object I'll be super golden tho.
         }
         dataByKey[keyValue].push(entry);
 
