@@ -301,7 +301,7 @@ function silentShare(fileId, recipient) {
  */
 function silentShareToGroup(fileId, recipients) {
     if (CONFIG.fileSystem_log_fileShare)
-        Logger.log("Sharing file/folder '" + file.getName() + "' with " + recipients);
+        Logger.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
     
     for (let recipient of recipients) {
         silentShare(fileId, recipient);

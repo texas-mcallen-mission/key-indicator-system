@@ -31,13 +31,13 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
 
 }
 
-async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[]) {
+async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[]): Promise<any[]> {
     // TODO https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
     let currentDate = new Date();
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
     let complete = false
-    let promises = []
+    let promises:any[] = []
     for (let entry of fsData) {
         console.log("entry begin for ",entry.folderName) // TODO- replace folderName with name once driveHandler has been rewritten
         let targetID = entry.sheetID1
