@@ -293,7 +293,7 @@ function createNewFolderV3_(parentFolderId, name) {
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();
-    if (CONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
+    if (CONFIG.log_filesys) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
     return newFolderID;
 }
 
