@@ -185,11 +185,11 @@ function updateFS_getCreateFolderObj_(preData, name, parentFolder, scope) {
     // the code directly below this needs to get used in three scopes and is easily generalizable, so do it
     let folderObj;
     if (preData.names.includes(name + "" + scope) == true) {
-        Logger.log("Folder already exists for " + name + " " + scope);
+        if (CONFIG.filesystem_log_existing_folders) { Logger.log("Folder already exists for " + name + " " + scope); }
         let folderPosition = preData.names.indexOf(name);
         folderObj = preData.fileObjArray[folderPosition];
     } else if (preData.names.includes(name)) {
-        Logger.log("Folder already exists for " + name);
+        if (CONFIG.filesystem_log_existing_folders) { Logger.log("Folder already exists for " + name); }
         let folderPosition = preData.names.indexOf(name);
         folderObj = preData.fileObjArray[folderPosition];
     } else {
@@ -252,8 +252,7 @@ function updateFilesysV3_(
             CONFIG.fileSystem_reportLevel.zone
         );
         zFolderObjs.push(zFolderObj);
-        Logger.log(orgData[zone]);
-        Logger.log(zFolderObj);
+        console.log(orgData[zone],"-",zFolderObj);
 
         for (let district in orgData[zone]) {
             Logger.log(district);

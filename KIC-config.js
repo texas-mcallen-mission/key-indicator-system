@@ -8,19 +8,19 @@ let CONFIG = {
 
   docIds_kicFormId: "1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
-//   docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs", //TODO No references - remove?
-//   docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM", //TODO No references - remove?
-//   docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE", //TODO No references - remove?
+  //   docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs", //TODO No references - remove?
+  //   docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM", //TODO No references - remove?
+  //   docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE", //TODO No references - remove?
 
   reportCreator: {
     docIDs: {
       zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs",
       distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM",
       areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE",
-      },
-      outputDataSheetName: "Data",
-      configPageSheetName: "config",
-      kicDataStoreSheetName: "Data"
+    },
+    outputDataSheetName: "Data",
+    configPageSheetName: "config",
+    kicDataStoreSheetName: "Data",
   },
 
   // general
@@ -77,6 +77,7 @@ let CONFIG = {
 
   fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 
+  filesystem_log_existing_folders:false
   // logging
 
   LOG_FILESYS: false, //TODO Update references
