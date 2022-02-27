@@ -280,21 +280,29 @@ function removeDupesAndPII_(ki_sheetData):any[] {
     // -- actually maybe we'll do that one first because then the second one has a smaller data set?
     // first:  check to see if 
     let preDate = new Date;
+    let removedEntries = {}
     for (let entry of data) {
         // console.log("Pre-Modifications",entry)
         for (let property of listToHide) {
             entry[property] = "";
         }
         for (let exclusions of valuesToExclude) {
+            //@ts-ignore
+            removedEntries[exclusions[0]] = 0
             // loops through values we want to exclude and checks to see if they match or not. 
             // @ts-ignore
             if (entry[exclusions[0]] == exclusions[1]) {
-
-                console.log("removed entry for", entry["areaName"], "that matched rule for", exclusions[0]);
+                //@ts-ignore
+                removedEntries[exclusions[0]]++
             }
         }
         // console.log("Post-Mods",entry)
     }
+
+    for (let removalKey in removedEntries) {
+        Logger.log("Removed "&removedEntries[removalKey]&" entries that matched rule for "&removalKey)
+    }
+
     let postDate = new Date;
     let durationInMillis = postDate.getTime() - preDate.getTime();
     console.log("Scoping Data- Time Started: ", preDate, "Time Finished:", postDate, "Duration: ", durationInMillis, "ms");
