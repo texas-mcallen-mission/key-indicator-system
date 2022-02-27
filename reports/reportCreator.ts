@@ -9,6 +9,14 @@ const areaTemplateSpreadsheetId = "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE"
 
 
 
+function debugTesting() {
+    
+    Logger.log("Running updateFS")
+    updateFS()
+    Logger.log("running updateZoneReports")
+    updateZoneReports()
+}
+
 
 function updateAllReports() {
     let allSheetData = constructSheetData();
