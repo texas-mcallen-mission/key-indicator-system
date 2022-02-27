@@ -17,7 +17,6 @@
  */
 function getAreaID(allSheetData, areaName) {
     let cache = CacheService.getDocumentCache();
-    //@ts-ignore
     let areaIDs_JSONString = cache.get(CONFIG.dataFlow_areaId_cacheKey);
 
     let areaIDs = areaIDs_JSONString == null
@@ -46,20 +45,18 @@ function loadAreaIDs(allSheetData) {
     let areaIDs = {};
 
     let cache = CacheService.getDocumentCache();
-    //@ts-ignore
     cache.remove(CONFIG.dataFlow_areaId_cacheKey);
 
     for (let contactData of data) {
-        //@ts-ignore
+
         let areaName = contactData.areaName;
-        //@ts-ignore
         let areaEmail = contactData.areaEmail;
         let areaID = emailToID(areaEmail);
         areaIDs[areaName] = areaID;
     }
 
     let areaIDs_JSONString = JSON.stringify(areaIDs);
-    //@ts-ignore
+
     cache.put(CONFIG.dataFlow_areaId_cacheKey,
         areaIDs_JSONString,
         CONFIG.dataFlow_areaId_cacheExpirationLimit);

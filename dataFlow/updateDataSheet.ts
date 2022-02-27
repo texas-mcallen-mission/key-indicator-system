@@ -20,8 +20,8 @@
 function updateDataSheet() {
     Logger.log("BEGINNING UPDATE");
 
-    let allSheetData = constructSheetData();
-    if (CONFIG.dataFlow_forceAreaIdReloadOnUpdateDataSheet) loadAreaIDs(allSheetData); //Force a full recalculation
+    let allSheetData: any = constructSheetData();
+    if (CONFIG.dataFlow_forceAreaIdReloadOnUpdateDataSheet) { loadAreaIDs(allSheetData); } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
 
@@ -31,7 +31,7 @@ function updateDataSheet() {
         Logger.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
         return;
     }
-    // @ts-ignore
+    // former ignore
     refreshContacts(allSheetData);
 
     let contacts = getContactData(allSheetData);
@@ -213,9 +213,12 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
             newAreaData[key] = (!mHasKey && !sHasKey) ? "" : (mHasKey && !sHasKey) ? missionAreaData[key] : sourceAreaData[key];
 
         }
-
+        // this is a super weird one, probably only solvable by either getting rid of the hard reference to 
+        // @ts-ignore
         if (typeof newAreaData.log == 'undefined') newAreaData.log = {};
+        // @ts-ignore
         if (typeof newAreaData.log.merges == 'undefined') newAreaData.log.merges = {};
+        // @ts-ignore
         newAreaData.log.merges[sourceID] = mergeLog;
 
         newMissionData.push(newAreaData);
@@ -227,7 +230,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
 
-    function logNeither(key, areaID, areaName, sourceID) {
+    function logNeither(key, areaID, areaName, sourceID:any = ".") {
         console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + sourceID + "'");
     }
 

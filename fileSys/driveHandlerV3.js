@@ -125,7 +125,7 @@ function createFilesystemV3() {
     /*
       Elder Gerlek's Mission Org data thingy lets me do the triple-loop thingy the way I wanted to in the first place.
        All I've gotta do now is figure out how to iterate through it and check to see if a folder already exists
-      This function is written but untested as of 1/15/2022 5:25pm
+      This function is written but untested as of 1/15/2022 5:// former ignore
     */
 
     reportRootFolder = getOrCreateReportFolder();
@@ -139,7 +139,8 @@ function createFilesystemV3() {
     // let orgLeaderData = getMissionLeadershipData(contacts)
     // Logger.log(orgLeaderData)
 
-    //@ts-ignore
+    // this one can only really be gotten rid of by converting to typescript as well.
+    // @ts-ignore
     let orgData = getMissionOrgData(allSheetData);
 
     let zoneMeta = dataLoader_(allSheetData,

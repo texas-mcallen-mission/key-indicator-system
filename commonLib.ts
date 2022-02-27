@@ -75,7 +75,7 @@ function isFolderAccessible_(folderID:string) {
         if (CONFIG.commonLib.log_access_info) { Logger.log("Folder deleted with ID " + folderID); }
     }
     if (gone == false) {
-        //@ts-ignore
+        
         if (folder.isTrashed() == true) {
             if (CONFIG.commonLib.log_access_info) { Logger.log("folder exists but in the bin"); }
             output = false;
@@ -102,7 +102,6 @@ function isFileAccessible_(fileID: string) {
 
     }
     if (gone == false) {
-    //@ts-ignore
         if (file.isTrashed() == true) {
             if (CONFIG.commonLib.log_access_info) { Logger.log("file exists but in the bin"); }
             output = false;

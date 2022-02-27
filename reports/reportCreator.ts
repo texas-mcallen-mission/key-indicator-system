@@ -211,9 +211,9 @@ function splitDataByKey_(data, key:string) {
 
     for (let entry of data) {
         let keyValue = entry[key];
-        //@ts-ignore
+        //former ignore
         if (!allKeyValues.includes(keyValue)) {
-            //@ts-ignore
+            //former ignore
             allKeyValues.push(keyValue);
             dataByKey[keyValue] = [];
         }
@@ -246,11 +246,11 @@ function turnDataIntoArray(data, header:any[], keys:any[]):any[][] {
             let keyName = keys[keyPosition];
             let entryValue = entry[keyName];
             // console.log(entryValue)
-            // @ts-ignore
+            // former ignore
             line.push(entryValue);
         }
         count += 1;
-        //@ts-ignore
+        //former ignore
         output.push(line);
     }
     let postDate = new Date;
@@ -284,7 +284,7 @@ function removeDupesAndPII_(ki_sheetData):any[] {
             //@ts-ignore
             removedEntries[exclusions[0]] = 0
             // loops through values we want to exclude and checks to see if they match or not. 
-            // @ts-ignore
+            //@ts-ignore
             if (entry[exclusions[0]] == exclusions[1]) {
                 //@ts-ignore
                 removedEntries[exclusions[0]]++
