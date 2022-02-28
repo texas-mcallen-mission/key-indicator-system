@@ -1,4 +1,4 @@
-name: BERT-INSTANCE-2 - report-creator-rewrite
+name: BERT-INSTANCE-2 - report-creator-patch
 
 on:
   workflow_dispatch:
