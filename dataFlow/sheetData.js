@@ -266,7 +266,7 @@ class RawSheetData {
      * @returns The next column not assigned a key.
      */
     getNextFreeColumn_() {
-        // @ts-ignore
+        
         return this.indexToKey.length;
     }
 
@@ -288,7 +288,7 @@ class RawSheetData {
         this.getSheet().getRange(this.getHeaderRow() + 1, index + 1).setValue(header);
 
         this.keyToIndex[key] = index;
-        // @ts-ignore
+        
         this.indexToKey[index] = key;
     }
 
@@ -380,7 +380,7 @@ class RawSheetData {
         if (!this.hasIndex(index))
             throw "Couldn't get key from index: index '" + index + "' not defined in sheet '" + this.tabName + "'";
 
-        // @ts-ignore
+
         return this.indexToKey[index];
     }
 
@@ -393,7 +393,7 @@ class RawSheetData {
      */
     hasIndex(index) {
         if (typeof index == 'undefined') throw 'Tried to use undefined as an index';
-        // @ts-ignore
+
         return typeof this.indexToKey[index] != 'undefined';
     }
 
@@ -452,7 +452,7 @@ class RawSheetData {
 
             let rowObj = {};
             for (let i = 0; i < row.length; i++) {
-                // @ts-ignore
+
                 let key = this.indexToKey[i];
                 rowObj[key] = row[i];
             }
@@ -514,7 +514,7 @@ class RawSheetData {
             if (typeof arr[maxIndex] == 'undefined')
                 arr[maxIndex] = "";
 
-        // @ts-ignore
+
         for (let key of skippedKeys)
             Logger.log("Skipped key ${key} while pushing to sheet " + this.tabName + ". Sheet doesn't have that key");
 
@@ -662,7 +662,6 @@ class RawSheetData {
  */
 function getAllSheetDataFromCache() {
     let cache = CacheService.getDocumentCache();
-    // @ts-ignore
     let allSheetData_JSONString = cache.get(CONFIG.dataFlow_allSheetData_cacheKey);
     if (allSheetData_JSONString == null) {
         console.warn("Tried to pull allSheetData from the cache but nothing was saved there.");
@@ -704,7 +703,7 @@ function getAllSheetDataFromCache() {
 function cacheAllSheetData(allSheetData) {
     Logger.log('Caching allSheetData');
     let cache = CacheService.getDocumentCache();
-    // @ts-ignore
+    // former ignore
     cache.put(CONFIG.dataFlow_allSheetData_cacheKey,
         JSON.stringify(allSheetData),
         CONFIG.dataFlow_allSheetData_cacheExpirationLimit);
@@ -807,14 +806,14 @@ function buildIndexToKey_(allSheetData) {
  */
 function setSheetUp_(sheetData) {
     throw "UNIMPLEMENTED";
-    // @ts-ignore
-    // @ts-ignore
+    // former ignore
+    // former ignore
     let sheetName = sheetData.getTabName();
     let headers = sheetData.getHeaders();
 
     let ss = SpreadsheetApp.getActiveSpreadsheet();
-    // @ts-ignore
-    // @ts-ignore
+    // former ignore
+    // former ignore
     let ui = SpreadsheetApp.getUi();
 
     // Checks to see if the sheet exists or not.
@@ -822,7 +821,7 @@ function setSheetUp_(sheetData) {
     if (!sheet) {
         Logger.log("Sheet '" + sheetName + "' not found. Creating");
         sheet = ss.insertSheet(sheetName);
-        // @ts-ignore
+        // former ignore
         sheet.appendRow(headers);     // Creating Header
     }
 
@@ -859,7 +858,7 @@ function constructSheetData(force = false) {
     /*    Static properties and parameters     */
 
 
-    // @ts-ignore
+    // former ignore
     const KEY_FROM_HEADER = {     //NOT USED
         "Area Name": "areaName",
         "Status Log": "log",
@@ -1156,6 +1155,6 @@ function testSheetData() {
 
 function clearAllSheetDataCache() {
     let cache = CacheService.getDocumentCache();
-    // @ts-ignore
+    // former ignore
     cache.remove('allSheetData');
 }

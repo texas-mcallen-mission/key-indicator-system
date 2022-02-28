@@ -48,15 +48,15 @@ function loadAreaIDs(allSheetData) {
     cache.remove(CONFIG.dataFlow_areaId_cacheKey);
 
     for (let contactData of data) {
-        //@ts-ignore
+
         let areaName = contactData.areaName;
-        //@ts-ignore
         let areaEmail = contactData.areaEmail;
         let areaID = emailToID(areaEmail);
         areaIDs[areaName] = areaID;
     }
 
     let areaIDs_JSONString = JSON.stringify(areaIDs);
+
     cache.put(CONFIG.dataFlow_areaId_cacheKey,
         areaIDs_JSONString,
         CONFIG.dataFlow_areaId_cacheExpirationLimit);

@@ -125,7 +125,7 @@ function createFilesystemV3() {
     /*
       Elder Gerlek's Mission Org data thingy lets me do the triple-loop thingy the way I wanted to in the first place.
        All I've gotta do now is figure out how to iterate through it and check to see if a folder already exists
-      This function is written but untested as of 1/15/2022 5:25pm
+      This function is written but untested as of 1/15/2022 5:// former ignore
     */
 
     reportRootFolder = getOrCreateReportFolder();
@@ -139,7 +139,8 @@ function createFilesystemV3() {
     // let orgLeaderData = getMissionLeadershipData(contacts)
     // Logger.log(orgLeaderData)
 
-    //@ts-ignore
+    // this one can only really be gotten rid of by converting to typescript as well.
+    // @ts-ignore
     let orgData = getMissionOrgData(allSheetData);
 
     let zoneMeta = dataLoader_(allSheetData,
@@ -184,11 +185,11 @@ function updateFS_getCreateFolderObj_(preData, name, parentFolder, scope) {
     // the code directly below this needs to get used in three scopes and is easily generalizable, so do it
     let folderObj;
     if (preData.names.includes(name + "" + scope) == true) {
-        Logger.log("Folder already exists for " + name + " " + scope);
+        if (CONFIG.filesystem_log_existing_folders) { Logger.log("Folder already exists for " + name + " " + scope); }
         let folderPosition = preData.names.indexOf(name);
         folderObj = preData.fileObjArray[folderPosition];
     } else if (preData.names.includes(name)) {
-        Logger.log("Folder already exists for " + name);
+        if (CONFIG.filesystem_log_existing_folders) { Logger.log("Folder already exists for " + name); }
         let folderPosition = preData.names.indexOf(name);
         folderObj = preData.fileObjArray[folderPosition];
     } else {
@@ -251,8 +252,7 @@ function updateFilesysV3_(
             CONFIG.fileSystem_reportLevel.zone
         );
         zFolderObjs.push(zFolderObj);
-        Logger.log(orgData[zone]);
-        Logger.log(zFolderObj);
+        console.log(orgData[zone],"-",zFolderObj);
 
         for (let district in orgData[zone]) {
             Logger.log(district);
@@ -288,24 +288,13 @@ function updateFilesysV3_(
  */
 function createNewFolderV3_(parentFolderId, name) {
     // creates new folder in parent folder, and then returns that folder's ID.
-    // if (isFolderAccessible_(parentFolderId) == false) {
-    //   // this was basically  a workaround to make sure that I could create folders while the subdirectory handler wasn't implemented, but I stand by the design decision and it stays.  -JR 12/30/2021
-    //   if (functionGUBED == true) { Logger.log(["folder Doesn't exist!", DriveApp.getRootFolder(), parentFolderId]) }
-    //   // Logger.log()
 
-    //   // let parentFolderID = DriveApp.getFolderById(getParentFolderID_())
-    //   let newFolderID = parentFolderID.createFolder(name).getId()
-    //   return newFolderID
-    // } else {
     Logger.log(parentFolderId);
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();
-    if (CONFIG.LOG_FILESYS) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
+    if (CONFIG.log_filesys) { Logger.log(["FOLDER EXISTS", parentFolderId, newFolderID]); }
     return newFolderID;
-
-    // }
-    //return parentFolderId  // this was a test because my parent folder id's are kinda just junk strings right now.
 }
 
 /*

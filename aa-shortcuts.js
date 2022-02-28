@@ -9,7 +9,6 @@ function run_updateDataSheet() {
 
 function run_importContacts() {
     let allSheetData = constructSheetData();
-    // @ts-ignore
     importContacts(allSheetData);
 }
 
@@ -18,11 +17,8 @@ function run_shareFileSys() {
 }
 
 function run_updateReports() {
-    // @ts-ignore
     updateAreaReports();
-    // @ts-ignore
     updateDistrictReports();
-    // @ts-ignore
     updateZoneReports();
 }
 

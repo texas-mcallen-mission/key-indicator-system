@@ -3,7 +3,7 @@
 | Branch | Status |
 | --- | --- |
 | Main | [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) |
-| bert-instance-2 | [![BERT-INSTANCE-2 - ReportCreator-HOTFIX](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml) |
+| bert-instance-2 |[![BERT-INSTANCE-2 - ReportCreator-HOTFIX](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml) |
 | [tmm-dev/kic-release](https://github.com/tmm-dev/kic-release) | [![RELEASE](https://github.com/tmm-dev/kic-release/actions/workflows/main.yml/badge.svg)](https://github.com/tmm-dev/kic-release/actions/workflows/main.yml) |
 
 
