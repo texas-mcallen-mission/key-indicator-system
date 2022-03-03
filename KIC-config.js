@@ -31,7 +31,7 @@ let CONFIG = {
 
   // dataFlow
 
-  dataFlow_skipMarkingPulled: true, //Stops marking Form Responses as having been pulled into the data sheet
+  dataFlow_skipMarkingPulled: false, //Stops marking Form Responses as having been pulled into the data sheet
 
   dataFlow_skipMarkingDuplicates: false, //TODO Re-implement?
 
