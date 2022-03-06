@@ -160,3 +160,36 @@ function loadContactsIntoObj_(allSheetData) {
 }
 
 
+function getSheetDataWithHeader_(sheet) {
+  let dataRows = sheet.getDataRange().getValues();
+  let dataHeader = dataRows[0];
+
+  dataRows.shift();
+
+  return {
+    data: dataRows,
+    header: dataHeader,
+  };
+}
+
+function isSheetReal_(docID) {
+  // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
+  let output = true;
+  try {
+    SpreadsheetApp.openById(docID);
+  } catch (e) {
+    output = false;
+  }
+  return output;
+}
+
+function getUniqueFromPosition_(gimmeDatArray, position) {
+  // this does the same thing as above, but keeps me from needing to iterate through everything twice.
+  let uniqueDataFromPosition = [];
+  for (let i = 0; i < gimmeDatArray.length; i++) {
+    if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
+      uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
+    }
+  }
+  return uniqueDataFromPosition;
+}

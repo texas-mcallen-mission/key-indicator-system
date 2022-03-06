@@ -1,5 +1,5 @@
 GitLens - shows commit history and authorship details
 markdownlint - formatter (and format enforcer) for md files
 better comments - highlights comments with alerts, queries, and todos
-todo tree - lists todo comments in a file tree (and highlights them, but I like the better commments highlighting more)
+todo tree - lists todo comments in a file tree (and highlights them, but I like the better comments highlighting more)
 github pull requests and issues - just as useful as it sounds, though I'm still figuring out how it works

@@ -10,4 +10,4 @@ If you want to have a good place to cut your teeth on learning how to work with 
 
 ## notesParser, roleParser
 
-These are super basic, and should probably be rewritten as well.  They were originally broken out during the development back when we were solely using google's built-in appscript editor.
+These are super basic, and should probably be rewritten as well.  They were originally broken out during the development back when we were solely using google's built-in AppScript editor.

@@ -26,7 +26,7 @@ We use Google Forms to collect key indicator data- getting people to fill this o
 
 The data generated in this system is directly usable in Google's Data Studio, which allows you to create very nice, modern reports- and create new views very simply and elegantly.  (This is a Google-branded BI tool, and is incredibly powerful & useful.)
 
-You also have the ability to generate zone-, district- and area- reports right off the bat- The code in ``fileSys/`` creates a file structure in Google Drive that the code in ``reports/`` puts Google Sheets into, copied from templates.  This can also be automatically shared and is automatically updated.  The update process for area reports takes about 15-20 minutes for a mission with ~100 areas. 
+You also have the ability to generate zone-, district- and area- reports right off the bat- The code in ``fileSys/`` creates a file structure in Google Drive that the code in ``reports/`` puts Google Sheets into, copied from templates.  This can also be automatically shared and is automatically updated.  The update process for area reports takes between 15 to 25 minutes for a mission with ~100 areas.
 
 ## How do I get started?
 
@@ -38,4 +38,4 @@ Code pushed into the ``/main``  branch automatically pushes to ``Github Main Bra
 
 Special thanks to [https://github.com/ericanastas/deploy-google-app-script-action](https://github.com/ericanastas/deploy-google-app-script-action) for the pre-work to allow us to automatically get stuff from GitHub to Google!
 
-There is some extra stuff in [texas-mcallen-mission/HLA-code](https://github.com/texas-mcallen-mission/HLA-code) that does some 
+There is some extra stuff in [texas-mcallen-mission/HLA-code](https://github.com/texas-mcallen-mission/HLA-code) that does some other work that's specific to Data Studio.
