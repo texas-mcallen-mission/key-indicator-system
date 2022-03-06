@@ -10,7 +10,7 @@
 
 Tech Jargon: Serverless semi-autonomous push-based tracking system for key indicators for conversion and other mission statistics.
 
-Normal People Speak:  This is an alternative way to track key indicators for conversion & growth that runs in the cloud and doesn't have start-up costs other than time.
+Normal People Speak:  This is an alternative way to track key indicators for conversion & growth that runs in the cloud and doesn't have start-up (or operational!) costs other than time.
 
 ## Why do I care?
 
@@ -24,7 +24,7 @@ We use Google Forms to collect key indicator data- getting people to fill this o
 
 ### Report Generation
 
-The data generated in this system is directly usable in Google's Data Studio, which allows you to create very nice, modern reports- and create new views very simply and elegantly.  (This is essentially Google-branded BI.)
+The data generated in this system is directly usable in Google's Data Studio, which allows you to create very nice, modern reports- and create new views very simply and elegantly.  (This is a Google-branded BI tool, and is incredibly powerful & useful.)
 
 You also have the ability to generate zone-, district- and area- reports right off the bat- The code in ``fileSys/`` creates a file structure in Google Drive that the code in ``reports/`` puts Google Sheets into, copied from templates.  This can also be automatically shared and is automatically updated.  The update process for area reports takes about 15-20 minutes for a mission with ~100 areas. 
 
@@ -36,4 +36,6 @@ A more comprehensive guide on how to get started- as well as some stuff to make 
 
 Code pushed into the ``/main``  branch automatically pushes to ``Github Main Branch`` on ``script.google.com``
 
-Special thanks to <https://github.com/ericanastas/deploy-google-app-script-action> for the pre-work to allow us to automatically get stuff from GitHub to Google!
+Special thanks to [https://github.com/ericanastas/deploy-google-app-script-action](https://github.com/ericanastas/deploy-google-app-script-action) for the pre-work to allow us to automatically get stuff from GitHub to Google!
+
+There is some extra stuff in [texas-mcallen-mission/HLA-code](https://github.com/texas-mcallen-mission/HLA-code) that does some 
