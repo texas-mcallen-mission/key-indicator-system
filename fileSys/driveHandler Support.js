@@ -1,8 +1,11 @@
 //@ts-check
 // I basically built a better way to load contactData... Now all I have to to is modify the importContacts thingy to use this system..... That'll happen much later tho
 
+// a *lot* of this code should probably get rewritten if it's still used.
 
 function getOrCreateReportFolder() {
+    // still used in driveHandlerV3
+
     // looks for a folder named "Reports" in the folder this document is in or creates it, and returns a folderID for it.
     // ideally this function would let me have a reports folder that the filesystem generates inside of, but not sure what I need to do to get that working.
     // this is where I left off on 12/28/2021
@@ -31,6 +34,7 @@ function getOrCreateReportFolder() {
 }
 
 function createFilesysEntryV3_(name, parentFolder, scope) {
+    // still used in driveHandler V3
     /* This was originally going to have a lookup function in it, but Elder Gerlek convinced me to do nested for
      loops in the updateFilesys function instead (Honestly, it's a WAYYY better way to do it.)
     */
@@ -118,7 +122,7 @@ function loadContactsIntoObj_(allSheetData) {
     // THIS FUNCTION REQUIRES IMPORTCONTACTS TO WORK PROPERLY in order for this part to work at all
 
     for (let cl of cData) {
-
+        
         let compaData = [];
         let dateGenerated = cl[csd.getIndex("dateContactGenerated")];    // let dateGenerated = cl[csd.getIndex("dateContactGenerated")]
         let areaEmail = cl[csd.getIndex("areaEmail")];                   // let areaEmail = cl[csd.getIndex("areaEmail")]
