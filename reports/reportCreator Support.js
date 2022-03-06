@@ -26,6 +26,19 @@ function getReportFromOtherSource(sheetName, targetSpreadsheet) {
   return sheet;
 }
 
+function getSheetOrSetUp_(sheetName, headerData) {
+  let ss; //Get currently Active sheet
+  ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  // Checks to see if the sheet exists or not.
+  let sheet = ss.getSheetByName(sheetName);
+  if (!sheet) {
+    sheet = ss.insertSheet(sheetName);
+    sheet.appendRow(headerData); // Creating Header
+  }
+  return sheet;
+}
+
 function splitToDataStruct(filesysData) {
     // TODO No longer referenced.
   //Zone Name String, ZL Email, Parent Folder ID, Zone Folder ID, Document ID
