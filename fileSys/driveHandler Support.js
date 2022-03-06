@@ -109,6 +109,8 @@ class ContactObject {
 }
 
 function loadContactsIntoObj_(allSheetData) {
+    // no longer used.
+    console.warn("Hey, loadContactsIntoObj() should no longer be used.")
     let csd = allSheetData.contact; // contact sheet data
     let contactDataSheetName = csd.getTabName();
     let contactDataHeader = csd.getHeaders();
