@@ -14,6 +14,7 @@ let CONFIG = {
 
   reportCreator: {
     docIDs: {
+      // this should probably get modified so that it uses GitHub secrets instead of being hard-coded in here.
       zoneTemplate: "1QqT4HTFzks-5NUQEhylZUN2G90oFA2SrHyCe1X_3Tfw",
       distTemplate: "1EXiF2wswaRc83YNt0goZ1WWgtuaVnW4KoYSXPIfGfcc",
       areaTemplate: "1TLAo1myW6fNUnWyo_RLBpl1gLq8hW8RqXyK91V_Uu2g",
@@ -71,9 +72,7 @@ let CONFIG = {
 
   fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-  INCLUDE_SCOPE_IN_FOLDER_NAME: false,
-
-  fileSystem_includeScopeInFolderName: true,
+  fileSystem_includeScopeInFolderName: false, // this cannot be set to true until driveHandler includes both the folder name string and the areaname separately.
 
   fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 

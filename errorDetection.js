@@ -2,13 +2,12 @@
 /*
         errorDetection
         Handles error detecting, catching, handling, throwing, and reporting
-        WIP
+        Basically psuedo-coded and that's where we left off.
 */
 
 
 
 //TODO: Possible errors to catch
-
 
 //Form sheet - incorrect data entered
 /**
