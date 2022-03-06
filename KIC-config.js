@@ -95,7 +95,7 @@ let CONFIG = {
   // triggers
     triggers: {
         installable: {
-            onOpen: true
+            onOpen: true,
             onEdit: false // not currently used
         },
         timeBased: {
