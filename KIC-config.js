@@ -3,7 +3,8 @@
 KIC-config
 General and debugging configuration parameters
 */
-let CONFIG = {
+
+let INTERNAL_CONFIG = {
   // docIds
 
   docIds_kicFormId: "1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
@@ -14,9 +15,9 @@ let CONFIG = {
 
   reportCreator: {
     docIDs: {
-      zoneTemplate: "1QqT4HTFzks-5NUQEhylZUN2G90oFA2SrHyCe1X_3Tfw",
-      distTemplate: "1EXiF2wswaRc83YNt0goZ1WWgtuaVnW4KoYSXPIfGfcc",
-      areaTemplate: "1TLAo1myW6fNUnWyo_RLBpl1gLq8hW8RqXyK91V_Uu2g",
+      zoneTemplate: "ZONE TEMPLATE ID Goes Here",
+      distTemplate: "Stick a district template here, if ya want",
+      areaTemplate: "same as above, but for areas",
     },
     outputDataSheetName: "Data",
     configPageSheetName: "config",
@@ -71,8 +72,6 @@ let CONFIG = {
 
   fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-  INCLUDE_SCOPE_IN_FOLDER_NAME: false,
-
   fileSystem_includeScopeInFolderName: true,
 
   fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
@@ -116,3 +115,9 @@ let CONFIG = {
   triggers_menu_markDuplicates: true,
   triggers_menu_loadAreaIds: true,
 };
+
+// this combines the two objects together- the bottom ones overwrite the top ones.
+const CONFIG = {
+    ...INTERNAL_CONFIG,
+    ...GITHUB_SECRET_DATA
+}
