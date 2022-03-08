@@ -1,8 +1,11 @@
 //@ts-check
 // I basically built a better way to load contactData... Now all I have to to is modify the importContacts thingy to use this system..... That'll happen much later tho
 
+// a *lot* of this code should probably get rewritten if it's still used.
 
 function getOrCreateReportFolder() {
+    // still used in driveHandlerV3
+
     // looks for a folder named "Reports" in the folder this document is in or creates it, and returns a folderID for it.
     // ideally this function would let me have a reports folder that the filesystem generates inside of, but not sure what I need to do to get that working.
     // this is where I left off on 12/28/2021
@@ -31,14 +34,15 @@ function getOrCreateReportFolder() {
 }
 
 function createFilesysEntryV3_(name, parentFolder, scope) {
+    // still used in driveHandler V3
     /* This was originally going to have a lookup function in it, but Elder Gerlek convinced me to do nested for
      loops in the updateFilesys function instead (Honestly, it's a WAYYY better way to do it.)
     */
     let folderName = "";
-    if (CONFIG.INCLUDE_SCOPE_IN_FOLDER_NAME) {
-        folderName = name + " " + scope;
+    if (CONFIG.fileSystem_includeScopeInFolderName) {
+      folderName = name + " " + scope;
     } else {
-        folderName = name;
+      folderName = name;
     }
 
 
@@ -105,6 +109,8 @@ class ContactObject {
 }
 
 function loadContactsIntoObj_(allSheetData) {
+    // no longer used.
+    console.warn("Hey, loadContactsIntoObj() should no longer be used.")
     let csd = allSheetData.contact; // contact sheet data
     let contactDataSheetName = csd.getTabName();
     let contactDataHeader = csd.getHeaders();
@@ -118,7 +124,7 @@ function loadContactsIntoObj_(allSheetData) {
     // THIS FUNCTION REQUIRES IMPORTCONTACTS TO WORK PROPERLY in order for this part to work at all
 
     for (let cl of cData) {
-
+        
         let compaData = [];
         let dateGenerated = cl[csd.getIndex("dateContactGenerated")];    // let dateGenerated = cl[csd.getIndex("dateContactGenerated")]
         let areaEmail = cl[csd.getIndex("areaEmail")];                   // let areaEmail = cl[csd.getIndex("areaEmail")]
@@ -154,3 +160,36 @@ function loadContactsIntoObj_(allSheetData) {
 }
 
 
+function getSheetDataWithHeader_(sheet) {
+  let dataRows = sheet.getDataRange().getValues();
+  let dataHeader = dataRows[0];
+
+  dataRows.shift();
+
+  return {
+    data: dataRows,
+    header: dataHeader,
+  };
+}
+
+function isSheetReal_(docID) {
+  // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
+  let output = true;
+  try {
+    SpreadsheetApp.openById(docID);
+  } catch (e) {
+    output = false;
+  }
+  return output;
+}
+
+function getUniqueFromPosition_(gimmeDatArray, position) {
+  // this does the same thing as above, but keeps me from needing to iterate through everything twice.
+  let uniqueDataFromPosition = [];
+  for (let i = 0; i < gimmeDatArray.length; i++) {
+    if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
+      uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
+    }
+  }
+  return uniqueDataFromPosition;
+}

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     # CHANGE THIS TO REFERENCE THE BRANCH YOU WANT TO PUSH
-    branches: [report-creator-patch]
+    branches: [prerelease-cleanup]
   release:
     types: [published]
   # DO NOT TOUCH: this updates the authorization 
