@@ -3,21 +3,17 @@
 KIC-config
 General and debugging configuration parameters
 */
-let CONFIG = {
+
+let INTERNAL_CONFIG = {
   // docIds
-
-  docIds_kicFormId: "1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
-
-  //   docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs", //TODO No references - remove?
-  //   docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM", //TODO No references - remove?
-  //   docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE", //TODO No references - remove?
+    // TODO - THIS WHOLE DOCUMENT SHOULD GET SWITCHED TO module.whatever instead of module_whatever syntax
+  docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
   reportCreator: {
     docIDs: {
-      // this should probably get modified so that it uses GitHub secrets instead of being hard-coded in here.
-      zoneTemplate: "1QqT4HTFzks-5NUQEhylZUN2G90oFA2SrHyCe1X_3Tfw",
-      distTemplate: "1EXiF2wswaRc83YNt0goZ1WWgtuaVnW4KoYSXPIfGfcc",
-      areaTemplate: "1TLAo1myW6fNUnWyo_RLBpl1gLq8hW8RqXyK91V_Uu2g",
+      zoneTemplate: "ZONE TEMPLATE ID Goes Here",
+      distTemplate: "Stick a district template here, if ya want",
+      areaTemplate: "same as above, but for areas",
     },
     outputDataSheetName: "Data",
     configPageSheetName: "config",
@@ -121,3 +117,7 @@ let CONFIG = {
   },
 
 };
+
+// @ts-ignore
+var _ = lodash.load(); // For this to work in GAS, you'll have to add a reference to a external library & give the library the name lodash.
+const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA);

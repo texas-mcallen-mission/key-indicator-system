@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@types/google-apps-script": "^1.0.45",
-    "clasp": "^1.0.0"
+    "clasp": "^1.0.0",
+    "lodash": "^4.17.21"
   }
 }
