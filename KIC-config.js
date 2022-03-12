@@ -112,8 +112,6 @@ let INTERNAL_CONFIG = {
   triggers_menu_loadAreaIds: true,
 };
 
-// this combines the two objects together- the bottom ones overwrite the top ones.
-const CONFIG = {
-    ...INTERNAL_CONFIG,
-    ...GITHUB_SECRET_DATA
-}
+
+var _ = load();
+const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA);
