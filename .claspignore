@@ -6,3 +6,4 @@ node_modules/**
 docs/**
 .vscode/**
 .github/**
+deploy-data/**
