@@ -112,6 +112,6 @@ let INTERNAL_CONFIG = {
   triggers_menu_loadAreaIds: true,
 };
 
-
-var _ = load();
+// @ts-ignore
+var _ = lodash.load(); // For this to work in GAS, you'll have to add a reference to a external library & give the library the name lodash.
 const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA);
