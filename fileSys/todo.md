@@ -2,8 +2,8 @@
 
 ## Things I still need to do in this sprint or soon
 
-1. remove ``dh V2 Holdovers``
-2. Find everything referenced in more than one subsection and move it to commonLib
+1. remove ``dh V2 Holdovers`` - done
+2. Find everything referenced in more than one subsection and move it to commonLib - done?
 3. Move scriptID settings to config or utilize the newer action I created to maneuver the script ID's in github secrets
 4. Make copies of the templates for the demo folder
 5. Take this repository public?
