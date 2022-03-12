@@ -12,7 +12,7 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/.github/workflows/reusable.yml@main
+    uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/.github/workflows/reusable.yml@v2.1.0
     with:
       # Github repository information
       sha: ${{ github.sha }}
@@ -28,4 +28,4 @@ jobs:
       DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
       SCRIPT_ID: ${{ secrets.BERT_INSTANCE_2_SCRIPT_ID }}
       PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }}
-      CONFIG_DATA: ${{ secrets.MAIN_INSTANCE_CONFIG_JSON }}
+      CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }}

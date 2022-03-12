@@ -7,11 +7,7 @@ General and debugging configuration parameters
 let INTERNAL_CONFIG = {
   // docIds
 
-  docIds_kicFormId: "1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
-
-  //   docIds_zoneTemplate: "1dKCcClYsNNneA4ty4-EtWg_hJl7BZ-v8Gl-5uPogiHs", //TODO No references - remove?
-  //   docIds_distTemplate: "1-y8VnTOqbYiW11nGVVVaC4iNjWE7jOcP2sMFpdzvqTM", //TODO No references - remove?
-  //   docIds_areaTemplate: "1TcIlXOnnUr_eXrDLN94tf-DB2A7eqeFBl0-QeNGKXAE", //TODO No references - remove?
+  docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
   reportCreator: {
     docIDs: {
