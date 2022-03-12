@@ -20,8 +20,8 @@ function importContacts(allSheetData) {
 
 
 
-    if (CONFIG.dataFlow_freezeContactData) {
-        Logger.log("Execution halted - dataFlow_freezeContactData is set to true");
+    if (CONFIG.dataFlow.freezeContactData) {
+        Logger.log("Execution halted - dataFlow.freezeContactData is set to true");
         return;
     }
 

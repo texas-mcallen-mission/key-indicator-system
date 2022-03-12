@@ -6,7 +6,7 @@
 
 */
 
-// this has a ***TON*** of re-used segments in here, could totally get cleaned up a bit.
+
 
 
 
@@ -109,7 +109,7 @@ function updateZoneReports_TimeBasedTrigger() {
     updateZoneReports();
 }
 
-function shareFileSystem_TimeBasedTrigger() {
+function sharefileSystem_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running shareFileSystem() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.shareFileSystem) {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.shareFileSystem is set to false");

@@ -6,9 +6,8 @@ General and debugging configuration parameters
 
 let INTERNAL_CONFIG = {
   // docIds
-    // TODO - THIS WHOLE DOCUMENT SHOULD GET SWITCHED TO module.whatever instead of module_whatever syntax
-  docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
-
+	docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
+	
   reportCreator: {
     docIDs: {
       zoneTemplate: "ZONE TEMPLATE ID Goes Here",
@@ -28,32 +27,35 @@ let INTERNAL_CONFIG = {
 
   // dataFlow
 
-  dataFlow_skipMarkingPulled: false, //Stops marking Form Responses as having been pulled into the data sheet
+  dataFlow: {
+    forceAreaIdReloadOnUpdateDataSheet: false,
 
-  dataFlow_skipMarkingDuplicates: false, //TODO Re-implement?
+    areaId_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
 
-  dataFlow_freezeContactData: false,
+    areaId_cacheKey: "butterflies and clouds", //ID to use when storing areaIDs in the cache
 
-  dataFlow_formColumnsToExcludeFromDataSheet: [
-    "responsePulled",
-    "submissionEmail",
-  ],
+    allSheetData_cacheEnabled: true, //Cache allSheetData, the object returned by constructSheetData()
 
-  dataFlow_forceAreaIdReloadOnUpdateDataSheet: false,
+    allSheetData_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
 
-  dataFlow_areaId_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
+    allSheetData_cacheKey: "puppies and flowers", //ID to use when storing allSheetData in the cache
 
-  dataFlow_areaId_cacheKey: "butterflies and clouds", //ID to use when storing areaIDs in the cache
+    missionOrgData_cacheEnabled: false, //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
-  dataFlow_allSheetData_cacheEnabled: true, //Cache allSheetData, the object returned by constructSheetData()
+    maxRowToMarkDuplicates: 500, //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
-  dataFlow_allSheetData_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
+    log_importContacts: false,
+    log_dataMerge: false,
+    log_responsePulled: false,
+    log_duplicates: false,
+    skipMarkingPulled: false, //Stops marking Form Responses as having been pulled into the data sheet
 
-  dataFlow_allSheetData_cacheKey: "puppies and flowers", //ID to use when storing allSheetData in the cache
+    skipMarkingDuplicates: false, //TODO Re-implement?
 
-  dataFlow_missionOrgData_cacheEnabled: false, //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
+    freezeContactData: false,
 
-  dataFlow_maxRowToMarkDuplicates: 500, //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
+    formColumnsToExcludeFromDataSheet: ["responsePulled", "submissionEmail"],
+  },
 
   commonLib: {
     log_access_info: false, // if set to true, logger will tell you whether or not files are accessible
@@ -63,61 +65,62 @@ let INTERNAL_CONFIG = {
   },
 
   // fileSystem
+  fileSystem: {
+    reportLevel: { zone: "Zone", dist: "District", area: "Area" }, //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
 
-  fileSystem_reportLevel: { zone: "Zone", dist: "District", area: "Area" }, //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
+    updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-  fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
+    includeScopeInFolderName: true,
 
-  fileSystem_includeScopeInFolderName: false, // this cannot be set to true until driveHandler includes both the folder name string and the areaname separately.
+    freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 
-  fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
+    log_existing_folders: false,
 
-  filesystem_log_existing_folders: false,
-  // logging
+    log_filesys: false, //TODO Update references
+    log_update: false,
 
-  log_filesys: false, //TODO Update references
-  fileSystem_log_update: false,
+    log_fileShare: false,
 
-  fileSystem_log_fileShare: false,
-
-  LOG_OLD_sendReportToDisplayV3_: false, //TODO Update references
-  fileSystem_log_sendReportToDisplayV3_: false,
-
-  dataFlow_log_importContacts: false,
-  dataFlow_log_dataMerge: false,
-  dataFlow_log_responsePulled: false,
-  dataFlow_log_duplicates: false,
-
-  // triggers
-    triggers: {
-        installable: {
-            onOpen: true,
-            onEdit: false // not currently used
-        },
-        timeBased: {
-            updateForm: true,
-            updateDataSheet: true,
-            importContacts: true,
-            updateFileSystem: true,
-            updateAreaReports: true,
-            updateDistReports: true,
-            updateZoneReports: true,
-            shareFileSystem: true, // the default for this was false, now that accessControl has been finished, has been set to true.
-        },
-        menu: {
-            updateDataSheet: true,
-            updateFileSystem: false,
-            updateAreaReports: true,
-            updateDistReports: true,
-            updateZoneReports: true,
-            importContacts: true,
-            markDuplicates: true,
-            loadAreaIds: true,
-        }
+    LOG_OLD_sendReportToDisplayV3_: false, //TODO Update references
+    log_sendReportToDisplayV3_: false,
   },
 
+  // triggers
+	triggers: {
+		installable: {
+			onOpen: true,
+			onEdit: false, //Not currently used
+		},
+		timeBased: {
+			updateForm: true,
+			updateDataSheet: true,
+			importContacts: true,
+			updateFileSystem: true,
+			updateAreaReports: true,
+			updateDistReports: true,
+			updateZoneReports: true,
+			shareFileSystem: false,
+		},
+		menu: {
+			updateDataSheet: true,
+			updateFileSystem: false,
+			updateAreaReports: true,
+			updateDistReports: true,
+			updateZoneReports: true,
+			importContacts: true,
+			markDuplicates: true,
+			loadAreaIds: true,
+		}
+  }
 };
 
-// @ts-ignore
-var _ = lodash.load(); // For this to work in GAS, you'll have to add a reference to a external library & give the library the name lodash.
-const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA);
+// this combines the two objects together- the bottom ones overwrite the top ones.
+
+const OVERRIDE_SECRET_DATA = {}
+
+const CONFIG = {
+	...INTERNAL_CONFIG,
+	...GITHUB_SECRET_DATA,
+	...OVERRIDE_SECRET_DATA
+};
+

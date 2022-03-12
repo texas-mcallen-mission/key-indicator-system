@@ -10,7 +10,7 @@ function parseNotes(inputString) {
 
     var area = notesSplit[0].replace("Area: ", "").trim();
 
-    if (CONFIG.dataFlow_log_importContacts) Logger.log('Parsing notes for Contact: ' + area);
+    if (CONFIG.dataFlow.log_importContacts) Logger.log('Parsing notes for Contact: ' + area);
 
     var district = notesSplit[1].replace("District: ", "").trim();
     var zone = notesSplit[2].replace("Zone: ", "").trim();

@@ -3,8 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    # CHANGE THIS TO REFERENCE THE BRANCH YOU WANT TO PUSH
-    branches: [prerelease-cleanup]
+    branches: [update-config]
   release:
     types: [published]
   schedule:

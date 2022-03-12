@@ -62,7 +62,7 @@ function shareFileSystem() {
 
         let zoneOrgData = missionOrgData.zones[zoneName];
 
-        if (CONFIG.fileSystem_log_fileShare) Logger.log("Sharing folder for zone '" + zoneName + "'");
+        if (CONFIG.fileSystem.log_fileShare) Logger.log("Sharing folder for zone '" + zoneName + "'");
 
 
         //      Update folder access: zEmails, officeEmails
@@ -73,7 +73,7 @@ function shareFileSystem() {
         zEmails.push(zoneOrgData.zlArea.areaEmail);  //Add ZL area email
         if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail);  //Add STL area email if it exists
 
-        if (CONFIG.fileSystem_log_fileShare) Logger.log('zEmails: ' + zEmails);
+        if (CONFIG.fileSystem.log_fileShare) Logger.log('zEmails: ' + zEmails);
 
         //Remove old editors, then add new ones
         let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
@@ -89,10 +89,10 @@ function shareFileSystem() {
         silentShareToGroup(zoneFolderID, officeEmails);
 
         let editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
-        if (CONFIG.fileSystem_log_fileShare) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
+        if (CONFIG.fileSystem.log_fileShare) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
-        // if (CONFIG.fileSystem_updateSheetProtectionsOnLoad) {
+        // if (CONFIG.fileSystem.updateSheetProtectionsOnLoad) {
 
         //     //      Update Spreadsheet page protections: officeEmails only
 
@@ -105,7 +105,7 @@ function shareFileSystem() {
         //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
         //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
         //         );
-        //         if (CONFIG.fileSystem_log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+        //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
         //         for (let protection of protections) {
         //             for (let editor of protection.getEditors()) {
@@ -134,7 +134,7 @@ function shareFileSystem() {
             let distOrgData = zoneOrgData.districts[districtName];
 
 
-            if (CONFIG.fileSystem_log_fileShare) Logger.log("Sharing folder for district '" + districtName + "'");
+            if (CONFIG.fileSystem.log_fileShare) Logger.log("Sharing folder for district '" + districtName + "'");
 
 
             //      Update folder access: everyone with zone level access, plus the DL
@@ -159,7 +159,7 @@ function shareFileSystem() {
 
 
 
-            // if (CONFIG.fileSystem_updateSheetProtectionsOnLoad) {
+            // if (CONFIG.fileSystem.updateSheetProtectionsOnLoad) {
 
             //     //      Update Spreadsheet page protections: officeEmails only
 
@@ -170,7 +170,7 @@ function shareFileSystem() {
             //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
             //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
             //         );
-            //         if (CONFIG.fileSystem_log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+            //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
             //         for (let protection of protections) {
             //             for (let editor of protection.getEditors()) {
@@ -198,7 +198,7 @@ function shareFileSystem() {
                 let areaOrgData = distOrgData.areas[areaName];
 
 
-                if (CONFIG.fileSystem_log_fileShare) Logger.log('Sharing folder for area ' + areaName);
+                if (CONFIG.fileSystem.log_fileShare) Logger.log('Sharing folder for area ' + areaName);
 
 
                 //      Update folder access: everyone with zone or district level access, plus the area email
@@ -223,7 +223,7 @@ function shareFileSystem() {
 
 
 
-                // if (CONFIG.fileSystem_updateSheetProtectionsOnLoad) {
+                // if (CONFIG.fileSystem.updateSheetProtectionsOnLoad) {
                 //     //      Update Spreadsheet page protections: officeEmails only
 
 
@@ -234,7 +234,7 @@ function shareFileSystem() {
                 //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
                 //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
                 //         );
-                //         if (CONFIG.fileSystem_log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+                //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
 
                 //         for (let protection of protections) {
                 //             for (let editor of protection.getEditors()) {
@@ -303,7 +303,7 @@ function silentShare(fileId, recipient) {
  * @param {string} recipients - An array of email address of the users to add.
  */
 function silentShareToGroup(fileId, recipients) {
-    if (CONFIG.fileSystem_log_fileShare)
+    if (CONFIG.fileSystem.log_fileShare)
         Logger.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
     
     for (let recipient of recipients) {

@@ -26,8 +26,8 @@ function markDuplicates_old(allSheetData) { //                                  
     let maxRow = vals.length - 1;   //Used for bounds on the edit range
 
     //WARNING: this assumes header is on the top row
-    if (CONFIG.dataFlow_maxRowToMarkDuplicates > -1)
-        maxRow = Math.min(maxRow, CONFIG.dataFlow_maxRowToMarkDuplicates);
+    if (CONFIG.dataFlow.maxRowToMarkDuplicates > -1)
+        maxRow = Math.min(maxRow, CONFIG.dataFlow.maxRowToMarkDuplicates);
 
 
 
@@ -53,7 +53,7 @@ function markDuplicates_old(allSheetData) { //                                  
             log += '\nSkipping row';
             skippedRows.push(row);
 
-            if (CONFIG.dataFlow_log_duplicates) Logger.log(log);
+            if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
             continue;
         }
 
@@ -80,7 +80,7 @@ function markDuplicates_old(allSheetData) { //                                  
             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
 
             log += "\nFirst ocurrence, continuing.";
-            if (CONFIG.dataFlow_log_duplicates) Logger.log(log);
+            if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
             continue;
         }
 
@@ -117,7 +117,7 @@ function markDuplicates_old(allSheetData) { //                                  
             }
         }
 
-        if (CONFIG.dataFlow_log_duplicates) Logger.log(log);
+        if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
     }
 
     Logger.log("Finished pulling duplicate data. Pushing to sheet...");

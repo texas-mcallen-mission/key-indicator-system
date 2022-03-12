@@ -4,10 +4,10 @@
 
 1. [x] remove ``dh V2 Holdovers``
 2. [ ] Find everything referenced in more than one subsection and move it to commonLib
-3. [ ] Move scriptID settings to config or utilize the newer action I created to maneuver the script ID's in github secrets
+3. [x] Move scriptID settings to config or utilize the newer action I created to maneuver the script ID's in github secrets
 4. [ ] Make copies of the templates for the demo folder
 5. [ ] Take this repository public?
-6. [ ] Merge in the fancier version of the CI workflow from the other repo
+6. [x] Merge in the fancier version of the CI workflow from the other repo
 
 ## Stuff for the future
 
