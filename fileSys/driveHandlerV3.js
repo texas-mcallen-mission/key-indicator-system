@@ -19,11 +19,11 @@ function verifyFilesystem() {
     let allSheetData = constructSheetData();
     Logger.log("initializing filesystem");
     let zoneMeta = dataLoader_(allSheetData,
-        CONFIG.fileSystem_reportLevel.zone); //FYI: I newlined that manually so it's more readable; it's not a formatter thing. You can change it back if you want.
+        CONFIG.fileSystem.reportLevel.zone); //FYI: I newlined that manually so it's more readable; it's not a formatter thing. You can change it back if you want.
     let distMeta = dataLoader_(allSheetData,
-        CONFIG.fileSystem_reportLevel.dist);
+        CONFIG.fileSystem.reportLevel.dist);
     let areaMeta = dataLoader_(allSheetData,
-        CONFIG.fileSystem_reportLevel.area);
+        CONFIG.fileSystem.reportLevel.area);
 
     Logger.log("Beginning Verification");
     let zoneFSupdated = verifySingleFilesysV3_(zoneMeta.fsObj);
@@ -88,13 +88,13 @@ function dataLoader_(allSheetData, scope) {
     let sheetDataClass;
 
     switch (scope) {
-        case CONFIG.fileSystem_reportLevel.zone:
+        case CONFIG.fileSystem.reportLevel.zone:
             sheetDataClass = allSheetData.zoneFilesys;
             break;
-        case CONFIG.fileSystem_reportLevel.dist:
+        case CONFIG.fileSystem.reportLevel.dist:
             sheetDataClass = allSheetData.distFilesys;
             break;
-        case CONFIG.fileSystem_reportLevel.area:
+        case CONFIG.fileSystem.reportLevel.area:
             sheetDataClass = allSheetData.areaFilesys;
     }
     let sheetObj = sheetDataClass.getSheet();
@@ -144,11 +144,11 @@ function createFilesystemV3() {
     let orgData = getMissionOrgData(allSheetData);
 
     let zoneMeta = dataLoader_(allSheetData,
-        CONFIG.fileSystem_reportLevel.zone);
+        CONFIG.fileSystem.reportLevel.zone);
     let distMeta = dataLoader_(allSheetData,
-        CONFIG.fileSystem_reportLevel.dist);
+        CONFIG.fileSystem.reportLevel.dist);
     let areaMeta = dataLoader_(allSheetData,
-        CONFIG.fileSystem_reportLevel.area);
+        CONFIG.fileSystem.reportLevel.area);
 
     let returnedData = updateFilesysV3_(
         zoneMeta,
@@ -185,11 +185,11 @@ function updateFS_getCreateFolderObj_(preData, name, parentFolder, scope) {
     // the code directly below this needs to get used in three scopes and is easily generalizable, so do it
     let folderObj;
     if (preData.names.includes(name + "" + scope) == true) {
-        if (CONFIG.filesystem_log_existing_folders) { Logger.log("Folder already exists for " + name + " " + scope); }
+        if (CONFIG.fileSystem.log_existing_folders) { Logger.log("Folder already exists for " + name + " " + scope); }
         let folderPosition = preData.names.indexOf(name);
         folderObj = preData.fileObjArray[folderPosition];
     } else if (preData.names.includes(name)) {
-        if (CONFIG.filesystem_log_existing_folders) { Logger.log("Folder already exists for " + name); }
+        if (CONFIG.fileSystem.log_existing_folders) { Logger.log("Folder already exists for " + name); }
         let folderPosition = preData.names.indexOf(name);
         folderObj = preData.fileObjArray[folderPosition];
     } else {
@@ -230,7 +230,7 @@ function updateFilesysV3_(
 ) {
     // returns an array of filesys objects
 
-    // let zoneRequiredEntries = getRequiriedEntries_(contactInfo, CONFIG.fileSystem_reportLevel.zone)
+    // let zoneRequiredEntries = getRequiriedEntries_(contactInfo, CONFIG.fileSystem.reportLevel.zone)
 
     let anyUpdates = false;
     let preZoneData = zoneMetaObj.fsObj.length > 0 ? getFilesAndNames(zoneMetaObj.fsObj) : { names: [], fileObjArray: [] };
@@ -249,7 +249,7 @@ function updateFilesysV3_(
             preZoneData,
             zone,
             reportBaseFolder,
-            CONFIG.fileSystem_reportLevel.zone
+            CONFIG.fileSystem.reportLevel.zone
         );
         zFolderObjs.push(zFolderObj);
         console.log(orgData[zone],"-",zFolderObj);
@@ -260,7 +260,7 @@ function updateFilesysV3_(
                 preDistData,
                 district,
                 zFolderObj.folder,
-                CONFIG.fileSystem_reportLevel.dist
+                CONFIG.fileSystem.reportLevel.dist
             );
             dFolderObjs.push(dFolderObj);
             for (let area of orgData[zone][district]) {
@@ -268,7 +268,7 @@ function updateFilesysV3_(
                     preAreaData,
                     area,
                     dFolderObj.folder,
-                    CONFIG.fileSystem_reportLevel.area
+                    CONFIG.fileSystem.reportLevel.area
                 );
                 aFolderObjs.push(aFolderObj);
                 Logger.log(area);
@@ -307,13 +307,13 @@ function getRequiriedEntries_(contactInfo, scope) {
     for (let areaID in contactInfo) {
         let contactData = contactInfo[areaID];
         switch (scope) {
-            case CONFIG.fileSystem_reportLevel.zone:
+            case CONFIG.fileSystem.reportLevel.zone:
                 output.push(contactData.areaData.zone);
                 break;
-            case CONFIG.fileSystem_reportLevel.dist:
+            case CONFIG.fileSystem.reportLevel.dist:
                 output.push(contactData.areaData.district);
                 break;
-            case CONFIG.fileSystem_reportLevel.area:
+            case CONFIG.fileSystem.reportLevel.area:
                 output.push(contactData.areaData.areaName);
         }
     }

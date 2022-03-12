@@ -35,7 +35,7 @@ function createFilesysEntryV3_(name, parentFolder, scope) {
      loops in the updateFilesys function instead (Honestly, it's a WAYYY better way to do it.)
     */
     let folderName = "";
-    if (CONFIG.fileSystem_includeScopeInFolderName) {
+    if (CONFIG.fileSystem.includeScopeInFolderName) {
       folderName = name + " " + scope;
     } else {
       folderName = name;

@@ -12,21 +12,21 @@ function debugTesting() {
 function updateAllReports() {
     let allSheetData = constructSheetData();
     console.time("Total reportUpdate runtime");
-    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem_reportLevel.zone);
-    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem_reportLevel.dist);
-    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem_reportLevel.area);
+    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.zone);
+    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.dist);
+    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.area);
     console.timeEnd("Total reportUpdate runtime");
 }
 
 function updateZoneReports() {
     let allSheetData = constructSheetData();
-    let reportScope = CONFIG.fileSystem_reportLevel.zone;
+    let reportScope = CONFIG.fileSystem.reportLevel.zone;
     updateAnyLevelReport_(allSheetData, reportScope);
 }
 
 function updateDistrictReports() {
     let allSheetData = constructSheetData();
-    let reportScope = CONFIG.fileSystem_reportLevel.dist;
+    let reportScope = CONFIG.fileSystem.reportLevel.dist;
     Logger.log("running updateAnyLevelReport_")
     let test = updateAnyLevelReport_(allSheetData, reportScope);
     Logger.log("report updating should be done")
@@ -34,7 +34,7 @@ function updateDistrictReports() {
 
 function updateAreaReports() {
     let allSheetData = constructSheetData();
-    let reportScope = CONFIG.fileSystem_reportLevel.area;
+    let reportScope = CONFIG.fileSystem.reportLevel.area;
     let test = updateAnyLevelReport_(allSheetData, reportScope);
 }
 
@@ -45,15 +45,15 @@ function updateAnyLevelReport_(allSheetData, scope) {
     let filesysSheetData;
     let templateID:string = ""
     switch (scope) {
-        case CONFIG.fileSystem_reportLevel.area:
+        case CONFIG.fileSystem.reportLevel.area:
             filesysSheetData = allSheetData.areaFilesys;
             templateID = CONFIG.reportCreator.docIDs.areaTemplate;
             break;
-        case CONFIG.fileSystem_reportLevel.dist:
+        case CONFIG.fileSystem.reportLevel.dist:
             filesysSheetData = allSheetData.distFilesys;
             templateID = CONFIG.reportCreator.docIDs.distTemplate;
             break;
-        case CONFIG.fileSystem_reportLevel.zone:
+        case CONFIG.fileSystem.reportLevel.zone:
             filesysSheetData = allSheetData.zoneFilesys;
             templateID = CONFIG.reportCreator.docIDs.zoneTemplate;
             break
@@ -92,13 +92,13 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     Logger.log("filesystem should be up to date!");
     let keyName = "";
     switch (scope) {
-        case CONFIG.fileSystem_reportLevel.area:
+        case CONFIG.fileSystem.reportLevel.area:
             keyName = "areaName";
             break;
-        case CONFIG.fileSystem_reportLevel.dist:
+        case CONFIG.fileSystem.reportLevel.dist:
             keyName = "district";
             break;
-        case CONFIG.fileSystem_reportLevel.zone:
+        case CONFIG.fileSystem.reportLevel.zone:
             keyName = "zone";
             break;
         default:

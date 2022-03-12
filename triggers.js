@@ -14,8 +14,8 @@
 
 function onOpen_InstallableTrigger() {
     Logger.log("[TRIGGER] Running buildMenu() as an installable trigger()");
-    if (!CONFIG.triggers_installable_onOpen) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_installable_onOpen is set to false");
+    if (!CONFIG.triggers.installable.onOpen) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.installable.onOpen is set to false");
         return;
     }
     buildMenu();
@@ -45,8 +45,8 @@ function buildMenu() {
 
 function updateDataSheet_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_updateDataSheet) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_updateDataSheet is set to false");
+    if (!CONFIG.triggers.timeBased.updateDataSheet) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
         return;
     }
     updateDataSheet();
@@ -55,8 +55,8 @@ function updateDataSheet_TimeBasedTrigger() {
 function importContacts_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running importContacts() from a time-based trigger");
 
-    if (!CONFIG.triggers_timeBased_importContacts) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_importContacts is set to false");
+    if (!CONFIG.triggers.timeBased.importContacts) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.importContacts is set to false");
         return;
     }
     let allSheetData = constructSheetData();
@@ -65,8 +65,8 @@ function importContacts_TimeBasedTrigger() {
 
 function updateForm_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateForm() from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_updateForm) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_updateForm is set to false");
+    if (!CONFIG.triggers.timeBased.updateForm) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
     updateForm();
@@ -74,8 +74,8 @@ function updateForm_TimeBasedTrigger() {
 
 function updateFS_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateFS() from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_updateFileSystem) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_updateFileSystem is set to false");
+    if (!CONFIG.triggers.timeBased.updateFileSystem) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
         return;
     }
     verifyFilesystem();
@@ -84,8 +84,8 @@ function updateFS_TimeBasedTrigger() {
 
 function updateAreaReports_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateAreaReports from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_updateAreaReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_updateAreaReports is set to false");
+    if (!CONFIG.triggers.timeBased.updateAreaReports) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateAreaReports is set to false");
         return;
     }
     updateAreaReports();
@@ -93,8 +93,8 @@ function updateAreaReports_TimeBasedTrigger() {
 
 function updateDistrictReports_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateDistrictReports from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_updateDistReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_updateDistReports is set to false");
+    if (!CONFIG.triggers.timeBased.updateDistReports) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDistReports is set to false");
         return;
     }
     updateDistrictReports();
@@ -102,17 +102,17 @@ function updateDistrictReports_TimeBasedTrigger() {
 
 function updateZoneReports_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateZoneReports() from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_updateZoneReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_updateZoneReports is set to false");
+    if (!CONFIG.triggers.timeBased.updateZoneReports) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateZoneReports is set to false");
         return;
     }
     updateZoneReports();
 }
 
-function shareFileSystem_TimeBasedTrigger() {
+function sharefileSystem.TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running shareFileSystem() from a time-based trigger");
-    if (!CONFIG.triggers_timeBased_shareFileSystem) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_timeBased_shareFileSystem is set to false");
+    if (!CONFIG.triggers.timeBased.shareFileSystem) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.shareFileSystem is set to false");
         return;
     }
     shareFileSystem();
@@ -126,16 +126,16 @@ function shareFileSystem_TimeBasedTrigger() {
 
 function updateDataSheet_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateDataSheet() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_updateDataSheet) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_updateDataSheet is set to false");
+    if (!CONFIG.triggers.menu.updateDataSheet) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDataSheet is set to false");
         return;
     }
     updateDataSheet();
 }
 
 function updateFS_MenuTrigger_() {
-    if (!CONFIG.triggers_menu_updateFileSystem) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_updateFileSystem is set to false");
+    if (!CONFIG.triggers.menu.updateFileSystem) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateFileSystem is set to false");
         return;
     }
     Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu");
@@ -144,8 +144,8 @@ function updateFS_MenuTrigger_() {
 
 function updateAreaReports_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_updateAreaReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_updateAreaReports is set to false");
+    if (!CONFIG.triggers.menu.updateAreaReports) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateAreaReports is set to false");
         return;
     }
     updateAreaReports();
@@ -153,8 +153,8 @@ function updateAreaReports_MenuTrigger_() {
 
 function updateDistrictReports_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateDistrictReports() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_updateDistReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_updateDistReports is set to false");
+    if (!CONFIG.triggers.menu.updateDistReports) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDistReports is set to false");
         return;
     }
     updateDistrictReports();
@@ -162,8 +162,8 @@ function updateDistrictReports_MenuTrigger_() {
 
 function updateZoneReports_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateZoneReports() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_updateZoneReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_updateZoneReports is set to false");
+    if (!CONFIG.triggers.menu.updateZoneReports) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateZoneReports is set to false");
         return;
     }
     updateZoneReports();
@@ -171,8 +171,8 @@ function updateZoneReports_MenuTrigger_() {
 
 function importContacts_MenuTrigger_() {
     Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_importContacts) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_importContacts is set to false");
+    if (!CONFIG.triggers.menu.importContacts) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.importContacts is set to false");
         return;
     }
     let allSheetData = constructSheetData();
@@ -181,8 +181,8 @@ function importContacts_MenuTrigger_() {
 
 function markDuplicates_MenuTrigger_() {
     Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_markDuplicates) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_markDuplicates is set to false");
+    if (!CONFIG.triggers.menu.markDuplicates) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.markDuplicates is set to false");
         return;
     }
     let allSheetData = constructSheetData();
@@ -191,8 +191,8 @@ function markDuplicates_MenuTrigger_() {
 
 function loadAreaIDs_MenuTrigger_() {
     Logger.log("[TRIGGER] Running loadAreaIDs() from the Manual Commands menu");
-    if (!CONFIG.triggers_menu_loadAreaIds) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers_menu_loadAreaIds is set to false");
+    if (!CONFIG.triggers.menu.loadAreaIds) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.loadAreaIds is set to false");
         return;
     }
     let allSheetData = constructSheetData();

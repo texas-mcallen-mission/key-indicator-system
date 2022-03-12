@@ -17,7 +17,7 @@
  */
 function getAreaID(allSheetData, areaName) {
     let cache = CacheService.getDocumentCache();
-    let areaIDs_JSONString = cache.get(CONFIG.dataFlow_areaId_cacheKey);
+    let areaIDs_JSONString = cache.get(CONFIG.dataFlow.areaId_cacheKey);
 
     let areaIDs = areaIDs_JSONString == null
         ? loadAreaIDs(allSheetData)
@@ -45,7 +45,7 @@ function loadAreaIDs(allSheetData) {
     let areaIDs = {};
 
     let cache = CacheService.getDocumentCache();
-    cache.remove(CONFIG.dataFlow_areaId_cacheKey);
+    cache.remove(CONFIG.dataFlow.areaId_cacheKey);
 
     for (let contactData of data) {
 
@@ -57,9 +57,9 @@ function loadAreaIDs(allSheetData) {
 
     let areaIDs_JSONString = JSON.stringify(areaIDs);
 
-    cache.put(CONFIG.dataFlow_areaId_cacheKey,
+    cache.put(CONFIG.dataFlow.areaId_cacheKey,
         areaIDs_JSONString,
-        CONFIG.dataFlow_areaId_cacheExpirationLimit);
+        CONFIG.dataFlow.areaId_cacheExpirationLimit);
 
     console.timeEnd('Time loading areaIDs');
     return areaIDs;
