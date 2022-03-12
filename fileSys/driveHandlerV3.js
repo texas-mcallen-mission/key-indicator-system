@@ -181,8 +181,7 @@ function createFilesystemV3() {
  * @param {string} scope
  */
 function updateFS_getCreateFolderObj_(preData, name, parentFolder, scope) {
-    // WHERE YOU LEFT OFF:
-    // the code directly below this needs to get used in three scopes and is easily generalizable, so do it
+    
     let folderObj;
     if (preData.names.includes(name + "" + scope) == true) {
         if (CONFIG.fileSystem.log_existing_folders) { Logger.log("Folder already exists for " + name + " " + scope); }

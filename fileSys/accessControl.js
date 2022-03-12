@@ -7,9 +7,12 @@
  * Shares folders in the file structure with the appropriate area emails.
  * Pulls contact data from the Contacts sheet and file structure data from the Filesys sheets.
  */
+
+// written by @than2000
+
 function shareFileSystem() {
 
-    throw "Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission."
+    console.warn("Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission.")
 
     Logger.log('Beginning read/write file sharing...');
 

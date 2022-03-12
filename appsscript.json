@@ -1,5 +1,5 @@
 {
-    "timeZone": "Asia/Kolkata",
+    "timeZone": "America/New_York",
     "dependencies": {
         "enabledAdvancedServices": [
             {
@@ -23,6 +23,12 @@
                 "userSymbol": "OAuth2",
                 "libraryId": "1B7FSrk5Zi6L1rSxxTDgDEUsPzlukDsi4KGuTMorsTQHhGBzBkMun4iDF",
                 "version": "38"
+            },
+            {
+                "userSymbol": "lodash",
+                "version": "1",
+                "libraryId": "1cMT3fBZ9Ak0e6LMQRMtCJEJfDSKx0xpq6l-tJ9gy6jbrHzrUpyyt1JDc",
+                "developmentMode": false
             }
         ]
     },

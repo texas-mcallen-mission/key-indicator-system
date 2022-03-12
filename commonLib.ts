@@ -1,10 +1,8 @@
 //@ts-check
-// I'm going to compile the functions I've wound up using a lot here so that they're easier to find
-// created by Bert
-
-// CLASP PIPING TEST
+// Code snippets either common to several modules, or frequently reused in side projects.
 
 function sendDataToDisplayV3_(header, finalData, sheet) {
+    // TODO: *maybe* merge sendDataToDisplay & sendReportToDisplay into one function with a final pre-defined object argument for extra settings, ie start row & column, whether or not to clear out the whole sheet first, etc. 
     let preDate = new Date
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     sheet.clearContents();
@@ -112,6 +110,7 @@ function isFileAccessible_(fileID: string) {
 }
 
 function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
+    // TODO No longer referenced.
     //currently just for zones, but we'll change that once I know this thing actually works.
     let checkPosition = tagColumn; // for zones
     let tagList = getUniqueFromPosition_(referenceData, checkPosition);
@@ -135,6 +134,7 @@ function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
 }
 
 function splitDataByTag_(referenceData, tagColumn) {
+    // TODO No longer referenced.
     //currently just for zones, but we'll change that once I know this thing actually works.
     let checkPosition = tagColumn; // for zones
     let tagList = getUniqueFromPosition_(referenceData, checkPosition);
