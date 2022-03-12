@@ -68,7 +68,7 @@ let INTERNAL_CONFIG = {
 
   fileSystem_updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-  fileSystem_includeScopeInFolderName: true,
+  fileSystem_includeScopeInFolderName: false, // this cannot be set to true until driveHandler includes both the folder name string and the areaname separately.
 
   fileSystem_freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 
@@ -89,27 +89,33 @@ let INTERNAL_CONFIG = {
   dataFlow_log_duplicates: false,
 
   // triggers
+    triggers: {
+        installable: {
+            onOpen: true,
+            onEdit: false // not currently used
+        },
+        timeBased: {
+            updateForm: true,
+            updateDataSheet: true,
+            importContacts: true,
+            updateFileSystem: true,
+            updateAreaReports: true,
+            updateDistReports: true,
+            updateZoneReports: true,
+            shareFileSystem: true, // the default for this was false, now that accessControl has been finished, has been set to true.
+        },
+        menu: {
+            updateDataSheet: true,
+            updateFileSystem: false,
+            updateAreaReports: true,
+            updateDistReports: true,
+            updateZoneReports: true,
+            importContacts: true,
+            markDuplicates: true,
+            loadAreaIds: true,
+        }
+  },
 
-  triggers_installable_onOpen: true,
-  triggers_installable_onEdit: false, //Not currently used
-
-  triggers_timeBased_updateForm: true,
-  triggers_timeBased_updateDataSheet: true,
-  triggers_timeBased_importContacts: true,
-  triggers_timeBased_updateFileSystem: true,
-  triggers_timeBased_updateAreaReports: true,
-  triggers_timeBased_updateDistReports: true,
-  triggers_timeBased_updateZoneReports: true,
-  triggers_timeBased_shareFileSystem: false,
-
-  triggers_menu_updateDataSheet: true,
-  triggers_menu_updateFileSystem: false,
-  triggers_menu_updateAreaReports: true,
-  triggers_menu_updateDistReports: true,
-  triggers_menu_updateZoneReports: true,
-  triggers_menu_importContacts: true,
-  triggers_menu_markDuplicates: true,
-  triggers_menu_loadAreaIds: true,
 };
 
 // @ts-ignore

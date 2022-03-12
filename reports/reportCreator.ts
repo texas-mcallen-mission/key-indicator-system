@@ -10,6 +10,7 @@ function debugTesting() {
 
 
 function updateAllReports() {
+    console.warn("hey, running all three at the same time is probably not a good idea, it'll more than likely go past the execution time limits")
     let allSheetData = constructSheetData();
     console.time("Total reportUpdate runtime");
     updateAnyLevelReport_(allSheetData, CONFIG.fileSystem_reportLevel.zone);
@@ -111,6 +112,7 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
 
 }
 function modifyTemplatesV2_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[]) {
+    // TODO No longer referenced.  (Mind you, that's because it got switched to an async version)
     let currentDate = new Date();
 
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
@@ -141,6 +143,7 @@ function modifyTemplatesV2_(fsData, referenceData, scope: string, keyName: strin
 }
 
 function createTemplatesV2_(filesysObj, templateID: string): {} {
+    // TODO - this could probably get a minor speed improvement by switching to async execution.
     // This function creates copies of the template, and gives them names and moves them to the right spot.
     // returns a modified data object.
     let fsDataCopy = filesysObj.getData();
