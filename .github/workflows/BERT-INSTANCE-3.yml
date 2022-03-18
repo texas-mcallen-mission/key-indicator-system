@@ -1,4 +1,4 @@
-name: BERT-INSTANCE-2
+name: BERT-INSTANCE-3
 # Copy this one into your own repository- change up the things your secrets reference if necessary, and run!
 on:
   workflow_dispatch:
