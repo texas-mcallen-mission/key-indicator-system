@@ -116,11 +116,10 @@ let INTERNAL_CONFIG = {
 
 // this combines the two objects together- the bottom ones overwrite the top ones.
 
+var _ = lodash.load();
+wombo_combo = _.merge(obj1, obj2);
+
+// stick things here that you want to override your secret data- mostly for testing type things.
 const OVERRIDE_SECRET_DATA = {}
 
-const CONFIG = {
-	...INTERNAL_CONFIG,
-	...GITHUB_SECRET_DATA,
-	...OVERRIDE_SECRET_DATA
-};
-
+var CONFIG = _.merge(INTERNAL_CONFIG,GITHUB_SECRET_DATA,OVERRIDE_SECRET_DATA)
