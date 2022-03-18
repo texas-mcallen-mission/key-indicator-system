@@ -1015,8 +1015,8 @@ function constructSheetData(force = false) {
         bc: 10, //form data
         rca: 11, //form data
         rc: 12, //form data
-        cki: 13, //form data
-        serviceHrs: 14, //form data
+        cki: 14, //form data
+        serviceHrs: 13, //form data
 
         name1: 15,
         position1: 16,
