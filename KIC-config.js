@@ -118,6 +118,11 @@ let INTERNAL_CONFIG = {
 
 var _ = lodash.load();
 
+function test_lodash() {
+    console.log(CONFIG);
+    // if you stick something in override_secret_data you'll be able to notice the changes.
+}
+
 // stick things here that you want to override your secret data- mostly for testing, or when you don't have access to modify github action secrets.
 const OVERRIDE_SECRET_DATA = {}
 

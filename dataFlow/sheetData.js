@@ -978,9 +978,9 @@ function constructSheetData(force = false) {
             "bc": 9,
             "rca": 10,
             "rc": 11,
-            "cki": 12,
-            "serviceHrs": 13,
-            "formNotes": 14,
+            "serviceHrs": 12,
+            "cki": 13,
+            // "formNotes": 14,
             //...additional form data (ex. baptism sources)
         },
 
@@ -1067,7 +1067,7 @@ function constructSheetData(force = false) {
             "vehicleMiles": 45,
             "vinLast8": 46,
             "aptAddress": 47,
-            "formNotes": 48,    //form data
+            // "formNotes": 48,    //form data
             //...additional form data (ex. baptism sources)
         }
 
