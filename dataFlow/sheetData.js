@@ -930,147 +930,132 @@ function constructSheetData(force = false) {
 
 
     const initialColumnOrders = {
+      zoneFilesys: {
+        folderName: 0,
+        parentFolder: 1,
+        folder: 2,
+        sheetID1: 3,
+        sheetID2: 4,
+      },
+      distFilesys: {
+        folderName: 0,
+        parentFolder: 1,
+        folder: 2,
+        sheetID1: 3,
+        sheetID2: 4,
+      },
+      areaFilesys: {
+        folderName: 0,
+        parentFolder: 1,
+        folder: 2,
+        sheetID1: 3,
+        sheetID2: 4,
+      },
 
+      //FORM RESPONSE COLUMN ORDER
+      form: {
+        areaName: 0,
+        responsePulled: 1,
+        isDuplicate: 2,
+        formTimestamp: 3,
+        submissionEmail: 4,
+        kiDate: 5,
+        np: 6,
+        sa: 7,
+        bd: 8,
+        bc: 9,
+        rca: 10,
+        rc: 11,
+        cki: 12,
+        serviceHrs: 13
+        // "formNotes": 14,
+        //...additional form data (ex. baptism sources)
+      },
 
-        zoneFilesys: {
-            "folderName": 0,
-            "parentFolder": 1,
-            "folder": 2,
-            "sheetID1": 3,
-            "sheetID2": 4,
+      //CONTACT SHEET COLUMN ORDER
+      contact: {
+        dateContactGenerated: 0,
+        areaEmail: 1,
+        areaName: 2,
+        name1: 3,
+        position1: 4,
+        isTrainer1: 5,
+        name2: 6,
+        position2: 7,
+        isTrainer2: 8,
+        name3: 9,
+        position3: 10,
+        isTrainer3: 11,
+        district: 12,
+        zone: 13,
+        unitString: 14,
+        hasMultipleUnits: 15,
+        languageString: 16,
+        isSeniorCouple: 17,
+        isSisterArea: 18,
+        hasVehicle: 19,
+        vehicleMiles: 20,
+        vinLast8: 21,
+        aptAddress: 22,
+      },
 
+      //DATA SHEET COLUMN ORDER
+      data: {
+        areaName: 0,
+        log: 1,
+        areaEmail: 2,
+        isDuplicate: 3,
+        formTimestamp: 4, //form data
+        areaID: 5,
+        kiDate: 6, //form data
 
+        np: 7, //form data
+        sa: 8, //form data
+        bd: 9, //form data
+        bc: 10, //form data
+        rca: 11, //form data
+        rc: 12, //form data
+        cki: 13, //form data
+        serviceHrs: 14, //form data
 
-        },
-        distFilesys: {
-            "folderName": 0,
-            "parentFolder": 1,
-            "folder": 2,
-            "sheetID1": 3,
-            "sheetID2": 4,
+        name1: 15,
+        position1: 16,
+        isTrainer1: 17,
+        name2: 18,
+        position2: 19,
+        isTrainer2: 20,
+        name3: 21,
+        position3: 22,
+        isTrainer3: 23,
 
+        districtLeader: 24,
+        zoneLeader1: 25,
+        zoneLeader2: 26,
+        zoneLeader3: 27,
+        stl1: 28,
+        stl2: 29,
+        stl3: 30,
+        stlt1: 31,
+        stlt2: 32,
+        stlt3: 33,
+        assistant1: 34,
+        assistant2: 35,
+        assistant3: 36,
 
-
-        },
-        areaFilesys: {
-            "folderName": 0,
-            "parentFolder": 1,
-            "folder": 2,
-            "sheetID1": 3,
-            "sheetID2": 4,
-
-
-
-        },
-
-
-        //FORM RESPONSE COLUMN ORDER 
-        form: {
-            "areaName": 0,
-            "responsePulled": 1,
-            "isDuplicate": 2,
-            "formTimestamp": 3,
-            "submissionEmail": 4,
-            "kiDate": 5,
-            "np": 6,
-            "sa": 7,
-            "bd": 8,
-            "bc": 9,
-            "rca": 10,
-            "rc": 11,
-            "serviceHrs": 12,
-            "cki": 13,
-            // "formNotes": 14,
-            //...additional form data (ex. baptism sources)
-        },
-
-        //CONTACT SHEET COLUMN ORDER
-        contact: {
-            "dateContactGenerated": 0,
-            "areaEmail": 1,
-            "areaName": 2,
-            "name1": 3,
-            "position1": 4,
-            "isTrainer1": 5,
-            "name2": 6,
-            "position2": 7,
-            "isTrainer2": 8,
-            "name3": 9,
-            "position3": 10,
-            "isTrainer3": 11,
-            "district": 12,
-            "zone": 13,
-            "unitString": 14,
-            "hasMultipleUnits": 15,
-            "languageString": 16,
-            "isSeniorCouple": 17,
-            "isSisterArea": 18,
-            "hasVehicle": 19,
-            "vehicleMiles": 20,
-            "vinLast8": 21,
-            "aptAddress": 22,
-        },
-
-
-        //DATA SHEET COLUMN ORDER
-        data: {
-            "areaName": 0,
-            "log": 1,
-            "areaEmail": 2,
-            "isDuplicate": 3,
-            "formTimestamp": 4,    //form data
-            "areaID": 5,
-            "kiDate": 6,    //form data
-
-
-            "np": 7,    //form data
-            "sa": 8,    //form data
-            "bd": 9,    //form data
-            "bc": 10,    //form data
-            "rca": 11,    //form data
-            "rc": 12,    //form data
-            "cki": 13,    //form data
-            "serviceHrs": 14,    //form data
-
-            "name1": 15,
-            "position1": 16,
-            "isTrainer1": 17,
-            "name2": 18,
-            "position2": 19,
-            "isTrainer2": 20,
-            "name3": 21,
-            "position3": 22,
-            "isTrainer3": 23,
-
-            "districtLeader": 24,
-            "zoneLeader1": 25,
-            "zoneLeader2": 26,
-            "zoneLeader3": 27,
-            "stl1": 28,
-            "stl2": 29,
-            "stl3": 30,
-            "stlt1": 31,
-            "stlt2": 32,
-            "stlt3": 33,
-            "assistant1": 34,
-            "assistant2": 35,
-            "assistant3": 36,
-
-            "district": 37,
-            "zone": 38,
-            "unitString": 39,
-            "hasMultipleUnits": 40,
-            "languageString": 41,
-            "isSeniorCouple": 42,
-            "isSisterArea": 43,
-            "hasVehicle": 44,
-            "vehicleMiles": 45,
-            "vinLast8": 46,
-            "aptAddress": 47,
-            // "formNotes": 48,    //form data
-            //...additional form data (ex. baptism sources)
-        }
-
+        district: 37,
+        zone: 38,
+        unitString: 39,
+        hasMultipleUnits: 40,
+        languageString: 41,
+        isSeniorCouple: 42,
+        isSisterArea: 43,
+        hasVehicle: 44,
+        vehicleMiles: 45,
+        vinLast8: 46,
+        aptAddress: 47,
+        // "formNotes": 48,    //form data
+        //...additional form data (ex. baptism sources)
+      },
     };
 
 
