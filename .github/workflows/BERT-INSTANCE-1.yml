@@ -3,7 +3,7 @@ name: BERT-INSTANCE-1
 on:
   workflow_dispatch:
   push:
-    branches: [update-to-use-lodash]
+    branches: [update-to-use-lodash-test2]
   release:
     types: [published]
   schedule:
