@@ -115,12 +115,17 @@ let INTERNAL_CONFIG = {
 };
 
 // this combines the two objects together- the bottom ones overwrite the top ones.
+//@ts-ignore
+var _ = lodash.load();
 
-const OVERRIDE_SECRET_DATA = {}
+function test_lodash() {
+    console.log(CONFIG);
+    // if you stick something in override_secret_data you'll be able to notice the changes.
+}
 
-const CONFIG = {
-	...INTERNAL_CONFIG,
-	...GITHUB_SECRET_DATA,
-	...OVERRIDE_SECRET_DATA
+// stick things here that you want to override your secret data- mostly for testing, or when you don't have access to modify github action secrets.
+const OVERRIDE_SECRET_DATA = {
+  dataFlow: { skipMarkingPulled: true } // easily re-commentable for convenience
 };
 
+var CONFIG = _.merge(INTERNAL_CONFIG,GITHUB_SECRET_DATA,OVERRIDE_SECRET_DATA)

@@ -1,9 +1,9 @@
-name: BERT-INSTANCE-3
+name: BERT-INSTANCE-1
 # Copy this one into your own repository- change up the things your secrets reference if necessary, and run!
 on:
   workflow_dispatch:
   push:
-    branches: [update-to-use-lodash]
+    branches: [update-to-use-lodash-test2]
   release:
     types: [published]
   schedule:
@@ -26,6 +26,6 @@ jobs:
       IN_CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
       IN_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       IN_DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-      IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_3_SCRIPT_ID }}
-      IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_3_PARENT_ID }}
+      IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_2_SCRIPT_ID }}
+      IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }}
       IN_CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }}
