@@ -966,8 +966,8 @@ function constructSheetData(force = false) {
         bc: 9,
         rca: 10,
         rc: 11,
-        serviceHrs: 12,
-        cki: 13,
+        serviceHrs: 13,
+        cki: 12,
         // "formNotes": 14,
         //...additional form data (ex. baptism sources)
       },
