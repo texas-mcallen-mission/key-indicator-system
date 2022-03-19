@@ -1015,7 +1015,7 @@ function constructSheetData(force = false) {
         bc: 10, //form data
         rca: 11, //form data
         rc: 12, //form data
-        serviceHrs: 13, //form data
+        serviceHrs: 14, //form data
         
         name1: 15,
         position1: 16,
@@ -1027,7 +1027,7 @@ function constructSheetData(force = false) {
         position3: 22,
         isTrainer3: 23,
         
-        cki: 14, //form data
+        cki: 13, //form data
         // super confused
         districtLeader: 24,
         zoneLeader1: 25,
