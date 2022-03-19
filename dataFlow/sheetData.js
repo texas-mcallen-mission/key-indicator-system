@@ -966,8 +966,8 @@ function constructSheetData(force = false) {
         bc: 9,
         rca: 10,
         rc: 11,
-        serviceHrs: 13,
-        cki: 12,
+        serviceHrs: 12,
+        cki: 13,
         // "formNotes": 14,
         //...additional form data (ex. baptism sources)
       },
@@ -1016,17 +1016,17 @@ function constructSheetData(force = false) {
         rca: 11, //form data
         rc: 12, //form data
         serviceHrs: 14, //form data
-        
-        name3: 15,
+
+        name1: 15,
         position1: 16,
         isTrainer1: 17,
-        position3: 18,
-        name2: 19,
-        isTrainer3: 20,
-        name1: 21,
-        position2: 22,
-        isTrainer2: 23,
-        
+        name2: 18,
+        position2: 19,
+        isTrainer2: 20,
+        name3: 21,
+        position3: 22,
+        isTrainer3: 23,
+
         cki: 13, //form data
         // super confused
         districtLeader: 24,
