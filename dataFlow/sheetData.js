@@ -1016,8 +1016,7 @@ function constructSheetData(force = false) {
         rca: 11, //form data
         rc: 12, //form data
         serviceHrs: 13, //form data
-        cki: 14, //form data
-
+        
         name1: 15,
         position1: 16,
         isTrainer1: 17,
@@ -1027,7 +1026,9 @@ function constructSheetData(force = false) {
         name3: 21,
         position3: 22,
         isTrainer3: 23,
-
+        
+        cki: 14, //form data
+        
         districtLeader: 24,
         zoneLeader1: 25,
         zoneLeader2: 26,
