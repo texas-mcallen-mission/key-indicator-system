@@ -1017,15 +1017,15 @@ function constructSheetData(force = false) {
         rc: 12, //form data
         serviceHrs: 14, //form data
         
-        name1: 15,
+        name3: 15,
         position1: 16,
         isTrainer1: 17,
-        name2: 18,
-        position2: 19,
-        isTrainer2: 20,
-        name3: 21,
-        position3: 22,
-        isTrainer3: 23,
+        position3: 18,
+        name2: 19,
+        isTrainer3: 20,
+        name1: 21,
+        position2: 22,
+        isTrainer2: 23,
         
         cki: 13, //form data
         // super confused
