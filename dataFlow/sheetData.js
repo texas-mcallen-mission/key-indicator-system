@@ -1025,7 +1025,7 @@ function constructSheetData(force = false) {
         isTrainer2: 20,
         name3: 21,
         position3: 22,
-        isTrainer3: 23,
+        isTrainer3: 23, // hello, update!
 
         cki: 13, //form data
         // super confused
