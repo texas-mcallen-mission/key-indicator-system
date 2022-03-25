@@ -46,7 +46,8 @@ function dataLogger_startFunction_(functionName:string,startTime = new Date()) {
     // initialize a function name if it hasn't been 
     if (loggerData[functionName] == undefined) {
         loggerData[functionName] = {}
-        loggerData[functionName][logKeys.executionCounter] = 0 
+        loggerData[functionName][logKeys.executionCounter] = 0
+        loggerData[functionName][logKeys.duration] = 0.0
     }
 
     loggerData[functionName][logKeys.executionCounter] += 1
