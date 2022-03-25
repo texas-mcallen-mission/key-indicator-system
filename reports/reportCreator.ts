@@ -1,49 +1,79 @@
 //@ts-check
 
 function debugTesting() {
-    
+    let dLog:dataLogger = new dataLogger("reportCreator Debug Testing",triggerTypes.DEBUG)
     Logger.log("Running updateFS")
+    dLog.startFunction("updateFS")
     updateFS()
-    Logger.log("running updateZoneReports")
-    updateZoneReports()
+    dLog.endFunction("updateFS")
+    dLog.startFunction("updateZoneReports")
+    updateZoneReports();
+    dLog.endFunction("updateZoneReports")
+    dLog.end()
 }
 
 
-function updateAllReports() {
+function updateAllReports(dLog:dataLogger = new dataLogger("updateAllReports",triggerTypes.manual,true)) {
+    // THIS IS A STANDALONE FUNCTION
+
     console.warn("hey, running all three at the same time is probably not a good idea, it'll more than likely go past the execution time limits")
     let allSheetData = constructSheetData();
     console.time("Total reportUpdate runtime");
-    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.zone);
-    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.dist);
-    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.area);
+    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.zone,dLog);
+    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.dist,dLog);
+    updateAnyLevelReport_(allSheetData, CONFIG.fileSystem.reportLevel.area,dLog);
     console.timeEnd("Total reportUpdate runtime");
+
+
+    if (dLog.isInline == true) { dLog.end(); } // if this is the parent function, end logging
 }
 
-function updateZoneReports() {
+function updateZoneReports(dLog:dataLogger = new dataLogger("updateZoneReports",triggerTypes.manual,true)) {
     let allSheetData = constructSheetData();
     let reportScope = CONFIG.fileSystem.reportLevel.zone;
-    updateAnyLevelReport_(allSheetData, reportScope);
+    dLog.startFunction("updateAnyLevelReport")
+    try {
+        updateAnyLevelReport_(allSheetData, reportScope,dLog);
+    } catch (error) {
+        dLog.addFailure("updateAnyLevelReport", error)
+    }
+    dLog.endFunction("updateAnyLevelReport")
+
+    if (dLog.isInline == true) { dLog.end(); } // if this is the parent function, end logging
 }
 
-function updateDistrictReports() {
-    dataLogger_startFunction_("constructSheetData")
+function updateDistrictReports(dLog:dataLogger = new dataLogger("updateDistrictReports",triggerTypes.manual,true)) {
+    dLog.startFunction("constructSheetData")
     let allSheetData = constructSheetData();
-    dataLogger_endFunction_("constructSheetData")
+    dLog.endFunction("constructSheetData")
     let reportScope = CONFIG.fileSystem.reportLevel.dist;
     Logger.log("running updateAnyLevelReport_")
-    dataLogger_startFunction_("updateAnyLevelReport")
-    let test = updateAnyLevelReport_(allSheetData, reportScope);
-    dataLogger_endFunction_("updateAnyLevelReport")
+    dLog.startFunction("updateAnyLevelReport")
+    let test = updateAnyLevelReport_(allSheetData, reportScope,dLog);
+    dLog.endFunction("updateAnyLevelReport")
     Logger.log("report updating should be done");
+    
+    if (dLog.isInline == true) { dLog.end(); } // if this is the parent function, end logging
 }
 
-function updateAreaReports() {
+function updateAreaReports(dLog: dataLogger = new dataLogger("updateDistrictReports", triggerTypes.manual, true)) {
+    
     let allSheetData = constructSheetData();
     let reportScope = CONFIG.fileSystem.reportLevel.area;
-    let test = updateAnyLevelReport_(allSheetData, reportScope);
+    dLog.startFunction("updateAnyLevelReport_")
+    let test:boolean = false
+    try {
+        test = updateAnyLevelReport_(allSheetData, reportScope,dLog);
+
+    } catch (error) {
+        dLog.addFailure("updateAnyLevelReport_", error)
+    }
+    dLog.endFunction("updateAnyLevelReport_");
+
+    if (dLog.isInline == true) { dLog.end(); }// if this is the parent function, end logging
 }
 
-function updateAnyLevelReport_(allSheetData, scope) {
+function updateAnyLevelReport_(allSheetData, scope,dLog:dataLogger) {
     let reportUpdateTimer = "Total time updating reports for scope " + scope + ":";
     console.time(reportUpdateTimer);
     let reportScope = scope;
@@ -71,15 +101,19 @@ function updateAnyLevelReport_(allSheetData, scope) {
     let data = removeDupesAndPII_(kiDataObj);
     // I don't think I actually need contactData for this sub-system.  :)
     // ONCE DRIVEHANDLER has been rewritten to 
-    dataLogger_startFunction_("fullUpdateSingleLevel")
-    fullUpdateSingleLevel(filesysSheetData, data, templateID, reportScope, kiDataHeaders, dataKeys);
-    dataLogger_endFunction_("fullUpdateSingleLevel")
+    dLog.startFunction("fullUpdateSingleLevel")
+    try {
+        fullUpdateSingleLevel(filesysSheetData, data, templateID, reportScope, kiDataHeaders, dataKeys,dLog);
+    } catch (error) {
+        dLog.addFailure("fullUpdateSingleLevel", error)
+    }
+    dLog.endFunction("fullUpdateSingleLevel")
     let postRun = new Date;
     console.timeEnd(reportUpdateTimer);
     return true
 }
 
-function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, scope: string,headers:string[],keyArray:string[]):void {
+function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, scope: string,headers:string[],keyArray:string[],dLog:dataLogger):void {
 
     let storedSheet = filesysObj.getSheet();
 
@@ -113,14 +147,14 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     }
     let splitByKey = splitDataByKey_(data, keyName);
     // let header = data.getHeaders()
-    dataLogger_startFunction_("modifyTemplatesV2_async_")
+    dLog.startFunction("modifyTemplatesV2_async_")
     try {
-        let test = modifyTemplatesV2_async_(updatedFSData, splitByKey, scope, keyName, headers, keyArray);
+        let test = modifyTemplatesV2_async_(updatedFSData, splitByKey, scope, keyName, headers, keyArray,dLog);
 
-    } catch (e) {
-        dataLogger_addFailure_("modifyTemplatesV2_async_")
+    } catch (error) {
+        dLog.addFailure("modifyTemplatesV2_async_",error);
     }
-    dataLogger_endFunction_("modifyTemplatesV2_async_")    
+    dLog.endFunction("modifyTemplatesV2_async_")    
     // time to send the data to the reports
 
 }

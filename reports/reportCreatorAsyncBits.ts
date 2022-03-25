@@ -31,7 +31,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
 
 }
 
-async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[]): Promise<any[]> {
+async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[],dLog:dataLogger): Promise<any[]> {
     // used this as a basis for this function: https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
     
     let currentDate = new Date();
@@ -58,13 +58,13 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
         // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
         // After that, I *should* be done with it
         // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
-        dataLogger_startChildFunction_("sendReportToDisplayV4_async_","modifyTemplatesV2_async_")
+        dLog.startFunction("sendReportToDisplayV4_async_")
         try {
             promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
-        } catch (e) {
-            dataLogger_addFailure_("sendReportToDisplayV4_async_")
+        } catch (error) {
+            dLog.addFailure("sendReportToDisplayV4_async_",error)
         }
-        dataLogger_endFunction_("sendReportToDisplayV4_async_")
+        dLog.endFunction("sendReportToDisplayV4_async_")
         console.log("entry completed for ",entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
         targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
                                                                           //   TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER

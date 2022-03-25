@@ -44,8 +44,8 @@ function buildMenu() {
 
 
 function updateDataSheet_TimeBasedTrigger() {
-    dataLogger_setMainFunction_("updateDataSheet")
-    dataLogger_startFunction_("updateDataSheet")
+    let dLog:dataLogger = new dataLogger("updateDataSheet_TimeBasedTrigger",triggerTypes.timeBased)
+    dLog.startFunction("updateDataSheet")
     Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateDataSheet) {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
@@ -55,14 +55,14 @@ function updateDataSheet_TimeBasedTrigger() {
         updateDataSheet();
         
     } catch (e) {
-        dataLogger_addFailure_("updateDataSheet")
+        dLog.addFailure("updateDataSheet",e)
     }
-    dataLogger_endFunction_("updateDataSheet")
-    dataLogger_end_()
+    dLog.endFunction("updateDataSheet")
+    dLog.end()
 }
 
 function importContacts_TimeBasedTrigger() {
-    
+
     Logger.log("[TRIGGER] Running importContacts() from a time-based trigger");
 
     if (!CONFIG.triggers.timeBased.importContacts) {
