@@ -12,6 +12,7 @@ const logKeys = {
     // mainFunction:"mainFunction",
     failures: "failures",
     functionName: "functionName",
+    parentFunction:"parentFunction"
     // mainFunction:"mainFunction"
     
 }
@@ -51,8 +52,10 @@ function dataLogger_startFunction_(functionName:string,startTime = new Date()) {
     loggerData[functionName][logKeys.startTime] = startTime.getMilliseconds()
 }
 
-function dataLogger_setParentFunction_(functionName) {
-    loggerMetaData
+function dataLogger_startChildFunction_(functionName, parentFunctionName, startTime = new Date) {
+    dataLogger_startFunction_(functionName,startTime)
+    loggerData[functionName][logKeys.parentFunction] = parentFunctionName
+    
 }
 
 function dataLogger_setMainFunction_(functionName) {
@@ -79,9 +82,9 @@ function dataLogger_endFunction_(functionName, endTime = new Date()) {
 //     loggerData.metaData[logKeys.mainFunction] = functionName
 // }
 
-function dataLogger_addChildFunction_(functionName) {
+// function dataLogger_addChildFunction_(functionName) {
 
-}
+// }
 
 function merge_in_metadata_(data, metadata) {
     // data needs to be an object of objects, metadata is like a header: one object.

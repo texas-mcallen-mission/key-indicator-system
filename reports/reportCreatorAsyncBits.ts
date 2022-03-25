@@ -58,7 +58,7 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
         // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
         // After that, I *should* be done with it
         // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
-        dataLogger_startFunction_("sendReportToDisplayV4_async_")
+        dataLogger_startChildFunction_("sendReportToDisplayV4_async_","modifyTemplatesV2_async_")
         try {
             promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
         } catch (e) {
