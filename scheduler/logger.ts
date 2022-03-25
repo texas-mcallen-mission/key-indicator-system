@@ -167,10 +167,10 @@ function dataLogger_end_() {
     // sendReportToDisplayV3_(header, data, dataLogSheet)
 
     let sortColumn = 1
-    if(header.includes(logMetaKeys.timeStarted)){sortColumn = header.indexOf(logMetaKeys.timeStarted)}
+    if(header.includes(logMetaKeys.timeStarted)){sortColumn = header.indexOf(logMetaKeys.timeStarted)+1}
 
     let args = {
-        sortColumn: sortColumn
+        sortColumn: sortColumn,
         ascending:false
     }
     sendDataToDisplayV3_(header, outData, dataLogSheet,args)
