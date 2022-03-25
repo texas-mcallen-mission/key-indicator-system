@@ -1,4 +1,6 @@
-# Scheduler
+# Backend Updates
+
+The first part of this is a better way to log and monitor executions.  Ideally, this would be able to dump into a single sheet for everything, so that I can do stuff like A/B tests fully automatically.
 
 Currently unimplemented, the idea here was originally to make a function that ran every minute, somehow stored its state, and then ran itself.  Due to time constraints, that isn't really feasible, *but* adding in some ``ScriptApp`` calls to add our own triggers via a easily defined structure is, and would make the process for other people trying to implement this a little easier.
 
@@ -14,7 +16,7 @@ The idea behind this was to make a fairly simple central location (which would r
 
 ```ts
 "UpdateDataSheet": {
-    enabled: true,
+    timeenabled: true,
     triggerType:"time-based",
     timeGranularity:time.minutes,
     frequency:5,

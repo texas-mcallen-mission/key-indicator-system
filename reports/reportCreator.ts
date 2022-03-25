@@ -109,7 +109,7 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     }
     let splitByKey = splitDataByKey_(data, keyName);
     // let header = data.getHeaders()
-    dataLogger_startFunction_("modifyTemplatesV2_async_", startTime)
+    dataLogger_startFunction_("modifyTemplatesV2_async_")
     try {
         let test = modifyTemplatesV2_async_(updatedFSData, splitByKey, scope, keyName, headers, keyArray);
 

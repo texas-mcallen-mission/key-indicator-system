@@ -70,7 +70,7 @@ let INTERNAL_CONFIG = {
 
     updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
-    includeScopeInFolderName: true,
+    includeScopeInFolderName: false,
 
     freezeFilesys: false, //TODO Re-implement? Currently unimplemented
 

@@ -7,7 +7,8 @@ var loggerData = {
 // this and logMetaKeys are basically enums so that I can hardcode things via Typescript that I want to use for analysis
 const logKeys = {
     executionCounter:"executionCounter",
-    startTime:"startTime",
+    startTime: "startTime",
+    endTime:"endTime",
     duration:"duration",
     // mainFunction:"mainFunction",
     failures: "failures",
@@ -64,6 +65,7 @@ function dataLogger_setMainFunction_(functionName) {
 }
 function dataLogger_endFunction_(functionName, endTime = new Date()) {
     // automatically calculates duration of thingy.
+    loggerData[functionName][logKeys.endTime] = endTime.getMilliseconds()
     console.log(
         "DEBUGGING: START MILLIS", loggerData[functionName][logKeys.startTime],
         "FINISH TIME: ", endTime.getMilliseconds(),
