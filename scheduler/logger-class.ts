@@ -19,7 +19,9 @@ class dataLogger {
             // pre-initialize data for later
             this.logData[functionName] = {};
             this.logData[functionName][logKeys.executionCounter] = 0
-            // this.logData[functionName][logKeys.failures] = 0 
+            this.logData[functionName][logKeys.cycleEndMillis] = 0
+            this.logData[functionName][logKeys.duration] = 0
+            // this.logData[functionName][logKeys.failures] = 0
         }
         let cycleStartTime = new Date()
         this.logData[functionName][logKeys.executionCounter] += 1
