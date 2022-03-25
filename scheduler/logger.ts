@@ -72,9 +72,10 @@ function dataLogger_endFunction_(functionName, endTime = new Date()) {
         "TOTAL DURATION: ", loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds(),
         "Absoluted: ", Math.abs(loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds())
     )
-    let additionalTime = loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds()
+    let additionalTime = loggerData[functionName][logKeys.endTime] - loggerData[functionName][logKeys.startTime]
     additionalTime = Math.abs(additionalTime)
-    loggerData[functionName][logKeys.duration] += additionalTime //Math.abs(loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds())
+    let prevDuration = loggerData[functionName][logKeys.duration]
+    loggerData[functionName][logKeys.duration] = additionalTime + prevDuration //Math.abs(loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds())
     // delete loggerData[functionName][logKeys.startTime]
     
 }
