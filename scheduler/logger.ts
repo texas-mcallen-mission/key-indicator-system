@@ -28,6 +28,12 @@ const logMetaKeys = {
     timeStarted:"timeStarted"
 }
 
+const triggerTypes = {
+    "timeBased": "timeBased",
+    "manual": "manual",
+    "menu": "menu"
+}
+
 var loggerTransitive = {
     parentFunction: "parentFunction"
     

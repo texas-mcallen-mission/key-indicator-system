@@ -32,3 +32,23 @@ The idea behind this was to make a fairly simple central location (which would r
 ## Related Reading
 
 [https://stackoverflow.com/questions/496961/call-a-javascript-function-name-using-a-string](https://stackoverflow.com/questions/496961/call-a-javascript-function-name-using-a-string)
+
+## Class Design
+
+### IN THE CLASS
+
+[x] function dataLogger_startFunction_(functionName:,startTime = new Date())
+[ ] function dataLogger_startChildFunction_(functionName,, startTime = new Date) // wont be using probs???
+[x] function dataLogger_setMainFunction_(functionName) // taken care of in constructor
+[x] function dataLogger_endFunction_(functionName 
+[ ] function dataLogger_end_()
+[x] function dataLogger_setTriggerType_(triggerType) // taken care of in constructor
+[x] function dataLogger_addFailure_(functionName)
+
+### USED BY THE CLASS
+
+[ ] function getDataLogSheet_() {
+[ ] function merge_in_metadata_(data, metadata) {
+[ ] function resize_data_(in_data,header) {
+[ ] function dataLogger_addFailure_(functionName) {
+[ ] function time_a_function() {

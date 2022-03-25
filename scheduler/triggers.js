@@ -44,15 +44,25 @@ function buildMenu() {
 
 
 function updateDataSheet_TimeBasedTrigger() {
+    dataLogger_setMainFunction_("updateDataSheet")
+    dataLogger_startFunction_("updateDataSheet")
     Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateDataSheet) {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
         return;
     }
-    updateDataSheet();
+    try {
+        updateDataSheet();
+        
+    } catch (e) {
+        dataLogger_addFailure_("updateDataSheet")
+    }
+    dataLogger_endFunction_("updateDataSheet")
+    dataLogger_end_()
 }
 
 function importContacts_TimeBasedTrigger() {
+    
     Logger.log("[TRIGGER] Running importContacts() from a time-based trigger");
 
     if (!CONFIG.triggers.timeBased.importContacts) {

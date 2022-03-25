@@ -26,11 +26,15 @@ function updateZoneReports() {
 }
 
 function updateDistrictReports() {
+    dataLogger_startFunction_("constructSheetData")
     let allSheetData = constructSheetData();
+    dataLogger_endFunction_("constructSheetData")
     let reportScope = CONFIG.fileSystem.reportLevel.dist;
     Logger.log("running updateAnyLevelReport_")
+    dataLogger_startFunction_("updateAnyLevelReport")
     let test = updateAnyLevelReport_(allSheetData, reportScope);
-    Logger.log("report updating should be done")
+    dataLogger_endFunction_("updateAnyLevelReport")
+    Logger.log("report updating should be done");
 }
 
 function updateAreaReports() {
