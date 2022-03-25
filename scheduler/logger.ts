@@ -7,8 +7,8 @@ var loggerData = {
 // this and logMetaKeys are basically enums so that I can hardcode things via Typescript that I want to use for analysis
 const logKeys = {
     executionCounter:"executionCounter",
-    startTime: "startTime",
-    endTime:"endTime",
+    cycleStartMillis: "cycleStartMillis", // was startTime
+    cycleEndMillis:"cycleEndMillis", // was endTime
     duration:"duration",
     // mainFunction:"mainFunction",
     failures: "failures",
@@ -53,7 +53,7 @@ function dataLogger_startFunction_(functionName:string,startTime = new Date()) {
     }
 
     loggerData[functionName][logKeys.executionCounter] += 1
-    loggerData[functionName][logKeys.startTime] = startTime.getMilliseconds()
+    loggerData[functionName][logKeys.cycleStartMillis] = startTime.getMilliseconds()
 }
 
 function dataLogger_startChildFunction_(functionName, parentFunctionName, startTime = new Date) {
@@ -68,14 +68,14 @@ function dataLogger_setMainFunction_(functionName) {
 }
 function dataLogger_endFunction_(functionName, endTime = new Date()) {
     // automatically calculates duration of thingy.
-    loggerData[functionName][logKeys.endTime] = endTime.getMilliseconds()
+    loggerData[functionName][logKeys.cycleEndMillis] = endTime.getMilliseconds()
     console.log(
-        "DEBUGGING: START MILLIS", loggerData[functionName][logKeys.startTime],
+        "DEBUGGING: START MILLIS", loggerData[functionName][logKeys.cycleStartMillis],
         "FINISH TIME: ", endTime.getMilliseconds(),
-        "TOTAL DURATION: ", loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds(),
-        "Absoluted: ", Math.abs(loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds())
+        "TOTAL DURATION: ", loggerData[functionName][logKeys.cycleStartMillis] - endTime.getMilliseconds(),
+        "Absoluted: ", Math.abs(loggerData[functionName][logKeys.cycleStartMillis] - endTime.getMilliseconds())
     )
-    let additionalTime = loggerData[functionName][logKeys.endTime] - loggerData[functionName][logKeys.startTime]
+    let additionalTime = loggerData[functionName][logKeys.cycleEndMillis] - loggerData[functionName][logKeys.cycleStartMillis]
     additionalTime = Math.abs(additionalTime)
     let prevDuration = loggerData[functionName][logKeys.duration]
     loggerData[functionName][logKeys.duration] = additionalTime + prevDuration //Math.abs(loggerData[functionName][logKeys.startTime] - endTime.getMilliseconds())
@@ -143,8 +143,8 @@ function dataLogger_end_() {
         console.log(key, loggerData[key]);
         
         if (REMOVE_START_END_MILLISECONDS) {
-            delete loggerData[key][logKeys.startTime]
-            delete loggerData[key][logKeys.endTime]
+            delete loggerData[key][logKeys.cycleStartMillis]
+            delete loggerData[key][logKeys.cycleEndMillis]
         }
 
         if (GET_META_DATA) {
