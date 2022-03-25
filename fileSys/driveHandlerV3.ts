@@ -1,17 +1,35 @@
 //@ts-check
 
 
-function createFS() {
-    createFilesystemV3();
-    // updateZoneReports()
-    // updateDistrictReports()
-    // updateAreaReports()
+function createFS(dLog:dataLogger = new dataLogger("createFS",triggerTypes.manual,true)) {
+    dLog.startFunction("createFilesystemV3")
+    try {
+        createFilesystemV3();
+    } catch (error) {
+        dLog.addFailure("createFilesystemV3", error)
+    }
+    dLog.endFunction("createFilesystemV3")
+    if (dLog.isInline == true) { dLog.end(); }// if this is the parent function, end logging
 }
 
 
-function updateFS() {
-    verifyFilesystem()
-    createFilesystemV3()
+function updateFS(dLog: dataLogger = new dataLogger("updateFS", triggerTypes.manual,true)) {
+    dLog.startFunction("verifyFilesystem")
+    try {
+        verifyFilesystem()
+        
+    } catch (error) {
+        dLog.addFailure("verifyFilesystem", error)
+    }
+    dLog.endFunction("verifyFilesystem")
+    dLog.startFunction("createFilesystemV3")
+    try {
+        createFilesystemV3()
+    } catch (error) {
+        dLog.addFailure("createFilesystemV3", error)
+    }
+    dLog.endFunction("createFilesystemV3")
+    if (dLog.isInline == true) { dLog.end(); }// if this is the parent function, end logging
 }
 
 
