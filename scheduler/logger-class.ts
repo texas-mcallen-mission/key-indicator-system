@@ -30,6 +30,9 @@ class dataLogger {
     }
 
     endFunction(functionName) {
+        if (this.logData[functionName][logKeys.cycleEndMillis] == undefined) {
+            this.logData[functionName][logKeys.cycleEndMillis] = 0
+        }
         let cycleEndDate = new Date()
         this.logData[functionName][logKeys.cycleEndMillis] = cycleEndDate.getMilliseconds()
         let currentDuration = this.logData[functionName][logKeys.duration]
@@ -121,16 +124,16 @@ class dataLogger {
 function time_a_function_classy() {
 
     let startTime = new Date();
+    let functionName = "updateDistrictReports"
+    let logger: dataLogger = new dataLogger(functionName, triggerTypes.DEBUG)
 
-    let logger: dataLogger = new dataLogger("updateDistrictReports", triggerTypes.DEBUG)
-
-    logger.startFunction("UpdateDistrictReports")
+    logger.startFunction(functionName)
     try {
         updateDistrictReports();
     } catch (error) {
-        logger.addFailure("updateDistrictReports", error)
+        logger.addFailure(functionName, error)
     }
-    logger.endFunction("updateDistrictReports");
+    logger.endFunction(functionName);
 
     logger.end()
 
