@@ -123,7 +123,7 @@ function dataLogger_end_() {
 
     let INCLUDE_GITHUB_METADATA = true
 
-    let REMOVE_START_END_MILLISECONDS = true
+    let REMOVE_CYCLE_TIMING_DATA = true
 
     if (USE_OLD_DATA) {
         log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
@@ -142,7 +142,7 @@ function dataLogger_end_() {
 
         console.log(key, loggerData[key]);
         
-        if (REMOVE_START_END_MILLISECONDS) {
+        if (REMOVE_CYCLE_TIMING_DATA) {
             delete loggerData[key][logKeys.cycleStartMillis]
             delete loggerData[key][logKeys.cycleEndMillis]
         }
