@@ -14,29 +14,29 @@
 // }
 
 function getReportFromOtherSource(sheetName, targetSpreadsheet) {
-  let ss; //Get currently Active sheet
-  ss = targetSpreadsheet;
+    let ss; //Get currently Active sheet
+    ss = targetSpreadsheet;
 
-  // Checks to see if the sheet exists or not.
-  let sheet = ss.getSheetByName(sheetName);
-  if (!sheet) {
-    sheet = ss.insertSheet(sheetName);
-    // sheet.appendRow(headerData);// Creating Header
-  }
-  return sheet;
+    // Checks to see if the sheet exists or not.
+    let sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+        sheet = ss.insertSheet(sheetName);
+        // sheet.appendRow(headerData);// Creating Header
+    }
+    return sheet;
 }
 
 function getSheetOrSetUp_(sheetName, headerData) {
-  let ss; //Get currently Active sheet
-  ss = SpreadsheetApp.getActiveSpreadsheet();
+    let ss; //Get currently Active sheet
+    ss = SpreadsheetApp.getActiveSpreadsheet();
 
-  // Checks to see if the sheet exists or not.
-  let sheet = ss.getSheetByName(sheetName);
-  if (!sheet) {
-    sheet = ss.insertSheet(sheetName);
-    sheet.appendRow(headerData); // Creating Header
-  }
-  return sheet;
+    // Checks to see if the sheet exists or not.
+    let sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+        sheet = ss.insertSheet(sheetName);
+        sheet.appendRow(headerData); // Creating Header
+    }
+    return sheet;
 }
 
 // function splitToDataStruct(filesysData) {

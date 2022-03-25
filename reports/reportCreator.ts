@@ -67,7 +67,9 @@ function updateAnyLevelReport_(allSheetData, scope) {
     let data = removeDupesAndPII_(kiDataObj);
     // I don't think I actually need contactData for this sub-system.  :)
     // ONCE DRIVEHANDLER has been rewritten to 
+    dataLogger_startFunction_("fullUpdateSingleLevel")
     fullUpdateSingleLevel(filesysSheetData, data, templateID, reportScope, kiDataHeaders, dataKeys);
+    dataLogger_endFunction_("fullUpdateSingleLevel")
     let postRun = new Date;
     console.timeEnd(reportUpdateTimer);
     return true
@@ -107,7 +109,14 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     }
     let splitByKey = splitDataByKey_(data, keyName);
     // let header = data.getHeaders()
-    let test = modifyTemplatesV2_async_(updatedFSData, splitByKey, scope, keyName, headers, keyArray);
+    dataLogger_startFunction_("modifyTemplatesV2_async_", startTime)
+    try {
+        let test = modifyTemplatesV2_async_(updatedFSData, splitByKey, scope, keyName, headers, keyArray);
+
+    } catch (e) {
+        dataLogger_addFailure_("modifyTemplatesV2_async_")
+    }
+    dataLogger_endFunction_("modifyTemplatesV2_async_")    
     // time to send the data to the reports
 
 }
