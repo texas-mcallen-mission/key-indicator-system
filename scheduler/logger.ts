@@ -48,6 +48,8 @@ function dataLogger_startFunction_(functionName:string,startTime = new Date()) {
         loggerData[functionName] = {}
         loggerData[functionName][logKeys.executionCounter] = 0
         loggerData[functionName][logKeys.duration] = 0.0
+        loggerData[functionName][logKeys.parentFunction] = ""
+        loggerData[functionName][logKeys.failures] = 0
     }
 
     loggerData[functionName][logKeys.executionCounter] += 1
@@ -121,6 +123,8 @@ function dataLogger_end_() {
 
     let INCLUDE_GITHUB_METADATA = true
 
+    let REMOVE_START_END_MILLISECONDS = false
+
     if (USE_OLD_DATA) {
         log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
         header = dataLogSheetData.headerData;
@@ -137,6 +141,11 @@ function dataLogger_end_() {
         entry[ header.indexOf(logKeys.functionName)] = key
 
         console.log(key, loggerData[key]);
+        
+        if (REMOVE_START_END_MILLISECONDS) {
+            delete loggerData[key][logKeys.startTime]
+            delete loggerData[key][logKeys.endTime]
+        }
 
         if (GET_META_DATA) {
             for (let metaKey in logMetaKeys) { // SHOVES that metadata in there
