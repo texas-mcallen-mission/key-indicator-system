@@ -31,7 +31,8 @@ const logMetaKeys = {
 const triggerTypes = {
     "timeBased": "timeBased",
     "manual": "manual",
-    "menu": "menu"
+    "menu": "menu",
+    "DEBUG":"DEBUG"
 }
 
 var loggerTransitive = {

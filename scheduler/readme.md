@@ -38,9 +38,9 @@ The idea behind this was to make a fairly simple central location (which would r
 ### IN THE CLASS
 
 [x] function dataLogger_startFunction_(functionName:,startTime = new Date())
-[ ] function dataLogger_startChildFunction_(functionName,, startTime = new Date) // wont be using probs???
+[ ] function dataLogger_startChildFunction_(functionName,, startTime = new Date) // wont be using probably
 [x] function dataLogger_setMainFunction_(functionName) // taken care of in constructor
-[x] function dataLogger_endFunction_(functionName 
+[x] function dataLogger_endFunction_(functionName
 [ ] function dataLogger_end_()
 [x] function dataLogger_setTriggerType_(triggerType) // taken care of in constructor
 [x] function dataLogger_addFailure_(functionName)
