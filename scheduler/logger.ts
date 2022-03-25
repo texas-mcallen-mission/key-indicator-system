@@ -123,7 +123,7 @@ function dataLogger_end_() {
 
     let INCLUDE_GITHUB_METADATA = true
 
-    let REMOVE_START_END_MILLISECONDS = false
+    let REMOVE_START_END_MILLISECONDS = true
 
     if (USE_OLD_DATA) {
         log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
