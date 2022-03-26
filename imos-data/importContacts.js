@@ -15,7 +15,7 @@ function refreshContacts(allSheetData) {
 
 function importContacts(allSheetData) {
 
-
+    
     Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
 
 
