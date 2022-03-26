@@ -74,8 +74,8 @@ class dataLogger {
         }
         let cycleEndDate = new Date();
         this.logData[functionName][logKeys.cycleEndMillis] = cycleEndDate.getMilliseconds();
-        let currentDuration = this.logData[functionName][logKeys.duration];
-        let additionalTime = this.logData[functionName][logKeys.cycleEndMillis] - this.logData[functionName][logKeys.cycleStartMillis];
+        let currentDuration = Math.abs(this.logData[functionName][logKeys.duration])
+        let additionalTime = Math.abs(this.logData[functionName][logKeys.cycleEndMillis] - this.logData[functionName][logKeys.cycleStartMillis])
         this.logData[functionName][logKeys.duration] = currentDuration + additionalTime;
     }
 
@@ -181,6 +181,7 @@ class dataLogger {
             prependRows_(log_data, dataLogSheet)
 
             debug_write_unlock_()
+            Logger.log("logging finished.")
 
         }
     }
