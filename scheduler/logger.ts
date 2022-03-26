@@ -223,7 +223,7 @@ function time_a_function_classy() {
 
     logger.startFunction(functionName);
     try {
-        updateDistrictReports();
+        updateDistrictReports(logger);
     } catch (error) {
         logger.addFailure(functionName, error);
     }
