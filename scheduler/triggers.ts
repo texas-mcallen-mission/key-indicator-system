@@ -35,8 +35,23 @@ function buildMenu() {
 }
 
 
+function testSomethingInsane() {
+    passThroughFunctionAndRun(updateZoneReports, triggerTypes.DEBUG)
+}
 
-
+function passThroughFunctionAndRun(functionName,trigger) {
+    let dLog: dataLogger = new dataLogger(functionName.name, trigger)
+    Logger.log(testSomethingInsane.name)
+    console.info("running ", functionName.name, " from a ", trigger)
+    dLog.startFunction(functionName.name)
+    try {
+        functionName(dLog)
+    } catch (error) {
+        dLog.addFailure(functionName.name, error)
+    }
+    dLog.endFunction(functionName.name)
+    dLog.end()
+}
 
 
 
