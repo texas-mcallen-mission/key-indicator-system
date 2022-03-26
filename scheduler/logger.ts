@@ -175,9 +175,10 @@ class dataLogger {
             // sendDataToDisplayV3_(header, outData, dataLogSheet, args);
 
             if (header_changed == true) {
-                dataLogSheet.getRange(1,1,1,header.length).setValues(header)
+                let headerRange = dataLogSheet.getRange(1, 1, 1, header.length);
+                headerRange.setValues(header)
             }
-            prependRows(log_data, dataLogSheet)
+            prependRows_(log_data, dataLogSheet)
 
             debug_write_unlock_()
 
@@ -187,10 +188,10 @@ class dataLogger {
 }
 
 
-function prependRows(data,sheet) {
+function prependRows_(data,sheet) {
     sheet.insertRowsBefore(2,data.length)
-    sheet.getRange(2,1,data.length,data[0].length)
-    sheet.setValues(data)
+    let dataRange = sheet.getRange(2,1,data.length,data[0].length)
+    dataRange.setValues(data)
 }
 
 const debug_write_lock_key = "soggyMcLoggy";
