@@ -366,20 +366,20 @@ function headerSplit_(data) {
     };
 }
 
-/*
- * @param {any} data
- */
-function loadFSIntoClass_(data) {
-    let fsData = [];
+// /*
+//  * @param {any} data
+//  */
+// function loadFSIntoClass_(data) {
+//     let fsData = [];
 
-    for (let item of data) {
-        let email = [];
-        email.push(item[5]);
-        email.push(item[6]);
-        // this is a basic loader doodad, it can become more smart in the future if I want it to by incorporating Elder Gerlek's sheetloader indexOf thingy.
-        let entry = new FilesystemEntry(item[0], item[1], item[2], item[3], item[4]);
-        fsData.push(entry);
-    }
+//     for (let item of data) {
+//         let email = [];
+//         email.push(item[5]);
+//         email.push(item[6]);
+//         // this is a basic loader doodad, it can become more smart in the future if I want it to by incorporating Elder Gerlek's sheetloader indexOf thingy.
+//         let entry = new FilesystemEntry(item[0], item[1], item[2], item[3], item[4]);
+//         fsData.push(entry);
+//     }
 
-    return fsData;
-}
+//     return fsData;
+// }
