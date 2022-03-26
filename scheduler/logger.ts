@@ -10,9 +10,9 @@ const logKeys = {
     // mainFunction:"mainFunction",
     failures: "failures",
     functionName: "functionName",
-    parentFunction: "parentFunction"
+    parentFunction: "parentFunction",
     // mainFunction:"mainFunction"
-
+    
 };
 
 
@@ -20,7 +20,8 @@ const logKeys = {
 const logMetaKeys = {
     baseFunction: "baseFunction",
     triggerType: "triggerType",
-    timeStarted: "timeStarted"
+    timeStarted: "timeStarted",
+    timeEnded: "timeEnded"
 };
 
 const triggerTypes = {
@@ -125,11 +126,19 @@ class dataLogger {
 
         for (let functionNameKey in this.logData) {
             let entry = [];
+
+
             entry[header.indexOf(logKeys.functionName)] = functionNameKey;
 
             if (REMOVE_CYCLE_TIMING_DATA) {
                 delete this.logData[functionNameKey][logKeys.cycleStartMillis];
                 delete this.logData[functionNameKey][logKeys.cycleEndMillis];
+            }
+
+
+            if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[functionNameKey][logMetaKeys.baseFunction]) {
+                // Anything put in here will only be applied to the base function that ran.
+                this.logMetaData[functionNameKey][logMetaKeys.timeEnded] = new Date()
             }
 
             if (GET_META_DATA) {
@@ -147,6 +156,8 @@ class dataLogger {
                     entry[header.indexOf(gitKey)] = GITHUB_DATA[gitKey];
                 }
             }
+
+
 
             for (let subKey in this.logData[functionNameKey]) {
                 if (!header.includes(subKey)) {
