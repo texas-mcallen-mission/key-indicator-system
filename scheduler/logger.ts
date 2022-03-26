@@ -91,7 +91,7 @@ class dataLogger {
         // sends data to display
 
         if (debug_write_is_locked_()) {
-            while (debug_write_is_locked_()) {
+            while (!debug_write_is_locked_()) {
                 Logger.log("waiting for other thing to save")
             }
         }
