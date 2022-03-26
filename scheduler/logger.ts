@@ -47,6 +47,7 @@ class dataLogger {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;
         this.logMetaData[logMetaKeys.timeStarted] = new Date();
         this.logMetaData[logMetaKeys.triggerType] = trigger;
+        this.logMetaData[logMetaKeys.timeEnded] = new Date()
         this.inline = isInline;
     }
 
