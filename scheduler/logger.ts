@@ -136,7 +136,7 @@ class dataLogger {
             }
 
 
-            if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[functionNameKey][logMetaKeys.baseFunction]) {
+            if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
                 this.logMetaData[functionNameKey][logMetaKeys.timeEnded] = new Date()
             }
