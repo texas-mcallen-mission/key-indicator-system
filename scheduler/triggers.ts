@@ -21,7 +21,7 @@ function meta_runner(functionName, trigger,functionArg1 = undefined) {
     } catch (error) {
         dLog.addFailure(functionName.name, error)
     }
-    dLog.endFunction(functionName)
+    dLog.endFunction(functionName.name)
     dLog.end()
 }
 //                Installable triggers
