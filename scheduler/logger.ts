@@ -31,12 +31,31 @@ const triggerTypes = {
     "DEBUG": "DEBUG"
 };
 
-function justForTesting_() {
-    Logger.log("WWWWEEEE");
+function justForTesting_(dLog:dataLogger,arg1:string) {
+    console.log("WWWWEEEE" , arg1);
 }
 
 function testMetaRunnerSys() {
     meta_runner(justForTesting_, triggerTypes.DEBUG)
+}
+
+function test_dataLogger() { 
+    // basically yoinked from meta_runner for debugging purposes
+    let functionArg1 = "PASSTHROUGH ARGUMENT"
+    console.log("[META_RUNNER] - Running ", "justForTesting_", " with trigger:", triggerTypes.DEBUG);
+    let dLog = new dataLogger("justForTesting_", triggerTypes.DEBUG, false);
+    dLog.startFunction("justForTesting_");
+    try {
+
+            Logger.log(typeof functionArg1);
+            justForTesting_(dLog,functionArg1);
+        }
+    }
+    catch (error) {
+        dLog.addFailure("justForTesting_", error);
+    }
+    dLog.endFunction("justForTesting_");
+    dLog.end();
 }
 
 function getDataLogSheet_() {
