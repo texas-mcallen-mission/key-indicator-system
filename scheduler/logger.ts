@@ -49,9 +49,8 @@ function test_dataLogger() {
 
             Logger.log(typeof functionArg1);
             justForTesting_(dLog,functionArg1);
-        }
-    }
-    catch (error) {
+
+    } catch (error) {
         dLog.addFailure("justForTesting_", error);
     }
     dLog.endFunction("justForTesting_");
