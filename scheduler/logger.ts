@@ -31,6 +31,13 @@ const triggerTypes = {
     "DEBUG": "DEBUG"
 };
 
+function justForTesting_() {
+    Logger.log("WWWWEEEE");
+}
+
+function testMetaRunnerSys() {
+    meta_runner(justForTesting_, triggerTypes.DEBUG)
+}
 
 function getDataLogSheet_() {
     let worksheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -70,6 +77,8 @@ class dataLogger {
 
     }
 
+
+    
     endFunction(functionName) {
         if (this.logData[functionName][logKeys.cycleEndMillis] == undefined) {
             this.logData[functionName][logKeys.cycleEndMillis] = 0;
