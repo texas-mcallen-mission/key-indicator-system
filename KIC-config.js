@@ -118,7 +118,8 @@ let INTERNAL_CONFIG = {
     scheduler: {
         meta_locker: {
              cacheTimeoutTime: 1900 // 30 minutes * 60 seconds + 100 extra seconds just in case
-         }
+        }
+        
     }
     
 

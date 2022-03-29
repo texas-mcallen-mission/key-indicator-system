@@ -64,23 +64,43 @@ class meta_locker{
 
 }
 
+const list_of_time_based_triggers = {
+    /*
+updateDataSheet_TimeBasedTrigger
+importContacts_TimeBasedTrigger
+updateForm_TimeBasedTrigger
+updateFS_TimeBasedTrigger
+updateAreaReports_TimeBasedTrigger
+updateDistrictReports_TimeBasedTrigger
+updateZoneReports_TimeBasedTrigger
+sharefileSystem_TimeBasedTrigger
+    */
+}
 
-// const debug_write_lock_key = "soggyMcLoggy";
-// function debug_write_lock_() {
-//     let cache = CacheService.getScriptCache();
-//     cache.put(debug_write_lock_key, "true");
-// }
+const list_of_menu_triggers = {
+    /*
+updateDataSheet_MenuTrigger_
+updateFS_MenuTrigger_
+updateAreaReports_MenuTrigger_
+updateDistrictReports_MenuTrigger_
+updateZoneReports_MenuTrigger_
+importContacts_MenuTrigger_
+markDuplicates_MenuTrigger_
+loadAreaIDs_MenuTrigger_
+    */
 
-// function debug_write_unlock_() {
-//     let cache = CacheService.getScriptCache();
-//     cache.remove(debug_write_lock_key);
-// }
-// function debug_write_is_locked_() {
-//     let cache = CacheService.getScriptCache();
-//     let cacheData = cache.get(debug_write_lock_key);
-//     if (!cacheData) {
-//         return false;
-//     } else {
-//         return true;
-//     }
-// }
+}
+
+function trigger_DEMO() {
+    meta_runner(meta_runner_trigger_demo, triggerTypes.DEBUG)
+}
+
+function meta_runner_trigger_demo() {
+    Logger.log("Hello, and goodbye")
+    return
+}
+
+function triggerTesting() {
+    let trigger = ScriptApp.newTrigger("trigger_DEMO")
+    trigger.timeBased().everyMinutes(6).create()
+}
