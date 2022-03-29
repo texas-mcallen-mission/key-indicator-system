@@ -110,8 +110,18 @@ let INTERNAL_CONFIG = {
 			importContacts: true,
 			markDuplicates: true,
 			loadAreaIds: true,
-		}
-  }
+        }
+        
+        
+    },
+
+    scheduler: {
+        meta_locker: {
+             cacheTimeoutTime: 1900 // 30 minutes * 60 seconds + 100 extra seconds just in case
+         }
+    }
+    
+
 };
 
 // this combines the two objects together- the bottom ones overwrite the top ones.

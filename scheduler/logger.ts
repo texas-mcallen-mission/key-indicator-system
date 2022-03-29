@@ -91,7 +91,7 @@ class dataLogger {
         }
         let cycleStartTime = new Date();
         this.logData[functionName][logKeys.executionCounter] += 1;
-        this.logData[functionName][logKeys.cycleStartMillis] = cycleStartTime.getMilliseconds();
+        this.logData[functionName][logKeys.cycleStartMillis] = cycleStartTime.getTime();
 
     }
 
@@ -102,7 +102,7 @@ class dataLogger {
             this.logData[functionName][logKeys.cycleEndMillis] = 0;
         }
         let cycleEndDate = new Date();
-        this.logData[functionName][logKeys.cycleEndMillis] = cycleEndDate.getMilliseconds();
+        this.logData[functionName][logKeys.cycleEndMillis] = cycleEndDate.getTime();
         let currentDuration = Math.abs(this.logData[functionName][logKeys.duration])
         let additionalTime = Math.abs(this.logData[functionName][logKeys.cycleEndMillis] - this.logData[functionName][logKeys.cycleStartMillis])
         this.logData[functionName][logKeys.duration] = currentDuration + additionalTime;
