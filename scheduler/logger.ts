@@ -215,7 +215,7 @@ class dataLogger {
 
             if (header_changed == true) {
                 let headerRange = dataLogSheet.getRange(1, 1, 1, header.length);
-                headerRange.setValues(header)
+                headerRange.setValues([header])
             }
             prependRows_(log_data, dataLogSheet)
 

@@ -11,3 +11,5 @@ docs/jsdoc
 node_modules/**
 
 .git/**
+
+.VSCodeCounter/**
