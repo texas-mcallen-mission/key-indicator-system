@@ -21,7 +21,7 @@ function meta_runner(functionName, trigger, functionArg1 = undefined) {
             }
         } catch (error) {
             dLog.addFailure(functionName.name, error);
-we        }
+        }
         dLog.endFunction(functionName.name);
         dLog.end();
         locker.unlock() // I moved this in front of the dLogger bit because I shouldn't need it to run for things to work
