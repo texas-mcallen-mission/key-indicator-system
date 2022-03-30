@@ -65,16 +65,16 @@ class meta_locker{
 }
 
 const list_of_time_based_triggers = {
-    /*
-updateDataSheet_TimeBasedTrigger
-importContacts_TimeBasedTrigger
-updateForm_TimeBasedTrigger
-updateFS_TimeBasedTrigger
-updateAreaReports_TimeBasedTrigger
-updateDistrictReports_TimeBasedTrigger
-updateZoneReports_TimeBasedTrigger
-sharefileSystem_TimeBasedTrigger
-    */
+
+updateDataSheet_TimeBasedTrigger:updateDataSheet_TimeBasedTrigger,
+importContacts_TimeBasedTrigger:importContacts_TimeBasedTrigger,
+updateForm_TimeBasedTrigger:updateForm_TimeBasedTrigger,
+updateFS_TimeBasedTrigger:updateFS_TimeBasedTrigger,
+updateAreaReports_TimeBasedTrigger:updateAreaReports_TimeBasedTrigger,
+updateDistrictReports_TimeBasedTrigger:updateDistrictReports_TimeBasedTrigger,
+updateZoneReports_TimeBasedTrigger:updateZoneReports_TimeBasedTrigger,
+sharefileSystem_TimeBasedTrigger:sharefileSystem_TimeBasedTrigger,
+
 }
 
 const list_of_menu_triggers = {
@@ -103,4 +103,27 @@ function meta_runner_trigger_demo() {
 function triggerTesting() {
     let trigger = ScriptApp.newTrigger("trigger_DEMO")
     trigger.timeBased().everyMinutes(6).create()
+}
+
+function deleteClockTriggers() {
+    let triggers = ScriptApp.getProjectTriggers()
+    for (let trigger of triggers) {
+        if (trigger.getTriggerSource() == ScriptApp.TriggerSource.CLOCK) {
+            ScriptApp.deleteTrigger(trigger);
+        }
+    }
+}
+
+function addTimeBasedTriggers() {
+    for (let trigger in list_of_time_based_triggers) {
+        let triggerDood = ScriptApp.newTrigger(trigger)
+        triggerDood.timeBased().everyMinutes(15).create()
+    }
+    console.info("all time_based triggers added")
+}
+
+function updateTimeBasedTriggers() {
+    deleteClockTriggers()
+    addTimeBasedTriggers()
+    console.info("timeBased triggers updated")
 }
