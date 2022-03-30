@@ -3,7 +3,7 @@ name: BERT-INSTANCE-1
 on:
   workflow_dispatch:
   push:
-    branches: [79-build-function-data-dashboard]
+    branches: [support-infrastructure]
   release:
     types: [published]
   schedule:
