@@ -9,3 +9,5 @@ docs/jsdoc
 
 # ignore node modules folder
 node_modules/**
+
+.git/**

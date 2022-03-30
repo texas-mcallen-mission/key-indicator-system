@@ -31,8 +31,9 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
 
 }
 
-async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[]): Promise<any[]> {
+async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, keyName: string, header: string[], keyArray: string[],dLog:dataLogger): Promise<any[]> {
     // used this as a basis for this function: https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
+    
     let currentDate = new Date();
     
     // TODO NEED TO PASS IN KEY ARRAY SO THAT I CAN CONVERT THE DATA INTO AN ARRAY FOR FINAL OUTPUT
@@ -53,12 +54,17 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
         let targetDataSheet = await getReportFromOtherSource_async_(dataSheetName, targetWorksheet); // NEEDS TO BE ASYNC BECAUSE IT TAKES A NON-TRIVIAL AMOUNT OF TIME
         let targetConfSheet = await getReportFromOtherSource_async_(configSheetName,targetWorksheet)
         // WHERE YOU LEFT OFF:
-        // TODO: FINISH PORTING OVER CODE FROM modifyTEmplatesOLDTODEPRECATE_()
+        //   // TODO: FINISH PORTING OVER CODE FROM modifyTEmplatesOLDTODEPRECATE_()
         // TODO: NEED TO DO ALL THE CONFIG PAGE WORK AND DUMP EVERYTHING INTO THE DATASHEET
         // After that, I *should* be done with it
         // all that's left after that is running the tests on the whole thing and then we'll be done with this rewrite finally!
-
-        promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
+        dLog.startFunction("sendReportToDisplayV4_async_")
+        try {
+            promises.push(sendReportToDisplayV4_async_(header, outData, targetDataSheet))
+        } catch (error) {
+            dLog.addFailure("sendReportToDisplayV4_async_",error)
+        }
+        dLog.endFunction("sendReportToDisplayV4_async_")
         console.log("entry completed for ",entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
         targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
                                                                           //   TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER
@@ -68,6 +74,7 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
     console.log("Async modify loop completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
     complete = true
     console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    
     return Promise.all(promises)
     
 }
