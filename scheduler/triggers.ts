@@ -7,6 +7,7 @@
 */
 
 
+
 //                Installable triggers
 
 function onOpen_InstallableTrigger() {
@@ -83,7 +84,9 @@ function updateForm_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
+
     meta_runner(updateForm,triggerTypes.timeBased)
+
 }
 
 function updateFS_TimeBasedTrigger() {

@@ -73,6 +73,8 @@ let INTERNAL_CONFIG = {
         includeScopeInFolderName: false,
 
         freezeFilesys: false, //TODO Re-implement? Currently unimplemented
+        includeScopeInFolderName: false,
+
 
         log_existing_folders: false,
 
@@ -152,7 +154,8 @@ function test_lodash() {
 
 // stick things here that you want to override your secret data- mostly for testing, or when you don't have access to modify github action secrets.
 const OVERRIDE_SECRET_DATA = {
+
     //   dataFlow: { skipMarkingPulled: true } // easily re-commentable for convenience
-};
+`};
 
 var CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
