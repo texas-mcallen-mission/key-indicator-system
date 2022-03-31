@@ -64,46 +64,6 @@ class meta_locker{
 
 }
 
-const list_of_time_based_triggers = {
-
-updateDataSheet_TimeBasedTrigger:"updateDataSheet_TimeBasedTrigger",
-importContacts_TimeBasedTrigger:"importContacts_TimeBasedTrigger",
-updateForm_TimeBasedTrigger:"updateForm_TimeBasedTrigger",
-updateFS_TimeBasedTrigger:"updateFS_TimeBasedTrigger",
-updateAreaReports_TimeBasedTrigger:"updateAreaReports_TimeBasedTrigger",
-updateDistrictReports_TimeBasedTrigger:"updateDistrictReports_TimeBasedTrigger",
-updateZoneReports_TimeBasedTrigger:"updateZoneReports_TimeBasedTrigger",
-sharefileSystem_TimeBasedTrigger:"sharefileSystem_TimeBasedTrigger",
-
-}
-
-const list_of_menu_triggers = {
-    /*
-updateDataSheet_MenuTrigger_
-updateFS_MenuTrigger_
-updateAreaReports_MenuTrigger_
-updateDistrictReports_MenuTrigger_
-updateZoneReports_MenuTrigger_
-importContacts_MenuTrigger_
-markDuplicates_MenuTrigger_
-loadAreaIDs_MenuTrigger_
-    */
-
-}
-
-function trigger_DEMO() {
-    meta_runner(meta_runner_trigger_demo, triggerTypes.DEBUG)
-}
-
-function meta_runner_trigger_demo() {
-    Logger.log("Hello, and goodbye")
-    return
-}
-
-function triggerTesting() {
-    let trigger = ScriptApp.newTrigger("trigger_DEMO")
-    trigger.timeBased().everyMinutes(6).create()
-}
 
 function deleteClockTriggers() {
     let triggers = ScriptApp.getProjectTriggers()
@@ -115,9 +75,9 @@ function deleteClockTriggers() {
 }
 
 function addTimeBasedTriggers() {
-    for (let trigger in list_of_time_based_triggers) {
+    for (let trigger in CONFIG.scheduler.time_based_triggers) {
         let triggerDood = ScriptApp.newTrigger(trigger)
-        triggerDood.timeBased().everyMinutes(15).create()
+        triggerDood.timeBased().everyMinutes(CONFIG.scheduler.execution_wait_in_minutes).create()
     }
     console.info("all time_based triggers added")
 }
@@ -126,4 +86,26 @@ function updateTimeBasedTriggers() {
     deleteClockTriggers()
     addTimeBasedTriggers()
     console.info("timeBased triggers updated")
+}
+
+function removeSheetTriggers() {
+    let triggers = ScriptApp.getProjectTriggers()
+    for (let trigger of triggers) {
+        if (trigger.getTriggerSource() == ScriptApp.TriggerSource.SPREADSHEETS) {
+            ScriptApp.deleteTrigger(trigger)
+        }
+    }
+}
+
+function addOnOpenTriggers() {
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+    for (let trigger in CONFIG.scheduler.onOpen_triggers) {
+        let triggerDood = ScriptApp.newTrigger(trigger)
+        triggerDood.forSpreadsheet(spreadsheet).onOpen().create()
+    }
+}
+
+function updateSpreadsheetTriggers() {
+    removeSheetTriggers()
+    addOnOpenTriggers()
 }

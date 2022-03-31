@@ -83,7 +83,7 @@ function updateForm_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
-    meta_runner(updateForm(),triggerTypes.timeBased)
+    meta_runner(updateForm,triggerTypes.timeBased)
 }
 
 function updateFS_TimeBasedTrigger() {
@@ -154,9 +154,9 @@ function updateFS_MenuTrigger_() {
         return;
     }
     Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu");
-    meta_runner(createFS,triggerTypes.menu)
+    meta_runner(updateFS,triggerTypes.menu)
 }
-
+    
 function updateAreaReports_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateAreaReports) {
