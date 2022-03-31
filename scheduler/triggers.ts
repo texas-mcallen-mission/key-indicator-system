@@ -7,23 +7,7 @@
 */
 
 
-function meta_runner(functionName, trigger,functionArg1 = undefined) {
-    console.log("[META_RUNNER] - Running ", functionName.name, " with trigger:", trigger)
-    let dLog: dataLogger = new dataLogger(functionName.name, trigger, false)
-    dLog.startFunction(functionName.name)
-    try {
-        if (functionArg1 == undefined) {
-            functionName(dLog)
-        } else {
-            Logger.log(typeof functionArg1)
-            functionName(functionArg1,dLog)
-        }
-    } catch (error) {
-        dLog.addFailure(functionName.name, error)
-    }
-    dLog.endFunction(functionName.name)
-    dLog.end()
-}
+
 //                Installable triggers
 
 function onOpen_InstallableTrigger() {
@@ -100,7 +84,9 @@ function updateForm_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
-    meta_runner(updateForm(),triggerTypes.timeBased)
+
+    meta_runner(updateForm,triggerTypes.timeBased)
+
 }
 
 function updateFS_TimeBasedTrigger() {
@@ -171,9 +157,9 @@ function updateFS_MenuTrigger_() {
         return;
     }
     Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu");
-    meta_runner(createFS,triggerTypes.menu)
+    meta_runner(updateFS,triggerTypes.menu)
 }
-
+    
 function updateAreaReports_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateAreaReports) {

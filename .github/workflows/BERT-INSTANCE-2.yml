@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [update-config]
+    branches: [80-build-scheduler]
   release:
     types: [published]
   schedule:
