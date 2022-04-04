@@ -2,22 +2,59 @@
 // # Treecapitator:  Prunes fs tree- if a folder is not in folder data or a document not in the tree, it's gonna get whacked.
 
 
-function getFilesystemData() {
-    let allSheetData = constructSheetData();
-    let zoneFS = allSheetData.zoneFilesys;
-    let zoneData = zoneFS.getData();
-    let folderIDs = [];
-    let sheetIDs = [];
-    for (let entry of zoneData) {
-        if (entry.folder != "") folderIDs.push(entry.folder)
-        if (entry.sheetID1 != "") sheetIDs.push(entry.sheetID1)
-        if(entry.sheetID2 != "") sheetIDs.push(entry.sheetID2)
+function testGetFilesystemData() {
+    let allSheetData = constructSheetData()
+    let fsData = getFilesystemDocsAndFolders(allSheetData)
+
+    for (let key in fsData) {
+        for (let entry of fsData[key]) {
+            console.log(key,entry)
+        }
     }
-    console.log(folderIDs)
-    console.log(sheetIDs)
-    
 }
 
+function getFilesystemDocsAndFolders(allSheetData) {
+    // let allSheetData = constructSheetData();
+    let zoneFS = allSheetData.zoneFilesys;
+    let distFS = allSheetData.distFilesys
+    let areaFS = allSheetData.areaFilesys
+    // let zoneData = zoneFS.getData();
+
+    let zoneData = getSingleFilesysData(zoneFS)
+    let distData = getSingleFilesysData(distFS)
+    let areaData = getSingleFilesysData(areaFS)
+
+    let allFolders = []
+    allFolders.push(...zoneData.folders)
+    allFolders.push(...distData.folders)
+    allFolders.push(...areaData.folders)
+
+    let allDocs = []
+    allDocs.push(...zoneData.docs);
+    allDocs.push(...distData.docs);
+    allDocs.push(...areaData.docs);
+
+    return {
+        folders: allFolders,
+        docs:allDocs
+    }
+
+}
+
+function getSingleFilesysData(filesys) {
+    let fsData = filesys.getData()
+    let folderIDs = [];
+    let sheetIDs = [];
+    for (let entry of filesys) {
+        if (entry.folder != "") folderIDs.push(entry.folder);
+        if (entry.sheetID1 != "") sheetIDs.push(entry.sheetID1);
+        if (entry.sheetID2 != "") sheetIDs.push(entry.sheetID2);
+    }
+    return {
+        folders: folderIDs,
+        docs:sheetIDs
+    }
+}
 
 
 function testGetAllFoldersAndFiles() {
