@@ -40,3 +40,8 @@ function clearCache() {
 function run_constructSheetData() {
     let allSheetData = constructSheetData();
 }
+
+function setUpTriggers() {
+    updateTimeBasedTriggers()
+    updateSpreadsheetTriggers()
+}

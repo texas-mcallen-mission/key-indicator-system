@@ -1,7 +1,14 @@
 //@ts-check
 // Code snippets either common to several modules, or frequently reused in side projects.
 
-function sendDataToDisplayV3_(header, finalData, sheet) {
+//@ts-ignore
+var _ = lodash.load();
+
+
+// var MERGED_OBJECT = _.merge(OBJ1, OBJ2,OBJ3)
+
+
+function sendDataToDisplayV3_(header, finalData, sheet, args = {sortColumn:1,ascending:true}) {
     // TODO: *maybe* merge sendDataToDisplay & sendReportToDisplay into one function with a final pre-defined object argument for extra settings, ie start row & column, whether or not to clear out the whole sheet first, etc. 
     let preDate = new Date
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
@@ -18,7 +25,7 @@ function sendDataToDisplayV3_(header, finalData, sheet) {
     } else {
         sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData);
         if (CONFIG.commonLib.log_display_info) { Logger.log("Data added, sorting"); }
-        sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
+        sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: args.sortColumn, ascending: args.ascending }]);
         // Logger.log("data added")
     }
     let postDate = new Date
@@ -54,6 +61,36 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
     // SpreadsheetApp.flush()
     // Logger.log("data added")
 }
+
+function getReportOrSetUpFromOtherSource_(sheetName, targetSpreadsheet, headerData = []) {
+    let ss = targetSpreadsheet;
+    let outHeader = [];
+    
+    let data =[]
+    // Checks to see if the sheet exists or not.
+    let sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+        sheet = ss.insertSheet(sheetName);
+        sheet.appendRow(headerData);
+        outHeader = headerData; // Creating Header
+    } else {
+        let outData = sheet.getDataRange().getValues();
+        outHeader = outData[0];
+        if (outData.length > 1) {
+            outHeader = outData.shift()
+            data = outData
+        }
+    }
+
+    
+
+    return {
+        sheet: sheet,
+        headerData: outHeader,
+        data:data
+    };
+}
+
 /*
  * @param {any} folderID
  */

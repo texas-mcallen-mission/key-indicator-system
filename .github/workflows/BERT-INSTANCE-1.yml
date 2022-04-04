@@ -3,7 +3,7 @@ name: BERT-INSTANCE-1
 on:
   workflow_dispatch:
   push:
-    branches: [update-to-use-lodash-test2]
+    branches: [support-infrastructure]
   release:
     types: [published]
   schedule:
@@ -26,6 +26,6 @@ jobs:
       IN_CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
       IN_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       IN_DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-      IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_2_SCRIPT_ID }}
-      IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }}
+      IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_1_SCRIPT_ID }}
+      IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_1_PARENT_ID }}
       IN_CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }}

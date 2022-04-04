@@ -1,2 +1,3 @@
 tsignore-appscript-classes.js
 node_modules/**
+.clasp.json

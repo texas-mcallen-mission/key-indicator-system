@@ -8,8 +8,6 @@
 
 
 
-
-
 //                Installable triggers
 
 function onOpen_InstallableTrigger() {
@@ -35,8 +33,23 @@ function buildMenu() {
 }
 
 
+// function testSomethingInsane() {
+//     passThroughFunctionAndRun(updateZoneReports, triggerTypes.DEBUG)
+// }
 
-
+// function passThroughFunctionAndRun(functionName,trigger) {
+//     let dLog: dataLogger = new dataLogger(functionName.name, trigger)
+//     Logger.log(testSomethingInsane.name)
+//     console.info("running ", functionName.name, " from a ", trigger)
+//     dLog.startFunction(functionName.name)
+//     try {
+//         functionName(dLog)
+//     } catch (error) {
+//         dLog.addFailure(functionName.name, error)
+//     }
+//     dLog.endFunction(functionName.name)
+//     dLog.end()
+// }
 
 
 
@@ -49,18 +62,20 @@ function updateDataSheet_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
         return;
     }
-    updateDataSheet();
+    meta_runner(updateDataSheet, triggerTypes.timeBased)
 }
 
 function importContacts_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running importContacts() from a time-based trigger");
+
+    // Logger.log("[TRIGGER] Running importContacts() from a time-based trigger");
 
     if (!CONFIG.triggers.timeBased.importContacts) {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.importContacts is set to false");
         return;
     }
+    
     let allSheetData = constructSheetData();
-    importContacts(allSheetData);
+    meta_runner(importContacts,triggerTypes.timeBased,allSheetData)
 }
 
 function updateForm_TimeBasedTrigger() {
@@ -69,7 +84,9 @@ function updateForm_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
-    updateForm();
+
+    meta_runner(updateForm,triggerTypes.timeBased)
+
 }
 
 function updateFS_TimeBasedTrigger() {
@@ -78,8 +95,7 @@ function updateFS_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
         return;
     }
-    verifyFilesystem();
-    createFS();
+    meta_runner(updateFS,triggerTypes.timeBased)
 }
 
 function updateAreaReports_TimeBasedTrigger() {
@@ -88,7 +104,8 @@ function updateAreaReports_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateAreaReports is set to false");
         return;
     }
-    updateAreaReports();
+    meta_runner(updateAreaReports, triggerTypes.timeBased)
+    // updateAreaReports();
 }
 
 function updateDistrictReports_TimeBasedTrigger() {
@@ -97,7 +114,8 @@ function updateDistrictReports_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDistReports is set to false");
         return;
     }
-    updateDistrictReports();
+    meta_runner(updateDistrictReports, triggerTypes.timeBased)
+    // updateDistrictReports();
 }
 
 function updateZoneReports_TimeBasedTrigger() {
@@ -106,7 +124,7 @@ function updateZoneReports_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateZoneReports is set to false");
         return;
     }
-    updateZoneReports();
+    meta_runner(updateZoneReports,triggerTypes.timeBased)
 }
 
 function sharefileSystem_TimeBasedTrigger() {
@@ -115,7 +133,7 @@ function sharefileSystem_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.shareFileSystem is set to false");
         return;
     }
-    shareFileSystem();
+    meta_runner(shareFileSystem,triggerTypes.timeBased)
 }
 
 
@@ -130,7 +148,7 @@ function updateDataSheet_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDataSheet is set to false");
         return;
     }
-    updateDataSheet();
+    meta_runner(updateDataSheet,triggerTypes.menu)
 }
 
 function updateFS_MenuTrigger_() {
@@ -139,16 +157,16 @@ function updateFS_MenuTrigger_() {
         return;
     }
     Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu");
-    createFS();
+    meta_runner(updateFS,triggerTypes.menu)
 }
-
+    
 function updateAreaReports_MenuTrigger_() {
     Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateAreaReports) {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateAreaReports is set to false");
         return;
     }
-    updateAreaReports();
+    meta_runner(updateAreaReports,triggerTypes.menu)
 }
 
 function updateDistrictReports_MenuTrigger_() {
@@ -157,7 +175,7 @@ function updateDistrictReports_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDistReports is set to false");
         return;
     }
-    updateDistrictReports();
+    meta_runner(updateDistrictReports,triggerTypes.menu)
 }
 
 function updateZoneReports_MenuTrigger_() {
@@ -166,7 +184,7 @@ function updateZoneReports_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateZoneReports is set to false");
         return;
     }
-    updateZoneReports();
+    meta_runner(updateZoneReports, triggerTypes.menu)
 }
 
 function importContacts_MenuTrigger_() {
@@ -176,7 +194,8 @@ function importContacts_MenuTrigger_() {
         return;
     }
     let allSheetData = constructSheetData();
-    importContacts(allSheetData);
+    meta_runner(importContacts, triggerTypes.menu,allSheetData)
+    // importContacts(allSheetData);
 }
 
 function markDuplicates_MenuTrigger_() {
@@ -186,7 +205,7 @@ function markDuplicates_MenuTrigger_() {
         return;
     }
     let allSheetData = constructSheetData();
-    markDuplicates(allSheetData);
+    meta_runner(markDuplicates,triggerTypes.menu,allSheetData)
 }
 
 function loadAreaIDs_MenuTrigger_() {
@@ -196,5 +215,5 @@ function loadAreaIDs_MenuTrigger_() {
         return;
     }
     let allSheetData = constructSheetData();
-    loadAreaIDs(allSheetData);
+    meta_runner(loadAreaIDs,triggerTypes.menu,allSheetData)
 }
