@@ -14,12 +14,32 @@ function testGetFilesystemData() {
 }
 
 function getFilesystemDocsAndFolders(allSheetData) {
-    // let allSheetData = constructSheetData();
+
+    let filesystems = {
+        zoneFS: allSheetData.zoneFilesys,
+        distFS: allSheetData.distFilesys,
+        areaFS: allSheetData.areaFilesys
+    };
+
+    let docs = [];
+    let folders = [];
+    for (let fs in filesystems) {
+        let data = getSingleFilesysData(filesystems[fs]);
+        docs.push(...data.docs);
+        folders.push(...data.folders);
+    }
+
+    return {
+        docs: docs,
+        folders: folders
+    };
+}
+
+function getFilesystemDocsAndFoldersOld(allSheetData) {
     let zoneFS = allSheetData.zoneFilesys;
     let distFS = allSheetData.distFilesys
     let areaFS = allSheetData.areaFilesys
-    // let zoneData = zoneFS.getData();
-
+    
     let zoneData = getSingleFilesysData(zoneFS)
     let distData = getSingleFilesysData(distFS)
     let areaData = getSingleFilesysData(areaFS)
