@@ -3,13 +3,21 @@
 
 
 function getFilesystemData() {
-    let allSheetData = constructSheetData()
-
-    let zoneFS = allSheetData.zoneFilesys
-
-    console.log(zoneFS)
+    let allSheetData = constructSheetData();
+    let zoneFS = allSheetData.zoneFilesys;
+    let zoneData = zoneFS.getData();
+    let folderIDs = [];
+    let sheetIDs = [];
+    for (let entry of zoneData) {
+        if (entry.folder != "") folderIDs.push(entry.folder)
+        if (entry.sheetID1 != "") sheetIDs.push(entry.sheetID1)
+        if(entry.sheetID2 != "") sheetIDs.push(entry.sheetID2)
+    }
+    console.log(folderIDs)
+    console.log(sheetIDs)
     
 }
+
 
 
 function testGetAllFoldersAndFiles() {
