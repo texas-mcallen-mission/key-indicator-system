@@ -1,6 +1,7 @@
 //@ts-check
 
 
+
 function createFS(dLog:dataLogger = new dataLogger("createFS",triggerTypes.manual,true)) {
     dLog.startFunction("createFilesystemV3")
     try {
@@ -36,6 +37,9 @@ function updateFS(dLog: dataLogger = new dataLogger("updateFS", triggerTypes.man
 function verifyFilesystem() {
     let allSheetData = constructSheetData();
     Logger.log("initializing filesystem");
+
+    
+
     let zoneMeta = dataLoader_(allSheetData,
         CONFIG.fileSystem.reportLevel.zone); //FYI: I newlined that manually so it's more readable; it's not a formatter thing. You can change it back if you want.
     let distMeta = dataLoader_(allSheetData,
