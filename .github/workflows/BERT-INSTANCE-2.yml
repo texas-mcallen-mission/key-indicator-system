@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [80-build-scheduler]
+    branches: [DriveHandler-Rewrite]
   release:
     types: [published]
   schedule:
