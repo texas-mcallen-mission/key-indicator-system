@@ -100,6 +100,7 @@ let INTERNAL_CONFIG = {
             updateDistReports: true,
             updateZoneReports: true,
             shareFileSystem: false,
+            pruneFS:true
         },
         menu: {
             updateDataSheet: true,
@@ -128,6 +129,7 @@ let INTERNAL_CONFIG = {
             updateDistrictReports_TimeBasedTrigger: "updateDistrictReports_TimeBasedTrigger",
             updateZoneReports_TimeBasedTrigger: "updateZoneReports_TimeBasedTrigger",
             sharefileSystem_TimeBasedTrigger: "sharefileSystem_TimeBasedTrigger",
+            pruneFS_TimeBasedTrigger:"pruneFS_TimeBasedTrigger",
         },
         execution_wait_in_minutes: 15, // can be 1, 5, 15 or 30
 

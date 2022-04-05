@@ -133,6 +133,15 @@ function sharefileSystem_TimeBasedTrigger() {
     meta_runner(shareFileSystem,triggerTypes.timeBased)
 }
 
+function pruneFS_TimeBasedTrigger() {
+    Logger.log("[TRIGGER] Running pruneFS() from a time-based trigger");
+    if (!CONFIG.triggers.timeBased.pruneFS) {
+        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.pruneFS is set to false");
+        return;
+    }
+    meta_runner(pruneFS, triggerTypes.timeBased);
+}
+
 
 
 
