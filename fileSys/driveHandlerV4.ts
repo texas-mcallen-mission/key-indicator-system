@@ -48,7 +48,7 @@ function verifySingleFilesysV4_(filesystem) {
     }
     // sheetDataObj.clearContent() // not quite sure if this needs to be there or not, but according to the documentation, it does.
     // the implemetation shows that setData actually internally uses setValues, which means that it will wipe out old data. 
-    sheetDataObj.setData()
+    sheetDataObj.setData(outData)
 }
 
 function verifySingleFilesysV3_REFERENCEONLY_(fsObj) {
