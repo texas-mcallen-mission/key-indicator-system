@@ -2,9 +2,40 @@
 // # Treecapitator:  Prunes fs tree- if a folder is not in folder data or a document not in the tree, it's gonna get whacked.
 
 
+
+
+function pruneFS() {
+    let allSheetData = constructSheetData()
+
+    let fsData = getFilesystemDocsAndFolders_(allSheetData);
+
+    let baseFolderID = getOrCreateReportFolder()
+
+    let currentFSData = getAllFoldersAndFiles_(baseFolderID)
+
+    let foldersDeleted = 0
+    for (let folder of currentFSData.folders) {
+        if (!fsData.folders.includes(folder.id)) {
+            folder.folder.setTrashed(true);
+            foldersDeleted += 1
+        }
+    }
+
+    let filesDeleted = 0
+    for (let file of currentFSData.files) {
+        if (!fsData.files.includes(file.id)) {
+            file.file.setTrashed(true)
+            filesDeleted += 1
+        }
+    }
+
+}
+
+
+
 function testGetFilesystemData() {
     let allSheetData = constructSheetData()
-    let fsData = getFilesystemDocsAndFolders(allSheetData)
+    let fsData = getFilesystemDocsAndFolders_(allSheetData)
 
     for (let key in fsData) {
         for (let entry of fsData[key]) {
@@ -13,7 +44,8 @@ function testGetFilesystemData() {
     }
 }
 
-function getFilesystemDocsAndFolders(allSheetData) {
+
+function getFilesystemDocsAndFolders_(allSheetData) {
 
     let filesystems = {
         zoneFS: allSheetData.zoneFilesys,
@@ -30,36 +62,11 @@ function getFilesystemDocsAndFolders(allSheetData) {
     }
 
     return {
-        docs: docs,
+        files: docs,
         folders: folders
     };
 }
 
-function getFilesystemDocsAndFoldersOld(allSheetData) {
-    let zoneFS = allSheetData.zoneFilesys;
-    let distFS = allSheetData.distFilesys
-    let areaFS = allSheetData.areaFilesys
-    
-    let zoneData = getSingleFilesysData(zoneFS)
-    let distData = getSingleFilesysData(distFS)
-    let areaData = getSingleFilesysData(areaFS)
-
-    let allFolders = []
-    allFolders.push(...zoneData.folders)
-    allFolders.push(...distData.folders)
-    allFolders.push(...areaData.folders)
-
-    let allDocs = []
-    allDocs.push(...zoneData.docs);
-    allDocs.push(...distData.docs);
-    allDocs.push(...areaData.docs);
-
-    return {
-        folders: allFolders,
-        docs:allDocs
-    }
-
-}
 
 function getSingleFilesysData(filesys) {
     let fsData = filesys.getData()
