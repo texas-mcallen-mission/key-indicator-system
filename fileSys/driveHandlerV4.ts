@@ -38,17 +38,22 @@ function verifySingleFilesysV4_(filesystem) {
     let sheetDataObj = filesystem.fsData
     let sheetData: {any}[] = sheetDataObj.getData()
     let outData = []
+    let failData = []
     for (let entry of sheetData) {
         let push = true;
         if (isFolderAccessible_(entry.folder)) push = false;
-        if (entry.sheetID1 == "" || isFileAccessible_(entry.sheetID1)) entry.sheetID1 = "";
-        if (entry.sheetID2 == "" || isFileAccessible_(entry.sheetID2)) entry.sheetID2 = "";
-        if(push = false) console.log("entry does not exist ",entry)
-        if(push = true) outData.push(entry)
+        if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) entry.sheetID1 = "";
+        if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) entry.sheetID2 = "";
+        if (push = false) {
+            console.log("entry does not exist ", entry);
+            failData.push(entry)
+        }
+        if (push = true) outData.push(entry)
     }
     // sheetDataObj.clearContent() // not quite sure if this needs to be there or not, but according to the documentation, it does.
     // the implemetation shows that setData actually internally uses setValues, which means that it will wipe out old data. 
     sheetDataObj.setData(outData)
+    console.log(failData)
 }
 
 function verifySingleFilesysV3_REFERENCEONLY_(fsObj) {
