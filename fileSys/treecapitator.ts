@@ -14,6 +14,7 @@ function pruneFS() {
     let currentFSData = getAllFoldersAndFiles_(baseFolderID)
 
     let foldersDeleted = 0
+
     for (let folder of currentFSData.folders) {
         if (!fsData.folders.includes(folder.id)) {
             folder.folder.setTrashed(true);
@@ -29,6 +30,7 @@ function pruneFS() {
         }
     }
 
+    console.log("folders deleted",foldersDeleted," Files deleted: ",filesDeleted)
 }
 
 
