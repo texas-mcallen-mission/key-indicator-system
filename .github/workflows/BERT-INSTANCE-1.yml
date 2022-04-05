@@ -3,7 +3,7 @@ name: BERT-INSTANCE-1
 on:
   workflow_dispatch:
   push:
-    branches: [support-infrastructure]
+    branches: [feedback-round-1]
   release:
     types: [published]
   schedule:
