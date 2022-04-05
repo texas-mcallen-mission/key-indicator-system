@@ -41,8 +41,8 @@ function verifySingleFilesysV4_(filesystem) {
     for (let entry of sheetData) {
         let push = true;
         if (isFolderAccessible_(entry.folder)) push = false;
-        if (entry.sheetID1 == "" || isFileAccessible_(entry.sheetID1)) push = false;
-        if (entry.sheetID2 == "" || isFileAccessible_(entry.sheetID2)) push = false;
+        if (entry.sheetID1 == "" || isFileAccessible_(entry.sheetID1)) entry.sheetID1 = "";
+        if (entry.sheetID2 == "" || isFileAccessible_(entry.sheetID2)) entry.sheetID2 = "";
         if(push = false) console.log("entry does not exist ",entry)
         if(push = true) outData.push(entry)
     }
