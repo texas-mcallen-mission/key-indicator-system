@@ -46,10 +46,10 @@ function verifySingleFilesysV4_(filesystem) {
         if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) {entry.sheetID1 = "";}
         if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) {entry.sheetID2 = "";}
         if (!push) {
-            console.log("entry does not exist ", entry);
+            console.log("entry does not exist ", entry.folderName);
             failData.push(entry)
         }
-    if (push) {outData.push(entry)}
+        if (push) {outData.push(entry)}
     }
     // sheetDataObj.clearContent() // not quite sure if this needs to be there or not, but according to the documentation, it does.
     // the implemetation shows that setData actually internally uses setValues, which means that it will wipe out old data. 
