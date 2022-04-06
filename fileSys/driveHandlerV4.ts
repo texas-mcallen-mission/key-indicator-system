@@ -28,7 +28,13 @@ function buildFSV4() {
     Logger.log(orgData)
     Logger.log(orgLeaderData)
 
-    for(let zone in )
+    for (let zone in orgData) {
+        
+        for (let district in orgData[zone])
+            
+        for (let area in orgData[zone][district])
+            console.log(zone,"zone",district,"district",area,"area")
+    }
 }
 
 
