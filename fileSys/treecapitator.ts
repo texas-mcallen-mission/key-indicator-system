@@ -76,6 +76,7 @@ function getSingleFilesysData(filesys) {
     let sheetIDs = [];
     for (let entry of fsData) {
         if (entry.folder != "") folderIDs.push(entry.folder);
+        if (entry.parentFolder != "") folderIDs.push(entry.parentFolder)
         if (entry.sheetID1 != "") sheetIDs.push(entry.sheetID1);
         if (entry.sheetID2 != "") sheetIDs.push(entry.sheetID2);
     }
