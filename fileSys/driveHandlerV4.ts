@@ -51,7 +51,7 @@ function buildFSV4() {
 
     let reportBaseFolder = getOrCreateReportFolder()
 
-    
+    let zoneNewData = []
 
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
@@ -63,7 +63,8 @@ function buildFSV4() {
             if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
                 folderString += filesystems.zone.fsScope
             }
-            filesystems.zone.fsData.push(new fsEntry(folderString,reportBaseFolder,"<FOLDER ID>","","","<AREA ID>","<AREA NAME>",zone))
+
+            zoneNewData.push(new fsEntry(folderString,reportBaseFolder,"<FOLDER ID>","","","<AREA ID>","<AREA NAME>",zone))
         }
         for (let district in orgData[zone])
             if (filesystems.district.existingFolders.includes(district)) {
@@ -79,9 +80,14 @@ function buildFSV4() {
 
         
     }
+
+    for (let entry of zoneNewData) {
+        filesystems[zone].sheetData.push(entry.data)
+    }
+
     console.log("sending data to display")
     for (let filesystem in filesystems) {
-        filesystems[filesystem].setData(filesystems[filesystem].fsData)
+        filesystems[filesystem].setData(filesystems[filesystem].sheetData)
     }
 }
 
@@ -99,16 +105,19 @@ function loadFilesystems(allSheetData) {
         zone: {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
+            sheetData: allSheetData.zoneFilesys.getSheetData(),
             existingFolders: buildIncludesArray(allSheetData.zoneFilesys, "folderBaseName")
         },
         district: {
             fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
+            sheetData: allSheetData.zoneFilesys.getSheetData(),
             existingFolders: buildIncludesArray(allSheetData.distFilesys, "folderBaseName")
         },
         area: {
             fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
+            sheetData: allSheetData.zoneFilesys.getSheetData(),
             existingFolders: buildIncludesArray(allSheetData.areaFilesys, "folderBaseName")
         }
     };
