@@ -32,8 +32,11 @@ function buildFSV4() {
         
         for (let district in orgData[zone])
             
-        for (let area in orgData[zone][district])
-            console.log(zone,"zone",district,"district",area,"area")
+            for (let area in orgData[zone][district]) {
+                let areaData = orgData[zone][district][area]
+                console.log(zone, "zone", district, "district", areaData.name, "area",areaData.areaID)
+            }
+
     }
 }
 

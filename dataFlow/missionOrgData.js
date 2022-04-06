@@ -36,7 +36,11 @@ function getMissionOrgData(allSheetData) {
     */
 
     for (let areaData of contactData) {
-        let area = areaData.areaName;
+        let area = {
+            areaName: areaData.areaName,
+            areaData: areaData,
+            areaID:getAreaID(areaData.areaName)
+        }
         let district = areaData.district;
         let zone = areaData.zone;
 
