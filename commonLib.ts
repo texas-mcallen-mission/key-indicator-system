@@ -121,18 +121,18 @@ function isFolderAccessible_(folderID:string) {
 }
 
 function isFileAccessible_(fileID: string) {
-  // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
+    // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
     let file;
     let output = true;
     let gone = false;
     try {
-    file = DriveApp.getFileById(fileID);
-    // test = DriveApp.getFolderById(folderID).getName();
+        file = DriveApp.getFileById(fileID);
+        // test = DriveApp.getFolderById(folderID).getName();
 
-    file.getDescription();
+        file.getDescription();
     } catch (e) {
-    output = false;
-    gone = true;
+        output = false;
+        gone = true;
         if (CONFIG.commonLib.log_access_info) { Logger.log("File deleted with ID " + fileID); }
 
     }
