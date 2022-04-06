@@ -39,7 +39,7 @@ function getMissionOrgData(allSheetData) {
         let area = {
             areaName: areaData.areaName,
             areaData: areaData,
-            areaID:getAreaID(areaData.areaName)
+            areaID: getAreaID(allSheetData,areaData.areaName)
         }
         let district = areaData.district;
         let zone = areaData.zone;
