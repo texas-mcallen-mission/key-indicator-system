@@ -935,7 +935,8 @@ function constructSheetData(force = false) {
             sheetID1: 3,
             sheetID2: 4,
             areaID: 5,
-            areaName:6,
+            areaName: 6,
+            folderBaseName:7
         },
         distFilesys: {
             folderName: 0,
@@ -944,7 +945,8 @@ function constructSheetData(force = false) {
             sheetID1: 3,
             sheetID2: 4,
             areaID: 5,
-            areaName:6,
+            areaName: 6,
+            folderBaseName:7
         },
         areaFilesys: {
             folderName: 0,
@@ -953,7 +955,8 @@ function constructSheetData(force = false) {
             sheetID1: 3,
             sheetID2: 4,
             areaID: 5,
-            areaName:6,
+            areaName: 6,
+            folderBaseName:7
         },
 
         //FORM RESPONSE COLUMN ORDER
