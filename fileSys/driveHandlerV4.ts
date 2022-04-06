@@ -5,6 +5,7 @@ External Functions used:
 constructSheetData
 isFileAccessible_
 isFolderAccessible_
+getMissionOrgData
 
 
 */
@@ -22,8 +23,12 @@ function buildFSV4() {
     let allSheetData = constructSheetData();
 
     let orgData = getMissionOrgData(allSheetData)
+    let orgLeaderData = getMissionLeadershipData(allSheetData)
 
     Logger.log(orgData)
+    Logger.log(orgLeaderData)
+
+    for(let zone in )
 }
 
 
