@@ -50,6 +50,11 @@ buildFSV4	@ fileSys/driveHandlerV4.gs:48
 
 need to refactor that big if/else statement, and after that this should be ready to test.
 
+Error	
+TypeError: allSheetData.zoneFilesys.getSheetData is not a function
+
+I might need to convert loadfilesystems into something that uses a class...???  There's gotta be a better way to do thta.
+
     */
     let allSheetData = constructSheetData();
 
