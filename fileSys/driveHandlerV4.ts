@@ -41,6 +41,16 @@ class fsEntry {
 
 
 function buildFSV4() {
+    /* where you left off:
+    	
+TypeError: fsData is not iterable
+buildIncludesArray	@ fileSys/driveHandlerV4.gs:81
+loadFilesystems	@ fileSys/driveHandlerV4.gs:93
+buildFSV4	@ fileSys/driveHandlerV4.gs:48
+
+need to refactor that big if/else statement, and after that this should be ready to test.
+
+    */
     let allSheetData = constructSheetData();
 
     let orgData = getMissionOrgData(allSheetData)
@@ -106,19 +116,19 @@ function loadFilesystems(allSheetData) {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: allSheetData.zoneFilesys.getSheetData(),
-            existingFolders: buildIncludesArray(allSheetData.zoneFilesys, "folderBaseName")
+            existingFolders: buildIncludesArray(allSheetData.zoneFilesys.getSheetData(), "folderBaseName")
         },
         district: {
             fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: allSheetData.zoneFilesys.getSheetData(),
-            existingFolders: buildIncludesArray(allSheetData.distFilesys, "folderBaseName")
+            existingFolders: buildIncludesArray(allSheetData.distFilesys.getSheetData(), "folderBaseName")
         },
         area: {
             fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: allSheetData.zoneFilesys.getSheetData(),
-            existingFolders: buildIncludesArray(allSheetData.areaFilesys, "folderBaseName")
+            existingFolders: buildIncludesArray(allSheetData.areaFilesys.getSheetData(), "folderBaseName")
         }
     };
     return filesystems
