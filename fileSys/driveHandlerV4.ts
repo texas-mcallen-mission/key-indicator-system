@@ -23,18 +23,16 @@ function buildFSV4() {
     let allSheetData = constructSheetData();
 
     let orgData = getMissionOrgData(allSheetData)
-    let orgLeaderData = getMissionLeadershipData(allSheetData)
-
+    
     Logger.log(orgData)
-    Logger.log(orgLeaderData)
-
+    
     for (let zone in orgData) {
         
         for (let district in orgData[zone])
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area]
-                console.log(zone, "zone", district, "district", areaData.name, "area",areaData.areaID)
+                console.log(zone, "zone", district, "district", areaData.areaName, "area",areaData.areaID)
             }
 
     }
