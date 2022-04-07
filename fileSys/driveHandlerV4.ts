@@ -77,16 +77,17 @@ I might need to convert loadfilesystems into something that uses a class...???  
         if (filesystems.zone.existingFolders.includes(zone)) {
 
             console.info("fs entry already exists for ", zone);
-            let currIndex = filesystems["zone"].fsData.indexOf(zone)
-            console.log(zone, filesystems["zone"].fsData[currIndex])
-            zoneEntry = filesystems["zone"].fsData[currIndex]
+            let currIndex = filesystems["zone"].sheetData.indexOf(zone)
+            // console.log(zone, filesystems["zone"].sheetData[currIndex])
+            zoneEntry = filesystems["zone"].sheetData[currIndex]
         } else {
             let folderString = zone;
             if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
                 folderString += filesystems.zone.fsScope;
             }
+            console.log("creating FSentry for ", zone)
             let preEntry = new fsEntry(folderString, reportBaseFolder, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", zone)
-            filesystems["zone"].fsData.push(zoneEntry)
+            filesystems["zone"].sheetData.push(zoneEntry)
             zoneEntry = preEntry.data
 
         }
@@ -100,7 +101,7 @@ I might need to convert loadfilesystems into something that uses a class...???  
                     console.info("fs entry already exists for ", district);
                 }
                 let areaData = orgData[zone][district][area];
-                console.log(zone, "zone", district, "district", areaData.areaName, "area", areaData.areaID);
+                // console.log(zone, "zone", district, "district", areaData.areaName, "area", areaData.areaID);
             }
         }
 
