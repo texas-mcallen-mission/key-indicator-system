@@ -29,7 +29,7 @@ class fsEntry {
         this.data.sheetID2 = sheetID2
         this.data.areaID = areaID
         this.data.areaName = areaName
-            this.data.folderBaseName =  folderBaseName;
+        this.data.folderBaseName =  folderBaseName;
         
     }
     get data() {
@@ -122,22 +122,29 @@ function loadFilesystems(allSheetData) {
         zone: {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
-            sheetData: allSheetData.zoneFilesys.getSheetData(),
-            existingFolders: buildIncludesArray(allSheetData.zoneFilesys.getSheetData(), "folderBaseName")
+            sheetData: [],
+            existingFolders: []
         },
         district: {
             fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
-            sheetData: allSheetData.zoneFilesys.getSheetData(),
-            existingFolders: buildIncludesArray(allSheetData.distFilesys.getSheetData(), "folderBaseName")
+            sheetData: [],
+            existingFolders: []
         },
         area: {
             fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
-            sheetData: allSheetData.zoneFilesys.getSheetData(),
-            existingFolders: buildIncludesArray(allSheetData.areaFilesys.getSheetData(), "folderBaseName")
+            sheetData: [],
+            existingFolders: []
         }
     };
+    for (let fs in filesystems) {
+        let fsInter = filesystems[fs].fsData
+        filesystems[fs].sheetData = fsInter.getSheetData()
+        filesystems[fs].existingFolders = buildIncludesArray(filesystems[fs].sheetData, "folderBaseName")
+
+    }
+
     return filesystems
 }
 
