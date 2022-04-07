@@ -20,7 +20,7 @@ current things in sheetData:
 */
 
 class fsEntry {
-    rawData = {}
+    rawData = {};
     constructor(folderName, parentFolder, folder, sheetID1, sheetID2, areaID, areaName, folderBaseName) {
         this.rawData = {
 
@@ -61,53 +61,53 @@ I might need to convert loadfilesystems into something that uses a class...???  
     */
     let allSheetData = constructSheetData();
 
-    let orgData = getMissionOrgData(allSheetData)
-    
-    Logger.log(orgData)
-    
-    let filesystems = loadFilesystems(allSheetData)
+    let orgData = getMissionOrgData(allSheetData);
 
-    let reportBaseFolder = getOrCreateReportFolder()
+    Logger.log(orgData);
 
-    let zoneNewData = []
+    let filesystems = loadFilesystems(allSheetData);
+
+    let reportBaseFolder = getOrCreateReportFolder();
+
+    let zoneNewData = [];
 
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
         if (filesystems.zone.existingFolders.includes(zone)) {
-            
-            console.info("fs entry already exists for " , zone)
+
+            console.info("fs entry already exists for ", zone);
         } else {
-            let folderString = zone
+            let folderString = zone;
             if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
-                folderString += filesystems.zone.fsScope
+                folderString += filesystems.zone.fsScope;
             }
 
-            zoneNewData.push(new fsEntry(folderString,reportBaseFolder,"<FOLDER ID>","","","<AREA ID>","<AREA NAME>",zone))
+            zoneNewData.push(new fsEntry(folderString, reportBaseFolder, "<FOLDER ID>", "", "", "<AREA ID>", "<AREA NAME>", zone));
         }
         for (let district in orgData[zone]) {
-            
+
             if (filesystems.district.existingFolders.includes(district)) {
-                console.info("fs entry already exists for ", district)
+                console.info("fs entry already exists for ", district);
             }
             for (let area in orgData[zone][district]) {
                 if (filesystems.area.existingFolders.includes(area)) {
-                    console.info("fs entry already exists for ", district)
+                    console.info("fs entry already exists for ", district);
                 }
-                let areaData = orgData[zone][district][area]
-                console.log(zone, "zone", district, "district", areaData.areaName, "area",areaData.areaID)
+                let areaData = orgData[zone][district][area];
+                console.log(zone, "zone", district, "district", areaData.areaName, "area", areaData.areaID);
             }
-            }
+        }
 
-        
+
     }
 
     for (let entry of zoneNewData) {
-        filesystems[zone].sheetData.push(entry.data)
+        filesystems[zone].sheetData.push(entry.data);
     }
 
-    console.log("sending data to display")
+    console.log("sending data to display");
     for (let filesystem in filesystems) {
-        filesystems[filesystem].setData(filesystems[filesystem].sheetData)
+        filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
     }
 }
 
@@ -142,21 +142,21 @@ function loadFilesystems(allSheetData) {
         }
     };
     for (let fs in filesystems) {
-        let fsInter = filesystems[fs].fsData
-        filesystems[fs].sheetData = fsInter.getData()
-        filesystems[fs].existingFolders = buildIncludesArray(filesystems[fs].sheetData, "folderBaseName")
+        let fsInter = filesystems[fs].fsData;
+        filesystems[fs].sheetData = fsInter.getData();
+        filesystems[fs].existingFolders = buildIncludesArray(filesystems[fs].sheetData, "folderBaseName");
 
     }
 
-    return filesystems
+    return filesystems;
 }
 
 function verifyFSV4() {
-    let allSheetData = constructSheetData()
-    let filesystems = loadFilesystems(allSheetData)
+    let allSheetData = constructSheetData();
+    let filesystems = loadFilesystems(allSheetData);
 
 
-    for(let filesystem in filesystems){
+    for (let filesystem in filesystems) {
         verifySingleFilesysV4_(filesystems[filesystem]);
     }
 
@@ -164,24 +164,24 @@ function verifyFSV4() {
 }
 
 function verifySingleFilesysV4_(filesystem) {
-    let sheetDataObj = filesystem.fsData
-    let sheetData: {any}[] = sheetDataObj.getData()
-    let outData = []
-    let failData = []
+    let sheetDataObj = filesystem.fsData;
+    let sheetData: { any; }[] = sheetDataObj.getData();
+    let outData = [];
+    let failData = [];
     for (let entry of sheetData) {
         let push = true;
         if (isFolderAccessible_(entry.folder)) { push = false; }
         if (isFolderAccessible_(entry.parentFolder)) { push = false; }
-        if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) {entry.sheetID1 = "";}
-        if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) {entry.sheetID2 = "";}
+        if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) { entry.sheetID1 = ""; }
+        if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) { entry.sheetID2 = ""; }
         if (!push) {
             console.log("entry does not exist ", entry.folderName);
-            failData.push(entry)
+            failData.push(entry);
         }
-        if (push) {outData.push(entry)}
+        if (push) { outData.push(entry); }
     }
     // sheetDataObj.clearContent() // not quite sure if this needs to be there or not, but according to the documentation, it does.
     // the implemetation shows that setData actually internally uses setValues, which means that it will wipe out old data. 
-    sheetDataObj.setData(outData)
-    console.log(failData)
+    sheetDataObj.setData(outData);
+    console.log(failData);
 }
