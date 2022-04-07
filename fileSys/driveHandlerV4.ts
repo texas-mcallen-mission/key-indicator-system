@@ -45,34 +45,27 @@ function buildFSV4() {
     
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId)
+        let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone,"", reportBaseFolderId)
         let zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.zone.sheetData.push(zoneEntry)
 
 
         
         for (let district in orgData[zone]) {
-            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId);
+            let distEntryData = createOrGetFsEntry_(filesystems.district, district,"", zoneEntry.folderId);
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area];
-                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId)
+                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, areaData.areaID,distEntry.folderId)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)
-                // if (filesystems.area.ex       //     console.info("fs entry already exists for ", district);
-                // }istingFolders.includes(area)) {
-                // console.log(zone, "zone", district, "district", areaData.areaName, "area", areaData.areaID);
             }
         }
 
 
     }
-
-    // for (let entry of zoneNewData) {
-    //     filesystems["zone"].sheetData.push(entry.data);
-    // }
 
     console.log("sending data to display");
     for (let filesystem in filesystems) {
@@ -81,7 +74,7 @@ function buildFSV4() {
     // filesystems.zone.fsData.setData(filesystems.zone.sheetData)
 }
 
-function createOrGetFsEntry_(filesystem, folderNameString, parentFolderId) {
+function createOrGetFsEntry_(filesystem, folderNameString:string, parentFolderId:string,areaId:string) {
     let outEntry = {};
     let createdNew = false;
     if (filesystem.existingFolders.includes(folderNameString)) {
@@ -93,10 +86,11 @@ function createOrGetFsEntry_(filesystem, folderNameString, parentFolderId) {
     } else {
         let folderString = folderNameString;
         if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
-            folderString += filesystem.fsScope;
+            folderString += " " + filesystem.fsScope;
         }
         console.log("creating FSentry for ", folderNameString);
-        let preEntry = new fsEntry(folderString, parentFolderId, "","", "", "", folderNameString);
+        let folderId = createNewFolderV4_(parentFolderId, folderString)
+        let preEntry = new fsEntry(folderString, parentFolderId,folderId,"", "", areaId, folderNameString);
         // filesystem.sheetData.push(outEntry);
         outEntry = preEntry.data;
         createdNew = true;
@@ -106,6 +100,16 @@ function createOrGetFsEntry_(filesystem, folderNameString, parentFolderId) {
         entry: outEntry,
         isNew: createdNew
     };
+}
+
+function createNewFolderV4_(parentFolderId, name) {
+    // creates new folder in parent folder, and then returns that folder's ID.
+    // TODO: Potentially implement a caching thing with a global object to speed up second and third occurences of creating the same folderObject?
+    Logger.log(parentFolderId);
+    let parentFolder = DriveApp.getFolderById(parentFolderId);
+    let newFolder = parentFolder.createFolder(name);
+    let newFolderID = newFolder.getId();
+    return newFolderID;
 }
 function buildIncludesArray_(fsData, key) {
     let outData = [];
