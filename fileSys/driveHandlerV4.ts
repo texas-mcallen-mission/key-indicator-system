@@ -85,7 +85,8 @@ function createOrGetFsEntry_(filesystem, folderNameString:string, parentFolderId
     if (filesystem.existingFolders.includes(folderNameString)) {
 
         console.info("fs entry already exists for ", folderNameString);
-        let currIndex = filesystem.sheetData.indexOf(folderNameString);
+        // if there's weird errors, it's probably because things got out of whack here.
+        let currIndex = filesystem.existingFolders.indexOf(folderNameString);
         // console.log(zone, filesystems["zone"].sheetData[currIndex])
         outEntry = filesystem.sheetData[currIndex];
     } else {
