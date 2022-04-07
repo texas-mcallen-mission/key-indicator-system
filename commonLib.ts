@@ -5,6 +5,36 @@
 var _ = lodash.load();
 
 
+function getOrCreateReportFolder() {
+    // still used in driveHandlerV3
+
+    // looks for a folder named "Reports" in the folder this document is in or creates it, and returns a folderID for it.
+    // ideally this function would let me have a reports folder that the filesystem generates inside of, but not sure what I need to do to get that working.
+    // this is where I left off on 12/28/2021
+    // completed on 12/29/2021
+
+    let folderName = "Reports";
+    let spreadsheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
+    let spreadsheetFile = DriveApp.getFileById(spreadsheetId);
+    let parentFolder = spreadsheetFile.getParents();
+    // let oneLinerParentFolderID = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
+    // Logger.log(oneLinerParentFolderID)
+    // let parentFolderID = parentFolder.getId()
+    // let parentFolderMatches = parentFolder.next()
+    let nextFolder = parentFolder.next();
+    let parentFolderID = nextFolder.getId();
+    let matchingChildFolders = nextFolder.getFoldersByName(folderName);
+    let reportsFolderID = "";
+    if (matchingChildFolders.hasNext() == true) {
+        reportsFolderID = matchingChildFolders.next().getId();
+        Logger.log("reports folder found");
+    } else {
+        reportsFolderID = createNewFolderV3_(parentFolderID, folderName);
+        Logger.log("reports folder not found, creating");
+    }
+    return reportsFolderID;
+}
+
 // var MERGED_OBJECT = _.merge(OBJ1, OBJ2,OBJ3)
 
 

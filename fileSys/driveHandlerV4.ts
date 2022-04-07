@@ -8,7 +8,12 @@ isFolderAccessible_
 getMissionOrgData
 */
 
+/* TOP-LEVEL FUNCTIONS:
+    buildFSV4() - creates filesystems- will reuse whatever is currently stored
 
+    verifyFSV4() - checks to make sure that all sheet id's and folders actually exist.
+    - this version only clears sheetid's that don't exist instead of deleting the whole thing, which is IMO better
+*/
 
 class fsEntry {
     rawData = {};
