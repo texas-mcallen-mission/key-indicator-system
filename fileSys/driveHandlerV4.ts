@@ -43,18 +43,7 @@ function buildFSV4() {
     let filesystems = loadFilesystems_(allSheetData);
 
     let reportBaseFolderId = getOrCreateReportFolder();
-
-    let outData = {}
     
-    
-    let zoneOutData = [];
-    zoneOutData.push(...filesystems.zone.sheetData)
-    let distOutData = []
-    distOutData.push(...filesystems.district.sheetData)
-    let areaOutData = []
-    areaOutData.push(...filesystems.area.sheetData)
-    // let zoneNewData = [];
-
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
         let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId)
@@ -64,18 +53,18 @@ function buildFSV4() {
 
         
         for (let district in orgData[zone]) {
-            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folder);
+            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderName);
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
-                let areaEntryData = createOrGetFsEntry_(filesystems.area, area, distEntry.folder)
+                let areaData = orgData[zone][district][area];
+                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderName)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)
                 // if (filesystems.area.existingFolders.includes(area)) {
                 //     console.info("fs entry already exists for ", district);
                 // }
-                // let areaData = orgData[zone][district][area];
                 // console.log(zone, "zone", district, "district", areaData.areaName, "area", areaData.areaID);
             }
         }
