@@ -12,16 +12,15 @@ getMissionOrgData
 
 class fsEntry {
     rawData = {};
-    constructor(folderName, parentFolder, folder, sheetID1, sheetID2, areaID, areaName, folderBaseName) {
+    constructor(folderName, parentFolder, folderId, sheetID1, sheetID2, areaID, folderBaseName) {
         this.rawData = {
 
             folderName: folderName,
             parentFolder: parentFolder,
-            folder: folder,
+            folderId: folderId,
             sheetID1: sheetID1,
             sheetID2: sheetID2,
             areaID: areaID,
-            areaName: areaName,
             folderBaseName: folderBaseName,
         };
 
@@ -53,18 +52,17 @@ function buildFSV4() {
 
         
         for (let district in orgData[zone]) {
-            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderName);
+            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId);
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area];
-                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderName)
+                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)
-                // if (filesystems.area.existingFolders.includes(area)) {
-                //     console.info("fs entry already exists for ", district);
-                // }
+                // if (filesystems.area.ex       //     console.info("fs entry already exists for ", district);
+                // }istingFolders.includes(area)) {
                 // console.log(zone, "zone", district, "district", areaData.areaName, "area", areaData.areaID);
             }
         }
@@ -98,7 +96,7 @@ function createOrGetFsEntry_(filesystem, folderNameString, parentFolderId) {
             folderString += filesystem.fsScope;
         }
         console.log("creating FSentry for ", folderNameString);
-        let preEntry = new fsEntry(folderString, parentFolderId, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", folderNameString);
+        let preEntry = new fsEntry(folderString, parentFolderId, "","", "", "", folderNameString);
         // filesystem.sheetData.push(outEntry);
         outEntry = preEntry.data;
         createdNew = true;
@@ -169,11 +167,16 @@ function verifySingleFilesysV4_(filesystem) {
     let failData = [];
     for (let entry of sheetData) {
         let push = true;
+        // @ts-ignore
         if (isFolderAccessible_(entry.folder)) { push = false; }
+        // @ts-ignore
         if (isFolderAccessible_(entry.parentFolder)) { push = false; }
+        // @ts-ignore
         if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) { entry.sheetID1 = ""; }
+        // @ts-ignore
         if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) { entry.sheetID2 = ""; }
         if (!push) {
+            //@ts-ignore
             console.log("entry does not exist ", entry.folderName);
             failData.push(entry);
         }
