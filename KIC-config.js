@@ -100,12 +100,12 @@ let INTERNAL_CONFIG = {
             updateAreaReports: true,
             updateDistReports: true,
             updateZoneReports: true,
-            shareFileSystem: false,
-            pruneFS:false
+            shareFileSystem: true,
+            pruneFS:true
         },
         menu: {
             updateDataSheet: true,
-            updateFileSystem: false,
+            updateFileSystem: true,
             updateAreaReports: true,
             updateDistReports: true,
             updateZoneReports: true,

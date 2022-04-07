@@ -55,7 +55,6 @@ function buildMenu() {
 
 //                Time-based triggers
 
-
 function updateDataSheet_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateDataSheet) {
@@ -88,12 +87,12 @@ function updateForm_TimeBasedTrigger() {
 }
 
 function updateFS_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateFS() from a time-based trigger");
+    Logger.log("[TRIGGER] Running updateFSV4() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateFileSystem) {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
         return;
     }
-    meta_runner(updateFS,triggerTypes.timeBased)
+    meta_runner(updateFSV4,triggerTypes.timeBased)
 }
 
 function updateAreaReports_TimeBasedTrigger() {
@@ -163,8 +162,8 @@ function updateFS_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateFileSystem is set to false");
         return;
     }
-    Logger.log("[TRIGGER] Running updateFS() from the Manual Commands menu");
-    meta_runner(updateFS,triggerTypes.menu)
+    Logger.log("[TRIGGER] Running buildFSV4() from the Manual Commands menu");
+    meta_runner(buildFSV4(),triggerTypes.menu)
 }
     
 function updateAreaReports_MenuTrigger_() {

@@ -4,7 +4,7 @@ function debugTesting() {
     let dLog:dataLogger = new dataLogger("reportCreator Debug Testing",triggerTypes.DEBUG)
     Logger.log("Running updateFS")
     dLog.startFunction("updateFS")
-    updateFS()
+    buildFSV4()
     dLog.endFunction("updateFS")
     dLog.startFunction("updateZoneReports")
     updateZoneReports();

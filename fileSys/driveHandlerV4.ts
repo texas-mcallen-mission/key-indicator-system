@@ -35,10 +35,14 @@ class fsEntry {
     }
 }
 
+function updateFSV4() {
+    let allSheetData = constructSheetData()
+    verifyFSV4(allSheetData)
+    clearAllSheetDataCache()
+    buildFSV4()
+}
 
-function buildFSV4() {
-
-    let allSheetData = constructSheetData();
+function buildFSV4(allSheetData = constructSheetData()) {
 
     let orgData = getMissionOrgData(allSheetData);
 
@@ -157,10 +161,8 @@ function loadFilesystems_(allSheetData) {
     return filesystems;
 }
 
-function verifyFSV4() {
-    let allSheetData = constructSheetData();
+function verifyFSV4(allSheetData = constructSheetData()) {
     let filesystems = loadFilesystems_(allSheetData);
-
 
     for (let filesystem in filesystems) {
         verifySingleFilesysV4_(filesystems[filesystem]);
