@@ -221,3 +221,13 @@ function splitDataByTag_(referenceData, tagColumn) {
     }
     return { data: splitData, tagArray: tagList };
 }
+function getUniqueFromPosition_(gimmeDatArray, position) {
+    // this does the same thing as above, but keeps me from needing to iterate through everything twice.
+    let uniqueDataFromPosition = [];
+    for (let i = 0; i < gimmeDatArray.length; i++) {
+        if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
+            uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
+        }
+    }
+    return uniqueDataFromPosition;
+}
