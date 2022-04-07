@@ -22,14 +22,14 @@ current things in sheetData:
 class fsEntry {
     constructor(folderName, parentFolder, folder, sheetID1, sheetID2, areaID, areaName, folderBaseName) {
         this.data = {}
-        this.data.folderName:folderName,
-        this.data.parentFolder:parentFolder,
-        this.data.folder:folder,
-        this.data.sheetID1:sheetID1,
-        this.data.sheetID2:sheetID2,
-        this.data.areaID:areaID,
-        this.data.areaName:areaName,
-            this.data.folderBaseName: folderBaseName;
+        this.data.folderName = folderName
+        this.data.parentFolder = parentFolder
+        this.data.folder = folder
+        this.data.sheetID1 = sheetID1
+        this.data.sheetID2 = sheetID2
+        this.data.areaID = areaID
+        this.data.areaName = areaName
+            this.data.folderBaseName =  folderBaseName;
         
     }
     get data() {
@@ -81,7 +81,8 @@ I might need to convert loadfilesystems into something that uses a class...???  
 
             zoneNewData.push(new fsEntry(folderString,reportBaseFolder,"<FOLDER ID>","","","<AREA ID>","<AREA NAME>",zone))
         }
-        for (let district in orgData[zone])
+        for (let district in orgData[zone]) {
+            
             if (filesystems.district.existingFolders.includes(district)) {
                 console.info("fs entry already exists for ", district)
             }
@@ -91,6 +92,7 @@ I might need to convert loadfilesystems into something that uses a class...???  
                 }
                 let areaData = orgData[zone][district][area]
                 console.log(zone, "zone", district, "district", areaData.areaName, "area",areaData.areaID)
+            }
             }
 
         
