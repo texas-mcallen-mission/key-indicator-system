@@ -167,11 +167,11 @@ function modifyTemplatesV2_(fsData, referenceData, scope: string, keyName: strin
     for (let entry of fsData) {
         let targetID = entry.sheetID1;
         let targetWorksheet = SpreadsheetApp.openById(targetID);
-        let outData = turnDataIntoArray(referenceData[entry.folderName], header, keyArray); // TODO- replace folderName with name once driveHandler has been rewritten
+        let outData = turnDataIntoArray(referenceData[entry.folderBaseName], header, keyArray); // TODO- replace folderName with name once driveHandler has been rewritten
         // Logger.log(outData)
         let dataSheetName = CONFIG.reportCreator.kicDataStoreSheetName; // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
         let configSheetName = CONFIG.reportCreator.configPageSheetName; // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
-        let configPushData = [[entry.folderName, scope], ["Last Updated:", currentDate]]; // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
+        let configPushData = [[entry.folderBaseName, scope], ["Last Updated:", currentDate]]; // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
         let configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
         
         let targetDataSheet = getReportFromOtherSource(dataSheetName, targetWorksheet);
@@ -202,11 +202,11 @@ function createTemplatesV2_(filesysObj, templateID: string): {} {
         let sheet1 = entry.sheetID1;
         if (sheet1 == "Doc Id" || sheet1 == "DOC ID" || sheet1 == "" || isFileAccessible_(entry.sheetID1) == false) {
             let parentFolderObject = DriveApp.getFolderById(entry.folder);
-            let fileName = entry.folderName; // TODO- replace folderName with name once driveHandler has been rewritten
+            let fileName = entry.folderBaseName; // TODO- replace folderName with name once driveHandler has been rewritten
             let templateCopy = templateFile.makeCopy(fileName, parentFolderObject);
             // templateCopy.getId()
             entry.sheetID1 = templateCopy.getId();
-            console.log("created template for ", entry.folderName, " with ID ", entry.sheetID1); // TODO- replace folderName with name once driveHandler has been rewritten
+            console.log("created template for ", entry.folderBaseName, " with ID ", entry.sheetID1); // TODO- replace folderName with name once driveHandler has been rewritten
         }
         // Logger.log(entry);
 
