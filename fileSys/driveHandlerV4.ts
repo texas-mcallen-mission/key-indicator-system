@@ -141,8 +141,9 @@ function loadFilesystems_(allSheetData) {
     };
     for (let fs in filesystems) {
         let fsInter = filesystems[fs].fsData;
-        filesystems[fs].sheetData.push(...fsInter.getData())
-        filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
+        // disabled during testing to completely refresh the fs every time
+        // filesystems[fs].sheetData.push(...fsInter.getData())
+        // filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
 
     }
 
