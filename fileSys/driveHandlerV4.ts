@@ -20,20 +20,23 @@ current things in sheetData:
 */
 
 class fsEntry {
+    rawData = {}
     constructor(folderName, parentFolder, folder, sheetID1, sheetID2, areaID, areaName, folderBaseName) {
-        this.data = {}
-        this.data.folderName = folderName
-        this.data.parentFolder = parentFolder
-        this.data.folder = folder
-        this.data.sheetID1 = sheetID1
-        this.data.sheetID2 = sheetID2
-        this.data.areaID = areaID
-        this.data.areaName = areaName
-        this.data.folderBaseName =  folderBaseName;
-        
+        this.rawData = {
+
+            folderName: folderName,
+            parentFolder: parentFolder,
+            folder: folder,
+            sheetID1: sheetID1,
+            sheetID2: sheetID2,
+            areaID: areaID,
+            areaName: areaName,
+            folderBaseName: folderBaseName,
+        };
+
     }
     get data() {
-        return this.data
+        return this.rawData;
     }
 }
 
@@ -140,7 +143,7 @@ function loadFilesystems(allSheetData) {
     };
     for (let fs in filesystems) {
         let fsInter = filesystems[fs].fsData
-        filesystems[fs].sheetData = fsInter.getSheetData()
+        filesystems[fs].sheetData = fsInter.getData()
         filesystems[fs].existingFolders = buildIncludesArray(filesystems[fs].sheetData, "folderBaseName")
 
     }
