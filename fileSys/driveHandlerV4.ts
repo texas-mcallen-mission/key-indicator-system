@@ -6,18 +6,9 @@ constructSheetData
 isFileAccessible_
 isFolderAccessible_
 getMissionOrgData
-
-
 */
 
-/*
-current things in sheetData:
-    folderName: 0,
-    parentFolder: 1,
-    folder: 2,
-    sheetID1: 3,
-    sheetID2: 4,
-*/
+
 
 class fsEntry {
     rawData = {};
@@ -41,33 +32,6 @@ class fsEntry {
 }
 
 
-function createOrGetFsEntry(filesystem, folderNameString,parentFolderId) {
-    let outEntry = {}
-    let createdNew = false
-    if (filesystem.existingFolders.includes(zone)) {
-
-        console.info("fs entry already exists for ", zone);
-        let currIndex = filesystems[filesystem.fsScope].sheetData.indexOf(folderNameString);
-        // console.log(zone, filesystems["zone"].sheetData[currIndex])
-        outEntry = filesystem.sheetData[currIndex];
-    } else {
-        let folderString = zone;
-        if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
-            folderString += filesystems.zone.fsScope;
-        }
-        console.log("creating FSentry for ", zone);
-        let preEntry = new fsEntry(folderString, parentFolderId, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", zone);
-        // filesystem.sheetData.push(outEntry);
-        outEntry = preEntry.data;
-        createdNew = true
-        // zoneOutData.push(zoneEntry);
-    }
-    return {
-        entry: outEntry,
-        isNew:createdNew
-    }
-}
-
 function buildFSV4() {
 
     let allSheetData = constructSheetData();
@@ -76,7 +40,7 @@ function buildFSV4() {
 
     Logger.log(orgData);
 
-    let filesystems = loadFilesystems(allSheetData);
+    let filesystems = loadFilesystems_(allSheetData);
 
     let reportBaseFolderId = getOrCreateReportFolder();
 
@@ -86,7 +50,7 @@ function buildFSV4() {
 
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        let entryData = createOrGetFsEntry(filesystems.zone, zone, reportBaseFolderId)
+        let entryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId)
         let zoneEntry = entryData.entry
         if(entryData.isNew) zoneOutData.push(zoneEntry)
 
@@ -120,7 +84,33 @@ function buildFSV4() {
     filesystems.zone.fsData.setData(zoneOutData)
 }
 
-function buildIncludesArray(fsData, key) {
+function createOrGetFsEntry_(filesystem, folderNameString, parentFolderId) {
+    let outEntry = {};
+    let createdNew = false;
+    if (filesystem.existingFolders.includes(folderNameString)) {
+
+        console.info("fs entry already exists for ", folderNameString);
+        let currIndex = filesystem.sheetData.indexOf(folderNameString);
+        // console.log(zone, filesystems["zone"].sheetData[currIndex])
+        outEntry = filesystem.sheetData[currIndex];
+    } else {
+        let folderString = folderNameString;
+        if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
+            folderString += filesystem.fsScope;
+        }
+        console.log("creating FSentry for ", folderNameString);
+        let preEntry = new fsEntry(folderString, parentFolderId, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", folderNameString);
+        // filesystem.sheetData.push(outEntry);
+        outEntry = preEntry.data;
+        createdNew = true;
+        // zoneOutData.push(zoneEntry);
+    }
+    return {
+        entry: outEntry,
+        isNew: createdNew
+    };
+}
+function buildIncludesArray_(fsData, key) {
     let outData = [];
     for (let entry of fsData) {
         if (entry != "" && entry != undefined) {
@@ -129,7 +119,7 @@ function buildIncludesArray(fsData, key) {
     }
     return outData;
 }
-function loadFilesystems(allSheetData) {
+function loadFilesystems_(allSheetData) {
     let filesystems = {
         zone: {
             fsData: allSheetData.zoneFilesys,
@@ -153,7 +143,7 @@ function loadFilesystems(allSheetData) {
     for (let fs in filesystems) {
         let fsInter = filesystems[fs].fsData;
         filesystems[fs].sheetData.push(...fsInter.getData())
-        filesystems[fs].existingFolders = buildIncludesArray(filesystems[fs].sheetData, "folderBaseName");
+        filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
 
     }
 
@@ -162,7 +152,7 @@ function loadFilesystems(allSheetData) {
 
 function verifyFSV4() {
     let allSheetData = constructSheetData();
-    let filesystems = loadFilesystems(allSheetData);
+    let filesystems = loadFilesystems_(allSheetData);
 
 
     for (let filesystem in filesystems) {
