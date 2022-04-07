@@ -73,16 +73,22 @@ I might need to convert loadfilesystems into something that uses a class...???  
 
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
+        let zoneEntry = {} // this is so that we can grab the parentFolder out for the next level down the chain.
         if (filesystems.zone.existingFolders.includes(zone)) {
 
             console.info("fs entry already exists for ", zone);
+            let currIndex = filesystems["zone"].fsData.indexOf(zone)
+            console.log(zone, filesystems["zone"].fsData[currIndex])
+            zoneEntry = filesystems["zone"].fsData[currIndex]
         } else {
             let folderString = zone;
             if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
                 folderString += filesystems.zone.fsScope;
             }
+            let preEntry = new fsEntry(folderString, reportBaseFolder, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", zone)
+            filesystems["zone"].fsData.push(zoneEntry)
+            zoneEntry = preEntry.data
 
-            zoneNewData.push(new fsEntry(folderString, reportBaseFolder, "<FOLDER ID>", "", "", "<AREA ID>", "<AREA NAME>", zone));
         }
         for (let district in orgData[zone]) {
 
@@ -101,9 +107,9 @@ I might need to convert loadfilesystems into something that uses a class...???  
 
     }
 
-    for (let entry of zoneNewData) {
-        filesystems[zone].sheetData.push(entry.data);
-    }
+    // for (let entry of zoneNewData) {
+    //     filesystems["zone"].sheetData.push(entry.data);
+    // }
 
     console.log("sending data to display");
     for (let filesystem in filesystems) {
