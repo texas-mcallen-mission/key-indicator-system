@@ -931,32 +931,29 @@ function constructSheetData(force = false) {
         zoneFilesys: {
             folderName: 0,
             parentFolder: 1,
-            folder: 2,
+            folderId: 2,
             sheetID1: 3,
             sheetID2: 4,
             areaID: 5,
-            areaName: 6,
-            folderBaseName:7
+            folderBaseName:6
         },
         distFilesys: {
             folderName: 0,
             parentFolder: 1,
-            folder: 2,
+            folderId: 2,
             sheetID1: 3,
             sheetID2: 4,
             areaID: 5,
-            areaName: 6,
-            folderBaseName:7
+            folderBaseName:6
         },
         areaFilesys: {
             folderName: 0,
             parentFolder: 1,
-            folder: 2,
+            folderId: 2,
             sheetID1: 3,
             sheetID2: 4,
             areaID: 5,
-            areaName: 6,
-            folderBaseName:7
+            folderBaseName:6
         },
 
         //FORM RESPONSE COLUMN ORDER

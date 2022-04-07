@@ -75,7 +75,7 @@ function getSingleFilesysData(filesys) {
     let folderIDs = [];
     let sheetIDs = [];
     for (let entry of fsData) {
-        if (entry.folder != "") folderIDs.push(entry.folder);
+        if (entry.folderId != "") folderIDs.push(entry.folderId);
         if (entry.parentFolder != "") folderIDs.push(entry.parentFolder)
         if (entry.sheetID1 != "") sheetIDs.push(entry.sheetID1);
         if (entry.sheetID2 != "") sheetIDs.push(entry.sheetID2);
@@ -107,7 +107,7 @@ function getAllFoldersAndFiles_(baseFolderID) {
     let subsubsubfolders = [];
     for (let folder of subfolders) {
         // console.log(folder.id,folder.name)
-        subSubfolders.push(...getSubfolders_(folder.folder));
+        subSubfolders.push(...getSubfolders_(folder.folderId));
     }
     for (let subfolder of subSubfolders) {
         // console.log(subfolder.id,subfolder.name)
@@ -126,7 +126,7 @@ function getAllFoldersAndFiles_(baseFolderID) {
     combinedFolders.push(...subsubsubfolders);
 
     for (let folder of combinedFolders) {
-        files.push(...getFiles_(folder.folder));
+        files.push(...getFiles_(folder.folderId));
     }
 
     for (let file of files) {
