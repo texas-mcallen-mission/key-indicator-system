@@ -89,7 +89,7 @@ function buildFSV4() {
         let entryData = createOrGetFsEntry(filesystems.zone, zone, reportBaseFolderId)
         let zoneEntry = entryData.entry
         if(entryData.isNew) zoneOutData.push(zoneEntry)
-        
+
 
         
         for (let district in orgData[zone]) {
@@ -114,9 +114,10 @@ function buildFSV4() {
     // }
 
     console.log("sending data to display");
-    for (let filesystem in filesystems) {
-        filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
-    }
+    // for (let filesystem in filesystems) {
+    //     filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
+    // }
+    filesystems.zone.fsData.setData(zoneOutData)
 }
 
 function buildIncludesArray(fsData, key) {
