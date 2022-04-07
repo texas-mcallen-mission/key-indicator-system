@@ -41,24 +41,35 @@ class fsEntry {
 }
 
 
+function createOrGetFsEntry(filesystem, folderNameString,parentFolderId) {
+    let outEntry = {}
+    let createdNew = false
+    if (filesystem.existingFolders.includes(zone)) {
 
+        console.info("fs entry already exists for ", zone);
+        let currIndex = filesystems[filesystem.fsScope].sheetData.indexOf(folderNameString);
+        // console.log(zone, filesystems["zone"].sheetData[currIndex])
+        outEntry = filesystem.sheetData[currIndex];
+    } else {
+        let folderString = zone;
+        if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
+            folderString += filesystems.zone.fsScope;
+        }
+        console.log("creating FSentry for ", zone);
+        let preEntry = new fsEntry(folderString, parentFolderId, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", zone);
+        // filesystem.sheetData.push(outEntry);
+        outEntry = preEntry.data;
+        createdNew = true
+        // zoneOutData.push(zoneEntry);
+    }
+    return {
+        entry: outEntry,
+        isNew:createdNew
+    }
+}
 
 function buildFSV4() {
-    /* where you left off:
-    	
-TypeError: fsData is not iterable
-buildIncludesArray	@ fileSys/driveHandlerV4.gs:81
-loadFilesystems	@ fileSys/driveHandlerV4.gs:93
-buildFSV4	@ fileSys/driveHandlerV4.gs:48
 
-need to refactor that big if/else statement, and after that this should be ready to test.
-
-Error	
-TypeError: allSheetData.zoneFilesys.getSheetData is not a function
-
-I might need to convert loadfilesystems into something that uses a class...???  There's gotta be a better way to do thta.
-
-    */
     let allSheetData = constructSheetData();
 
     let orgData = getMissionOrgData(allSheetData);
@@ -67,30 +78,20 @@ I might need to convert loadfilesystems into something that uses a class...???  
 
     let filesystems = loadFilesystems(allSheetData);
 
-    let reportBaseFolder = getOrCreateReportFolder();
+    let reportBaseFolderId = getOrCreateReportFolder();
 
-    let zoneNewData = [];
+    let zoneOutData = [];
+    zoneOutData.push(...filesystems.zone.sheetData)
+    // let zoneNewData = [];
 
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        let zoneEntry = {} // this is so that we can grab the parentFolder out for the next level down the chain.
-        if (filesystems.zone.existingFolders.includes(zone)) {
+        let entryData = createOrGetFsEntry(filesystems.zone, zone, reportBaseFolderId)
+        let zoneEntry = entryData.entry
+        if(entryData.isNew) zoneOutData.push(zoneEntry)
+        
 
-            console.info("fs entry already exists for ", zone);
-            let currIndex = filesystems["zone"].sheetData.indexOf(zone)
-            // console.log(zone, filesystems["zone"].sheetData[currIndex])
-            zoneEntry = filesystems["zone"].sheetData[currIndex]
-        } else {
-            let folderString = zone;
-            if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
-                folderString += filesystems.zone.fsScope;
-            }
-            console.log("creating FSentry for ", zone)
-            let preEntry = new fsEntry(folderString, reportBaseFolder, "<FOLDER ID>", "<REPORT1>", "<REPORT2>", "<AREA ID>", "<AREA NAME>", zone)
-            filesystems["zone"].sheetData.push(zoneEntry)
-            zoneEntry = preEntry.data
-
-        }
+        
         for (let district in orgData[zone]) {
 
             if (filesystems.district.existingFolders.includes(district)) {
@@ -150,7 +151,7 @@ function loadFilesystems(allSheetData) {
     };
     for (let fs in filesystems) {
         let fsInter = filesystems[fs].fsData;
-        filesystems[fs].sheetData = fsInter.getData();
+        filesystems[fs].sheetData.push(...fsInter.getData())
         filesystems[fs].existingFolders = buildIncludesArray(filesystems[fs].sheetData, "folderBaseName");
 
     }
