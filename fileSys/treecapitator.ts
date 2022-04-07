@@ -107,7 +107,7 @@ function getAllFoldersAndFiles_(baseFolderID) {
     let subsubsubfolders = [];
     for (let folder of subfolders) {
         // console.log(folder.id,folder.name)
-        subSubfolders.push(...getSubfolders_(folder.folderId));
+        subSubfolders.push(...getSubfolders_(folder.folder));
     }
     for (let subfolder of subSubfolders) {
         // console.log(subfolder.id,subfolder.name)
@@ -126,7 +126,7 @@ function getAllFoldersAndFiles_(baseFolderID) {
     combinedFolders.push(...subsubsubfolders);
 
     for (let folder of combinedFolders) {
-        files.push(...getFiles_(folder.folderId));
+        files.push(...getFiles_(folder.folder));
     }
 
     for (let file of files) {

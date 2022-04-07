@@ -45,20 +45,20 @@ function buildFSV4() {
     
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone,"", reportBaseFolderId)
+        let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId,"" )
         let zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.zone.sheetData.push(zoneEntry)
 
 
         
         for (let district in orgData[zone]) {
-            let distEntryData = createOrGetFsEntry_(filesystems.district, district,"", zoneEntry.folderId);
+            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId,"" );
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area];
-                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, areaData.areaID,distEntry.folderId)
+                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)
             }
@@ -143,9 +143,8 @@ function loadFilesystems_(allSheetData) {
     };
     for (let fs in filesystems) {
         let fsInter = filesystems[fs].fsData;
-        // disabled during testing to completely refresh the fs every time
-        // filesystems[fs].sheetData.push(...fsInter.getData())
-        // filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
+        filesystems[fs].sheetData.push(...fsInter.getData())
+        filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
 
     }
 
