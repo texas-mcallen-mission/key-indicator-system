@@ -164,6 +164,7 @@ class dataLogger {
                 delete this.logData[functionNameKey][logKeys.cycleEndMillis];
             }
 
+            newEntry = this.logData[functionNameKey]
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
@@ -176,7 +177,7 @@ class dataLogger {
                 //     // if (!header.includes(metaKey)) { header.push(metaKey); header_changed = true; }
                 //     // entry[header.indexOf(metaKey)] = this.logMetaData[metaKey];
                 // }
-                newEntry = {...newEntry,...logMetaKeys}
+                newEntry = {...newEntry,...this.logMetaData}
             }
 
             // pulls in data from git-info- SUPER useful for multiple deployments
