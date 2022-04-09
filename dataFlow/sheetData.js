@@ -1062,22 +1062,22 @@ function constructSheetData(force = false) {
             //...additional form data (ex. baptism sources)
         },
         debug: {
-            functionName : 1,
-            baseFunction : 2,
-            triggerType : 3,
-            timeStarted : 4,
-            timeEnded : 5,
-            commit_sha : 6,
-            action_event_name : 7,
-            github_actor : 8,
-            job_id : 9,
-            github_repository : 10,
-            github_branch_ref : 11,
-            executionCounter : 12,
-            cycleEndMillis : 13,
-            duration : 14,
-            cycleStartMillis : 15,
-            failures : 16
+            functionName : 0,
+            baseFunction : 1,
+            triggerType : 2,
+            timeStarted : 3,
+            timeEnded : 4,
+            commit_sha : 5,
+            action_event_name : 6,
+            github_actor : 7,
+            job_id : 8,
+            github_repository : 9,
+            github_branch_ref : 10,
+            executionCounter : 11,
+            cycleEndMillis : 12,
+            duration : 13,
+            cycleStartMillis : 14,
+            failures : 15
         }
     };
 

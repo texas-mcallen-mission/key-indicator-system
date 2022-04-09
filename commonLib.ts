@@ -29,7 +29,7 @@ function getOrCreateReportFolder() {
         reportsFolderID = matchingChildFolders.next().getId();
         Logger.log("reports folder found");
     } else {
-        reportsFolderID = createNewFolderV3_(parentFolderID, folderName);
+        reportsFolderID = createNewFolderV4_(parentFolderID, folderName);
         Logger.log("reports folder not found, creating");
     }
     return reportsFolderID;
