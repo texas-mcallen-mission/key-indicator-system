@@ -231,7 +231,7 @@ class dataLogger {
 
 function prependRows_(data,sheet) {
     sheet.insertRowsBefore(2,data.length)
-    let dataRange = sheet.getRange(2,1,data.length+1,data[0].length)
+    let dataRange = sheet.getRange(2,1,data.length,data[0].length)
     dataRange.setValues(data)
 }
 
@@ -240,7 +240,7 @@ function debug_write_lock_() {
     let cache = CacheService.getScriptCache();
     cache.put(debug_write_lock_key, "true");
 }
-
+    
 function debug_write_unlock_() {
     let cache = CacheService.getScriptCache();
     cache.remove(debug_write_lock_key);
