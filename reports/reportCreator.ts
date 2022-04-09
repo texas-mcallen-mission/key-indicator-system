@@ -276,7 +276,7 @@ function splitDataByKey_(data, key:string) {
 
 
 function timerFunction_(pre: Date, post: Date) {
-    return post.getMilliseconds() - pre.getMilliseconds();
+    return post.getTime() - pre.getTime();
 }
 function turnDataIntoArray(data, header:any[], keys:any[]):any[][] {
     // returns an array that stays in the same format as the input header.

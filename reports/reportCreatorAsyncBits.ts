@@ -19,7 +19,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
         let preDate = new Date;
         sheetObj.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
         let postDate = new Date;
-        console.log("Adding Data: ", preDate.getMilliseconds() - prepredate.getMilliseconds(), "ms, Sorting Data: ", postDate.getMilliseconds() - preDate.getMilliseconds(), " ms");
+        console.log("Adding Data: ", preDate.getTime() - prepredate.getTime(), "ms, Sorting Data: ", postDate.getTime() - preDate.getTime(), " ms");
         // going to run this one more time without a flush to see what happens when this changes.
         // SpreadsheetApp.flush()
         // Logger.log("data added")
@@ -71,9 +71,9 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
-    console.log("Async modify loop completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    console.log("Async modify loop completed for " ,scope," in ", newDate.getTime()-currentDate.getTime(),"milliseconds")
     complete = true
-    console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    console.log("Async modify completed for " ,scope," in ", newDate.getTime()-currentDate.getTime(),"milliseconds")
     
     return Promise.all(promises)
     
