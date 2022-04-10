@@ -166,6 +166,7 @@ class dataLogger {
 
             newEntry = this.logData[functionNameKey]
 
+            newEntry["functionName"] = functionNameKey
             
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
