@@ -164,7 +164,9 @@ class dataLogger {
                 delete this.logData[functionNameKey][logKeys.cycleEndMillis];
             }
 
-            newEntry = this.logData[functionNameKey]
+            newEntry = {...newEntry,...this.logData}
+
+            
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
