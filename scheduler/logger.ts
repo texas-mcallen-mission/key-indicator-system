@@ -164,7 +164,7 @@ class dataLogger {
                 delete this.logData[functionNameKey][logKeys.cycleEndMillis];
             }
 
-            newEntry = {...newEntry,...this.logData}
+            newEntry = this.logData[functionNameKey]
 
             
 
