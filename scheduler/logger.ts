@@ -156,6 +156,9 @@ class dataLogger {
             // let entry = [];
             let newEntry = {}
 
+            // add function name:
+
+            Object.assign(newEntry,{functionName:functionNameKey})
 
             // entry[header.indexOf(logKeys.functionName)] = functionNameKey;
 
@@ -171,7 +174,8 @@ class dataLogger {
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
-                this.logMetaData[functionNameKey][logMetaKeys.timeEnded] = new Date()
+                let newDate = new Date()
+                Object.assign(this.logMetaData, { "timeEnded": newDate })
                 newEntry[logMetaKeys.timeEnded] = new Date()
             } 
 
