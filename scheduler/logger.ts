@@ -163,17 +163,17 @@ class dataLogger {
                 delete this.logData[functionNameKey][logKeys.cycleStartMillis];
                 delete this.logData[functionNameKey][logKeys.cycleEndMillis];
             }
-
+            // entry[header.indexOf(logKeys.functionName)] = functionNameKey;
             newEntry = this.logData[functionNameKey]
 
-            newEntry["functionName"] = functionNameKey
+            newEntry[logKeys.functionName] = functionNameKey
             
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
                 this.logMetaData[functionNameKey][logMetaKeys.timeEnded] = new Date()
-                newEntry["timeEnded"] = new Date()
-            }
+                newEntry[logMetaKeys.timeEnded] = new Date()
+            } 
 
             if (GET_META_DATA) {
                 // for (let metaKey in logMetaKeys) {
