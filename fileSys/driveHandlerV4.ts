@@ -43,7 +43,7 @@ function updateFSV4() {
 }
 
 function buildFSV4(allSheetData = constructSheetData()) {
-
+    //@ts-ignore
     let orgData = getMissionOrgData(allSheetData);
 
     Logger.log(orgData);
@@ -61,12 +61,14 @@ function buildFSV4(allSheetData = constructSheetData()) {
 
         
         for (let district in orgData[zone]) {
+            //@ts-ignore
             let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId,"" );
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area];
+                //@ts-ignore
                 let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)

@@ -124,78 +124,89 @@ class dataLogger {
                 Logger.log("waiting for other thing to save")
             }
         }
-        debug_write_lock_()
+        
 
 
-        let dataLogSheetData = getDataLogSheet_();
-        let dataLogSheet = dataLogSheetData.sheet;
+        // let dataLogSheetData = getDataLogSheet_();
+        // let dataLogSheet = dataLogSheetData.sheet;
 
         let log_data = [];
-        let header = [];
+        // let header = [];
 
-        let header_changed = false;
+        // let header_changed = false;
 
         // This will get integrated into the config file in the future, but there isn't much of a reason to quite yet
         // NEXT GOAL: Get things to not overwrite each other
-        let USE_OLD_DATA = true;
+        // let USE_OLD_DATA = true;
         let GET_META_DATA = true;
         let INCLUDE_GITHUB_METADATA = true;
         let REMOVE_CYCLE_TIMING_DATA = false;
 
-        if (USE_OLD_DATA) {
-            header = dataLogSheetData.headerData;
-            // log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
-        }
+        // if (USE_OLD_DATA) {
+        //     header = dataLogSheetData.headerData;
+        //     // log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
+        // }
 
-        if (!header.includes(logKeys.functionName)) {
-            header.push(logKeys.functionName);
-            header_changed = true;
-        }
+        // if (!header.includes(logKeys.functionName)) {
+        //     header.push(logKeys.functionName);
+        //     header_changed = true;
+        // }
 
         for (let functionNameKey in this.logData) {
-            let entry = [];
+            // let entry = [];
+            let newEntry = {}
 
+            // add function name:
 
-            entry[header.indexOf(logKeys.functionName)] = functionNameKey;
+            Object.assign(newEntry,{functionName:functionNameKey})
+
+            // entry[header.indexOf(logKeys.functionName)] = functionNameKey;
 
             if (REMOVE_CYCLE_TIMING_DATA) {
                 delete this.logData[functionNameKey][logKeys.cycleStartMillis];
                 delete this.logData[functionNameKey][logKeys.cycleEndMillis];
             }
+            // entry[header.indexOf(logKeys.functionName)] = functionNameKey;
+            newEntry = this.logData[functionNameKey]
 
+            newEntry[logKeys.functionName] = functionNameKey
+            
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
-                this.logMetaData[functionNameKey][logMetaKeys.timeEnded] = new Date()
-            }
+                let newDate = new Date()
+                Object.assign(this.logMetaData, { "timeEnded": newDate })
+                newEntry[logMetaKeys.timeEnded] = new Date()
+            } 
 
             if (GET_META_DATA) {
-                for (let metaKey in logMetaKeys) {
-                    if (!header.includes(metaKey)) { header.push(metaKey); header_changed = true; }
-                    entry[header.indexOf(metaKey)] = this.logMetaData[metaKey];
-
-                }
+                // for (let metaKey in logMetaKeys) {
+                //     // if (!header.includes(metaKey)) { header.push(metaKey); header_changed = true; }
+                //     // entry[header.indexOf(metaKey)] = this.logMetaData[metaKey];
+                // }
+                newEntry = {...newEntry,...this.logMetaData}
             }
 
             // pulls in data from git-info- SUPER useful for multiple deployments
             if (INCLUDE_GITHUB_METADATA) {
-                for (let gitKey in GITHUB_DATA) {
-                    if (!header.includes(gitKey)) { header.push(gitKey); header_changed = true; }
-                    entry[header.indexOf(gitKey)] = GITHUB_DATA[gitKey];
-                }
+                // for (let gitKey in GITHUB_DATA) {
+                //     // if (!header.includes(gitKey)) { header.push(gitKey); header_changed = true; }
+                //     entry[header.indexOf(gitKey)] = GITHUB_DATA[gitKey];
+                // }
+                newEntry = {...newEntry,...GITHUB_DATA}
             }
 
 
 
-            for (let subKey in this.logData[functionNameKey]) {
-                if (!header.includes(subKey)) {
-                    header.push(subKey);
-                    header_changed = true;
-                }
-                entry[header.indexOf(subKey)] = this.logData[functionNameKey][subKey];
-            }
+            // for (let subKey in this.logData[functionNameKey]) {
+            //     if (!header.includes(subKey)) {
+            //         header.push(subKey);
+            //         header_changed = true;
+            //     }
+            //     entry[header.indexOf(subKey)] = this.logData[functionNameKey][subKey];
+            // }
 
-            log_data.push(entry);
+            log_data.push(newEntry);
 
 
             
@@ -213,21 +224,28 @@ class dataLogger {
 
             // sendDataToDisplayV3_(header, outData, dataLogSheet, args);
 
-            if (header_changed == true) {
-                let headerRange = dataLogSheet.getRange(1, 1, 1, header.length);
+            // if (header_changed == true) {
+                // let headerRange = dataLogSheet.getRange(1, 1, 1, header.length);
 
-                headerRange.setValues([header])
-            }
-            prependRows_(log_data, dataLogSheet)
+                // headerRange.setValues([header])
+            // }
+            // prependRows_(log_data, dataLogSheet)
 
-            debug_write_unlock_()
-            Logger.log("logging finished.")
-
+            // Logger.log("logging finished.")
         }
+        debug_write_lock_()
+        addToSheet_(log_data)
+        debug_write_unlock_()
     }
 
 }
 
+function addToSheet_(data) {
+    let allSheetData = constructSheetData()
+    let debug = allSheetData.debug
+
+    debug.insertData(data)
+}
 
 function prependRows_(data,sheet) {
     sheet.insertRowsBefore(2,data.length)

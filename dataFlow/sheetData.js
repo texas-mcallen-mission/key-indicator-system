@@ -1061,26 +1061,46 @@ function constructSheetData(force = false) {
             // "formNotes": 48,    //form data
             //...additional form data (ex. baptism sources)
         },
+        debug: {
+            functionName : 0,
+            baseFunction : 1,
+            triggerType : 2,
+            timeStarted : 3,
+            timeEnded : 4,
+            commit_sha : 5,
+            action_event_name : 6,
+            github_actor : 7,
+            job_id : 8,
+            github_repository : 9,
+            github_branch_ref : 10,
+            executionCounter : 11,
+            cycleEndMillis : 12,
+            duration : 13,
+            cycleStartMillis : 14,
+            failures : 15
+        }
     };
 
 
 
     const tabNames = {
         form: "Form Responses",
+        debug: "DEBUG SHEET",
         data: "Data",
         contact: "Contact Data",
         zoneFilesys: "Zone Filesys V3",
         distFilesys: "Dist Filesys V3",
-        areaFilesys: "Area Filesys V3"
+        areaFilesys: "Area Filesys V3",
     };
 
     const headerRows = {
         form: 0,
+        debug: 0,
         data: 0,
         contact: 0,
         zoneFilesys: 0,
         distFilesys: 0,
-        areaFilesys: 0
+        areaFilesys: 0,
     };
 
     //END Static properties and parameters

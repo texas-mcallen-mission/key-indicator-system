@@ -29,7 +29,7 @@ function getOrCreateReportFolder() {
         reportsFolderID = matchingChildFolders.next().getId();
         Logger.log("reports folder found");
     } else {
-        reportsFolderID = createNewFolderV3_(parentFolderID, folderName);
+        reportsFolderID = createNewFolderV4_(parentFolderID, folderName);
         Logger.log("reports folder not found, creating");
     }
     return reportsFolderID;
@@ -60,7 +60,7 @@ function sendDataToDisplayV3_(header, finalData, sheet, args = {sortColumn:1,asc
     }
     let postDate = new Date
     if (CONFIG.commonLib.log_time_taken) {
-        console.log("Total duration of report display: ", postDate.getMilliseconds() - preDate.getMilliseconds());
+        console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
     }
 }
 
@@ -85,7 +85,7 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
     sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
     let postDate = new Date
     if (CONFIG.commonLib.log_time_taken) {
-        console.log("Total duration of report display: ", postDate.getMilliseconds() - preDate.getMilliseconds());
+        console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
     }
     // going to run this one more time without a flush to see what happens when this changes.
     // SpreadsheetApp.flush()
