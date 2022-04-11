@@ -80,4 +80,3 @@ let <NAME>Sheet = allSheetData.<NAME>
 let data = <NAME>Sheet.getValues()
 console.log(data)
 ```
-
