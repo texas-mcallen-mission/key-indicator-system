@@ -67,7 +67,7 @@ function updateShards() {
                 entryData.seedId = smallestShard;
                 shardCounter[smallestShard] += 1
             } else {
-                console.log("did not update")
+                // console.log("did not update")
             }
             filesystems[fs].sheetData[entry] = entryData
             
