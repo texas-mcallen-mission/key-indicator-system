@@ -17,7 +17,7 @@ getMissionOrgData
 
 class fsEntry {
     rawData = {};
-    constructor(folderName, parentFolder, folderId, sheetID1, sheetID2, areaID, folderBaseName) {
+    constructor(folderName, parentFolder, folderId, sheetID1, sheetID2, areaID, folderBaseName,seedId = 0) {
         this.rawData = {
 
             folderName: folderName,
@@ -27,6 +27,7 @@ class fsEntry {
             sheetID2: sheetID2,
             areaID: areaID,
             folderBaseName: folderBaseName,
+            seedId: seedId
         };
 
     }
