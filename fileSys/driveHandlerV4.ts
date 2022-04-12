@@ -41,6 +41,7 @@ function updateFSV4() {
     verifyFSV4(allSheetData)
     clearAllSheetDataCache()
     buildFSV4()
+    updateShards()
 }
 
 function buildFSV4(allSheetData = constructSheetData()) {
