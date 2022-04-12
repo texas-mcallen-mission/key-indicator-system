@@ -59,8 +59,10 @@ function updateShards() {
                 break
             }
             let smallestShard = getKeyWithSmallestValue(shardCounter)
-            if (entryData.seedId.toString != smallestShard) entryData.seedId = smallestShard
-            
+            if (entryData.seedId.toString != smallestShard) {
+                entryData.seedId = smallestShard;
+                shardCounter[smallestShard] += 1
+            }
             filesystems[fs].sheetData[entry] = entryData
             
             
@@ -81,7 +83,7 @@ function updateShards() {
 function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
     let minVal = 0;
     let maxVal = 0;
-    for (let key of shardCounter) {
+    for (let key in shardCounter) {
         let shardCount = shardCounter[key];
         if (shardCount < minVal) minVal = shardCount;
         if (shardCount > maxVal) maxVal = shardCount;
