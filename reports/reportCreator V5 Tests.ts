@@ -21,7 +21,7 @@ function testLoadingShards() {
 
     let filesystems = loadFilesystems_(allSheetData)
 
-    let shardedZone = loadShards_(filesystems.zone.fsData);
+    let shardedZone = loadShards_(filesystems.zone.sheetData);
     // console.log(shardedZone)
 
     let kiData = allSheetData.data.getData()
@@ -29,7 +29,7 @@ function testLoadingShards() {
     let dedupedkiData = removeDuplicatesFromData_(kiData)
     
     for (let shard in shardedZone) {
-        let shardedAreaIdList = getAllAreaIdsInShard_(filesystems.zone.fsData)
+        let shardedAreaIdList = getAllAreaIdsInShard_(filesystems.zone.sheetData)
         let data = getKiDataForShard(dedupedkiData, shardedAreaIdList)
         console.log(shard)
         console.log(data)
