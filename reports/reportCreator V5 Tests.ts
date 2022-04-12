@@ -27,6 +27,10 @@ function updateReportsInShard(shardData, shardFSdata, filesystem) {
 
 }
 
+function updateSingleReport(reportId, data) {
+    // time to go minify sheetData, I think
+}
+
 
 
 // function updateAnyLevelReport_(allSheetData, scope, dLog: dataLogger) {
@@ -109,16 +113,16 @@ function getKiDataForShard(kiData, areaIds) {
     return output
 }
 
-function getAllAreaIdsInShard_(fsSheetData,shardId) {
+function getAllAreaIdsInShard_(fsSheetData, shardId) {
+    // returns a list of area id's that are included in the zones/districts/areas in a particular shard.
     let output = []
     for (let entry of fsSheetData) {
-        let entryData = fsSheetData
-        if (entry.seedID.toString() == shardId.toString()) {
-            let areaIdBlob = fsSheetData[entry].areaID
+        // let entryData = fsSheetData[entry]
+        if (entry.seedId.toString() == shardId.toString()) {
+            let areaIdBlob = entry.areaID
             areaIdBlob = areaIdBlob.replace(/\s/g, '') // removes potential whitespaces
             let areaIds = areaIdBlob.split(",")
             output.push(...areaIds)
-            
         }
     }
     return output
