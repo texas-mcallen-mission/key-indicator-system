@@ -17,6 +17,7 @@ function updateShards() {
     let filesystems = loadFilesystems_(allSheetData);
 
     for (let fs in filesystems) {
+        // let outData = []
         // creates a object to += counts on, so that values already assigned a particular shard won't be as likely to get shifted to a different shard.
         
         let shardCounter: {} = {
@@ -27,35 +28,42 @@ function updateShards() {
         }
         /* loop 1:
             1. create count for how many things are assigned to particular shards
-            2. If shard assignment is out of bounds, remove assignment so that it can be reassigned 
-
+            2. If shard assignment is out of bounds, reassign
             NUMBER_OF_SHARDS shall be 1-indexed- anything 
         */
-        for (let entry in filesystems[fs].sheetData) {
+        for (let entry of filesystems[fs].sheetData) {
             // let Testentry: fsEntry = entry
-            console.log(entry.folderBaseName, entry.seedId, typeof entry.seedId)
-            if (entry.seedId <= 0 || entry.seedId == "" || entry.seedId == undefined) {
-                entry.seedId = 0
-
+            let entryData = filesystems[fs].sheetData[entry]
+            console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
+            if (entryData.seedId <= 0 || entryData.seedId == "" || entryData.seedId == undefined || parseInt(entryData.seedId) > NUMBER_OF_SHARDS) {
+                let shardKey = getKeyWithSmallestValue(shardCounter)
+                entryData.seedId = shardKey
+                shardCounter[shardKey] += 1
             } else {
-                shardCounter[entry.seedId.toString] += 1
+                shardCounter[entryData.seedId.toString] += 1
             }
+            filesystems[fs].sheetData[entry] = entryData
         }
         // this should work, I think.
         
         
         /* Loop 2:
-            1. Assigns shard numbers to things that don't have valid shard id's
-                Attempts to do so evenly by assigning to the shard with the lowest count on it
+            If there's a big spread on shard numbers, then go and reassign some somehow, maybe?
         */
         
-        for (let entry in filesystems[fs].sheetData) {
-            if (entry.seedId <= 0 || entry.seedId > NUMBER_OF_SHARDS) {
-                let shardString = getKeyWithSmallestValue(shardCounter) 
-                shardCounter[shardString] += 1
-                entry.seedId = shardString
-            }
-        }
+        // for (let entry in filesystems[fs].sheetData) {
+        //     let entryData = filesystems[fs].sheetData[entry]
+        //     if (entryData.seedId <= 0 || entryData.seedId > NUMBER_OF_SHARDS) {
+        //         let shardString = getKeyWithSmallestValue(shardCounter) 
+        //         shardCounter[shardString] += 1
+        //         entryData.seedId = shardString
+        //     } else {
+        //         // if the things get here, then they should be okay.
+        //     }
+        //     outData.push
+        // }
+
+        console.log(shardCounter)
         // send data to display:
         //filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
         filesystems[fs].fsData.setData(filesystems[fs].sheetData)
