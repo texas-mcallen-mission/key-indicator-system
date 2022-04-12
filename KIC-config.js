@@ -84,6 +84,11 @@ let INTERNAL_CONFIG = {
 
         LOG_OLD_sendReportToDisplayV3_: false, //TODO Update references
         log_sendReportToDisplayV3_: false,
+
+        shardManager: {
+            number_of_shards : 4, // this is 1-indexed: if you put 4 here, you will get 4 shards, not 5 total
+            max_spread : 2 // the maximum amount of variation allowed in shard size- needs to be at least 1 otherwise you might have some problems, especially with large shard counts.
+        }
     },
 
     // triggers

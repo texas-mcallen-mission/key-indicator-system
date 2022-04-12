@@ -1,5 +1,11 @@
 //@ts-check
 
+
+/* This version of reportCreator is very monolithic- it's only really designed to update *all* the reports in a particular level.
+    I'm not quite sure how to re-architect this into something that's capable of being split up.
+        I think the first step is probably to go and attempt minifying the sheetData class for a sub-project.8
+*/
+
 function debugTesting() {
     let dLog:dataLogger = new dataLogger("reportCreator Debug Testing",triggerTypes.DEBUG)
     Logger.log("Running updateFS")
