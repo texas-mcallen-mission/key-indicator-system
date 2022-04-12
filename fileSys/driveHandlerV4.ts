@@ -147,19 +147,22 @@ function loadFilesystems_(allSheetData) {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
-            existingFolders: []
+            existingFolders: [],
+            reportTemplate:INTERNAL_CONFIG.reportCreator.docIDs.zoneTemplate
         },
         district: {
             fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
-            existingFolders: []
+            existingFolders: [],
+            reportTemplate: INTERNAL_CONFIG.reportCreator.docIDs.distTemplate
         },
         area: {
             fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
-            existingFolders: []
+            existingFolders: [],
+            reportTemplate: INTERNAL_CONFIG.reportCreator.docIDs.areaTemplate
         }
     };
     for (let fs in filesystems) {
