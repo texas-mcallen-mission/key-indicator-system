@@ -52,16 +52,20 @@ function updateShards() {
         /* Loop 2:
             If there's a big spread on shard numbers, then go and reassign some somehow, maybe?
         */
-        let minVal = 0
-        let maxVal = 0
-        for (let key of shardCounter) {
-            let shardCount = shardCounter[key]
-            if (shardCount < minVal) minVal = shardCount
-            if (shardCount > maxVal) maxVal = shardCount            
+        for (let entry in filesystems[fs].sheetData) {
+            let entryData = filesystems[fs].sheetData[entry]
+
+            if (isSpreadBig_(shardCounter, MAX_ALLOWABLE_SPREAD) == false) {
+                break
+            }
+            let smallestShard = getKeyWithSmallestValue(shardCounter)
+            if (entryData.seedId.toString != smallestShard) entryData.seedId = smallestShard
+            
+            filesystems[fs].sheetData[entry] = entryData
+            
+            
         }
-        if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD) {
-            console.log("Too Big of a spread, bro!")
-        }
+
         
         // }
 
@@ -74,6 +78,20 @@ function updateShards() {
 
 }
 
+function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
+    let minVal = 0;
+    let maxVal = 0;
+    for (let key of shardCounter) {
+        let shardCount = shardCounter[key];
+        if (shardCount < minVal) minVal = shardCount;
+        if (shardCount > maxVal) maxVal = shardCount;
+    }
+    if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD) {
+        return true
+    } else {
+        return false
+    }
+}
 function getKeyWithSmallestValue(shardCounter) {
     let returnKey = "1"
 
