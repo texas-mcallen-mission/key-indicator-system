@@ -12,6 +12,7 @@
 // }
 
 function updateShards() {
+    clearAllSheetDataCache()
     let NUMBER_OF_SHARDS = 4
     let MAX_ALLOWABLE_SPREAD = 2
     let allSheetData = constructSheetData()
@@ -64,6 +65,8 @@ function updateShards() {
                 shardCounter[currentSeed] -= 1
                 entryData.seedId = smallestShard;
                 shardCounter[smallestShard] += 1
+            } else {
+                console.log("did not update")
             }
             filesystems[fs].sheetData[entry] = entryData
             
@@ -85,12 +88,14 @@ function updateShards() {
 function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
     let minVal = 0;
     let maxVal = 0;
+    let numberOfZeros = 0
     for (let key in shardCounter) {
         let shardCount = shardCounter[key];
         if (shardCount < minVal) minVal = shardCount;
         if (shardCount > maxVal) maxVal = shardCount;
+        if(shardCount = 0) numberOfZeros += 1
     }
-    if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD) {
+    if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD || (minVal >2 && numberOfZeros >=1)) {
         return true
     } else {
         return false
