@@ -43,10 +43,11 @@ function updateShards() {
                 entryData.seedId = shardKey
                 shardCounter[shardKey] += 1
             } else {
-                shardCounter[entryData.seedId.toString] += 1
+                shardCounter[entryData.seedId.toString()] += 1
             }
             filesystems[fs].sheetData[entry] = entryData
         }
+        
         // this should work, I think.
         
         
@@ -95,7 +96,7 @@ function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
         if (shardCount > maxVal) maxVal = shardCount;
         if(shardCount = 0) numberOfZeros += 1
     }
-    if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD || (minVal >2 && numberOfZeros >=1)) {
+    if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD/* || (minVal >2 && numberOfZeros >=1)*/) {
         return true
     } else {
         return false
