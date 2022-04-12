@@ -13,6 +13,7 @@
 
 function updateShards() {
     let NUMBER_OF_SHARDS = 4
+    let MAX_ALLOWABLE_SPREAD = 2
     let allSheetData = constructSheetData()
     let filesystems = loadFilesystems_(allSheetData);
 
@@ -23,7 +24,7 @@ function updateShards() {
         let shardCounter: {} = {
             "1":0
         }
-        for (let i = 1; i < NUMBER_OF_SHARDS; i++){
+        for (let i = 1; i <= NUMBER_OF_SHARDS; i++){
             shardCounter[i.toString()] = 0
         }
         /* loop 1:
@@ -32,10 +33,10 @@ function updateShards() {
             NUMBER_OF_SHARDS shall be 1-indexed- anything 
         */
         // I hate it when that happens
-        for (let entry of filesystems[fs].sheetData) {
+        for (let entry in filesystems[fs].sheetData) {
             // let Testentry: fsEntry = entry
             let entryData = filesystems[fs].sheetData[entry]
-            console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
+            // console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
             if (entryData.seedId <= 0 || entryData.seedId == "" || entryData.seedId == undefined || parseInt(entryData.seedId) > NUMBER_OF_SHARDS) {
                 let shardKey = getKeyWithSmallestValue(shardCounter)
                 entryData.seedId = shardKey
@@ -51,17 +52,17 @@ function updateShards() {
         /* Loop 2:
             If there's a big spread on shard numbers, then go and reassign some somehow, maybe?
         */
+        let minVal = 0
+        let maxVal = 0
+        for (let key of shardCounter) {
+            let shardCount = shardCounter[key]
+            if (shardCount < minVal) minVal = shardCount
+            if (shardCount > maxVal) maxVal = shardCount            
+        }
+        if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD) {
+            console.log("Too Big of a spread, bro!")
+        }
         
-        // for (let entry in filesystems[fs].sheetData) {
-        //     let entryData = filesystems[fs].sheetData[entry]
-        //     if (entryData.seedId <= 0 || entryData.seedId > NUMBER_OF_SHARDS) {
-        //         let shardString = getKeyWithSmallestValue(shardCounter) 
-        //         shardCounter[shardString] += 1
-        //         entryData.seedId = shardString
-        //     } else {
-        //         // if the things get here, then they should be okay.
-        //     }
-        //     outData.push
         // }
 
         console.log(shardCounter)
@@ -76,7 +77,7 @@ function updateShards() {
 function getKeyWithSmallestValue(shardCounter) {
     let returnKey = "1"
 
-    for (let key of shardCounter) {
+    for (let key in shardCounter) {
         if (shardCounter[key] < shardCounter[returnKey]) {
             returnKey = key
         }
