@@ -21,19 +21,61 @@ function testLoadingShards() {
 
     let filesystems = loadFilesystems_(allSheetData)
 
-    let shardedZone = loadShards(filesystems.zone.fsData);
-    console.log(shardedZone)
+    let shardedZone = loadShards_(filesystems.zone.fsData);
+    // console.log(shardedZone)
+
+    let kiData = allSheetData.data.getData()
+
+    let dedupedkiData = removeDuplicatesFromData_(kiData)
+    
+    for (let shard in shardedZone) {
+        let shardedAreaIdList = getAllAreaIdsInShard_(filesystems.zone.fsData)
+        let data = getKiDataForShard(dedupedkiData, shardedAreaIdList)
+        console.log(shard)
+        console.log(data)
+    }
+
+
 }
-function loadShards(fsData) {
+
+function removeDuplicatesFromData_(kiData) {
+    let output = []
+    for (let entry of kiData) {
+        // let entryData = kiData[entry]
+        if(!entry.isDuplicate) output.push(entry)
+    }
+    return output
+}
+function getKiDataForShard(kiData, areaIds) {
+    let output = []
+    for (let entry of kiData) {
+        if(areaIds.includes(entry.areaID)) output.push(entry)
+    }
+    return output
+}
+
+function getAllAreaIdsInShard_(fsSheetData) {
+    let output = []
+    for (let entry in fsSheetData) {
+        let areaIdBlob = fsSheetData[entry].areaID
+        areaIdBlob = areaIdBlob.replace(/\s/g, '') // removes potential whitespaces
+        let areaIds = areaIdBlob.split(",")
+        output.push(...areaIds)
+    }
+    return output
+}
+function loadShards_(fsSheetData) {
     let output = {}
 
     // step 1: initialize output
-    for (let i = 0; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
+    for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
         output[i.toString()] = []
     }
-    for (let entry of fsData) {
-        output[entry.seedId.toString].push(entry)
+    for (let entry in fsSheetData) {
+        let entryData = fsSheetData[entry]
+        output[entryData.seedId.toString()].push(entryData)
     }
 
     return output
 }
+
