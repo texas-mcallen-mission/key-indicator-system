@@ -113,7 +113,7 @@ function getAllAreaIdsInShard_(fsSheetData,shardId) {
     let output = []
     for (let entry of fsSheetData) {
         let entryData = fsSheetData
-        if (entry.seedID.toString() = shardId.toString()) {
+        if (entry.seedID.toString() == shardId.toString()) {
             let areaIdBlob = fsSheetData[entry].areaID
             areaIdBlob = areaIdBlob.replace(/\s/g, '') // removes potential whitespaces
             let areaIds = areaIdBlob.split(",")
