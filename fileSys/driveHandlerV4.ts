@@ -58,23 +58,30 @@ function buildFSV4(allSheetData = constructSheetData()) {
         let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId,"" )
         let zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.zone.sheetData.push(zoneEntry)
-
+        let zoneAreaIds = []
 
         
         for (let district in orgData[zone]) {
             //@ts-ignore
-            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId,"" );
+            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId, "");
+            let distAreaIds = []
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area];
                 //@ts-ignore
+                distAreaIds.push(areaData.areaID)
                 let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)
             }
+
+            distEntry.areaID = distAreaIds.join()
+            zoneAreaIds.push(...distAreaIds)
         }
+
+        zoneEntry.areaID = zoneAreaIds.join()
 
 
     }
