@@ -39,7 +39,7 @@ function updateShards() {
             let entryData = filesystems[fs].sheetData[entry]
             // console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
             if (entryData.seedId <= 0 || entryData.seedId == "" || entryData.seedId == undefined || parseInt(entryData.seedId) > NUMBER_OF_SHARDS) {
-                let shardKey = getKeyWithSmallestValue(shardCounter)
+                let shardKey = getKeyWithSmallestValue_(shardCounter)
                 entryData.seedId = shardKey
                 shardCounter[shardKey] += 1
             } else {
@@ -52,7 +52,9 @@ function updateShards() {
         
         
         /* Loop 2:
-            If there's a big spread on shard numbers, then go and reassign some somehow, maybe?
+            If there's a big spread on shard numbers, then go and reassign some over.
+            The way this is done should keep as many as possible on their original/current shard assignments
+            to minimize the chance that a report continuously gets dropped through the cracks.
         */
         for (let entry in filesystems[fs].sheetData) {
             let entryData = filesystems[fs].sheetData[entry]
@@ -60,14 +62,12 @@ function updateShards() {
             if (isSpreadBig_(shardCounter, MAX_ALLOWABLE_SPREAD) == false) {
                 break
             }
-            let smallestShard = getKeyWithSmallestValue(shardCounter)
+            let smallestShard = getKeyWithSmallestValue_(shardCounter)
             if (entryData.seedId.toString() != smallestShard) {
                 let currentSeed = entryData.seedId.toString()
                 shardCounter[currentSeed] -= 1
                 entryData.seedId = smallestShard;
                 shardCounter[smallestShard] += 1
-            } else {
-                // console.log("did not update")
             }
             filesystems[fs].sheetData[entry] = entryData
             
@@ -79,7 +79,6 @@ function updateShards() {
 
         console.log(shardCounter)
         // send data to display:
-        //filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
         filesystems[fs].fsData.setData(filesystems[fs].sheetData)
     }
 
@@ -89,12 +88,10 @@ function updateShards() {
 function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
     let minVal = 0;
     let maxVal = 0;
-    let numberOfZeros = 0
     for (let key in shardCounter) {
         let shardCount = shardCounter[key];
         if (shardCount < minVal) minVal = shardCount;
         if (shardCount > maxVal) maxVal = shardCount;
-        if(shardCount = 0) numberOfZeros += 1
     }
     if ((maxVal - minVal) > MAX_ALLOWABLE_SPREAD/* || (minVal >2 && numberOfZeros >=1)*/) {
         return true
@@ -102,7 +99,7 @@ function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
         return false
     }
 }
-function getKeyWithSmallestValue(shardCounter) {
+function getKeyWithSmallestValue_(shardCounter) {
     let returnKey = "1"
 
     for (let key in shardCounter) {
