@@ -21,9 +21,6 @@ function updateReportsInShard(shardData, shardFSdata, filesystem) {
     let reportScope = filesystem.fsScope
     let reportTemplateId = filesystem.reportTemplate
 
-    
-
-    
 
 }
 
