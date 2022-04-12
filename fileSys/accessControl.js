@@ -57,7 +57,7 @@ function shareFileSystem() {
 
     for (let zoneName in missionOrgData.zones) {
         let zoneFolderData = allZoneFolderData[zoneName];
-        let zoneFolderID = zoneFolderData.folder;
+        let zoneFolderID = zoneFolderData.folderId;
         let zoneFolder = DriveApp.getFolderById(zoneFolderID);
 
         let zoneOrgData = missionOrgData.zones[zoneName];
@@ -129,7 +129,7 @@ function shareFileSystem() {
 
         for (let districtName in zoneOrgData.districts) {
             let distFolderData = allDistFolderData[districtName];
-            let distFolderID = distFolderData.folder;
+            let distFolderID = distFolderData.folderId;
             let distFolder = DriveApp.getFolderById(distFolderID);
             let distOrgData = zoneOrgData.districts[districtName];
 
@@ -193,7 +193,7 @@ function shareFileSystem() {
 
             for (let areaName in distOrgData.areas) {
                 let areaFolderData = allAreaFolderData[areaName];
-                let areaFolderID = areaFolderData.folder;
+                let areaFolderID = areaFolderData.folderId;
                 let areaFolder = DriveApp.getFolderById(areaFolderID);
                 let areaOrgData = distOrgData.areas[areaName];
 

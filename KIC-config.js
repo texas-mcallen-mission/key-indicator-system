@@ -100,12 +100,12 @@ let INTERNAL_CONFIG = {
             updateAreaReports: true,
             updateDistReports: true,
             updateZoneReports: true,
-            shareFileSystem: false,
-            pruneFS:false
+            shareFileSystem: true,
+            pruneFS:true
         },
         menu: {
             updateDataSheet: true,
-            updateFileSystem: false,
+            updateFileSystem: true,
             updateAreaReports: true,
             updateDistReports: true,
             updateZoneReports: true,
@@ -133,7 +133,7 @@ let INTERNAL_CONFIG = {
 
             pruneFS_TimeBasedTrigger:"pruneFS_TimeBasedTrigger",
         },
-        execution_wait_in_minutes: 1, // can be 1, 5, 15 or 30
+        execution_wait_in_minutes: 15, // can be 1, 5, 15 or 30
 
 
         onOpen_triggers: {

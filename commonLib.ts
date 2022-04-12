@@ -5,6 +5,36 @@
 var _ = lodash.load();
 
 
+function getOrCreateReportFolder() {
+    // still used in driveHandlerV3
+
+    // looks for a folder named "Reports" in the folder this document is in or creates it, and returns a folderID for it.
+    // ideally this function would let me have a reports folder that the filesystem generates inside of, but not sure what I need to do to get that working.
+    // this is where I left off on 12/28/2021
+    // completed on 12/29/2021
+
+    let folderName = "Reports";
+    let spreadsheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
+    let spreadsheetFile = DriveApp.getFileById(spreadsheetId);
+    let parentFolder = spreadsheetFile.getParents();
+    // let oneLinerParentFolderID = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
+    // Logger.log(oneLinerParentFolderID)
+    // let parentFolderID = parentFolder.getId()
+    // let parentFolderMatches = parentFolder.next()
+    let nextFolder = parentFolder.next();
+    let parentFolderID = nextFolder.getId();
+    let matchingChildFolders = nextFolder.getFoldersByName(folderName);
+    let reportsFolderID = "";
+    if (matchingChildFolders.hasNext() == true) {
+        reportsFolderID = matchingChildFolders.next().getId();
+        Logger.log("reports folder found");
+    } else {
+        reportsFolderID = createNewFolderV4_(parentFolderID, folderName);
+        Logger.log("reports folder not found, creating");
+    }
+    return reportsFolderID;
+}
+
 // var MERGED_OBJECT = _.merge(OBJ1, OBJ2,OBJ3)
 
 
@@ -30,7 +60,7 @@ function sendDataToDisplayV3_(header, finalData, sheet, args = {sortColumn:1,asc
     }
     let postDate = new Date
     if (CONFIG.commonLib.log_time_taken) {
-        console.log("Total duration of report display: ", postDate.getMilliseconds() - preDate.getMilliseconds());
+        console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
     }
 }
 
@@ -55,7 +85,7 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
     sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
     let postDate = new Date
     if (CONFIG.commonLib.log_time_taken) {
-        console.log("Total duration of report display: ", postDate.getMilliseconds() - preDate.getMilliseconds());
+        console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
     }
     // going to run this one more time without a flush to see what happens when this changes.
     // SpreadsheetApp.flush()
@@ -121,18 +151,18 @@ function isFolderAccessible_(folderID:string) {
 }
 
 function isFileAccessible_(fileID: string) {
-  // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
+    // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
     let file;
     let output = true;
     let gone = false;
     try {
-    file = DriveApp.getFileById(fileID);
-    // test = DriveApp.getFolderById(folderID).getName();
+        file = DriveApp.getFileById(fileID);
+        // test = DriveApp.getFolderById(folderID).getName();
 
-    file.getDescription();
+        file.getDescription();
     } catch (e) {
-    output = false;
-    gone = true;
+        output = false;
+        gone = true;
         if (CONFIG.commonLib.log_access_info) { Logger.log("File deleted with ID " + fileID); }
 
     }
@@ -190,4 +220,14 @@ function splitDataByTag_(referenceData, tagColumn) {
         }
     }
     return { data: splitData, tagArray: tagList };
+}
+function getUniqueFromPosition_(gimmeDatArray, position) {
+    // this does the same thing as above, but keeps me from needing to iterate through everything twice.
+    let uniqueDataFromPosition = [];
+    for (let i = 0; i < gimmeDatArray.length; i++) {
+        if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
+            uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
+        }
+    }
+    return uniqueDataFromPosition;
 }

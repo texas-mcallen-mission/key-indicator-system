@@ -19,7 +19,7 @@ async function sendReportToDisplayV4_async_(header, finalData, sheetObj){
         let preDate = new Date;
         sheetObj.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
         let postDate = new Date;
-        console.log("Adding Data: ", preDate.getMilliseconds() - prepredate.getMilliseconds(), "ms, Sorting Data: ", postDate.getMilliseconds() - preDate.getMilliseconds(), " ms");
+        console.log("Adding Data: ", preDate.getTime() - prepredate.getTime(), "ms, Sorting Data: ", postDate.getTime() - preDate.getTime(), " ms");
         // going to run this one more time without a flush to see what happens when this changes.
         // SpreadsheetApp.flush()
         // Logger.log("data added")
@@ -40,15 +40,15 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
     let complete = false
     let promises:any[] = []
     for (let entry of fsData) {
-        console.log("entry begin for ",entry.folderName) // TODO- replace folderName with name once driveHandler has been rewritten
+        console.log("entry begin for ",entry.folderBaseName) // TODO- replace folderName with name once driveHandler has been rewritten
         let targetID = entry.sheetID1
         let targetWorksheet = SpreadsheetApp.openById(targetID)
-        let outData = turnDataIntoArray(referenceData[entry.folderName],header,keyArray) // TODO- replace folderName with name once driveHandler has been rewritten
+        let outData = turnDataIntoArray(referenceData[entry.folderBaseName],header,keyArray) // TODO- replace folderName with name once driveHandler has been rewritten
         // Logger.log(outData)
         const dataSheetName = CONFIG.reportCreator.outputDataSheetName;    // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
 
         const configSheetName = CONFIG.reportCreator.configPageSheetName;     // TODO THIS NEEDS TO GET MOVED TO REFERENCE THE NEW CONFIG FILE
-        let configPushData = [[entry.folderName,scope],["Last Updated:",currentDate]] // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
+        let configPushData = [[entry.folderBaseName,scope],["Last Updated:",currentDate]] // this winds up on the config page // TODO- replace folderName with name once driveHandler has been rewritten
         const configPosition = "B3:C4"; // TODO THIS MIGHT ALSO WANT TO MOVE.
         
         let targetDataSheet = await getReportFromOtherSource_async_(dataSheetName, targetWorksheet); // NEEDS TO BE ASYNC BECAUSE IT TAKES A NON-TRIVIAL AMOUNT OF TIME
@@ -65,15 +65,15 @@ async function modifyTemplatesV2_async_(fsData, referenceData, scope: string, ke
             dLog.addFailure("sendReportToDisplayV4_async_",error)
         }
         dLog.endFunction("sendReportToDisplayV4_async_")
-        console.log("entry completed for ",entry.folderName) // TODO- replace folderName with name once DriveHandler has been rewritten
+        console.log("entry completed for ",entry.folderBaseName) // TODO- replace folderName with name once DriveHandler has been rewritten
         targetConfSheet.getRange(configPosition).setValues(configPushData) // TODO- MOVE THIS TO THE CREATETEMPLATES CHUNK BECAUSE IT DOESN'T NEED TO HAPPEN MORE THAN ONCE PER REPORT
                                                                           //   TODO- I SHOULD PROBABLY DITCH THE CONFIG PAGE AND JUST SET THIS IN A ONE-ROW-WIDER HEADER
         // leaving out spreadsheetapp.flush because I'm not convinced that it actually helps anything at all
     }
     let newDate = new Date() 
-    console.log("Async modify loop completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    console.log("Async modify loop completed for " ,scope," in ", newDate.getTime()-currentDate.getTime(),"milliseconds")
     complete = true
-    console.log("Async modify completed for " ,scope," in ", newDate.getMilliseconds()-currentDate.getMilliseconds(),"milliseconds")
+    console.log("Async modify completed for " ,scope," in ", newDate.getTime()-currentDate.getTime(),"milliseconds")
     
     return Promise.all(promises)
     

@@ -28,9 +28,13 @@ The data generated in this system is directly usable in Google's Data Studio, wh
 
 You also have the ability to generate zone-, district- and area- reports right off the bat- The code in ``fileSys/`` creates a file structure in Google Drive that the code in ``reports/`` puts Google Sheets into, copied from templates.  This can also be automatically shared and is automatically updated.  The update process for area reports takes between 15 to 25 minutes for a mission with ~100 areas.
 
+## Diagram Because It'll Make Your Life Easier
+
+![Key Indicator system Flowchart](docs/Key%20Indicators%20For%20Conversion%20Diagram%20-%20Github%20Dark.png)
+
 ## How do I get started?
 
-A more comprehensive guide on how to get started- as well as some stuff to make it easier- is in the works.  In the meantime, find somebody with a technical background who learns quickly and that you can trust to work on a project for a bit, and have them get started either trying to get this project working, or learning the specifics of Google AppScript by sticking them on another, more simple project, like automating some of somebody else's job that's really tedious.  Programming experience, or even just knowing how to do fancy stuff in Google Sheets is a plus.
+A more comprehensive guide on how to get started- as well as some stuff to make it easier- is in the works.  In the meantime, find somebody with a technical background who learns quickly and that you can trust to work on a project for a bit, and have them get started either trying to get this project working, or learning the specifics of Google AppScript by sticking them on another, more simple project, like automating some of an office job that's really tedious.  Programming experience, or even just knowing how to do fancy stuff in Google Sheets is a plus.
 
 ### Other
 
