@@ -59,7 +59,9 @@ function updateShards() {
                 break
             }
             let smallestShard = getKeyWithSmallestValue(shardCounter)
-            if (entryData.seedId.toString != smallestShard) {
+            if (entryData.seedId.toString() != smallestShard) {
+                let currentSeed = entryData.seedId.toString()
+                shardCounter[currentSeed] -= 1
                 entryData.seedId = smallestShard;
                 shardCounter[smallestShard] += 1
             }
