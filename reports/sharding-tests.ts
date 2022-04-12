@@ -31,6 +31,7 @@ function updateShards() {
             2. If shard assignment is out of bounds, reassign
             NUMBER_OF_SHARDS shall be 1-indexed- anything 
         */
+        // I hate it when that happens
         for (let entry of filesystems[fs].sheetData) {
             // let Testentry: fsEntry = entry
             let entryData = filesystems[fs].sheetData[entry]
