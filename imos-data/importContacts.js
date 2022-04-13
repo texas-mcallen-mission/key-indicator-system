@@ -189,42 +189,49 @@ function emailParser(emailList) {
 
 
 
-// IF THIS GOES GLOBAL, THIS WILL HAVE TO CHANGE!!!
-
-function testLanguageParser() {
-    let testString = "TEST (Spanish) WORDS,TEST ENGLISH WORDS";
-    Logger.log(testString.split(","));
-    Logger.log(languageParser(true, testString));
-}
-
-
-/**
- * Parses language data for importContacts()
- */
-function languageParser(multipleUnits, unitString) {
-
-    // noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))
-    let defaultLanguage = "English";
-    let spanishTestString = "Spanish";
-    let spanishOutputString = "Spanish";
-    let returnData = [];
-
-    if (!multipleUnits) {
-        if (unitString.includes(spanishTestString) == true) // this is going to get changed in the future to get rid of the silly 'spanish,spanish' tags.
-            returnData.push(spanishOutputString);
-        else
-            returnData.push(defaultLanguage);
-
-    } else {
-        let unitStringSplit = unitString.split(",");
-
-        for (let testString of unitStringSplit) {
-            if (testString.includes(spanishTestString))
-                returnData.push(spanishOutputString);
-            else
-                returnData.push(defaultLanguage);
+function testLanguageParserV2() {
+    let testStrings = {
+        "English": "Beeville Branch",
+        "Spanish": "Brownsville 2nd (Spanish) Ward",
+        "Spanish,English": "Edinburg 2nd (Spanish) Ward, Edinburg 3rd Ward",
+        "Sign Language": "Rio Grande Valley (Sign Language) Branch",
+    };
+    let successes = 0;
+    for (let test in testStrings) {
+        let result = languageParser(true, testStrings[test]).languages;
+        if (result == test) {
+            console.info("PASSED FOR ", test);
+            successes += 1;
+        }
+        else {
+            console.warn("LANGUAGE PARSER FAILED FOR ", test, "RESULT: ", result);
         }
     }
+    if (successes == Object.keys(testStrings).length) {
+        console.log("ALL TESTS PASSED FOR LANGUAGEPARSER");
+    }
+}
+function languageParser(multipleUnits, unitString) {
+    // the previous version of this was a crime...
+    // noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))
+    let DEFAULT_LANGUAGE = "English";
+    let returnData = [];
+    let splitUnits = unitString.split(",");
+    for (let unit of splitUnits) {
+        let langString = "";
+        if (!unit.includes("(")) {
+            langString = DEFAULT_LANGUAGE;
+        } else {
+            let regexString = new RegExp('\(([^\)]+) \)');
+            let regexData = unit.match(/\(([^)]+)\)/);
+            let regexMatch = regexData[1];
+            langString = regexMatch;
+            console.log(unitString, langString);
 
-    return { 'languageString': returnData.toString() };
+        }
+        if (!returnData.includes(langString)) { returnData.push(langString); }
+    }
+    return {
+        languages: returnData.toString()
+    };
 }
