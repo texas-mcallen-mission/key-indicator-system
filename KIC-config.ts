@@ -50,7 +50,8 @@ let INTERNAL_CONFIG = {
         log_dataMerge: false,
         log_responsePulled: false,
         log_duplicates: false,
-        skipMarkingPulled: false, //Stops marking Form Responses as having been pulled into the data sheet
+        // TODO PULL THIS OUT
+        skipMarkingPulled: true, //Stops marking Form Responses as having been pulled into the data sheet
 
         skipMarkingDuplicates: false, //TODO Re-implement?
 
