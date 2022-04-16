@@ -955,6 +955,10 @@ function buildIndexToKey_(allSheetData) {
 //  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
 //  */
 function constructSheetData(force = false) {
+    if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
+        let allSheetData = getAllSheetDataFromCache();
+        if (allSheetData != null) return allSheetData;
+    }
     let allSheetData =  constructSheetDataV2(sheetDataConfig.local)
     let preKey = allSheetData.data.getKeys()
     syncDataFlowCols_(allSheetData.form, allSheetData.data);
