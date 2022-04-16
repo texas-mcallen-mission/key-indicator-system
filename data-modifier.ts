@@ -32,7 +32,7 @@ function testBattery() {
 
 function testSyncDataFlowCols() {
     let allSheetData2:manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
-    syncDataFlowCols_(allSheetData2)
+    syncDataFlowCols_(allSheetData2.form,allSheetData2.data)
     
     let kiData = allSheetData2.form.getData()
     console.log("testing adding new keys")

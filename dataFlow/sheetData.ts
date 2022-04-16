@@ -199,7 +199,7 @@ class RawSheetData {
      * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
     * @param {string} targetSheetId - sheet id, for connecting to external sheets.  If left empty, will default to the one returned by SpreadsheetApp.getActiveSpreadsheet() 
     */
-    constructor(tabName, headerRow, initialKeyToIndex = {}, targetSheet: string|null = null) {
+    constructor(tabName, headerRow, initialKeyToIndex = {}, includeSoftcodedColumns:boolean, targetSheet: string|null = null,allowWrite:boolean = true) {
         let targetSheetId = "";
         
         // if the target sheet is accessible, set the thing.
@@ -222,7 +222,9 @@ class RawSheetData {
         this.tabName = tabName;
         this.headerRow = headerRow;
         this.keyToIndex = initialKeyToIndex;
-        this.sheetId = targetSheetId
+        this.sheetId = targetSheetId;
+        this.includeSoftcodedColumns = includeSoftcodedColumns;
+        this.allowWrite = allowWrite;
 
         this.buildIndexToKey_();
         // TODO: Make this guy capable of making sheets if the workbook exists
@@ -237,6 +239,10 @@ class RawSheetData {
             this.sheet = targetSpreadsheet.insertSheet(this.tabName)
             this.setHeaders([this.indexToKey])
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
+        }
+
+        if (includeSoftcodedColumns == true) {
+            this.addSoftColumns()
         }
     }
 
@@ -465,6 +471,10 @@ class RawSheetData {
     }
 
     setHeaders(data) {
+        if (this.allowWrite == false) {
+            console.warn("tried to write to read-only sheet")
+            return
+        }
         // let headerWidth = this.getSheet().getLastColumn()
         // if(data.length > headerWidth){headerWidth = data.length}
         let range = this.getSheet().getRange(
@@ -523,6 +533,10 @@ class RawSheetData {
      * @param {any[][]} values The values to insert.
      */
     setValues(values) {
+        if (this.allowWrite == false) {
+            console.warn("tried to write to read-only sheet")
+            return
+        }
         if (values.length == 0) return;
         this.clearContent();
         let range = this.getSheet().getRange(
@@ -542,6 +556,10 @@ class RawSheetData {
      * @param {Object} data The data to insert.
      */
     setData(data) {
+        if (this.allowWrite == false) {
+            console.warn("tried to write to read-only sheet")
+            return
+        }
         if (data.length == 0) return;
 
         let values = [];
@@ -699,6 +717,38 @@ class RawSheetData {
 
         return arr;
     }
+    /**
+ * !!WARNING!!
+ * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+ *
+ * includes softcoded columns (IE ones not directly defined.)
+ * This has a bit of danger with remote sheets:
+ * 1. If this runs on a remote sheet that somebody has edit access to the header of, 
+ * 2. A valid key gets set in the header, 
+ * 3. You don't explicitly remove particular keys, you could potentially leak PII.
+ * 
+ * BE VERY CAREFUL about using softcoded columns on remote sheets. 
+ */
+    addSoftColumns() {
+        let currentHeader = this.getHeaders();
+        let currentKeys: string[] = this.getKeys();
+
+        let addedFormKeys: string[] = [];
+        if (currentHeader.length > currentKeys.length) {
+            console.warn("Not all columns are hardcoded");
+            let notInKeys = currentHeader.slice(currentKeys.length);
+            Logger.log(notInKeys);
+            for (let noKey of notInKeys) {
+                if (noKey != null && noKey != "" && !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(noKey) && !data.hasKey(noKey)) {
+                    this.addColumnWithHeader_(noKey, noKey);
+                    addedFormKeys.push(noKey);
+                    // console.log("key", noKey);
+                }
+            }
+            // Logger.log(addedFormKeys);
+        }
+        console.log("added keys to form",this.tabName,": ",addedFormKeys)
+    }
 }
 
 /**
@@ -783,6 +833,7 @@ function cacheAllSheetData(allSheetData) {
  * For this to be enabled, I *think* the sheets might have to be on the same document (but I'm not sure.)
  * May need to be replaced or reworked to get this functional on an allsheetData'd
  * uses allSheetData.form, allSheetData.data
+ * If you want to have softcoded columns, you need to enable them in the config.
  * @param form form : sheetData class: the one you want to sync columns from
  * @param data : sheetData class: the one you want to sync columns to.
  */
@@ -791,27 +842,9 @@ function syncDataFlowCols_(form:SheetData,data:SheetData) {
     // let formSheetData = allSheetData.form;
     // let dataSheetData = allSheetData.data;
 
+
+
     let addedKeys = [];
-    // step 1: get length of keys, compare it to length of header
-    // then go and add any columns in the header but not stored as keys 
-    let formHeader = form.getHeaders()
-    let formKeys: string[] = form.getKeys()
-    
-    let addedFormKeys:string[] = []
-    if (formHeader.length > formKeys.length) {
-        console.warn("Not all columns are hardcoded")
-        let notInKeys = formHeader.slice(formKeys.length)
-        Logger.log(notInKeys)
-
-        for (let noKey in notInKeys) {
-            if (noKey != null && noKey != "" && !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(noKey) && !data.hasKey(noKey)) {
-                form.rsd.addColumnWithHeader_(noKey,noKey)
-                addedFormKeys.push(noKey)
-            }
-        }
-        Logger.log(addedFormKeys)
-
-    }
 
 
     for (let key of form.getKeys()) {
@@ -837,6 +870,7 @@ function syncDataFlowCols_(form:SheetData,data:SheetData) {
         ": " +
         addedStr
     );
+    console.log(data.getKeys())
 }
 
 /*

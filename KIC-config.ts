@@ -172,6 +172,31 @@ const OVERRIDE_SECRET_DATA = {
 var CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
 
 
+interface manySheetDatas {
+    [index: string]: SheetData,
+}
+
+interface sheetDataEntry {
+    tabName: string,
+    includeSoftcodedColumns: boolean,
+    headerRow: number,
+    sheetId?: string,
+    allowWrite?: boolean,
+    
+    initialColumnOrder: columnConfig,
+
+}
+
+interface manySheetDataEntries {
+    [index: string]: sheetDataEntry;
+}
+
+interface columnConfig {
+    [index: string]: number,
+
+}
+
+
 var sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = getSheetDataConfig();
 function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetDataEntries; } {
     let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA)
@@ -181,6 +206,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             form: {
                 tabName: "Form Responses",
                 headerRow: 0,
+                includeSoftcodedColumns:true,
                 initialColumnOrder: {
                     areaName: 0,
                     responsePulled: 1,
@@ -222,6 +248,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             data: {
                 tabName: "Data",
                 headerRow: 0,
+                includeSoftcodedColumns:true,
                 initialColumnOrder: {
                     areaName: 0,
                     log: 1,
@@ -303,6 +330,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             contact: {
                 tabName: "Contact Data",
                 headerRow: 0,
+                includeSoftcodedColumns: true,
                 initialColumnOrder: {
                     dateContactGenerated: 0,
                     areaEmail: 1,
@@ -332,6 +360,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             debug: {
                 tabName: "DEBUG SHEET",
                 headerRow: 0,
+                includeSoftcodedColumns: true,
                 initialColumnOrder: {
                     functionName: 0,
                     baseFunction: 1,
@@ -355,6 +384,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             headerTest: {
                 tabName: "headerTest",
                 headerRow: 1,
+                includeSoftcodedColumns: true,
                 sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
                 initialColumnOrder: {
                     areaName: 0,
@@ -440,6 +470,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             serviceRep: {
                 tabName: "serviceRep-data",
                 headerRow: 2,
+                includeSoftcodedColumns: false,
                 sheetId: CONFIG.dataFlow.sheetTargets.serviceRep,
                 initialColumnOrder: {
                     areaName: 0,
@@ -454,6 +485,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             tmmReport: {
                 tabName: "TMM Report Printable",
                 headerRow: 9,
+                includeSoftcodedColumns: false,
                 sheetId: CONFIG.dataFlow.sheetTargets.tmmReport,
                 initialColumnOrder: {
                     areaName: 0,
@@ -474,6 +506,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             fbReferrals: {
                 tabName: "techSquad Data",
                 headerRow: 1,
+                includeSoftcodedColumns: false,
                 sheetId: CONFIG.dataFlow.sheetTargets.fbReferrals,
                 initialColumnOrder: {
                     areaName: 0,
@@ -497,6 +530,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 tabName: "Data",
                 headerRow: 1,
                 sheetId: CONFIG.dataFlow.sheetTargets.data,
+                includeSoftcodedColumns: false,
                 allowWrite: false,
                 initialColumnOrder: {
                     areaName: 0,

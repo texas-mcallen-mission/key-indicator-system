@@ -49,9 +49,6 @@ function testStringify() {
     }
 }
 
-interface manySheetDatas {
-    [index: string]: SheetData,
-}
 
 /**
  * constructSheetDataV2: creates an allSheetData type object, which should *ideally* be able to run from cache on remote targets as well!
@@ -68,7 +65,14 @@ function constructSheetDataV2(target: manySheetDataEntries): manySheetDatas {
         if (entry.sheetId != undefined && entry.sheetId != null && entry.sheetId != "") {
             targetSheet = entry.sheetId;
         }
-        let rawSheetData = new RawSheetData(entry.tabName, entry.headerRow, entry.initialColumnOrder, targetSheet);
+        let rawSheetData = new RawSheetData(
+            entry.tabName,
+            entry.headerRow,
+            entry.initialColumnOrder,
+            entry.includeSoftcodedColumns,
+            targetSheet,
+            entry.allowWrite,
+        );
         let sheetData = new SheetData(rawSheetData);
         keys.push(key);
         allSheetData[key] = sheetData;
@@ -79,24 +83,6 @@ function constructSheetDataV2(target: manySheetDataEntries): manySheetDatas {
     return allSheetData;
 }
 
-
-interface sheetDataEntry {
-    initialColumnOrder: columnConfig,
-    tabName: string,
-    headerRow: number,
-    sheetId?: string,
-    allowWrite?: boolean,
-
-}
-
-interface manySheetDataEntries {
-    [index: string]: sheetDataEntry;
-}
-
-interface columnConfig {
-    [index: string]: number,
-
-}
 // {local:sheetDataEntry,remote:sheetDataEntry}
 
 
