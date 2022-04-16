@@ -793,12 +793,24 @@ function syncDataFlowCols_(form:SheetData,data:SheetData) {
 
     let addedKeys = [];
     // step 1: get length of keys, compare it to length of header
+    // then go and add any columns in the header but not stored as keys 
     let formHeader = form.getHeaders()
-    let formKeys:string[] = form.getKeys()
+    let formKeys: string[] = form.getKeys()
+    
+    let addedFormKeys:string[] = []
     if (formHeader.length > formKeys.length) {
         console.warn("Not all columns are hardcoded")
         let notInKeys = formHeader.slice(formKeys.length)
         Logger.log(notInKeys)
+
+        for (let noKey in notInKeys) {
+            if (noKey != null && noKey != "" && !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(noKey) && !data.hasKey(noKey)) {
+                form.rsd.addColumnWithHeader_(noKey,noKey)
+                addedFormKeys.push(noKey)
+            }
+        }
+        Logger.log(addedFormKeys)
+
     }
 
 
