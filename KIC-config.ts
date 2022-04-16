@@ -171,7 +171,7 @@ const OVERRIDE_SECRET_DATA = {
 var CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
 
 
-const sheetDataConfig = getSheetDataConfig();
+const sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = getSheetDataConfig();
 function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetDataEntries; } {
     let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA)
 

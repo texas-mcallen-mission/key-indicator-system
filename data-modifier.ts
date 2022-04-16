@@ -83,12 +83,14 @@ function updateTMMReport() {
 }
 
 function updateTechSquadReport() {
-    let allSheetData = constructSheetData();
-    let remoteDataSheet = allSheetData.data;
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote)
+    
+    let dataSheet = localSheetData.data;
 
-    let remoteData = remoteDataSheet.getData();
-    let kicData = new kiDataClass(remoteData);
-    let techReport = allSheetData.fbReferrals;
+    let data = dataSheet.getData();
+    let kicData = new kiDataClass(data);
+    let techReport = remoteSheetData.fbReferrals;
 
 
     let startDate = new Date("2022-01-20"); // TODO: I forgot what day we actually started calculating these
@@ -99,12 +101,14 @@ function updateTechSquadReport() {
 
 
 function updateServiceRepReport() {
-    let allSheetData = constructSheetData()
-    let remoteDataSheet = allSheetData.data;
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
 
-    let remoteData = remoteDataSheet.getData();
-    let kicData = new kiDataClass(remoteData);
-    let serviceReport = allSheetData.serviceRep
+    let dataSheet = localSheetData.data;
+
+    let data = dataSheet.getData();
+    let kicData = new kiDataClass(data);
+    let serviceReport = remoteSheetData.serviceRep
 
     let startDate = new Date("2022-01-20")
     let serviceData = kicData.removeDuplicates().removeBeforeDate(startDate).calculateCombinedName().end
