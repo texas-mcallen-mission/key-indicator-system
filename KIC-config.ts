@@ -248,7 +248,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             },
             data: {
                 tabName: "Data",
-                headerRow: 0,
+                headerRow: 1,
                 includeSoftcodedColumns:true,
                 initialColumnOrder: {
                     areaName: 0,
