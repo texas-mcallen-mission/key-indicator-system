@@ -898,7 +898,9 @@ function buildIndexToKey_(allSheetData) {
 //  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
 //  */
 function constructSheetData(force = false) {
-    return constructSheetDataV2(sheetDataConfig.local)
+    let allSheetData =  constructSheetDataV2(sheetDataConfig.local)
+    syncDataFlowCols_(allSheetData);
+    return allSheetData
 }
 
 function clearAllSheetDataCache() {
