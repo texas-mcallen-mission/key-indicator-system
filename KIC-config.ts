@@ -178,7 +178,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
     let sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = {
         local: {
             form: {
-                tabName: "Form Responses-SyncTest",
+                tabName: "Form Responses",
                 headerRow: 0,
                 initialColumnOrder: {
                     areaName: 0,
@@ -219,7 +219,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 },
             },
             data: {
-                tabName: "Data-SyncTest",
+                tabName: "Data",
                 headerRow: 0,
                 initialColumnOrder: {
                     areaName: 0,
