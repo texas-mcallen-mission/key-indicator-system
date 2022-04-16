@@ -786,33 +786,33 @@ function cacheAllSheetData(allSheetData) {
  * @param form form : sheetData class: the one you want to sync columns from
  * @param data : sheetData class: the one you want to sync columns to.
  */
-function syncDataFlowCols_(allSheetData:manySheetDatas) {
+function syncDataFlowCols_(form:SheetData,data:SheetData) {
     // this has been updated so that you can use any remote / not remote thing
-    let formSheetData = allSheetData.form;
-    let dataSheetData = allSheetData.data;
+    // let formSheetData = allSheetData.form;
+    // let dataSheetData = allSheetData.data;
 
     let addedKeys = [];
 
-    for (let key of formSheetData.getKeys()) {
+    for (let key of form.getKeys()) {
         if (
             !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(key) &&
-            !dataSheetData.hasKey(key)
+            !data.hasKey(key)
         ) {
-            let header = formSheetData.getHeaders()[formSheetData.getIndex(key)];
-            dataSheetData.rsd.addColumnWithHeader_(key, header);
+            let header = form.getHeaders()[form.getIndex(key)];
+            data.rsd.addColumnWithHeader_(key, header);
             addedKeys.push(key);
         }
     }
 
     let addedStr =
         addedKeys.length == 0
-            ? "No new columns in " + formSheetData.getTabName()
+            ? "No new columns in " + form.getTabName()
             : addedKeys.toString();
     console.log(
         "Added " +
         addedKeys.length +
         " column(s) to " +
-        dataSheetData.getTabName() +
+        data.getTabName() +
         ": " +
         addedStr
     );
@@ -899,7 +899,12 @@ function buildIndexToKey_(allSheetData) {
 //  */
 function constructSheetData(force = false) {
     let allSheetData =  constructSheetDataV2(sheetDataConfig.local)
-    syncDataFlowCols_(allSheetData);
+    let preKey = allSheetData.data.getKeys()
+    console.log(preKey)
+    syncDataFlowCols_(allSheetData.form, allSheetData.data);
+    let postKey = allSheetData.data.getKeys()
+    Logger.log(preKey)
+    Logger.log(postKey)
     return allSheetData
 }
 
