@@ -784,7 +784,9 @@ function getAllSheetDataFromCache():manySheetDatas|null {
             rawSheetDataLiteral.tabName,
             rawSheetDataLiteral.headerRow,
             rawSheetDataLiteral.keyToIndex,
-            rawSheetDataLiteral.sheetId
+            rawSheetDataLiteral.includeSoftcodedColumns,
+            rawSheetDataLiteral.sheetId,
+            rawSheetDataLiteral.allowWrite,
         );
         //Re-wrap real RawSheetData in a real SheetData
         let sheetData = new SheetData(rawSheetData);
