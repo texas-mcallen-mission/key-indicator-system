@@ -228,8 +228,8 @@ class RawSheetData {
         // TODO: Make this guy capable of making sheets if the workbook exists
         // TODO: This also means making a setHeader function of some sort.
         // here's the bit that I need to figure out how to change.
-        console.log(this.indexToKey)
-        console.log("Accessing the spreasheet")
+        // console.log(this.indexToKey)
+        // console.log("Accessing the spreasheet")
         let targetSpreadsheet = SpreadsheetApp.openById(targetSheetId);
         this.sheet = targetSpreadsheet.getSheetByName(this.tabName);
         if (this.sheet == null) {
@@ -454,7 +454,7 @@ class RawSheetData {
      * Returns the header row of this sheet.
      * @returns {string[]} The header row if this sheet.
      */
-    getHeaders() {
+    getHeaders():string[] {
         let range = this.getSheet().getRange(
             this.headerRow + 1,
             1,
@@ -792,6 +792,15 @@ function syncDataFlowCols_(form:SheetData,data:SheetData) {
     // let dataSheetData = allSheetData.data;
 
     let addedKeys = [];
+    // step 1: get length of keys, compare it to length of header
+    let formHeader = form.getHeaders()
+    let formKeys:string[] = form.getKeys()
+    if (formHeader.length > formKeys.length) {
+        console.warn("Not all columns are hardcoded")
+        let notInKeys = formHeader.slice(formKeys.length)
+        Logger.log(notInKeys)
+    }
+
 
     for (let key of form.getKeys()) {
         if (
@@ -900,12 +909,15 @@ function buildIndexToKey_(allSheetData) {
 function constructSheetData(force = false) {
     let allSheetData =  constructSheetDataV2(sheetDataConfig.local)
     let preKey = allSheetData.data.getKeys()
-    console.log(preKey)
     syncDataFlowCols_(allSheetData.form, allSheetData.data);
     let postKey = allSheetData.data.getKeys()
     Logger.log(preKey)
     Logger.log(postKey)
     return allSheetData
+}
+
+function testConstructor() {
+    let test = constructSheetData();
 }
 
 function clearAllSheetDataCache() {
