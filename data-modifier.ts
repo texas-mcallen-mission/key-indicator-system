@@ -70,7 +70,7 @@ function testNewHeader() {
     console.log("go check the header on sheet ",targetSheet.tabName)
 }
 function updateTMMReport() {
-    let allSheetData = ()
+    let allSheetData = constructSheetData()
     let remoteDataSheet = allSheetData.data
 
     let remoteData = remoteDataSheet.getData()
