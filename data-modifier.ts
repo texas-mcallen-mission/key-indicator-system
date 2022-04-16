@@ -66,6 +66,9 @@ function testNewHeader() {
     // step three: create a rawSheetData class.
     let rawSheetData = new RawSheetData(targetSheet.tabName, targetSheet.headerRow, targetSheet.initialColumnOrder);
     let headerTestSheet = new SheetData(rawSheetData);
+
+    populateExtraColumnData_(headerTestSheet)
+    headerTestSheet.setHeaders(headerTestSheet.getHeaders())
     // at this point, it should be done!
     console.log("go check the header on sheet ",targetSheet.tabName)
 }

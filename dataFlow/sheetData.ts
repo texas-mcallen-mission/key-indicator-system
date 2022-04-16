@@ -704,7 +704,7 @@ class RawSheetData {
 /**
  * Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
  */
-function getAllSheetDataFromCache() {
+function getAllSheetDataFromCache():manySheetDatas|null {
     let cache = CacheService.getDocumentCache();
     let allSheetData_JSONString = cache.get(
         CONFIG.dataFlow.allSheetData_cacheKey
@@ -727,11 +727,14 @@ function getAllSheetDataFromCache() {
         let sheetDataLiteral = allSheetData_fromCache[sdKey];
         //Extract literal RawSheetData from literal SheetData
         let rawSheetDataLiteral = sheetDataLiteral.rsd;
+        // EASILYIDENTIFIABLESTRINGTOHUNTDOWN
+        console.log(rawSheetDataLiteral)
         //Turn literal RawSheetData into a real RawSheetData
         let rawSheetData = new RawSheetData(
             rawSheetDataLiteral.tabName,
             rawSheetDataLiteral.headerRow,
-            rawSheetDataLiteral.keyToIndex
+            rawSheetDataLiteral.keyToIndex,
+            rawSheetDataLiteral.sheetId
         );
         //Re-wrap real RawSheetData in a real SheetData
         let sheetData = new SheetData(rawSheetData);
@@ -768,6 +771,7 @@ function cacheAllSheetData(allSheetData) {
         CONFIG.dataFlow.allSheetData_cacheExpirationLimit
     );
 }
+
 
 //                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
 //                populateExtraColumnData()
@@ -860,29 +864,29 @@ function buildIndexToKey_(allSheetData) {
  * WIP - nonfunctional
  * @param {SheetData} sheetData
  */
-function setSheetUp_(sheetData) {
-    throw "UNIMPLEMENTED";
-    // former ignore
-    // former ignore
-    let sheetName = sheetData.getTabName();
-    let headers = sheetData.getHeaders();
+// function setSheetUp_(sheetData) {
+//     throw "UNIMPLEMENTED";
+//     // former ignore
+//     // former ignore
+//     let sheetName = sheetData.getTabName();
+//     let headers = sheetData.getHeaders();
 
-    let ss = SpreadsheetApp.getActiveSpreadsheet();
-    // former ignore
-    // former ignore
-    let ui = SpreadsheetApp.getUi();
+//     let ss = SpreadsheetApp.getActiveSpreadsheet();
+//     // former ignore
+//     // former ignore
+//     let ui = SpreadsheetApp.getUi();
 
-    // Checks to see if the sheet exists or not.
-    let sheet = ss.getSheetByName(sheetName);
-    if (!sheet) {
-        Logger.log("Sheet '" + sheetName + "' not found. Creating");
-        sheet = ss.insertSheet(sheetName);
-        // former ignore
-        sheet.appendRow(headers); // Creating Header
-    }
+//     // Checks to see if the sheet exists or not.
+//     let sheet = ss.getSheetByName(sheetName);
+//     if (!sheet) {
+//         Logger.log("Sheet '" + sheetName + "' not found. Creating");
+//         sheet = ss.insertSheet(sheetName);
+//         // former ignore
+//         sheet.appendRow(headers); // Creating Header
+//     }
 
-    return sheet;
-}
+//     return sheet;
+// }
 
 // /**
 //  * Get all defined instances of SheetData.
@@ -896,383 +900,27 @@ function setSheetUp_(sheetData) {
 function constructSheetData(force = false) {
     return constructSheetDataV2(sheetDataConfig.local)
 }
-// function constructSheetData(force = false) {
-
-
-//     //Check the cache for allSheetData
-//     if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
-//         let allSheetData = getAllSheetDataFromCache();
-//         if (allSheetData != null) return allSheetData;
-//     }
-
-
-
-//     /*    Static properties and parameters     */
-
-
-//     const initialColumnOrders = {
-
-
-//         //FORM RESPONSE COLUMN ORDER
-//         form: {
-//             areaName: 0,
-//             responsePulled: 1,
-//             isDuplicate: 2,
-//             formTimestamp: 3,
-//             submissionEmail: 4,
-//             kiDate: 5,
-//             np: 6,
-//             sa: 7,
-//             bd: 8,
-//             bc: 9,
-//             rca: 10,
-//             rc: 11,
-//             serviceHrs: 12,
-//             cki: 13,
-//             // "formNotes": 14,
-//             // ...additional form data (ex. baptism sources)
-//         },
-
-//         // CONTACT SHEET COLUMN ORDER
-//         contact: {
-//             dateContactGenerated: 0,
-//             areaEmail: 1,
-//             areaName: 2,
-//             name1: 3,
-//             position1: 4,
-//             isTrainer1: 5,
-//             name2: 6,
-//             position2: 7,
-//             isTrainer2: 8,
-//             name3: 9,
-//             position3: 10,
-//             isTrainer3: 11,
-//             district: 12,
-//             zone: 13,
-//             unitString: 14,
-//             hasMultipleUnits: 15,
-//             languageString: 16,
-//             isSeniorCouple: 17,
-//             isSisterArea: 18,
-//             hasVehicle: 19,
-//             vehicleMiles: 20,
-//             vinLast8: 21,
-//             aptAddress: 22,
-//         },
-
-//         //DATA SHEET COLUMN ORDER
-//         data: {
-//             areaName: 0,
-//             log: 1,
-//             areaEmail: 2,
-//             isDuplicate: 3,
-//             formTimestamp: 4, //form data
-//             areaID: 5,
-//             kiDate: 6, //form data
-
-//             np: 7, //form data
-//             sa: 8, //form data
-//             bd: 9, //form data
-//             bc: 10, //form data
-//             rca: 11, //form data
-//             rc: 12, //form data
-//             serviceHrs: 14, //form data
-
-//             name1: 15,
-//             position1: 16,
-//             isTrainer1: 17,
-//             name2: 18,
-//             position2: 19,
-//             isTrainer2: 20,
-//             name3: 21,
-//             position3: 22,
-//             isTrainer3: 23, // hello, update!
-
-//             cki: 13, //form data
-//             // super confused
-//             districtLeader: 24,
-//             zoneLeader1: 25,
-//             zoneLeader2: 26,
-//             zoneLeader3: 27,
-//             stl1: 28,
-//             stl2: 29,
-//             stl3: 30,
-//             stlt1: 31,
-//             stlt2: 32,
-//             stlt3: 33,
-//             assistant1: 34,
-//             assistant2: 35,
-//             assistant3: 36,
-
-//             district: 37,
-//             zone: 38,
-//             unitString: 39,
-//             hasMultipleUnits: 40,
-//             languageString: 41,
-//             isSeniorCouple: 42,
-//             isSisterArea: 43,
-//             hasVehicle: 44,
-//             vehicleMiles: 45,
-//             vinLast8: 46,
-//             aptAddress: 47,
-
-//             "bap-self-ref": 48,
-//             "bap-street": 49,
-//             "bap-ward-activity-or-event": 50,
-//             "bap-ref-recent-convert": 51,
-//             "bap-ref-part-member": 52,
-//             "bap-ref-other-member": 53,
-//             "bap-ref-teaching-pool": 54,
-//             "bap-ref-other-non-member": 55,
-//             "bap-fb-mission": 56,
-//             "bap-fb-personal": 57,
-//             "bap-family-history": 58,
-//             "bap-taught-prev": 59,
-//             "fb-role": 60,
-//             "fb-ref-ysa": 61,
-//             "fb-ref-asl": 62,
-//             "fb-ref-service": 63,
-//             "fb-ref-laredo-spa": 64,
-//             "fb-ref-laredo-eng": 65,
-//             "fb-ref-rgv-spa": 66,
-//             "fb-ref-rgv-eng": 67,
-//             "fb-ref-corpus": 68,
-//             // "formNotes": 48,    //form data
-//             //...additional form data (ex. baptism sources)
-//         },
-//         localData: {
-//             areaName: 0,
-//             log: 1,
-//             areaEmail: 2,
-//             isDuplicate: 3,
-//             formTimestamp: 4, //form data
-//             areaID: 5,
-//             kiDate: 6, //form data
-
-//             np: 7, //form data
-//             sa: 8, //form data
-//             bd: 9, //form data
-//             bc: 10, //form data
-//             rca: 11, //form data
-//             rc: 12, //form data
-//             cki: 13, //form data
-//             serviceHrs: 14, //form data
-
-//             name1: 15,
-//             position1: 16,
-//             isTrainer1: 17,
-//             name2: 18,
-//             position2: 19,
-//             isTrainer2: 20,
-//             name3: 21,
-//             position3: 22,
-//             isTrainer3: 23, // hello, update!
-
-//             // super confused
-//             districtLeader: 24,
-//             zoneLeader1: 25,
-//             zoneLeader2: 26,
-//             zoneLeader3: 27,
-//             stl1: 28,
-//             stl2: 29,
-//             stl3: 30,
-//             stlt1: 31,
-//             stlt2: 32,
-//             stlt3: 33,
-//             assistant1: 34,
-//             assistant2: 35,
-//             assistant3: 36,
-
-//             district: 37,
-//             zone: 38,
-//             unitString: 39,
-//             hasMultipleUnits: 40,
-//             languageString: 41,
-//             isSeniorCouple: 42,
-//             isSisterArea: 43,
-//             hasVehicle: 44,
-//             vehicleMiles: 45,
-//             vinLast8: 46,
-//             aptAddress: 47,
-//             // "formNotes": 48,    //form data
-//             //...additional form data (ex. baptism sources)
-//             "bap-self-ref": 48,
-//             "bap-street": 49,
-//             "bap-ward-activity-or-event": 50,
-//             "bap-ref-recent-convert": 51,
-//             "bap-ref-part-member": 52,
-//             "bap-ref-other-member": 53,
-//             "bap-ref-teaching-pool": 54,
-//             "bap-ref-other-non-member": 55,
-//             "bap-fb-mission": 56,
-//             "bap-fb-personal": 57,
-//             "bap-family-history": 58,
-//             "bap-taught-prev": 59,
-//             "fb-role": 60,
-//             "fb-ref-ysa": 61,
-//             "fb-ref-asl": 62,
-//             "fb-ref-service": 63,
-//             "fb-ref-laredo-spa": 64,
-//             "fb-ref-laredo-eng": 65,
-//             "fb-ref-rgv-spa": 66,
-//             "fb-ref-rgv-eng": 67,
-//             "fb-ref-corpus": 68,
-//         },
-//         debug: {
-//             functionName: 0,
-//             baseFunction: 1,
-//             triggerType: 2,
-//             timeStarted: 3,
-//             timeEnded: 4,
-//             commit_sha: 5,
-//             action_event_name: 6,
-//             github_actor: 7,
-//             job_id: 8,
-//             github_repository: 9,
-//             github_branch_ref: 10,
-//             executionCounter: 11,
-//             cycleEndMillis: 12,
-//             duration: 13,
-//             cycleStartMillis: 14,
-//             failures: 15
-//         },
-//         tmmReport: {
-//             areaName: 0,
-//             district: 1,
-//             zone: 2,
-//             np: 3,
-//             sa: 4,
-//             bd: 5,
-//             bc: 6,
-//             rrPercent: 7,
-//             serviceHrs: 8,
-//             cki: 9,
-//             hasVehicle: 10,
-//             truncLang: 11,
-//             combinedNames: 12,
-//         },
-//         serviceRep: {
-//             areaName: 0,
-//             areaID: 1,
-//             district: 2,
-//             zone: 3,
-//             combinedNames: 4,
-//             kiDate: 5,
-//             serviceHrs: 6,
-//         },
-//         fbReferrals: {
-//             areaName: 0,
-//             areaID: 1,
-//             district: 2,
-//             zone: 3,
-//             combinedNames: 4,
-//             kiDate: 5,
-//             "fb-role": 6,
-//             "fb-ref-ysa": 7,
-//             "fb-ref-asl": 8,
-//             "fb-ref-service": 9,
-//             "fb-ref-laredo-spa": 10,
-//             "fb-ref-laredo-eng": 11,
-//             "fb-ref-rgv-spa": 12,
-//             "fb-ref-rgv-eng": 13,
-//             "fb-ref-corpus": 14,
-//         },
-//     };
-
-
-
-//     const tabNames = {
-//         form: "Form Responses",
-//         contact: "Contact Data",
-//         data: "Data",
-//         debug: "DEBUG SHEET",
-//         localData: "Data-TEST",
-//         tmmReport: "TMM Report Printable",
-//         serviceRep: "All Data",
-//         fbReferrals: "techSquad Data",
-
-
-//     };
-
-//     const headerRows = {
-//         contact: 0,
-//         data: 0,
-//         debug: 0,
-//         form:0,
-//         localData: 1,
-//         tmmReport: 9,
-//         serviceRep: 2,
-//         fbReferrals: 1,
-
-//     };
-
-//     const targetSpreadsheet = {
-//         form: CONFIG.dataFlow.sheetTargets.form,
-//         data: CONFIG.dataFlow.sheetTargets.data,
-//         contact: CONFIG.dataFlow.sheetTargets.contact,
-//         debug: CONFIG.dataFlow.sheetTargets.debug,
-//         localData: CONFIG.dataFlow.sheetTargets.localData,
-//         tmmReport: CONFIG.dataFlow.sheetTargets.tmmReport,
-//         serviceRep: CONFIG.dataFlow.sheetTargets.serviceRep,
-//         fbReferrals: CONFIG.dataFlow.sheetTargets.fbReferrals
-//     };
-
-
-//     //END Static properties and parameters
-
-//     let log = "Constructed SheetData objects: ";
-
-//     //Define SheetData instances
-//     let allSheetData = {};
-//     for (let sdKey in tabNames) {
-//         let rawSheetData = new RawSheetData(tabNames[sdKey], headerRows[sdKey], initialColumnOrders[sdKey], targetSpreadsheet[sdKey]);
-//         let sheetData = new SheetData(rawSheetData);
-//         // TODO THIS IS CURRENTLY DISABLED
-//         // honestly might be *useful* to leave it off, because then I can just leave out things ezpz
-//         // populateExtraColumnData_(sheetData);    //Add non-hardcoded key strings
-
-//         allSheetData[sdKey] = sheetData;
-//         log += " '" + sheetData.getTabName() + "'";
-//     }
-//     console.log(log);
-
-//     //    refreshContacts(allSheetData);
-//     // TODO TEST
-//     // // TODO THIS IS CURRENTLY DISABLED
-//     // TESTING WHOOOOOOOOO
-//     syncDataFlowCols_(allSheetData/*.data,allSheetData.form*/);
-//     // I can't actually test this on here, I'll have to wait until I get this class pushed to a BERT-INSTANCE
-    
-//     // this isn't implemented.
-//     //setSheetsUp_(allSheetData);
-
-//     //?   Object.freeze(allSheetData);
-
-
-//     if (CONFIG.dataFlow.allSheetData_cacheEnabled) cacheAllSheetData(allSheetData);
-
-//     return allSheetData;
-
-// }
-
-function testSheetData() {
-    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
-
-    Logger.log("Data SheetData:");
-    Logger.log(allSheetData.data);
-
-    Logger.log("Headers:");
-    Logger.log(allSheetData.data.getHeaders());
-    // Logger.log(allSheetData.data.getHeaders());
-    // Logger.log(allSheetData.data.getHeaders());
-    // Logger.log(allSheetData.data.getHeaders());
-
-    let data = allSheetData.contact.getData();
-    allSheetData.data.insertData(data);
-}
 
 function clearAllSheetDataCache() {
     let cache = CacheService.getDocumentCache();
     // former ignore
     cache.remove("allSheetData");
+}
+
+
+function testCachingV2() {
+    let allSheetData = constructSheetDataV2(sheetDataConfig.local)
+    cacheAllSheetData(allSheetData);
+
+    let allSheetData2 = getAllSheetDataFromCache()
+    if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
+        console.log("To and From Cache on local sheetData probably worked")
+    }
+
+    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote)
+    cacheAllSheetData(remoteSheetData)
+    let allSheetDataRemote = getAllSheetDataFromCache();
+    if (JSON.stringify(remoteSheetData) == JSON.stringify(allSheetDataRemote)) {
+        console.log("To and From Cache on remote sheetData probably worked");
+    }
 }
