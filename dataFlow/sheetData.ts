@@ -222,6 +222,7 @@ class RawSheetData {
         this.tabName = tabName;
         this.headerRow = headerRow;
         this.keyToIndex = initialKeyToIndex;
+        this.sheetId = targetSheetId
 
         this.buildIndexToKey_();
         // TODO: Make this guy capable of making sheets if the workbook exists
