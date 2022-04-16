@@ -739,7 +739,7 @@ class RawSheetData {
             let notInKeys = currentHeader.slice(currentKeys.length);
             Logger.log(notInKeys);
             for (let noKey of notInKeys) {
-                if (noKey != null && noKey != "" && !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(noKey) && !data.hasKey(noKey)) {
+                if (noKey != null && noKey != "" && !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(noKey) && !this.hasKey(noKey)) {
                     this.addColumnWithHeader_(noKey, noKey);
                     addedFormKeys.push(noKey);
                     // console.log("key", noKey);
