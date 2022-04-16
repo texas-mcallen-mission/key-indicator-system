@@ -30,6 +30,20 @@ function testBattery() {
     console.log("tests finished, took ",endTime.getTime()-startTime.getTime()," milliseconds")
 }
 
+function updateLocalDataStore() {
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
+
+    let dataSheet = remoteSheetData.remoteData;
+
+    let data = dataSheet.getData();
+    let kicData = new kiDataClass(data);
+
+    localSheetData.data.setData(kicData.end)
+
+}
+
+
 function testSyncDataFlowCols() {
     let allSheetData2:manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
     syncDataFlowCols_(allSheetData2.form,allSheetData2.data)
@@ -64,7 +78,7 @@ function testNewHeader() {
     SpreadsheetApp.flush()
 
     // step three: create a rawSheetData class.
-    let rawSheetData = new RawSheetData(targetSheet.tabName, targetSheet.headerRow, targetSheet.initialColumnOrder);
+    let rawSheetData = new RawSheetData(targetSheet.tabName, targetSheet.headerRow, targetSheet.initialColumnOrder,true);
     let headerTestSheet = new SheetData(rawSheetData);
 
     populateExtraColumnData_(headerTestSheet)

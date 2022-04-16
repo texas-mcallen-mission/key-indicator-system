@@ -58,6 +58,7 @@ let INTERNAL_CONFIG = {
         freezeContactData: false,
 
         formColumnsToExcludeFromDataSheet: ["responsePulled", "submissionEmail"],
+        sheetTargets: {}
     },
 
     commonLib: {
@@ -529,8 +530,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             remoteData: {
                 tabName: "Data",
                 headerRow: 1,
-                sheetId: CONFIG.dataFlow.sheetTargets.data,
-                includeSoftcodedColumns: false,
+                sheetId: CONFIG.dataFlow.sheetTargets.remoteData,
+                includeSoftcodedColumns: true,
                 allowWrite: false,
                 initialColumnOrder: {
                     areaName: 0,
