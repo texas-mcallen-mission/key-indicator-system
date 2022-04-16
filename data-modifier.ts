@@ -70,12 +70,14 @@ function testNewHeader() {
     console.log("go check the header on sheet ",targetSheet.tabName)
 }
 function updateTMMReport() {
-    let allSheetData = constructSheetData()
-    let remoteDataSheet = allSheetData.data
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
 
-    let remoteData = remoteDataSheet.getData()
-    let kicData = new kiDataClass(remoteData)
-    let tmmReport = allSheetData.tmmReport
+    let dataSheet = localSheetData.data;
+
+    let data = dataSheet.getData();
+    let kicData = new kiDataClass(data);
+    let tmmReport = remoteSheetData.tmmReport
 
     let tmmReportData = kicData.removeDuplicates().getThisWeeksData().addShortLang().calculateCombinedName().calculateRR().end
 
