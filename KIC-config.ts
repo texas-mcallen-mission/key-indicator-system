@@ -223,8 +223,14 @@ interface columnConfig {
 
 
 var sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = getSheetDataConfig();
+/**
+ * this exists because of some weird problems I was having with the GAS environment not loading the CONFIG thing properly.
+ *
+ * @return {{ local: manySheetDataEntries, remote: manySheetDataEntries; }}
+ */
 function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetDataEntries; } {
     let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA)
+    // this is stuck inside of a function for no other reason than that I was having some problems with it being static and referencing the CONFIG before that was declared.
 
     let sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = {
         local: {
