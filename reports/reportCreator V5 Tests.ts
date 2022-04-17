@@ -87,17 +87,33 @@ function testLoadingShards() {
     let shardedZone = loadShards_(filesystems.zone.sheetData);
     // console.log(shardedZone)
 
-    let kiData = allSheetData.data.getData()
+    let kiData = new kiDataClass( allSheetData.data.getData()).removeDuplicates()
 
-    let dedupedkiData = removeDuplicatesFromData_(kiData)
+    // let dedupedkiData = removeDuplicatesFromData_(kiData)
     
     for (let shard in shardedZone) {
         let shardedAreaIdList = getAllAreaIdsInShard_(filesystems.zone.sheetData,shard)
-        let data = getKiDataForShard(dedupedkiData, shardedAreaIdList)
+        let data = keepMatchingByKey(kiData,"areaID",shardedAreaIdList)
         console.log(shard,shardedAreaIdList,data.length)
     }
     
-    console.log(splitKiData(kiData, "areaID"))
+    let splitByArea: manyKiDataClasses = splitKiData(kiData, "areaID")
+    console.log(splitByArea)
+
+    let splitByDistrict: manyKiDataClasses = splitKiData(kiData, "district");
+    console.log(splitByDistrict)
+
+    let splitByZone: manyKiDataClasses = splitKiData(kiData, "zone");
+    console.log(splitByZone)
+
+    
+
+    
+
+
+    // testing the other method: stripping out everything I don't want first:
+    
+
 
 }
 
@@ -109,13 +125,15 @@ function removeDuplicatesFromData_(kiData) {
     }
     return output
 }
-function getKiDataForShard(kiData, areaIds) {
-    let output = []
-    for (let entry of kiData) {
-        if(areaIds.includes(entry.areaID)) output.push(entry)
-    }
-    return output
-}
+
+// DEPRECATED in favor of doing this a different way
+// function getKiDataForShard(kiData, areaIds) {
+//     let output = []
+//     for (let entry of kiData) {
+//         if(areaIds.includes(entry.areaID)) output.push(entry)
+//     }
+//     return output
+// }
 
 function getAllAreaIdsInShard_(fsSheetData, shardId) {
     // returns a list of area id's that are included in the zones/districts/areas in a particular shard.
