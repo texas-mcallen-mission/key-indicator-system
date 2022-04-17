@@ -94,8 +94,8 @@ function testLoadingShards() {
     for (let shard in shardedZone) {
         let shardedAreaIdList = getAllAreaIdsInShard_(filesystems.zone.sheetData,shard)
         let kiDataCopy = kiData
-        let data = kiDataCopy.keepMatchingByKey("areaID", shardedAreaIdList)
-        console.log(shard,shardedAreaIdList,data.data.end.length)
+        let data = kiDataCopy.keepMatchingByKey("areaID", shardedAreaIdList).end
+        console.log(shard,shardedAreaIdList,data.length)
     }
     
     let splitByArea: manyKiDataClasses = splitKiData(kiData, "areaID")

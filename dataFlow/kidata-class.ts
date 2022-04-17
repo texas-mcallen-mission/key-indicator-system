@@ -47,18 +47,19 @@ class kiDataClass {
      * @return {*} 
      * @memberof kiDataClass
      */
-    keepMatchingByKey(key: string, match: string | string[]) : this {
+    keepMatchingByKey(key: string, match: string[]) : this {
         let output = [];
-        let test = [];
-        if (typeof match == 'string') {
-            test.push(match);
-        } else {
-            test.push(...match);
-        }
+        // let test = [];
+        // if (typeof match == 'string') {
+        //     test.push(match);
+        // } else {
+        //     test.push(...match);
+        // }
 
         for (let entry of this.data) {
-            if (test.includes(this[key])){
+            if (match.includes(this[key])){
                 output.push(entry)
+                console.log("match")
             }
         }
         this.data = output
