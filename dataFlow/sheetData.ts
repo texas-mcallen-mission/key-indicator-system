@@ -460,7 +460,9 @@ class RawSheetData {
      * Returns the header row of this sheet.
      * @returns {string[]} The header row if this sheet.
      */
-    getHeaders():string[] {
+    getHeaders(): string[] {
+        // TODO: This might be a bad idea of a patch
+        if(this.getSheet().getLastColumn()<=0)return[]
         let range = this.getSheet().getRange(
             this.headerRow + 1,
             1,
