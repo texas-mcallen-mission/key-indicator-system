@@ -1,16 +1,16 @@
-function testTheThings(){
-    let allSheetData = constructSheetData()
+// function testTheThings(){
+//     let allSheetData = constructSheetData()
 
-    let localData = allSheetData.localData
-    let remoteData = allSheetData.data
+//     let localData = allSheetData.localData
+//     let remoteData = allSheetData.data
 
-    let remoteDataData = remoteData.getData()
-    let remoteDataHeaders = remoteData.getHeaders()
-    // localData.setHeaders(remoteDataHeaders)  Unfortunately, this doesn't work (yet)
-    let thisWeeksData = getThisWeeksData_(remoteDataData)
-    let deduped = removeDuplicates(thisWeeksData)
-    localData.setData(deduped);
-}
+//     let remoteDataData = remoteData.getData()
+//     let remoteDataHeaders = remoteData.getHeaders()
+//     // localData.setHeaders(remoteDataHeaders)  Unfortunately, this doesn't work (yet)
+//     let thisWeeksData = getThisWeeksData_(remoteDataData)
+//     let deduped = removeDuplicates(thisWeeksData)
+//     localData.setData(deduped);
+// }
 
 function testBattery() {
     let startTime = new Date()
@@ -20,6 +20,7 @@ function testBattery() {
         techSquad: updateTechSquadReport,
         serviceRep: updateServiceRepReport,
         newHeader: testNewHeader,
+        updateData: updateLocalDataStore,
     }
     for (let entry in tests) {
         let test = tests[entry]
