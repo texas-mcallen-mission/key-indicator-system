@@ -73,7 +73,9 @@ function updateSingleReport(reportId, data:kiDataClass):SheetData {
     return reportSheet    
 }
 
-
+function updateGroupOfReports(filesysData, data: kiDataClass) {
+    
+}
 
 
 function testLoadingShards() {
@@ -95,6 +97,7 @@ function testLoadingShards() {
         console.log(shard,shardedAreaIdList,data.length)
     }
     
+    console.log(splitKiData(kiData, "areaID"))
 
 }
 
