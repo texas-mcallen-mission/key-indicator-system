@@ -74,11 +74,7 @@ function deleteClockTriggers() {
     }
 }
 
-function addTimeBasedTriggers()() {
-    for (let trigger in CONFIG.scheduler.time_based_triggers) {
-        let triggerDood = ScriptApp.newTrigger(trigger)
-        triggerDood.timeBased().everyMinutes(CONFIG.scheduler.execution_wait_in_minutes).create()
-    }
+function addTimeBasedTriggers() {
     for (let minuteTrigger in CONFIG.scheduler.time_based_triggers.minutes) {
         let triggerTime = CONFIG.scheduler.time_based_triggers.minutes[minuteTrigger]
         let triggerGuy = ScriptApp.newTrigger(minuteTrigger)
