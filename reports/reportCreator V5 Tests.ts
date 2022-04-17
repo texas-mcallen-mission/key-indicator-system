@@ -80,7 +80,7 @@ function updateGroupOfReports(filesysData, data: kiDataClass) {
 
 function testLoadingShards() {
     // step 1: load the data
-    let allSheetData = constructSheetData()
+    let allSheetData = constructSheetDataV2(sheetDataConfig.local)
 
     let filesystems = loadFilesystems_(allSheetData)
 
