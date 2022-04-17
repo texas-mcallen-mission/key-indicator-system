@@ -47,8 +47,8 @@ class kiDataClass {
      * @return {*} 
      * @memberof kiDataClass
      */
-    keepMatchingByKey(key: string, match: string | string[]) {
-        let output:kiDataEntry = [];
+    keepMatchingByKey(key: string, match: string | string[]) : this {
+        let output = [];
         let test = [];
         if (typeof match == 'string') {
             test.push(match);

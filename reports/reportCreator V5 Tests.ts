@@ -24,9 +24,9 @@ function updateReportsInShard(shardData, shardFSdata, filesystem) {
 
 }
 
-function updateAllReports() {
+// function updateAllReports() {
     
-}
+// }
 
 
 /**
@@ -93,8 +93,9 @@ function testLoadingShards() {
     
     for (let shard in shardedZone) {
         let shardedAreaIdList = getAllAreaIdsInShard_(filesystems.zone.sheetData,shard)
-        let data = keepMatchingByKey(kiData,"areaID",shardedAreaIdList)
-        console.log(shard,shardedAreaIdList,data.length)
+        let kiDataCopy = kiData
+        let data = kiDataCopy.keepMatchingByKey("areaID", shardedAreaIdList)
+        console.log(shard,shardedAreaIdList,data.data.end.length)
     }
     
     let splitByArea: manyKiDataClasses = splitKiData(kiData, "areaID")
