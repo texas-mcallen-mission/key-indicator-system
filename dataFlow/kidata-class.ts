@@ -61,7 +61,7 @@ class kiDataClass {
                 output.push(entry)
             }
         }
-
+        this.data = output
         return this;
     }
 
