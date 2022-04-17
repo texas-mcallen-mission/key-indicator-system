@@ -142,8 +142,19 @@ function buildIncludesArray_(fsData, key) {
     }
     return outData;
 }
-function loadFilesystems_(allSheetData) {
-    let filesystems = {
+
+interface manyFilesystemEntries {
+    [index:string]:filesystemEntry
+}
+interface filesystemEntry {
+    fsData: SheetData,
+    fsScope: string,
+    sheetData: any[]
+    existingFolders: any[]
+    reportTemplate:string
+}
+function loadFilesystems_(allSheetData):manyFilesystemEntries {
+    let filesystems:manyFilesystemEntries = {
         zone: {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,

@@ -24,55 +24,56 @@ function updateReportsInShard(shardData, shardFSdata, filesystem) {
 
 }
 
-function updateSingleReport(reportId, data,scope):sheetData {
-    // time to go minify sheetData, I think
-
-
-
+function updateAllReports() {
     
 }
 
 
+/**
+ * responsible for sending data to display.
+ * Before you feed things in here, you should be making sure that reports exist.  Otherwise, this will cause errors.
+ * Requires a sheet ID, the KI Data, as a class, and returns the sheetData object it creates.
+ * 
+ * @param {*} reportId
+ * @param {kiDataClass} data
+ * @return {*}  {SheetData}
+ */
+function updateSingleReport(reportId, data:kiDataClass):SheetData {
+    // time to go minify sheetData, I think
+    // DOES NOT CARE WHAT YOU FEED IT!  This function is relatively dumb, and will gladly (and mostly blindly)
+    const REPORT_DATA_TAB_NAME = "Data"
+    const REPORT_DATA_LAYOUT:columnConfig = {
+        areaName: 0,
+        isDuplicate: 1,
+        areaID: 2,
+        kiDate: 3,
+        np: 4,
+        sa: 5,
+        bd: 6,
+        bc: 7,
+        rca: 8,
+        rc: 9,
+        cki: 10,
+        serviceHrs: 11,
+        combinedNames: 12,
+        districtLeader: 13,
+        zoneLeader1: 14,
+        zoneLeader2: 15,
+        zoneLeader3: 16,
+        stl1: 17,
+        stl2: 18,
+        stl3: 19,
+    }
+    const REPORT_DATA_HEADER_POSITION = 1
+    // Because this is remote, make sure that if you set ``, allowWrite`` to true you have REALLY good control over who's writing to your reports
+    let rawSheetData = new RawSheetData(REPORT_DATA_TAB_NAME, REPORT_DATA_HEADER_POSITION, REPORT_DATA_LAYOUT, false, reportId, true)
+    let reportSheet = new SheetData(rawSheetData)
 
-// function updateAnyLevelReport_(allSheetData, scope, dLog: dataLogger) {
-//     let reportUpdateTimer = "Total time updating reports for scope " + scope + ":";
-//     console.time(reportUpdateTimer);
-//     let reportScope = scope;
-//     let filesysSheetData;
-//     let templateID: string = "";
-//     switch (scope) {
-//         case CONFIG.fileSystem.reportLevel.area:
-//             filesysSheetData = allSheetData.areaFilesys;
-//             templateID = CONFIG.reportCreator.docIDs.areaTemplate;
-//             break;
-//         case CONFIG.fileSystem.reportLevel.dist:
-//             filesysSheetData = allSheetData.distFilesys;
-//             templateID = CONFIG.reportCreator.docIDs.distTemplate;
-//             break;
-//         case CONFIG.fileSystem.reportLevel.zone:
-//             filesysSheetData = allSheetData.zoneFilesys;
-//             templateID = CONFIG.reportCreator.docIDs.zoneTemplate;
-//             break;
-//         // default:
-//         //     throw "Invalid scope: '" + scope + "'";
-//     }
-//     let kiDataObj = allSheetData.data;
-//     let kiDataHeaders = kiDataObj.getHeaders();
-//     let dataKeys = kiDataObj.getKeys();
-//     let data = removeDupesAndPII_(kiDataObj);
-//     // I don't think I actually need contactData for this sub-system.  :)
-//     // ONCE DRIVEHANDLER has been rewritten to 
-//     dLog.startFunction("fullUpdateSingleLevel");
-//     try {
-//         fullUpdateSingleLevel(filesysSheetData, data, templateID, reportScope, kiDataHeaders, dataKeys, dLog);
-//     } catch (error) {
-//         dLog.addFailure("fullUpdateSingleLevel", error);
-//     }
-//     dLog.endFunction("fullUpdateSingleLevel");
-//     let postRun = new Date;
-//     console.timeEnd(reportUpdateTimer);
-//     return true;
-// }
+    reportSheet.setData(data.end)
+    return reportSheet    
+}
+
+
 
 
 function testLoadingShards() {
@@ -93,8 +94,7 @@ function testLoadingShards() {
         let data = getKiDataForShard(dedupedkiData, shardedAreaIdList)
         console.log(shard,shardedAreaIdList,data.length)
     }
-
-
+    
 
 }
 
