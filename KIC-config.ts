@@ -248,7 +248,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             },
             data: {
                 tabName: "Data",
-                headerRow: 1,
+                headerRow: 0,
                 includeSoftcodedColumns:true,
                 initialColumnOrder: {
                     areaName: 0,
@@ -529,7 +529,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             },
             remoteData: {
                 tabName: "Data",
-                headerRow: 1,
+                headerRow: 0,
                 sheetId: CONFIG.dataFlow.sheetTargets.remoteData,
                 includeSoftcodedColumns: true,
                 allowWrite: false,
