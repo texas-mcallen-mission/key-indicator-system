@@ -37,7 +37,7 @@ class fsEntry {
 }
 
 function updateFSV4() {
-    let allSheetData = constructSheetData()
+    let allSheetData = constructSheetDataV2(sheetDataConfig.local)
     verifyFSV4(allSheetData)
     clearAllSheetDataCache()
     buildFSV4()
@@ -92,6 +92,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
         filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
     }
     // filesystems.zone.fsData.setData(filesystems.zone.sheetData)
+    //
 }
 
 function createOrGetFsEntry_(filesystem, folderNameString:string, parentFolderId:string,areaId:string) {

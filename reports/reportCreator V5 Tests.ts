@@ -24,8 +24,12 @@ function updateReportsInShard(shardData, shardFSdata, filesystem) {
 
 }
 
-function updateSingleReport(reportId, data) {
+function updateSingleReport(reportId, data,scope):sheetData {
     // time to go minify sheetData, I think
+
+
+
+    
 }
 
 
