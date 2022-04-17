@@ -33,9 +33,9 @@ class kiDataClass {
         return this.data;
     }
 
-    get data() {
-        return this.data
-    }
+    // get data() {
+    //     return this.data
+    // }
 
 
 
@@ -57,7 +57,9 @@ class kiDataClass {
         }
 
         for (let entry of this.data) {
-            if (test.includes((this[key]){ output.push(entry) }
+            if (test.includes(this[key])){
+                output.push(entry)
+            }
         }
 
         return this;
