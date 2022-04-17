@@ -74,12 +74,34 @@ function deleteClockTriggers() {
     }
 }
 
-function addTimeBasedTriggers() {
+function addTimeBasedTriggers()() {
     for (let trigger in CONFIG.scheduler.time_based_triggers) {
         let triggerDood = ScriptApp.newTrigger(trigger)
         triggerDood.timeBased().everyMinutes(CONFIG.scheduler.execution_wait_in_minutes).create()
     }
-    console.info("all time_based triggers added")
+    for (let minuteTrigger in CONFIG.scheduler.time_based_triggers.minutes) {
+        let triggerTime = CONFIG.scheduler.time_based_triggers.minutes[minuteTrigger]
+        let triggerGuy = ScriptApp.newTrigger(minuteTrigger)
+        triggerGuy.timeBased().everyMinutes(triggerTime).create()
+    }
+    for (let hourTrigger in CONFIG.scheduler.time_based_triggers.hours) {
+        let triggerTime = CONFIG.scheduler.time_based_triggers.hours[hourTrigger];
+        let triggerGuy = ScriptApp.newTrigger(hourTrigger);
+        triggerGuy.timeBased().everyHours(triggerTime).create();
+    }
+    for (let dayTrigger in CONFIG.scheduler.time_based_triggers.days) {
+        let triggerTime = CONFIG.scheduler.time_based_triggers.days[dayTrigger];
+        let triggerGuy = ScriptApp.newTrigger(dayTrigger);
+        triggerGuy.timeBased().everyDays(triggerTime).create();
+    }
+    for (let weekTrigger in CONFIG.scheduler.time_based_triggers.weeks) {
+        let TriggerTime = CONFIG.scheduler.time_based_triggers.weeks[weekTrigger];
+        let triggerGuy = ScriptApp.newTrigger(weekTrigger)
+        triggerGuy.timeBased().everyWeeks(TriggerTime).create()
+    }
+
+
+    console.info("all time_based_triggers added")
 }
 
 function updateTimeBasedTriggers() {

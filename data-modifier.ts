@@ -34,13 +34,13 @@ function testBattery() {
 function updateLocalDataStore() {
     let localSheetData = constructSheetDataV2(sheetDataConfig.local);
     let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
+    let dataSource = remoteSheetData.remoteData;
+    syncDataFlowCols_(dataSource, localSheetData.data)
 
-    let dataSheet = remoteSheetData.remoteData;
-
-    let data = dataSheet.getData();
+    let data = dataSource.getData();
     let kicData = new kiDataClass(data);
 
-    localSheetData.data.setData(kicData.end)
+    localSheetData.data.setData(kicData.removeDuplicates().end)
 
 }
 

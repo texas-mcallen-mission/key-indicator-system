@@ -7,32 +7,17 @@
 */
 
 
-
-//                Installable triggers
-
-
-// function testSomethingInsane() {
-//     passThroughFunctionAndRun(updateZoneReports, triggerTypes.DEBUG)
-// }
-
-// function passThroughFunctionAndRun(functionName,trigger) {
-//     let dLog: dataLogger = new dataLogger(functionName.name, trigger)
-//     Logger.log(testSomethingInsane.name)
-//     console.info("running ", functionName.name, " from a ", trigger)
-//     dLog.startFunction(functionName.name)
-//     try {
-//         functionName(dLog)
-//     } catch (error) {
-//         dLog.addFailure(functionName.name, error)
-//     }
-//     dLog.endFunction(functionName.name)
-//     dLog.end()
-// }
-
-
-
 //                Time-based triggers
 
+function updateTMMReport_TimeBasedTrigger() {
+    Logger.log("[TRIGGER] Running updateTMMReport() from a time-based trigger");
+    meta_runner(updateTMMReport, triggerTypes.timeBased);
+}
+
+function updateLocalDataStore_TimeBasedTrigger() {
+    Logger.log("[TRIGGER] Running updateLocalDataStore() from a time-based trigger");
+    meta_runner(updateLocalDataStore,triggerTypes.timeBased)
+}
 
 function updateDataSheet_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");

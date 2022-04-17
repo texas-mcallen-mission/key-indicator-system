@@ -5,7 +5,7 @@ General and debugging configuration parameters
 */
 
 
-
+/** @type {*} */
 let INTERNAL_CONFIG = {
     // docIds
     docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
@@ -96,6 +96,12 @@ let INTERNAL_CONFIG = {
     },
 
     // triggers
+    // this is *technically* optional, as you can just not check it in your timeBasedTrigger caller dude
+    // TODO: Convert this to a typed configuration thing like was done with sheetDataConfig
+    // That way we can use EVEN MORE TYPESCRIPT to define things, which would be REALLY nice
+    // Also would let me get rid of some of the boilerplate in the triggers, as I could have one metarunner thing with its own sheet responsible for like everything
+    // I could also use this as a way to more cleanly enable other stuff; just have to figure out how to restructure things first
+    // if I go and re-build *everything*, I can make the whole config strongly-enough typed for autocompletion to work well.
     triggers: {
         installable: {
             onOpen: true,
@@ -130,19 +136,37 @@ let INTERNAL_CONFIG = {
         meta_locker: {
             cacheTimeoutTime: 1900 // 30 minutes * 60 seconds + 100 extra seconds just in case
         },
+        /**
+         * key names in this object are equal to functions, their value is the increment of minutes/days/hours/weeks between executions. 
+         */
         time_based_triggers: {
-            updateDataSheet_TimeBasedTrigger: "updateDataSheet_TimeBasedTrigger",
-            importContacts_TimeBasedTrigger: "importContacts_TimeBasedTrigger",
-            updateForm_TimeBasedTrigger: "updateForm_TimeBasedTrigger",
-            updateFS_TimeBasedTrigger: "updateFS_TimeBasedTrigger",
-            updateAreaReports_TimeBasedTrigger: "updateAreaReports_TimeBasedTrigger",
-            updateDistrictReports_TimeBasedTrigger: "updateDistrictReports_TimeBasedTrigger",
-            updateZoneReports_TimeBasedTrigger: "updateZoneReports_TimeBasedTrigger",
-            sharefileSystem_TimeBasedTrigger: "sharefileSystem_TimeBasedTrigger",
+            minutes: { // valid increments:  1,5,10,15,30
+                // when used in conjunction with meta_runner, this becomes the time between checking if a function is running or not and executing if it is able to.
+                updateDataSheet_TimeBasedTrigger: 1,
+                importContacts_TimeBasedTrigger: 10,
+                updateFS_TimeBasedTrigger: 10,
+                updateAreaReports_TimeBasedTrigger: 10,
+                updateDistrictReports_TimeBasedTrigger: 10,
+                updateZoneReports_TimeBasedTrigger: 10,
+                sharefileSystem_TimeBasedTrigger: 10,
+                
+                pruneFS_TimeBasedTrigger: 30,
+                updateTMMReport_TimeBasedTrigger: 1,
+                updateLocalDataStore_TimeBasedTrigger: 1,
+            },
+            hours: { // valid increments: any integer >= 1
+                updateForm_TimeBasedTrigger: 2,
 
-            pruneFS_TimeBasedTrigger: "pruneFS_TimeBasedTrigger",
+            },
+            days: { // valid increments: any integer >= 1
+                
+            },
+            weeks: { // valid increments: any integer >= 1
+                
+            },
+
         },
-        execution_wait_in_minutes: 15, // can be 1, 5, 15 or 30
+
 
 
         onOpen_triggers: {
@@ -430,6 +454,18 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     assistant2: 35,
                     assistant3: 36,
 
+                    district: 37,
+                    zone: 38,
+                    unitString: 39,
+                    hasMultipleUnits: 40,
+                    languageString: 41,
+                    isSeniorCouple: 42,
+                    isSisterArea: 43,
+                    hasVehicle: 44,
+                    vehicleMiles: 45,
+                    vinLast8: 46,
+                    aptAddress: 47,
+
                     "bap-self-ref": 48,
                     "bap-street": 49,
                     "bap-ward-activity-or-event": 50,
@@ -444,19 +480,6 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "bap-taught-prev": 59,
                     "fb-role": 60,
                     "fb-ref-ysa": 61,
-
-                    district: 37,
-                    zone: 38,
-                    unitString: 39,
-                    hasMultipleUnits: 40,
-                    languageString: 41,
-                    isSeniorCouple: 42,
-                    isSisterArea: 43,
-                    hasVehicle: 44,
-                    vehicleMiles: 45,
-                    vinLast8: 46,
-                    aptAddress: 47,
-
                     "fb-ref-asl": 62,
                     "fb-ref-service": 63,
                     "fb-ref-laredo-spa": 64,
