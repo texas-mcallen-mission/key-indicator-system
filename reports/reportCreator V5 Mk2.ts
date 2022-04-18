@@ -25,14 +25,20 @@
     TODO 5      Update Single Report
                     needs: sheetID, scope, kiData (NOT THE CLASS, THE DATA)
                     returns sheetData, in case we want to do something afterwards???
+                    - BARELY TESTED, but implemented
 
 */
 
+
+/**
+ *  test code for updateSingleReportV5, will put / overwrite a tab on your active spreadsheet.
+ *
+ */
 function testSingleReportUpdater() {
     
     let localSheetData = constructSheetDataV2(sheetDataConfig.local)
 
-    let kiData = new kiDataClass(localSheetData.getData()).calculateCombinedName().sumFacebookReferrals().keepMatchingByKey("district",["ZAPATA","Zapata"]).end
+    let kiData = new kiDataClass(localSheetData.data.getData()).calculateCombinedName().sumFacebookReferrals().keepMatchingByKey("district",["ZAPATA","Zapata"]).end
 
     console.log(kiData.length)
     let report = updateSingleReportV5(CONFIG.dataFlow.sheetTargets.headerTest, kiData, "Area")
