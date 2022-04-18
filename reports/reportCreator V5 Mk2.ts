@@ -28,12 +28,27 @@
 
 */
 
+function testSingleReportUpdater() {
+    
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local)
 
+    let kiData = new kiDataClass(localSheetData.getData()).calculateCombinedName().sumFacebookReferrals().keepMatchingByKey("areaName",["Zapata C"]).end
+
+    console.log(kiData.length)
+    let report = updateSingleReportV5(CONFIG.dataFlow.sheetTargets.headerTest, kiData, "Area")
+    console.log(report.rsd.tabName)
+}
+
+/**
+ * @description updates the data on a single report.  Requires the sheetID to be verified to not crash.
+ *
+ *  @param {string} sheetID
+ *  @param {any[]} kiData
+ *  @param {filesystemEntry["fsScope"]} scope
+ *  @return {*}  {SheetData}
+ */
 function updateSingleReportV5(sheetID: string, kiData: any[], scope: filesystemEntry["fsScope"]):SheetData {
-    let TEST_MODE:boolean = true;
-    if (TEST_MODE) {
-        sheetID = CONFIG.dataFlow.sheetTargets.headerTest
-    }
+
     let REPORT_COLUMN_CONFIG: columnConfig = {
         areaName: 0,
         areaID: 1,
@@ -48,6 +63,8 @@ function updateSingleReportV5(sheetID: string, kiData: any[], scope: filesystemE
         rca: 10,
         rc: 11,
         cki: 12,
+        "fb-role": 13,
+        "fb-ref-sum": 14,
     }
     let reportInfo: sheetDataEntry = {
         tabName : "LOCAL-REPORT-ENTRY-TEST",
@@ -62,4 +79,7 @@ function updateSingleReportV5(sheetID: string, kiData: any[], scope: filesystemE
     let targetReport = new SheetData(rawReportSheetData)
 
     targetReport.setData(kiData)
+    // and then a bit of code to do stuff like update the config page or something like that with the update time.
+    // but that passthrough bit is currently unimplemented on sheetData.
+    return targetReport
 }
