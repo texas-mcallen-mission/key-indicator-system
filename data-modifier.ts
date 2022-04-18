@@ -87,6 +87,11 @@ function testNewHeader() {
     // at this point, it should be done!
     console.log("go check the header on sheet ",targetSheet.tabName)
 }
+
+/**
+ * updates the TMM report
+ *
+ */
 function updateTMMReport() {
     // let localSheetData = constructSheetDataV2(sheetDataConfig.local);
     let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
@@ -97,7 +102,7 @@ function updateTMMReport() {
     let kicData = new kiDataClass(data);
     let tmmReport = remoteSheetData.tmmReport
 
-    let tmmReportData = kicData.removeDuplicates().getThisWeeksData().addShortLang().calculateCombinedName().calculateRR().end
+    let tmmReportData = kicData.removeDuplicates().getThisWeeksData().addShortLang().calculateCombinedName().calculateRR().sumFacebookReferrals().end
     // this gets rid of any and all data that might be left behind- in practice, this clears the sheet when there are no responses for the current week.
     tmmReport.clearContent()
     tmmReport.setData(tmmReportData)

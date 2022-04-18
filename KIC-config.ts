@@ -71,8 +71,8 @@ let INTERNAL_CONFIG = {
 
     // fileSystem
     fileSystem: {
+        // IF YOU CHANGE THESE, ALSO UPDATE the fsScope interface declaration in driveHandler!
         reportLevel: { zone: "Zone", dist: "District", area: "Area" }, //Theoretically, since there's no difference between this anywhere you should be able to change this to be whatever gibberish you want as long as they're unique.  These strings also included in folder naming if INCLUDE_SCOPE_IN_FOLDER_NAME is set to true, so don't make them too pithy.
-
         updateSheetProtectionsOnLoad: false, //WARNING: If set to true, loading the filesystem will take a VERY long time!
 
         includeScopeInFolderName: false,
@@ -561,7 +561,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 },
             },
             tmmReport: {
-                tabName: "TMM Report Printable",
+                tabName: "Copy of TMM Report Printable",
                 headerRow: 9,
                 includeSoftcodedColumns: false,
                 sheetId: CONFIG.dataFlow.sheetTargets.tmmReport,
@@ -576,9 +576,10 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     rrPercent: 7,
                     serviceHrs: 8,
                     cki: 9,
-                    hasVehicle: 10,
-                    truncLang: 11,
-                    combinedNames: 12,
+                    "fb-ref-sum": 10,
+                    hasVehicle: 11,
+                    truncLang: 12,
+                    combinedNames: 13,
                 },
             },
             fbReferrals: {

@@ -37,6 +37,40 @@ class kiDataClass {
     //     return this.data
     // }
 
+    /**
+     *  Adds a key named ``fb-ref-sum`` that sums up all the facebook referrals (currently hardcoded).
+     *
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    sumFacebookReferrals():this {
+        let output = [];
+        let newKeyName = "fb-ref-sum";
+
+        let fb_referral_keys = {
+            "fb-ref-ysa": 0,
+            "fb-ref-asl": 1,
+            "fb-ref-service": 2,
+            "fb-ref-laredo-spa": 3,
+            "fb-ref-laredo-eng": 4,
+            "fb-ref-rgv-spa": 5,
+            "fb-ref-rgv-eng": 6,
+            "fb-ref-corpus": 7,
+        }
+
+        for (let entry of this.data) {
+            let sum = 0
+            for (let key in fb_referral_keys) {
+                if(typeof entry[key] == typeof 1) sum += entry[key]
+            }
+            entry[newKeyName] = sum
+            output.push(entry)
+
+        }
+        this.data = output
+
+        return this
+    }
 
 
     /**

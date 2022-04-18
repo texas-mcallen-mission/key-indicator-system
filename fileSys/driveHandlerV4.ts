@@ -60,7 +60,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
         let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId,"" )
         let zoneEntry = zoneEntryData.entry
-        if (zoneEntryData.isNew) filesystems.zone.sheetData.push(zoneEntry)
+        if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry)
         let zoneAreaIds = []
 
         
@@ -69,7 +69,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
             let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId, "");
             let distAreaIds = []
             let distEntry = distEntryData.entry;
-            if (distEntryData.isNew) filesystems.district.sheetData.push(distEntry)
+            if (distEntryData.isNew) filesystems.District.sheetData.push(distEntry)
             
             for (let area in orgData[zone][district]) {
                 let areaData = orgData[zone][district][area];
@@ -77,7 +77,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
                 distAreaIds.push(areaData.areaID)
                 let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 let areaEntry = areaEntryData.entry
-                if(areaEntryData.isNew) filesystems.area.sheetData.push(areaEntry)
+                if(areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry)
             }
 
             distEntry.areaID = distAreaIds.join()
@@ -146,32 +146,40 @@ function buildIncludesArray_(fsData, key) {
 }
 
 interface manyFilesystemEntries {
-    [index:string]:filesystemEntry
+    [index:filesystemEntry["fsScope"]]:filesystemEntry
 }
 interface filesystemEntry {
     fsData: SheetData,
-    fsScope: string,
+    fsScope: "Zone" | "District" | "Area",
     sheetData: any[]
     existingFolders: any[]
     reportTemplate:string
 }
+
+/**
+ * Loads filesystems with everything you need to get stuff going.  Used by DriveHandler & reportCreator
+ * Keys: "Zone","District","Area"
+ * 
+ * @param {*} allSheetData
+ * @return {manyFilesystemEntries}  wheeee
+ */
 function loadFilesystems_(allSheetData):manyFilesystemEntries {
     let filesystems:manyFilesystemEntries = {
-        zone: {
+        Zone: {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
             existingFolders: [],
             reportTemplate:INTERNAL_CONFIG.reportCreator.docIDs.zoneTemplate
         },
-        district: {
+        District: {
             fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
             existingFolders: [],
             reportTemplate: INTERNAL_CONFIG.reportCreator.docIDs.distTemplate
         },
-        area: {
+        Area: {
             fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
