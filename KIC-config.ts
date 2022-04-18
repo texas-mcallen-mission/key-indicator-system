@@ -155,7 +155,7 @@ let INTERNAL_CONFIG = {
                 updateLocalDataStore_TimeBasedTrigger: 1,
             },
             hours: { // valid increments: any integer >= 1
-                updateForm_TimeBasedTrigger: 2,
+                updateForm_TimeBasedTrigger: 2, // 
 
             },
             days: { // valid increments: any integer >= 1
@@ -561,7 +561,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 },
             },
             tmmReport: {
-                tabName: "Copy of TMM Report Printable",
+                tabName: "TMM Report Printable",
                 headerRow: 9,
                 includeSoftcodedColumns: false,
                 sheetId: CONFIG.dataFlow.sheetTargets.tmmReport,
