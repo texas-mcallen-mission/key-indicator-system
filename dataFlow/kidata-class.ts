@@ -77,7 +77,7 @@ class kiDataClass {
      * Removes everything where the value of a specified key does not match values stored in an array of strings or a string.
      * Designed for the report generator, to get rid of kiData that it doesn't want.
      * @param {string} key
-     * @param {(string | string[])} match
+     * @param {string[])} match - array of strings to match against 
      * @return {*} 
      * @memberof kiDataClass
      */
@@ -91,7 +91,7 @@ class kiDataClass {
         // }
 
         for (let entry of this.data) {
-            if (match.includes(this[key])){
+            if (match.includes(entry[key])){
                 output.push(entry)
                 console.log("match")
             }

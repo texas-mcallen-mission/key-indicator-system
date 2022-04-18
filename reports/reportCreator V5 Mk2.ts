@@ -32,7 +32,7 @@ function testSingleReportUpdater() {
     
     let localSheetData = constructSheetDataV2(sheetDataConfig.local)
 
-    let kiData = new kiDataClass(localSheetData.getData()).calculateCombinedName().sumFacebookReferrals().keepMatchingByKey("areaName",["Zapata C"]).end
+    let kiData = new kiDataClass(localSheetData.getData()).calculateCombinedName().sumFacebookReferrals().keepMatchingByKey("district",["ZAPATA","Zapata"]).end
 
     console.log(kiData.length)
     let report = updateSingleReportV5(CONFIG.dataFlow.sheetTargets.headerTest, kiData, "Area")
