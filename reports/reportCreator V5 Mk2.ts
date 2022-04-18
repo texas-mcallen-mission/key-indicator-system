@@ -16,7 +16,7 @@
                     Remove Duplicates, destroy PII we don't want to have, calculate combined names
 
     
-    TODO 4      Group Data
+    TODO 4      Group Data; Run Single Report Updater
                     key: fsEntry's
                     split kiData into multiple little kiData's- END OF kiDataClass
                     Iterates by fsEntry
@@ -29,31 +29,73 @@
 
 */
 
+function testGroupAndSendReports():void {
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local)
+    let fsData:manyFilesystemDatas = localSheetData.areaFilesys.getData()
+    // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
+    let kiData = new kiDataClass(localSheetData.data.getData())
+
+    let scope: filesystemEntry["fsScope"] = "Area"
+
+    groupDataAndSendReports_(fsData, kiData, scope)
+    
+}
+
+
+/**
+ *  
+ *
+ * @param {manyFilesystemDatas} fsData
+ * @param {kiDataClass} kiData
+ * @return {*}  {manyKiDataClasses}
+ */
+function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataClass, scope: filesystemEntry["fsScope"]):manyKiDataClasses {
+    let output: manyKiDataClasses = {}
+    for (let entry in fsData) {
+        let entryData = fsData[entry]
+        let kiDataCopy = kiData
+        let areaIdList:string[] = entryData.areaID.split()
+        kiDataCopy.keepMatchingByKey("areaID", areaIdList)
+        // let data = kiDataCopy.end
+        console.info("fsData Key:",entry)
+        // output[entry] = kiDataCopy
+        if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || isFileAccessible_(entryData.sheetID1) ) {
+            console.error("SHEET ID EITHER NULL OR NOT ACCESSIBLE FOR ENTRY",entryData.folderName)
+            return
+        }
+        updateSingleReportV5_(entryData.sheetID1, kiDataCopy.end,entryData.folderBaseName/* I could probably add a fileName entry thingy to this... */, scope)
+    }
+
+    return output
+}
+
 
 /**
  *  test code for updateSingleReportV5, will put / overwrite a tab on your active spreadsheet.
  *
  */
-function testSingleReportUpdater() {
+function testSingleReportUpdater():void {
     
     let localSheetData = constructSheetDataV2(sheetDataConfig.local)
 
     let kiData = new kiDataClass(localSheetData.data.getData()).calculateCombinedName().sumFacebookReferrals().keepMatchingByKey("district",["ZAPATA","Zapata"]).end
 
     console.log(kiData.length)
-    let report = updateSingleReportV5(CONFIG.dataFlow.sheetTargets.headerTest, kiData, "Area")
+    let report = updateSingleReportV5_(CONFIG.dataFlow.sheetTargets.headerTest, kiData,"TESTBOI", "Area")
     console.log(report.rsd.tabName)
 }
+
+
 
 /**
  * @description updates the data on a single report.  Requires the sheetID to be verified to not crash.
  *
- *  @param {string} sheetID
- *  @param {any[]} kiData
- *  @param {filesystemEntry["fsScope"]} scope
- *  @return {*}  {SheetData}
+ * @param {string} sheetID
+ * @param {(any[] | manyKiDataEntries)} kiData
+ * @param {filesystemEntry["fsScope"]} scope // currently unused, but will need to exist for updating the config pages in the future.
+ * @return {*}  {SheetData}
  */
-function updateSingleReportV5(sheetID: string, kiData: any[], scope: filesystemEntry["fsScope"]):SheetData {
+function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, fileName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
     let REPORT_COLUMN_CONFIG: columnConfig = {
         areaName: 0,

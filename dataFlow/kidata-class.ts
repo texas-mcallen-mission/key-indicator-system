@@ -21,6 +21,13 @@ interface manyKiDataClasses {
     [index:string]:kiDataClass
 }
 
+interface manyKiDataEntries {
+    [index:number]:kiDataEntry
+}
+
+interface kiDataEntry {
+    [index: string]: any;
+}
 
 
 class kiDataClass {
@@ -29,7 +36,7 @@ class kiDataClass {
         this.data = kiData;
     }
 
-    get end() {
+    get end(): manyKiDataEntries {
         return this.data;
     }
 

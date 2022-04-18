@@ -15,9 +15,23 @@ getMissionOrgData
     - this version only clears sheetid's that don't exist instead of deleting the whole thing, which is IMO better
 */
 
+/*
+    folderName: string, parentFolder: string, folderId: string, sheetID1: string | null, sheetID2: string | null, areaID: string, folderBaseName: string, seedId: string | number,
+
+*/
+
 class fsEntry {
-    rawData = {};
-    constructor(folderName, parentFolder, folderId, sheetID1, sheetID2, areaID, folderBaseName,seedId = 0) {
+    rawData:filesystemData = {
+        folderName: '',
+        parentFolder: '',
+        folderId: '',
+        sheetID1: '',
+        sheetID2: '',
+        areaID: '',
+        folderBaseName: '',
+        seedId: -1,
+    };
+    constructor(folderName: string, parentFolder: string, folderId: string, sheetID1: string | null, sheetID2: string | null, areaID: string, folderBaseName: string, seedId: string | number = 0) {
         this.rawData = {
 
             folderName: folderName,
@@ -31,7 +45,7 @@ class fsEntry {
         };
 
     }
-    get data() {
+    get data():filesystemData {
         return this.rawData;
     }
 }
@@ -52,13 +66,13 @@ function buildFSV4(allSheetData = constructSheetData()) {
 
     Logger.log(orgData);
 
-    let filesystems = loadFilesystems_(allSheetData);
+    let filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
 
     let reportBaseFolderId = getOrCreateReportFolder();
     
     for (let zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        let zoneEntryData = createOrGetFsEntry_(filesystems.zone, zone, reportBaseFolderId,"" )
+        let zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId,"" )
         let zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry)
         let zoneAreaIds = []
@@ -66,7 +80,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
         
         for (let district in orgData[zone]) {
             //@ts-ignore
-            let distEntryData = createOrGetFsEntry_(filesystems.district, district, zoneEntry.folderId, "");
+            let distEntryData = createOrGetFsEntry_(filesystems.District, district, zoneEntry.folderId, "");
             let distAreaIds = []
             let distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.District.sheetData.push(distEntry)
@@ -75,7 +89,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
                 let areaData = orgData[zone][district][area];
                 //@ts-ignore
                 distAreaIds.push(areaData.areaID)
-                let areaEntryData = createOrGetFsEntry_(filesystems.area, areaData.areaName, distEntry.folderId, areaData.areaID)
+                let areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 let areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry)
             }
@@ -97,8 +111,17 @@ function buildFSV4(allSheetData = constructSheetData()) {
     //
 }
 
-function createOrGetFsEntry_(filesystem, folderNameString:string, parentFolderId:string,areaId:string) {
-    let outEntry = {};
+function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderId: string, areaId: string): { entry: filesystemData, isNew: boolean } {
+    let outEntry: filesystemData = {
+        folderName: '',
+        parentFolder: '',
+        folderId: '',
+        sheetID1: '',
+        sheetID2: '',
+        areaID: '',
+        folderBaseName: '',
+        seedId: -1
+    }
     let createdNew = false;
     if (filesystem.existingFolders.includes(folderNameString)) {
 
@@ -114,9 +137,9 @@ function createOrGetFsEntry_(filesystem, folderNameString:string, parentFolderId
         }
         console.log("creating FSentry for ", folderNameString);
         let folderId = createNewFolderV4_(parentFolderId, folderString)
-        let preEntry = new fsEntry(folderString, parentFolderId,folderId,"", "", areaId, folderNameString);
+        let preEntry = new fsEntry(folderString, parentFolderId,folderId,"", "", areaId, folderNameString).data
         // filesystem.sheetData.push(outEntry);
-        outEntry = preEntry.data;
+        outEntry = preEntry;
         createdNew = true;
         // zoneOutData.push(zoneEntry);
     }
@@ -145,15 +168,35 @@ function buildIncludesArray_(fsData, key) {
     return outData;
 }
 
-interface manyFilesystemEntries {
-    [index:filesystemEntry["fsScope"]]:filesystemEntry
-}
+type manyFilesystemEntries = {
+    [index in filesystemEntry["fsScope"]]: filesystemEntry;
+};
 interface filesystemEntry {
     fsData: SheetData,
     fsScope: "Zone" | "District" | "Area",
-    sheetData: any[]
+    sheetData: filesystemData[]
     existingFolders: any[]
     reportTemplate:string
+}
+
+interface manyFilesystemDatas {
+    [index:string]:filesystemData,
+}
+
+/**
+ *  @description interface that defines the keys available on a filesystem entry
+ *
+ * @interface filesystemData
+ */
+interface filesystemData {
+    folderName: string,
+    parentFolder: string,
+    folderId: string,
+    sheetID1: string | null,
+    sheetID2: string | null,
+    areaID: string, // you have to split this into an array manually, using .split()
+    folderBaseName: string,
+    seedId: string | number,
 }
 
 /**
