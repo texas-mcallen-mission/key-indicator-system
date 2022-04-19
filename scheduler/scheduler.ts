@@ -2,10 +2,10 @@
 
 
 // This makes using the dLog 
-function meta_runner(functionName, trigger, functionArg1 = undefined) {
+function meta_runner(functionName, trigger, functionArg1 = undefined,ignoreLockout = false) {
     console.log("[META_RUNNER] - Running ", functionName.name, " with trigger:", trigger);
     let locker = new meta_locker(functionName.name)
-    if (locker.isLocked()) {
+    if (locker.isLocked()== true && ignoreLockout == false) {
         Logger.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
         return
     } else {
