@@ -15,12 +15,14 @@
                     Passthrough: Scope, update time
                     Remove Duplicates, destroy PII we don't want to have, calculate combined names
 
+
     
     TODO 4      Group Data; Run Single Report Updater
                     key: fsEntry's
                     split kiData into multiple little kiData's- END OF kiDataClass
                     Iterates by fsEntry
                     PassThrough: Scope, update time
+                    - IMPLEMENTED
 
     TODO 5      Update Single Report
                     needs: sheetID, scope, kiData (NOT THE CLASS, THE DATA)
@@ -28,6 +30,8 @@
                     - BARELY TESTED, but implemented
 
 */
+
+
 
 
 function testKeepMatchingByKey() {
@@ -68,7 +72,8 @@ function testGroupAndSendReports():void {
 
 
 /**
- *  
+ *  Takes takes multiple filesystemData entries, and sends the data to display.
+ *  fully capable of being sharded, as it can take as many or as few entries as you want.
  *
  * @param {manyFilesystemDatas} fsData
  * @param {kiDataClass} kiData
@@ -76,13 +81,19 @@ function testGroupAndSendReports():void {
  */
 function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataClass, scope: filesystemEntry["fsScope"]):manyKiDataClasses {
     let output: manyKiDataClasses = {}
+    if (fsData.length == 0) {
+        console.error("NO fsData to update!")
+        let returnVal: manyKiDataClasses = {}
+        return returnVal
+    }
     for (let entry in fsData) {
         let entryData = fsData[entry]
         let kiDataCopy = _.cloneDeep(kiData)
         let areaIdList:string[] = entryData.areaID.split()
         kiDataCopy.keepMatchingByKey("areaID", areaIdList)
         let data = kiDataCopy.end
-        console.info("fsData Key:",entry,entryData.folderBaseName,data[0])
+        console.info("fsData Key:", entry, entryData.folderBaseName, data[0])
+        
         // output[entry] = kiDataCopy
         if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || !isFileAccessible_(entryData.sheetID1) ) {
             console.error("SHEET ID EITHER NULL OR NOT ACCESSIBLE FOR ENTRY",entryData.folderName)
