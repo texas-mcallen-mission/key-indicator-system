@@ -154,6 +154,8 @@ let INTERNAL_CONFIG = {
                 pruneFS_TimeBasedTrigger: 30,
                 updateTMMReport_TimeBasedTrigger: 1,
                 updateLocalDataStore_TimeBasedTrigger: 1,
+                testShardUpdater2: 1,
+                testShardUpdater1: 1,
             },
             hours: { // valid increments: any integer >= 1
                 updateForm_TimeBasedTrigger: 2, // 

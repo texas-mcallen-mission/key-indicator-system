@@ -1,11 +1,41 @@
 // Goal:  Build three a shard updating thing, using caching 
 
-
-function updateShard(scope) {
-    let cache = CacheService.getScriptCache()
-    let maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards
-
+function testShardUpdater1() {
+    updateShard("Area")
 }
+
+function testShardUpdater2() {
+    updateShard("Area");
+}
+function updateShard(scope: filesystemEntry["fsScope"]) {
+    // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
+    let currentState = loadCacheValues()
+    let scopeFunctionTargets = {
+        "Zone": updateZoneReportsV5,
+        "District": updateDistrictReportsV5,
+        "Area":updateAreaReportsV5
+    }
+    let targetScope = currentState[scope]
+    let worked = false
+    for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
+        if (currentState[scope][i.toString()] == false) {
+            currentState[scope][i.toString()] = true
+            setCacheValues(currentState)
+            // LOCKOUT as fast as possible
+            meta_runner(scopeFunctionTargets[scope], triggerTypes.timeBased,i.toString())
+            currentState = loadCacheValues()
+            currentState[scope][i.toString()] = false
+            setCacheValues(currentState)
+        } else {
+            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards) {
+                console.log("Nothing available to update on scope"+scope)
+            }
+        }
+            
+    }
+}
+
+
 
 type manyShardValues {
     [index in filesystemEntry["fsScope"]]:shardValueSet
@@ -19,11 +49,10 @@ interface shardValueSet {
 function createShardValues():manyShardValues {
     let maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards
     let output: manyShardValues = {}
-    for (let scope in INTERNAL_CONFIG.fileSystem.reportLevel) {
-        let scopeVal = INTERNAL_CONFIG.fileSystem.reportLevel[scope];
+    for (let scope of ["Zone", "District", "Area"]) {
         output[scope] = {}
         for (let i = 1; i <= maxShards; i++){
-            output[scope][i] = false
+            output[scope][i.toString()] = false
         }
         
     }
@@ -55,6 +84,11 @@ function testShardCache() {
 
     console.log(shardCacheValues.Area[0])
 
+}
+
+function clearShardCache() {
+    let cache = CacheService.getScriptCache();
+    cache.remove(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
 }
 
 function setCacheValues(shardCacheObject: manyShardValues) {
