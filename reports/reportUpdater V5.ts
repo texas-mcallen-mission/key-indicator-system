@@ -2,18 +2,20 @@
 
 /*
 
-    TODO 0 LOADER:
-    TODO 0      Load KI Data, create kiDataClass
-    TODO 0      Load FS Data metasystem
+    TODO 0: Load Data: FSdataMetasystem, KI Data
 
-    TODO 1 A)   Single-Level-of-reports: Straight-through to 2A or 2B
-    TODO 1 B)   Single-Report-Line: (One Zone/District/Area Report Group): Scope down FSdata (Remove all that don't contain given area ID), run multiple instances of 2A) onwards
+    TODO: STEPS 0,1,2:
+            - this is where we directly interact with the sheetData objects.
 
-    
-    TODO 2 A)   Pass Through FSData
-    TODO 2 B)   Remove FSData not applicable to single shard
+        This is the part that gets messy, to make it cleaner on the other end of the system.
 
-    Define: Scope, sets update time
+        SINGLE-LEVEL UPDATER: Pick which fs to use- then do data operations, send ki data off to reports
+        - Arguments: Scope, OPTIONAL- SHARD NUMBER ARGUMENT: Above, but also DISCARD fs Entries that don't match the shard value.
+            - Responsible for sending data off to the various reports. 
+
+
+        MULTI-LEVEL UPDATER: Call multiple single-Level Updaters, assign which FS to use.
+
 
 
     TODO 3      Discard Unwanted fs,KIData
@@ -39,24 +41,124 @@
 */
 
 /**
- * Step 1: Load FS, KI Data
+ *  Abstractions for external things:
+ *  META_RUNNER-enabled single-report-level updater, shard capable
+ *  Single-Area-Updater: Could be called by the data creator system if it's not a Sunday/Monday morning and something changes.
  */
+
+function testUpdateSingleShard() {
+    updateAreaReportsV5("3");
+}
+
+function updateAreaReportsV5(shard:null|string= null) {
+    let allData = loadData()
+    singleLevelUpdater_(allData.fsData, allData.kiData, "Area",shard)
+
+}
+
+function updateDistrictReportsV5(shard: null | string = null) {
+    let allData = loadData()
+    singleLevelUpdater_(allData.fsData, allData.kiData, "District",shard)
+}
+
+function updateZoneReportsV5(shard: null | string = null) {
+    let allData = loadData()
+    singleLevelUpdater_(allData.fsData, allData.kiData, "Zone",shard)
+}
+
 
 
 /**
- *  Step 2: Pick Scope, shard
- *  
+ *  Loads KI Data
+ *  essentially abstracts loading the FS and stuff so that I can make it nice and neat.
+ *
+ * @return {{ fsData: manyFilesystemEntries; kiData: kiDataClass; }}
  */
+function loadData(): { fsData: manyFilesystemEntries; kiData: kiDataClass; } {
+    let localSheetData:manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
+    let fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData)
+    
+    let kiData = new kiDataClass(localSheetData.data.getData())
 
-function pickScope(fsData: manyFilesystemDatas,) {
-    let kiDataMod = _.cloneDeep(kiData)
-    // I'm SOOOO thankful for Lodash, it's saved this project from even more technical weeds than it already has...
-
-
+    return { fsData: fsDataEntries, kiData: kiData }
 
 }
 
 
+
+/** Multi-Level Updater: Does some weird stuff 
+ * 
+*/
+
+/**
+ *  Removes FS entries that don't have a given area in them.  Runs on a single level at a time.  Integral to multiLevelUpdateSingleAreaID
+ *
+ * @param {manyFilesystemDatas} fsData
+ * @param {string} areaID
+ * @return {*} 
+ */
+function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: string) {
+    let output: manyFilesystemDatas = {};
+    let shardKey = "seedId";
+    for (let entry in fsData) {
+        let entryData = fsData[entry];
+        let areaIDs = entryData.areaID.split(",")
+        for(let areaID of areaIDs) areaID.trim()
+        if (areaID.includes(areaID)) {
+            output[entry] = (entryData);
+        }
+    }
+    return output;
+}
+
+/**
+ *  Runs all updates for ONE area id by removing all irrelevant fsEntries.
+ *
+ * @param {manyFilesystemDatas} fsEntries
+ * @param {kiDataClass} kiData
+ * @param {string} areaID
+ */
+function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemDatas, kiData:kiDataClass,areaID: string) {
+    let fsEntryMod: manyFilesystemEntries = _.deepClone(fsEntries)
+    for (let fsEntry in fsEntryMod) {
+        let fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
+        //@ts-ignore
+        fsEntryData.sheetData = removeFSEntriesWithoutAreaId_(fsEntryData.sheetData, areaID)
+        singleLevelUpdater_(fsEntryMod, kiData, fsEntryData.fsScope)
+    }
+    
+}
+
+/**
+ * Single Level Updater: Has a shard argument in case we want to filter out shards.
+ */
+
+function removeFSEntriesNotInShard_(fsData: manyFilesystemDatas, shardValue: string): manyFilesystemDatas {
+    let output: manyFilesystemDatas = {}
+    let shardKey = "seedId"
+    
+    for (let entry in fsData) {
+        let entryData:filesystemData = fsData[entry]
+        if (entryData.seedId.toString() == shardValue) {
+            output[entry] = (entryData)
+        }
+    }
+    return output
+}
+
+function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiDataClass,scope:filesystemEntry["fsScope"],shard:string|null= null) {
+    let targetFSEntry = fsDataEntries[scope]
+    
+    //@ts-ignore
+    let fsData: manyFilesystemDatas = targetFSEntry.sheetData
+    if (shard != null) {
+        fsData = removeFSEntriesNotInShard_(fsData, shard)
+        console.info("Running Report Updater in Shard Mode on Scope:",scope," Shard ID:",shard)
+    }
+
+    let kiDataMod = doDataOperations_(kiData); // Step 3: Do Data Operations
+    groupDataAndSendReports_(fsData, kiDataMod, scope) // Runs 4, which batches step 5's
+}
 
 
 
@@ -95,7 +197,7 @@ function testDoDataOperations() {
         
     ]
     let kiDataClassTester = new kiDataClass(kiData)
-    let test = doDataOperations(kiDataClassTester)
+    let test = doDataOperations_(kiDataClassTester)
     console.log(test)
     
 }
@@ -108,7 +210,7 @@ function testDoDataOperationsLive() {
     let kiData = new kiDataClass(localSheetData.data.getData());
 
     let scope: filesystemEntry["fsScope"] = "Area";
-    kiData = doDataOperations(kiData)
+    kiData = doDataOperations_(kiData)
     groupDataAndSendReports_(fsData, kiData, scope);
 }
 /**
@@ -117,7 +219,7 @@ function testDoDataOperationsLive() {
  * @param {kiDataClass} kiData
  * @return {*}  {kiDataClass}
  */
-function doDataOperations(kiData:kiDataClass):kiDataClass {
+function doDataOperations_(kiData:kiDataClass):kiDataClass {
     let kiDataMod: kiDataClass = _.cloneDeep(kiData)
     
     kiDataMod.removeDuplicates().calculateCombinedName().calculateRR().sumFacebookReferrals()
