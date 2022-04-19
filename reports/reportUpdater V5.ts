@@ -43,11 +43,21 @@
 /**
  *  Abstractions for external things:
  *  META_RUNNER-enabled single-report-level updater, shard capable
- *  Single-Area-Updater: Could be called by the data creator system if it's not a Sunday/Monday morning and something changes.
+ *  META_RUNNER-enabled Single-Area-Updater: Could be called by the data creator system if it's not a Sunday/Monday morning and something changes.
+ *      Theoretically the single-area updater could be used to update ALL of them if you set something differently...
  */
 
 function testUpdateSingleShard() {
     updateAreaReportsV5("3");
+}
+
+function testUpdateOneBranch() {
+    updateOneBranch("A500412899")
+}
+
+function updateOneBranch(areaID:string) {
+    let allData = loadData()
+    multiLevelUpdateSingleAreaID_(allData.fsData, allData.kiData, areaID)
 }
 
 function updateAreaReportsV5(shard:null|string= null) {
@@ -118,7 +128,7 @@ function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: stri
  * @param {kiDataClass} kiData
  * @param {string} areaID
  */
-function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemDatas, kiData:kiDataClass,areaID: string) {
+function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:kiDataClass,areaID: string) {
     let fsEntryMod: manyFilesystemEntries = _.deepClone(fsEntries)
     for (let fsEntry in fsEntryMod) {
         let fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
