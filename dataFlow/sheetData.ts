@@ -589,12 +589,16 @@ class RawSheetData {
         for (let arr of values)
             if (typeof arr[maxIndex] == "undefined") arr[maxIndex] = "";
 
-        for (let key of skippedKeys)
-            Logger.log(
-                "Skipped key ${key} while pushing to sheet " +
-                this.tabName +
-                ". Sheet doesn't have that key"
-            );
+        // for (let key of skippedKeys)
+        //     Logger.log(
+        //         "Skipped key ${key} while pushing to sheet " +
+        //         this.tabName +
+        //         ". Sheet doesn't have that key"
+        //     );
+
+        if (Object.keys(skippedKeys).length > 0) {
+            console.log("Skipped Keys:",skippedKeys," while pushing to sheet",this.getTabName())
+        }
 
         this.setValues(values);
     }

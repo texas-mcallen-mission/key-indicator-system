@@ -100,7 +100,7 @@ class kiDataClass {
         for (let entry of this.data) {
             if (match.includes(entry[key])){
                 output.push(entry)
-                console.log("match")
+                // console.log("match")
             }
         }
         this.data = output
