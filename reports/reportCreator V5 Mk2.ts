@@ -31,7 +31,7 @@
 
 function testGroupAndSendReports():void {
     let localSheetData = constructSheetDataV2(sheetDataConfig.local)
-    let fsData:manyFilesystemDatas = localSheetData.areaFilesys.getData()
+    let fsData:manyFilesystemDatas = localSheetData.distFilesys.getData()
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
     let kiData = new kiDataClass(localSheetData.data.getData())
 
@@ -56,14 +56,16 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
         let kiDataCopy = kiData
         let areaIdList:string[] = entryData.areaID.split()
         kiDataCopy.keepMatchingByKey("areaID", areaIdList)
-        // let data = kiDataCopy.end
-        console.info("fsData Key:",entry)
+        let data = kiDataCopy.end
+        console.info("fsData Key:",entry,entryData.folderBaseName,data[0])
         // output[entry] = kiDataCopy
         if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || isFileAccessible_(entryData.sheetID1) ) {
             console.error("SHEET ID EITHER NULL OR NOT ACCESSIBLE FOR ENTRY",entryData.folderName)
-            return
+            
+        } else {
+            updateSingleReportV5_(entryData.sheetID1, data,entryData.folderBaseName/* I could probably add a fileName entry thingy to this... */, scope)
+            
         }
-        updateSingleReportV5_(entryData.sheetID1, kiDataCopy.end,entryData.folderBaseName/* I could probably add a fileName entry thingy to this... */, scope)
     }
 
     return output
