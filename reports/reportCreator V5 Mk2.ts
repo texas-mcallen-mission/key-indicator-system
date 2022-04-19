@@ -29,6 +29,31 @@
 
 */
 
+
+function testKeepMatchingByKey() {
+    let testKey = "areaID";
+    let kiData = [
+        { val1: "WHEEE", areaID: "AREA_NUMBER_1", testThingy: "AREA1-ENTRY-1" },
+        { val1: "WHEEE", areaID: "AREA_NUMBER_1", testThingy: "AREA1-ENTRY-2" },
+        { val1: "WHEEE", areaID: "AREA_NUMBER_2", testThingy: "AREA2-ENTRY-1" },
+        { val1: "WHEEE", areaID: "AREA_NUMBER_2", testThingy: "AREA2-ENTRY-2" },
+        { val1: "WHEEE", areaID: "AREA_NUMBER_3", testThingy: "AREA3-ENTRY-1" },
+    ];
+    let kiDataa = new kiDataClass(kiData);
+    kiDataa.keepMatchingByKey("areaID", ["AREA_NUMBER_1", "AREA_NUMBER_2"]);
+    console.log(kiDataa.end);
+}
+
+function testKeepMatchingByKey2() {
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+
+    let testKey = "areaID";
+    let kiData = localSheetData.data.getData();
+    let kiDataa = new kiDataClass(kiData);
+    kiDataa.keepMatchingByKey("areaID", ["A500364080", "A6974467"]);
+    console.log(kiDataa.end);
+}
+
 function testGroupAndSendReports():void {
     let localSheetData = constructSheetDataV2(sheetDataConfig.local)
     let fsData:manyFilesystemDatas = localSheetData.distFilesys.getData()
@@ -53,7 +78,7 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
     let output: manyKiDataClasses = {}
     for (let entry in fsData) {
         let entryData = fsData[entry]
-        let kiDataCopy = kiData
+        let kiDataCopy = _.cloneDeep(kiData)
         let areaIdList:string[] = entryData.areaID.split()
         kiDataCopy.keepMatchingByKey("areaID", areaIdList)
         let data = kiDataCopy.end
