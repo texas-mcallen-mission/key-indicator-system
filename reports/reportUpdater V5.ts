@@ -373,7 +373,8 @@ function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntrie
         cki: 13,
         "fb-role": 14,
         "fb-ref-sum": 15,
-        rrPercent:16,
+        isDuplicate:16,
+        rrPercent: 17,
 
     }
     let reportInfo: sheetDataEntry = {
