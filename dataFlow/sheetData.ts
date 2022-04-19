@@ -644,15 +644,19 @@ class RawSheetData {
         //Force all rows to be of the same length
         for (let arr of values)
             if (typeof arr[maxIndex] == "undefined") arr[maxIndex] = "";
+        // NOTE: this was getting a little verbose...
+        // for (let key of skippedKeys)
+            // Logger.log(
+            //     "Skipped key " +
+            //     key +
+            //     " while pushing to sheet " +
+            //     this.tabName +
+            //     ". Sheet doesn't have that key"
+            // );
+        if (Object.keys(skippedKeys).length > 0) {
+            console.info("Skipped keys on",this.getTabName(),":",skippedKeys)
+        }
 
-        for (let key of skippedKeys)
-            Logger.log(
-                "Skipped key " +
-                key +
-                " while pushing to sheet " +
-                this.tabName +
-                ". Sheet doesn't have that key"
-            );
 
         this.insertValues(values);
     }
