@@ -2,18 +2,25 @@
 
 /*
 
-    TODO 0 LOADER
+    TODO 0 LOADER:
+    TODO 0      Load KI Data, create kiDataClass
+    TODO 0      Load FS Data metasystem
 
-    TODO 1.A    Load KI Data
-    TODO 1.B    Load FS Data
+    TODO 1 A)   Single-Level-of-reports: Straight-through to 2A or 2B
+    TODO 1 B)   Single-Report-Line: (One Zone/District/Area Report Group): Scope down FSdata (Remove all that don't contain given area ID), run multiple instances of 2A) onwards
 
-    TODO 2      Pick Scope & Shard
-                    Define: Scope, sets update time
+    
+    TODO 2 A)   Pass Through FSData
+    TODO 2 B)   Remove FSData not applicable to single shard
+
+    Define: Scope, sets update time
+
 
     TODO 3      Discard Unwanted fs,KIData
     TODO 3.1    Do Major Data Operations
                     Passthrough: Scope, update time
                     Remove Duplicates, destroy PII we don't want to have, calculate combined names
+                    This is separate from step 2, because from here on up should be the same irregardless of scope
 
 
     
@@ -31,10 +38,105 @@
 
 */
 
+/**
+ * Step 1: Load FS, KI Data
+ */
 
+
+/**
+ *  Step 2: Pick Scope, shard
+ *  
+ */
+
+function pickScope(fsData: manyFilesystemDatas,) {
+    let kiDataMod = _.cloneDeep(kiData)
+    // I'm SOOOO thankful for Lodash, it's saved this project from even more technical weeds than it already has...
+
+
+
+}
+
+
+
+
+
+/**
+ *  Step 3:  Do Major Data Operations
+        This is the place where duplicates get removed, names get combined, etc.
+        The reason this is classified as a step and not something that happens inside of a different one:
+            - There's only one thing to update when you want to add / remove / change things in your reports.
+        This does nothing to split up data by zone/district/area whatever: that is done in the next step via area ID's
+        The one drawback: All Reports made via this system have to have the same data types made available to them
+            - note: this is entirely different from scoping / removing entries (rows) based on zone/district/area- this is simply adding calculated and/or removing keys (columns) per entry.
+            - this will, however, delete entries (rows) with methods like removeDuplicates()
+ */
+
+function testDoDataOperations() {
+    // stand-alone test
+    let kiData: manyKiDataEntries = [
+        {
+            areaName: "WORDS", areaID: "WORDS", zone: "WORDS", district: "WORDS",
+            serviceHrs: "WORDS", rca: "WORDS", rc: "WORDS", "fb-role": "WORDS",
+            isDuplicate: false, name1: "name1", position1: "BB", name2: "name2", position2: "BA", name3:
+            "name3", position3: "AB",
+        },
+        {
+            areaName: "WORDS", areaID: "WORDS", zone: "WORDS", district: "WORDS",
+            serviceHrs: "WORDS", rca: "WORDS", rc: "WORDS", "fb-role": "WORDS",
+            isDuplicate: true, name1: "name1", position1: "BB", name2: "name2", position2: "BA", name3:
+                "name3", position3: "AB",
+        },
+        {
+            areaName: "WORDS", areaID: "WORDS", zone: "WORDS", district: "WORDS",
+            serviceHrs: "WORDS", rca: "WORDS", rc: "WORDS", "fb-role": "WORDS",
+            isDuplicate: true, name1: "name1", position1: "BB", name2: "name2", position2: "BA", name3:
+                "name3", position3: "AB",
+        }
+        
+    ]
+    let kiDataClassTester = new kiDataClass(kiData)
+    let test = doDataOperations(kiDataClassTester)
+    console.log(test)
+    
+}
+
+function testDoDataOperationsLive() {
+    // integration-style test
+    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let fsData: manyFilesystemDatas = localSheetData.distFilesys.getData();
+    // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
+    let kiData = new kiDataClass(localSheetData.data.getData());
+
+    let scope: filesystemEntry["fsScope"] = "Area";
+    kiData = doDataOperations(kiData)
+    groupDataAndSendReports_(fsData, kiData, scope);
+}
+/**
+ * doDataOperations: returns a new kiDataClass instance that has any and all data operations necessary for reports to generate properly.
+ *
+ * @param {kiDataClass} kiData
+ * @return {*}  {kiDataClass}
+ */
+function doDataOperations(kiData:kiDataClass):kiDataClass {
+    let kiDataMod: kiDataClass = _.cloneDeep(kiData)
+    
+    kiDataMod.removeDuplicates().calculateCombinedName().calculateRR().sumFacebookReferrals()
+
+
+    return kiDataMod
+}
+
+
+
+
+/**
+ * STEP 4 TEST FUNCTIONS
+ */
 
 
 function testKeepMatchingByKey() {
+    // standalone test, because this thing was having problems
+    // _.deepClone(object) solved them, but these are good demos / sanity checks.
     let testKey = "areaID";
     let kiData = [
         { val1: "WHEEE", areaID: "AREA_NUMBER_1", testThingy: "AREA1-ENTRY-1" },
@@ -49,6 +151,7 @@ function testKeepMatchingByKey() {
 }
 
 function testKeepMatchingByKey2() {
+    // semi-integrated test- loads external data
     let localSheetData = constructSheetDataV2(sheetDataConfig.local);
 
     let testKey = "areaID";
@@ -58,7 +161,8 @@ function testKeepMatchingByKey2() {
     console.log(kiDataa.end);
 }
 
-function testGroupAndSendReports():void {
+function testGroupAndSendReports(): void {
+    // integration test: loads external data, pushes it.
     let localSheetData = constructSheetDataV2(sheetDataConfig.local)
     let fsData:manyFilesystemDatas = localSheetData.distFilesys.getData()
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
@@ -95,6 +199,7 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
         console.info("fsData Key:", entry, entryData.folderBaseName, data[0])
         
         // output[entry] = kiDataCopy
+        // TODO: Consider passing through the sheetID key, so that these core functions can be re-used to create more reports?
         if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || !isFileAccessible_(entryData.sheetID1) ) {
             console.error("SHEET ID EITHER NULL OR NOT ACCESSIBLE FOR ENTRY",entryData.folderName)
             
@@ -109,8 +214,12 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
 
 
 /**
+ * STEP 5 TEST FUNCTIONS
+ */
+
+/**
  *  test code for updateSingleReportV5, will put / overwrite a tab on your active spreadsheet.
- *
+ *  
  */
 function testSingleReportUpdater():void {
     
@@ -126,8 +235,8 @@ function testSingleReportUpdater():void {
 
 
 /**
- * @description updates the data on a single report.  Requires the sheetID to be verified to not crash.
- *
+ *  @description updates the data on a single report.  Currently requires the sheetID to be verified to not crash.
+ *  
  * @param {string} sheetID
  * @param {(any[] | manyKiDataEntries)} kiData
  * @param {filesystemEntry["fsScope"]} scope // currently unused, but will need to exist for updating the config pages in the future.
@@ -151,6 +260,7 @@ function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntrie
         cki: 12,
         "fb-role": 13,
         "fb-ref-sum": 14,
+        isDuplicate:15
     }
     let reportInfo: sheetDataEntry = {
         tabName : "LOCAL-REPORT-ENTRY-TEST",

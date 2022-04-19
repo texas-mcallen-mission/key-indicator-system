@@ -137,7 +137,7 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
     */
     let updatedFSData = createTemplatesV2_(filesysObj, reportTemplateID);
     Logger.log("filesystem should be up to date!");
-    /*
+    
     let keyName = "";
     switch (scope) {
         case CONFIG.fileSystem.reportLevel.area:
@@ -162,7 +162,7 @@ function fullUpdateSingleLevel(filesysObj, data: {}, reportTemplateID: string, s
         dLog.addFailure("modifyTemplatesV2_async_",error);
     }
     dLog.endFunction("modifyTemplatesV2_async_")    
-    */
+    
     // time to send the data to the reports
 
 }
@@ -225,6 +225,7 @@ function createTemplatesV2_(filesysObj, templateID: string): {} {
     console.time(displayTimer);
     filesysObj.setData(fsDataCopy);
     console.timeEnd(displayTimer);
+    console.error("HEY, THINGS SHOULD BE DONE BY NOW!")
     return fsDataCopy;
 }
 function testDataToArray():void {
