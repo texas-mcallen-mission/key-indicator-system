@@ -129,7 +129,7 @@ function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: stri
  * @param {string} areaID
  */
 function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:kiDataClass,areaID: string) {
-    let fsEntryMod: manyFilesystemEntries = _.deepClone(fsEntries)
+    let fsEntryMod: manyFilesystemEntries = _.cloneDeep(fsEntries)
     for (let fsEntry in fsEntryMod) {
         let fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
         //@ts-ignore
