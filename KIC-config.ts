@@ -156,6 +156,10 @@ let INTERNAL_CONFIG = {
                 updateLocalDataStore_TimeBasedTrigger: 1,
                 testShardUpdater2: 1,
                 testShardUpdater1: 1,
+                testShardUpdater3: 1,
+                testShardUpdater4: 1,
+                testShardUpdater5: 1,
+                testShardUpdater6: 1,
             },
             hours: { // valid increments: any integer >= 1
                 updateForm_TimeBasedTrigger: 2, // 

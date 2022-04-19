@@ -7,6 +7,22 @@ function testShardUpdater1() {
 function testShardUpdater2() {
     updateShard("Area");
 }
+
+function testShardUpdater3() {
+    updateShard("Zone")
+}
+
+function testShardUpdater4() {
+    updateShard("Zone");
+}
+
+function testShardUpdater5() {
+    updateShard("District");
+}
+function testShardUpdater6() {
+    updateShard("District");
+}
+
 function updateShard(scope: filesystemEntry["fsScope"]) {
     // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
     let currentState = loadCacheValues()
