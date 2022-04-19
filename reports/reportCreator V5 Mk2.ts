@@ -59,7 +59,7 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
         let data = kiDataCopy.end
         console.info("fsData Key:",entry,entryData.folderBaseName,data[0])
         // output[entry] = kiDataCopy
-        if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || isFileAccessible_(entryData.sheetID1) ) {
+        if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || !isFileAccessible_(entryData.sheetID1) ) {
             console.error("SHEET ID EITHER NULL OR NOT ACCESSIBLE FOR ENTRY",entryData.folderName)
             
         } else {
