@@ -148,7 +148,6 @@ let INTERNAL_CONFIG = {
                 updateAreaReports_TimeBasedTrigger: 10,
                 updateDistrictReports_TimeBasedTrigger: 10,
                 updateZoneReports_TimeBasedTrigger: 10,
-                sharefileSystem_TimeBasedTrigger: 10,
                 
                 pruneFS_TimeBasedTrigger: 30,
                 updateTMMReport_TimeBasedTrigger: 1,
@@ -156,9 +155,10 @@ let INTERNAL_CONFIG = {
             },
             hours: { // valid increments: any integer >= 1
                 updateForm_TimeBasedTrigger: 2, // 
-
+                
             },
             days: { // valid increments: any integer >= 1
+                sharefileSystem_TimeBasedTrigger: 1,
                 
             },
             weeks: { // valid increments: any integer >= 1
