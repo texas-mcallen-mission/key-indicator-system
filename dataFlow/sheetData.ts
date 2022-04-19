@@ -236,7 +236,11 @@ class RawSheetData {
         this.sheet = targetSpreadsheet.getSheetByName(this.tabName);
         if (this.sheet == null) {
             console.warn("Creating Sheet on target spreadsheet!")
+            SpreadsheetApp.flush() // Because otherwise, we have problems
             this.sheet = targetSpreadsheet.insertSheet(this.tabName)
+            // SpreadsheetApp.flush(); // This is also ***DUMB*** but I think it's necessary to avoid crashes.
+            // to avoid these flushes causing you issues, make sure that your tabs already exist.
+            // it appears that the second flush is not necessary to ensure stability, but if it becomes a problem, that's probably it.
             this.setHeaders([this.indexToKey])
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
         }
