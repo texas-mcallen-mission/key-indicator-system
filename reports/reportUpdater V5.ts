@@ -232,7 +232,7 @@ function testDoDataOperationsLive() {
 function doDataOperations_(kiData:kiDataClass):kiDataClass {
     let kiDataMod: kiDataClass = _.cloneDeep(kiData)
     
-    kiDataMod.removeDuplicates().calculateCombinedName().calculateRR().sumFacebookReferrals()
+    kiDataMod.removeDuplicates().calculateCombinedName().calculateRR().sumFacebookReferrals().calculateRR()
 
 
     return kiDataMod
@@ -297,7 +297,7 @@ function testGroupAndSendReports(): void {
  */
 function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataClass, scope: filesystemEntry["fsScope"]):manyKiDataClasses {
     let output: manyKiDataClasses = {}
-    if (fsData.length == 0) {
+    if (Object.keys(fsData).length == 0) {
         console.error("NO fsData to update!")
         let returnVal: manyKiDataClasses = {}
         return returnVal
@@ -305,7 +305,7 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
     for (let entry in fsData) {
         let entryData = fsData[entry]
         let kiDataCopy = _.cloneDeep(kiData)
-        let areaIdList:string[] = entryData.areaID.split()
+        let areaIdList:string[] = entryData.areaID.split(",")
         kiDataCopy.keepMatchingByKey("areaID", areaIdList)
         let data = kiDataCopy.end
         console.info("fsData Key:", entry, entryData.folderBaseName, data[0])
@@ -373,6 +373,8 @@ function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntrie
         cki: 13,
         "fb-role": 14,
         "fb-ref-sum": 15,
+        rrPercent:16,
+
     }
     let reportInfo: sheetDataEntry = {
         tabName : "LOCAL-REPORT-ENTRY-TEST",
