@@ -26,8 +26,8 @@ function createMissingTemplates() {
             }
         }
         fsData.fsData.setData(fsData.sheetData)
-        if (newReportCounter > 1) { console.log("Created ", newReportCounter, "reports")}
-        if (newReportCounter = 1) { console.log("Created ", newReportCounter, "report")}
+        if (newReportCounter > 1)  { console.log("Created ", newReportCounter, "reports")}
+        if (newReportCounter == 1) { console.log("Created ", newReportCounter, "report")}
     }
 }
 

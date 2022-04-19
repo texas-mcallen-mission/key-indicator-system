@@ -377,8 +377,8 @@ function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntrie
 
     }
     let reportInfo: sheetDataEntry = {
-        tabName : "LOCAL-REPORT-ENTRY-TEST",
-        headerRow: 2,
+        tabName: "reportData",
+        headerRow: 3,
         includeSoftcodedColumns: false,
         initialColumnOrder: REPORT_COLUMN_CONFIG,
         sheetId: sheetID,
