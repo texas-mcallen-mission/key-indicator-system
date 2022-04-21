@@ -2,10 +2,12 @@
 
 
 // This makes using the dLog 
-function meta_runner(functionName, trigger, functionArg1 = undefined) {
-    console.log("[META_RUNNER] - Running ", functionName.name, " with trigger:", trigger);
+function meta_runner(functionName, trigger, functionArg1 = undefined, ignoreLockout = false) {
+    let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + trigger
+    if(ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
+    console.log(logString);
     let locker = new meta_locker(functionName.name)
-    if (locker.isLocked()) {
+    if (locker.isLocked()== true && ignoreLockout == false) {
         Logger.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
         return
     } else {
@@ -75,11 +77,30 @@ function deleteClockTriggers() {
 }
 
 function addTimeBasedTriggers() {
-    for (let trigger in CONFIG.scheduler.time_based_triggers) {
-        let triggerDood = ScriptApp.newTrigger(trigger)
-        triggerDood.timeBased().everyMinutes(CONFIG.scheduler.execution_wait_in_minutes).create()
+    for (let minuteTrigger in CONFIG.scheduler.time_based_triggers.minutes) {
+        let triggerTime = CONFIG.scheduler.time_based_triggers.minutes[minuteTrigger]
+        let triggerGuy = ScriptApp.newTrigger(minuteTrigger)
+        triggerGuy.timeBased().everyMinutes(triggerTime).create()
     }
-    console.info("all time_based triggers added")
+    for (let hourTrigger in CONFIG.scheduler.time_based_triggers.hours) {
+        let triggerTime = CONFIG.scheduler.time_based_triggers.hours[hourTrigger];
+        let triggerGuy = ScriptApp.newTrigger(hourTrigger);
+        triggerGuy.timeBased().everyHours(triggerTime).create();
+    }
+    for (let dayTrigger in CONFIG.scheduler.time_based_triggers.days) {
+        let triggerTime = CONFIG.scheduler.time_based_triggers.days[dayTrigger];
+        let triggerGuy = ScriptApp.newTrigger(dayTrigger);
+        triggerGuy.timeBased().everyDays(triggerTime).create();
+    }
+    for (let weekTrigger in CONFIG.scheduler.time_based_triggers.weeks) {
+        let TriggerTime = CONFIG.scheduler.time_based_triggers.weeks[weekTrigger];
+        let triggerGuy = ScriptApp.newTrigger(weekTrigger)
+        triggerGuy.timeBased().everyWeeks(TriggerTime).onWeekDay(ScriptApp.WeekDay.TUESDAY).create()
+        // Set to Tuesday because it's the day after p-Day, which is the big number reporting day.
+    }
+
+
+    console.info("all time_based_triggers added")
 }
 
 function updateTimeBasedTriggers() {

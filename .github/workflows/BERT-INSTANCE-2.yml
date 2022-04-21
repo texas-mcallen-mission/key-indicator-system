@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [DriveHandler-Rewrite]
+    branches: [sheetData-refactor]
   release:
     types: [published]
   schedule:

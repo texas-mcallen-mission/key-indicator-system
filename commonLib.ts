@@ -121,14 +121,24 @@ function getReportOrSetUpFromOtherSource_(sheetName, targetSpreadsheet, headerDa
     };
 }
 
-/*
- * @param {any} folderID
+let accessibleFolderCache = {
+    good: [],
+    bad: []
+}
+
+/**
+ * returns whether or not a folder is accessible (IE exists and is not in the garbage can)
+ *
+ * @param {string} folderID
+ * @return {*}  {boolean}
  */
-function isFolderAccessible_(folderID:string) {
+function isFolderAccessible_(folderID:string):boolean {
     // This just try catches to see if there's a folder, because for some reason this is the most effective way to do it...
     let output = true;
     let folder;
     let gone = false;
+    if (accessibleFolderCache.good.includes(folderID)) return true;
+    if (accessibleFolderCache.bad.includes(folderID)) return false;
     try {
         folder = DriveApp.getFolderById(folderID);
         // test = DriveApp.getFolderById(folderID).getName();
@@ -146,15 +156,34 @@ function isFolderAccessible_(folderID:string) {
             output = false;
         }
     }
+    if (output = true) {
+        accessibleFolderCache.good.push(folderID);
+    } else {
+        accessibleFolderCache.bad.push(folderID);
+    }
 
     return output;
 }
 
-function isFileAccessible_(fileID: string) {
+let accessibleFileCache = {
+    good: [],
+    bad:[]
+}
+/**
+ * returns whether or not a file is accessible (IE exists and is not in the garbage can)
+ *
+ * @param {string} fileID
+ * @return {*}  {boolean}
+ */
+function isFileAccessible_(fileID: string):boolean {
     // This just try catches to see if there's a file, because for some reason this is the most effective way to do it...   let output = true;
     let file;
     let output = true;
     let gone = false;
+
+    // added local caching- should significantly knock down on execution time for pruneFS()
+    if (accessibleFileCache.good.includes(fileID)) return true;
+    if (accessibleFileCache.bad.includes(fileID)) return false;
     try {
         file = DriveApp.getFileById(fileID);
         // test = DriveApp.getFolderById(folderID).getName();
@@ -171,6 +200,12 @@ function isFileAccessible_(fileID: string) {
             if (CONFIG.commonLib.log_access_info) { Logger.log("file exists but in the bin"); }
             output = false;
         }
+    }
+
+    if (output = true) {
+        accessibleFileCache.good.push(fileID)
+    } else {
+        accessibleFileCache.bad.push(fileID)
     }
 
     return output;
