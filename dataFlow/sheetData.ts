@@ -795,7 +795,7 @@ class RawSheetData {
             }
             // Logger.log(addedFormKeys);
         }
-        console.log("added keys to form", this.tabName, ": ", addedFormKeys);
+        console.log("added keys to form", this.tabName, ": ", addedFormKeys.toString());
     }
 }
 
@@ -920,7 +920,7 @@ function syncDataFlowCols_(form: SheetData, data: SheetData) {
         ": " +
         addedStr
     );
-    console.log(data.getKeys());
+    console.log(data.getKeys().toString());
 }
 
 /*

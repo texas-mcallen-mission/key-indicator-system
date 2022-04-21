@@ -34,6 +34,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     let targetScope = currentState[scope]
     let worked = false
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
+        // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
         if (currentState[scope][i.toString()] == false) {
             currentState[scope][i.toString()] = true
             setCacheValues(currentState)

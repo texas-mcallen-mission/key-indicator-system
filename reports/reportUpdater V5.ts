@@ -308,7 +308,7 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
         let areaIdList:string[] = entryData.areaID.split(",")
         kiDataCopy.keepMatchingByKey("areaID", areaIdList)
         let data = kiDataCopy.end
-        console.info("fsData Key:", entry, entryData.folderBaseName, data[0])
+        // console.info("fsData Key:", entry, entryData.folderBaseName, data[0])
         
         // output[entry] = kiDataCopy
         // TODO: Consider passing through the sheetID key, so that these core functions can be re-used to create more reports?
