@@ -67,10 +67,10 @@ class kiDataClass {
 
         for (let entry of this.data) {
             // This was originally just a let sum = 0, sum += loop, but it meant that there were zeros going back further than fb-referrals were being tracked
-            let sum: null|number = null
+            let sum: string|number = ""
             for (let key in fb_referral_keys) {
                 if (typeof entry[key] == typeof 1)
-                    if(typeof sum == null){sum = 0}
+                    if(typeof sum == 'string'){sum = 0}
                     sum += entry[key]
             }
             entry[newKeyName] = sum
