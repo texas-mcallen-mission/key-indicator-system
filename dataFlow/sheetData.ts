@@ -25,6 +25,9 @@ class SheetData {
         this.rsd = rawSheetData;
     }
 
+    directEdit(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
+        return this.rsd.directEditRawSheetValues(xOffset,yOffset,valueArray,writeInDataArea)
+    }
     /**
      * Returns the Sheet object for this SheetData.
      */
@@ -199,9 +202,9 @@ class RawSheetData {
      * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
      * @param {string} targetSheetId - sheet id, for connecting to external sheets.  If left empty, will default to the one returned by SpreadsheetApp.getActiveSpreadsheet() 
     */
-    constructor(tabName: string, headerRow: number, initialKeyToIndex: columnConfig, includeSoftcodedColumns:boolean, targetSheet: string|null = null,allowWrite:boolean = true) {
+    constructor(tabName: string, headerRow: number, initialKeyToIndex: columnConfig, includeSoftcodedColumns: boolean, targetSheet: string | null = null, allowWrite: boolean = true) {
         let targetSheetId = "";
-        
+
         // if the target sheet is accessible, set the thing.
         // if the target sheet is undefined, assume we're going to hit the ActiveSpreadsheet instead
         // if the target sheet is *not* undefined but is inaccessible, throw an error
@@ -210,11 +213,11 @@ class RawSheetData {
             targetSheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
 
         } else {
-        if (isFileAccessible_(targetSheet)) {
-            console.info("using external sheet id for", tabName);
-            targetSheetId = targetSheet;
-        } else {
-                console.error("This is going to break: sheet declaration failure for ", tabName , " with targetSheet: ", targetSheet);
+            if (isFileAccessible_(targetSheet)) {
+                console.info("using external sheet id for", tabName);
+                targetSheetId = targetSheet;
+            } else {
+                console.error("This is going to break: sheet declaration failure for ", tabName, " with targetSheet: ", targetSheet);
             }
         }
 
@@ -235,22 +238,53 @@ class RawSheetData {
         let targetSpreadsheet = SpreadsheetApp.openById(targetSheetId);
         this.sheet = targetSpreadsheet.getSheetByName(this.tabName);
         if (this.sheet == null) {
-            console.warn("Creating Sheet on target spreadsheet!")
-            SpreadsheetApp.flush() // Because otherwise, we have problems
-            this.sheet = targetSpreadsheet.insertSheet(this.tabName)
+            console.warn("Creating Sheet on target spreadsheet!");
+            SpreadsheetApp.flush(); // Because otherwise, we have problems
+            this.sheet = targetSpreadsheet.insertSheet(this.tabName);
             // SpreadsheetApp.flush(); // This is also ***DUMB*** but I think it's necessary to avoid crashes.
             // to avoid these flushes causing you issues, make sure that your tabs already exist.
             // it appears that the second flush is not necessary to ensure stability, but if it becomes a problem, that's probably it.
-            this.setHeaders([this.indexToKey])
+            this.setHeaders([this.indexToKey]);
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
         }
 
         if (includeSoftcodedColumns == true) {
-            this.addSoftColumns()
+            this.addSoftColumns();
         }
     }
 
+
     //Private class methods
+
+
+    /**
+     *  !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *  Directly puts an array of values like so: [[val1,val2,...,valN],...[arrayn]] in a sheet.
+     *  Checks to make sure that you're not going to overwrite data first, but also enables an override for that if you so desire.
+     *
+     * @param {number} xOffset - how far away from column A you want your things to be
+     * @param {number} yOffset - how far away from row 1 you want your data to be.
+     * @param {[][]} data
+     * @param {boolean} [writeInDataArea=false]
+     * @memberof RawSheetData
+     */
+    directEditRawSheetValues(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
+        if (yOffset + valueArray.length > this.getHeaderRow() && !writeInDataArea) {
+            console.warn("Tried to write to protected row in sheet" + this.getTabName());
+        } else {
+            if (writeInDataArea) { console.warn("ignoring data protections"); }
+            let range = this.getSheet().getRange(1 + xOffset, 1 + yOffset, valueArray.length, valueArray[0].length)
+            range.setValues(writeInDataArea)
+        }
+
+
+    }
+
+
+
+
+
 
     /*
      * Build indexToKey, the complement of keyToIndex.
@@ -466,7 +500,7 @@ class RawSheetData {
      */
     getHeaders(): string[] {
         // TODO: This might be a bad idea of a patch
-        if(this.getSheet().getLastColumn()<=0)return[]
+        if (this.getSheet().getLastColumn() <= 0) return [];
         let range = this.getSheet().getRange(
             this.headerRow + 1,
             1,
@@ -478,13 +512,13 @@ class RawSheetData {
 
     setHeaders(data) {
         if (this.allowWrite == false) {
-            console.warn("tried to write to read-only sheet")
-            return
+            console.warn("tried to write to read-only sheet");
+            return;
         }
         // let headerWidth = this.getSheet().getLastColumn()
         // if(data.length > headerWidth){headerWidth = data.length}
         let range = this.getSheet().getRange(
-            this.headerRow+1,
+            this.headerRow + 1,
             1,
             data.length,
             data[0].length
@@ -540,8 +574,8 @@ class RawSheetData {
      */
     setValues(values) {
         if (this.allowWrite == false) {
-            console.warn("tried to write to read-only sheet")
-            return
+            console.warn("tried to write to read-only sheet");
+            return;
         }
         if (values.length == 0) return;
         this.clearContent();
@@ -563,8 +597,8 @@ class RawSheetData {
      */
     setData(data) {
         if (this.allowWrite == false) {
-            console.warn("tried to write to read-only sheet")
-            return
+            console.warn("tried to write to read-only sheet");
+            return;
         }
         if (data.length == 0) return;
 
@@ -597,7 +631,7 @@ class RawSheetData {
         //     );
 
         if (Object.keys(skippedKeys).length > 0) {
-            console.log("Skipped Keys:",skippedKeys," while pushing to sheet",this.getTabName())
+            console.log("Skipped Keys:", skippedKeys, " while pushing to sheet", this.getTabName());
         }
 
         this.setValues(values);
@@ -654,15 +688,15 @@ class RawSheetData {
             if (typeof arr[maxIndex] == "undefined") arr[maxIndex] = "";
         // NOTE: this was getting a little verbose...
         // for (let key of skippedKeys)
-            // Logger.log(
-            //     "Skipped key " +
-            //     key +
-            //     " while pushing to sheet " +
-            //     this.tabName +
-            //     ". Sheet doesn't have that key"
-            // );
+        // Logger.log(
+        //     "Skipped key " +
+        //     key +
+        //     " while pushing to sheet " +
+        //     this.tabName +
+        //     ". Sheet doesn't have that key"
+        // );
         if (Object.keys(skippedKeys).length > 0) {
-            console.info("Skipped keys on",this.getTabName(),":",skippedKeys)
+            console.info("Skipped keys on", this.getTabName(), ":", skippedKeys);
         }
 
 
@@ -761,14 +795,14 @@ class RawSheetData {
             }
             // Logger.log(addedFormKeys);
         }
-        console.log("added keys to form",this.tabName,": ",addedFormKeys)
+        console.log("added keys to form", this.tabName, ": ", addedFormKeys);
     }
 }
 
 /**
  * Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
  */
-function getAllSheetDataFromCache():manySheetDatas|null {
+function getAllSheetDataFromCache(): manySheetDatas | null {
     let cache = CacheService.getDocumentCache();
     let allSheetData_JSONString = cache.get(
         CONFIG.dataFlow.allSheetData_cacheKey
@@ -792,7 +826,7 @@ function getAllSheetDataFromCache():manySheetDatas|null {
         //Extract literal RawSheetData from literal SheetData
         let rawSheetDataLiteral = sheetDataLiteral.rsd;
         // EASILYIDENTIFIABLESTRINGTOHUNTDOWN
-        console.log(rawSheetDataLiteral)
+        console.log(rawSheetDataLiteral);
         //Turn literal RawSheetData into a real RawSheetData
         let rawSheetData = new RawSheetData(
             rawSheetDataLiteral.tabName,
@@ -853,7 +887,7 @@ function cacheAllSheetData(allSheetData) {
  * @param form form : sheetData class: the one you want to sync columns from
  * @param data : sheetData class: the one you want to sync columns to.
  */
-function syncDataFlowCols_(form:SheetData,data:SheetData) {
+function syncDataFlowCols_(form: SheetData, data: SheetData) {
     // this has been updated so that you can use any remote / not remote thing
     // let formSheetData = allSheetData.form;
     // let dataSheetData = allSheetData.data;
@@ -886,7 +920,7 @@ function syncDataFlowCols_(form:SheetData,data:SheetData) {
         ": " +
         addedStr
     );
-    console.log(data.getKeys())
+    console.log(data.getKeys());
 }
 
 /*
@@ -973,13 +1007,13 @@ function constructSheetData(force = false) {
         let allSheetData = getAllSheetDataFromCache();
         if (allSheetData != null) return allSheetData;
     }
-    let allSheetData =  constructSheetDataV2(sheetDataConfig.local)
-    let preKey = allSheetData.data.getKeys()
+    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let preKey = allSheetData.data.getKeys();
     syncDataFlowCols_(allSheetData.form, allSheetData.data);
-    let postKey = allSheetData.data.getKeys()
-    Logger.log(preKey)
-    Logger.log(postKey)
-    return allSheetData
+    let postKey = allSheetData.data.getKeys();
+    Logger.log(preKey);
+    Logger.log(postKey);
+    return allSheetData;
 }
 
 function testConstructor() {
@@ -994,16 +1028,16 @@ function clearAllSheetDataCache() {
 
 
 function testCachingV2() {
-    let allSheetData = constructSheetDataV2(sheetDataConfig.local)
+    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
     cacheAllSheetData(allSheetData);
 
-    let allSheetData2 = getAllSheetDataFromCache()
+    let allSheetData2 = getAllSheetDataFromCache();
     if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
-        console.log("To and From Cache on local sheetData probably worked")
+        console.log("To and From Cache on local sheetData probably worked");
     }
 
-    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote)
-    cacheAllSheetData(remoteSheetData)
+    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
+    cacheAllSheetData(remoteSheetData);
     let allSheetDataRemote = getAllSheetDataFromCache();
     if (JSON.stringify(remoteSheetData) == JSON.stringify(allSheetDataRemote)) {
         console.log("To and From Cache on remote sheetData probably worked");

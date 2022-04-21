@@ -354,7 +354,7 @@ function testSingleReportUpdater():void {
  * @param {filesystemEntry["fsScope"]} scope // currently unused, but will need to exist for updating the config pages in the future.
  * @return {*}  {SheetData}
  */
-function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, fileName:string,scope: filesystemEntry["fsScope"]):SheetData {
+function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
     let REPORT_COLUMN_CONFIG: columnConfig = {
         areaName: 0,
@@ -385,11 +385,14 @@ function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntrie
         sheetId: sheetID,
         allowWrite:true
     }
+    let updateTime = new Date()
+    let preHeader = [["Report Scope:",scope,"Area Name:",areaName,"Last Updated:",updateTime]]
 
     let rawReportSheetData = new RawSheetData(reportInfo.tabName,reportInfo.headerRow,reportInfo.initialColumnOrder,reportInfo.includeSoftcodedColumns,reportInfo.sheetId,reportInfo.allowWrite)
     let targetReport = new SheetData(rawReportSheetData)
 
     targetReport.setData(kiData)
+    targetReport.directEdit(0, 0,preHeader)
     // and then a bit of code to do stuff like update the config page or something like that with the update time.
     // but that passthrough bit is currently unimplemented on sheetData.
     return targetReport
