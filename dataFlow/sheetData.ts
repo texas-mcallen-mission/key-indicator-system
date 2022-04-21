@@ -275,7 +275,7 @@ class RawSheetData {
         } else {
             if (writeInDataArea) { console.warn("ignoring data protections"); }
             let range = this.getSheet().getRange(1 + xOffset, 1 + yOffset, valueArray.length, valueArray[0].length)
-            range.setValues(writeInDataArea)
+            range.setValues(valueArray)
         }
 
 
