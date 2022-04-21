@@ -95,7 +95,8 @@ function addTimeBasedTriggers() {
     for (let weekTrigger in CONFIG.scheduler.time_based_triggers.weeks) {
         let TriggerTime = CONFIG.scheduler.time_based_triggers.weeks[weekTrigger];
         let triggerGuy = ScriptApp.newTrigger(weekTrigger)
-        triggerGuy.timeBased().everyWeeks(TriggerTime).create()
+        triggerGuy.timeBased().everyWeeks(TriggerTime).onWeekDay(ScriptApp.WeekDay.TUESDAY).create()
+        // Set to Tuesday because it's the day after p-Day, which is the big number reporting day.
     }
 
 
