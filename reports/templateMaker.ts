@@ -7,14 +7,18 @@
  *      - Return sheet ID
  */
 
-
-function createMissingTemplates() {
+/**
+ *  Creates templates that are missing from the guys.
+ *   requires the config
+ *
+ */
+function createMissingReports() {
     let localSheetData: manySheetDatas = constructSheetDataV2(sheetDataConfig.local);
     let fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData);
     let reportTemplates = {
-        "Zone": INTERNAL_CONFIG.reportCreator.docIDs.zoneTemplate,
-        "District": INTERNAL_CONFIG.reportCreator.docIDs.distTemplate,
-        "Area": INTERNAL_CONFIG.reportCreator.docIDs.areaTemplate
+        "Zone": CONFIG.reportCreator.docIDs.zoneTemplate,
+        "District": CONFIG.reportCreator.docIDs.distTemplate,
+        "Area": CONFIG.reportCreator.docIDs.areaTemplate
     }
     let newReportCounter = 0
     for (let fsDataEntry in fsDataEntries) {

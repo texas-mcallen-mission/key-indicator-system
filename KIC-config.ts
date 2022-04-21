@@ -163,13 +163,13 @@ let INTERNAL_CONFIG = {
             },
             hours: { // valid increments: any integer >= 1
                 updateForm_TimeBasedTrigger: 2, // 
-                
+                createMissingReports:1,
             },
             days: { // valid increments: any integer >= 1
                 sharefileSystem_TimeBasedTrigger: 1,
-                
             },
             weeks: { // valid increments: any integer >= 1
+                updateTimeBasedTriggers:1, // every week, update and make sure triggers are good.  (CAN BE DANGEROUS!!!)
                 
             },
 
