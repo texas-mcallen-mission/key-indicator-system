@@ -416,7 +416,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     cycleEndMillis: 12,
                     duration: 13,
                     cycleStartMillis: 14,
-                    failures: 15
+                    failures: 15,
+                    errors: 16,
 
                 },
             },

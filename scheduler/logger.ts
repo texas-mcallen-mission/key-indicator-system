@@ -11,6 +11,7 @@ const logKeys = {
     failures: "failures",
     functionName: "functionName",
     parentFunction: "parentFunction",
+    errors:"errors"
     // mainFunction:"mainFunction"
     
 };
@@ -111,8 +112,11 @@ class dataLogger {
     addFailure(functionName, error) {
         if (this.logData[functionName][logKeys.failures] == undefined) {
             this.logData[functionName][logKeys.failures] = 0;
+            this.logData[functionName][logKeys.errors] = ""
         }
         this.logData[functionName][logKeys.failures] += 1;
+
+        this.logData[functionName][logKeys.errors] += error
         console.warn("function failure for: ", functionName, ":", error);
     }
 
