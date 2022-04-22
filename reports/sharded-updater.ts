@@ -33,23 +33,30 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     }
     let targetScope = currentState[scope]
     let worked = false
+    let availableShards = []
+    // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
-        // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
         if (currentState[scope][i.toString()] == false) {
-            currentState[scope][i.toString()] = true
-            setCacheValues(currentState)
-            // LOCKOUT as fast as possible
-            meta_runner(scopeFunctionTargets[scope], triggerTypes.timeBased,i.toString(),true)
-            currentState = loadCacheValues()
-            currentState[scope][i.toString()] = false
-            setCacheValues(currentState)
+            availableShards.push(i.toString())
         } else {
             if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards) {
-                console.log("Nothing available to update on scope"+scope)
+                console.log("Nothing available to update on scope" + scope)
+                return // breaks function, so we don't run anything else
             }
         }
-            
+
     }
+    // this should be a little smarter, because it'll pick one from the available shards at random instead of running the first one all the time.
+    let targetShard = Math.floor(Math.random() * availableShards.length)
+    currentState[scope][targetShard.toString()] = true;
+    setCacheValues(currentState);
+    // LOCKOUT as fast as possible
+    meta_runner(scopeFunctionTargets[scope], triggerTypes.timeBased, targetShard.toString(), true);
+    currentState = loadCacheValues();
+    currentState[scope][targetShard.toString()] = false;
+    setCacheValues(currentState)
+    
+
 }
 
 

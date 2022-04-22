@@ -25,8 +25,20 @@ class SheetData {
         this.rsd = rawSheetData;
     }
 
+    /**
+     *  Expects a single data entry, and send it to the bottom of the target sheet.
+     *  Useful in cases where you don't care as much about the order of entries as you do them not colliding with each other...
+     *
+     * @param {*} data
+     * @param {*} {}
+     * @return {*} 
+     * @memberof SheetData
+     */
+    appendData(data: any{}) {
+        return this.rsd.appendDataRow(data)
+    }
     directEdit(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
-        return this.rsd.directEditRawSheetValues(xOffset,yOffset,valueArray,writeInDataArea)
+        return this.rsd.directEditRawSheetValues(xOffset, yOffset, valueArray, writeInDataArea);
     }
     /**
      * Returns the Sheet object for this SheetData.
@@ -274,8 +286,8 @@ class RawSheetData {
             console.warn("Tried to write to protected row in sheet" + this.getTabName());
         } else {
             if (writeInDataArea) { console.warn("ignoring data protections"); }
-            let range = this.getSheet().getRange(1 + xOffset, 1 + yOffset, valueArray.length, valueArray[0].length)
-            range.setValues(valueArray)
+            let range = this.getSheet().getRange(1 + xOffset, 1 + yOffset, valueArray.length, valueArray[0].length);
+            range.setValues(valueArray);
         }
 
 
@@ -637,6 +649,64 @@ class RawSheetData {
         this.setValues(values);
     }
 
+    /**
+     *  Takes in a single data entry and puts it at the bottom of a spreadsheet.
+     *  Expects a single line of data.
+     *
+     * @param {*} data
+     * @return {*} 
+     * @memberof RawSheetData
+     */
+    appendDataRow(data) {
+        if (data.length == 0) return;
+
+        let values = [];
+        let skippedKeys = new Set();
+        let maxIndex = 0;
+
+        // for (let rowData of data) {
+        let arr = [];
+        for (let key in data) {
+            if (!this.hasKey(key)) {
+                skippedKeys.add(key);
+            } else {
+                arr[this.getIndex(key)] = data[key];
+                maxIndex = Math.max(maxIndex, this.getIndex(key));
+            }
+        }
+        values.push(arr);
+        // }
+
+
+        if (Object.keys(skippedKeys).length > 0) {
+            console.info("Skipped keys on", this.getTabName(), ":", skippedKeys);
+        }
+
+
+        this.appendRowValues(values);
+    }
+
+    /**
+     * !!WARNING!!
+     * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
+     *
+     * Inserts rows of data into the Sheet. Takes an array of objects.
+     * @param {Object[]} values The values to insert.
+     */
+    appendRowValues(values: Object[]) {
+
+        // if (values.length == 0) return;
+        // this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
+        // let range = this.getSheet().getRange(
+        //     this.headerRow + 2,
+        //     1,
+        //     values.length,
+        //     values[0].length
+        // );
+        if (this.)
+            this.getSheet().appendRow(values);
+        // range.setValues(values);
+    }
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
