@@ -703,8 +703,8 @@ class RawSheetData {
         //     values.length,
         //     values[0].length
         // );
-        if (this.)
-            this.getSheet().appendRow(values);
+        // if (this.)
+        this.getSheet().appendRow(values);
         // range.setValues(values);
     }
     /**
