@@ -115,8 +115,18 @@ class dataLogger {
             this.logData[functionName][logKeys.errors] = ""
         }
         this.logData[functionName][logKeys.failures] += 1;
+        let errorString = ""
+        switch (typeof error) {
+            case 'string':
+                errorString = error;
+                break;
+            case 'object':
+                errorString = error["message"];
+                break;
+        }
 
-        this.logData[functionName][logKeys.errors] += error
+
+        this.logData[functionName][logKeys.errors] += errorString
         console.warn("function failure for: ", functionName, ":", error);
     }
 
