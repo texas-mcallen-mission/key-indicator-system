@@ -282,6 +282,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-spa": 32,
                     "fb-ref-rgv-eng": 33,
                     "fb-ref-corpus": 34,
+                    "fb-ref-personal":35,
                 },
             },
             data: {
@@ -293,19 +294,17 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     log: 1,
                     areaEmail: 2,
                     isDuplicate: 3,
-                    formTimestamp: 4, //form data
+                    formTimestamp: 4,
                     areaID: 5,
-                    kiDate: 6, //form data
-
-                    np: 7, //form data
-                    sa: 8, //form data
-                    bd: 9, //form data
-                    bc: 10, //form data
-                    rca: 11, //form data
-                    rc: 12, //form data
-                    cki: 13, //form data
-                    serviceHrs: 14, //form data
-
+                    kiDate: 6,
+                    np: 7,
+                    sa: 8,
+                    bd: 9,
+                    bc: 10,
+                    rca: 11,
+                    rc: 12,
+                    cki: 13,
+                    serviceHrs: 14,
                     name1: 15,
                     position1: 16,
                     isTrainer1: 17,
@@ -314,9 +313,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     isTrainer2: 20,
                     name3: 21,
                     position3: 22,
-                    isTrainer3: 23, // hello, update!
-
-                    // super confused
+                    isTrainer3: 23,
                     districtLeader: 24,
                     zoneLeader1: 25,
                     zoneLeader2: 26,
@@ -330,7 +327,6 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     assistant1: 34,
                     assistant2: 35,
                     assistant3: 36,
-
                     district: 37,
                     zone: 38,
                     unitString: 39,
@@ -342,7 +338,6 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     vehicleMiles: 45,
                     vinLast8: 46,
                     aptAddress: 47,
-
                     "bap-self-ref": 48,
                     "bap-street": 49,
                     "bap-ward-activity-or-event": 50,
@@ -364,6 +359,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-spa": 66,
                     "fb-ref-rgv-eng": 67,
                     "fb-ref-corpus": 68,
+                    "fb-ref-personal": 69,
                 },
             },
             contact: {
