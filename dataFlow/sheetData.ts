@@ -34,7 +34,7 @@ class SheetData {
      * @return {*} 
      * @memberof SheetData
      */
-    appendData(data: any{}) {
+    appendData(data: {}) {
         return this.rsd.appendDataRow(data)
     }
     directEdit(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
@@ -658,7 +658,7 @@ class RawSheetData {
      * @memberof RawSheetData
      */
     appendDataRow(data) {
-        if (data.length == 0) return;
+        // if (data.length == 0) return;
 
         let values = [];
         let skippedKeys = new Set();
@@ -678,12 +678,12 @@ class RawSheetData {
         // }
 
 
-        if (Object.keys(skippedKeys).length > 0) {
-            console.info("Skipped keys on", this.getTabName(), ":", skippedKeys);
-        }
+        // if (Object.keys(skippedKeys).length > 0) {
+        //     console.info("Skipped keys on", this.getTabName(), ":", skippedKeys);
+        // }
 
 
-        this.appendRowValues(values);
+        this.appendRowValues(arr);
     }
 
     /**
@@ -693,17 +693,7 @@ class RawSheetData {
      * Inserts rows of data into the Sheet. Takes an array of objects.
      * @param {Object[]} values The values to insert.
      */
-    appendRowValues(values: Object[]) {
-
-        // if (values.length == 0) return;
-        // this.getSheet().insertRowsBefore(this.headerRow + 2, values.length); //Insert rows BEFORE the row AFTER the header row, so it won't use header formatting
-        // let range = this.getSheet().getRange(
-        //     this.headerRow + 2,
-        //     1,
-        //     values.length,
-        //     values[0].length
-        // );
-        // if (this.)
+    appendRowValues(values:any[]) {
         this.getSheet().appendRow(values);
         // range.setValues(values);
     }

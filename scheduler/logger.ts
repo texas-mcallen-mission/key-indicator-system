@@ -76,6 +76,9 @@ class dataLogger {
         this.logMetaData[logMetaKeys.triggerType] = trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
         this.inline = isInline;
+        let targetSheetEntry = sheetDataConfig.local.debug
+        let rawSheetData = new RawSheetData(targetSheetEntry.tabName,targetSheetEntry.headerRow,targetSheetEntry.initialColumnOrder,targetSheetEntry.includeSoftcodedColumns,targetSheetEntry.sheetId,targetSheetEntry.allowWrite)
+        this.sheetData = new SheetData(rawSheetData)
     }
 
     get isInline() {
@@ -256,7 +259,7 @@ class dataLogger {
 
 }
 
-function addToSheet_(data: any{}) {
+function addToSheet_(data: any) {
     let allSheetData = constructSheetData();
     let debug = allSheetData.debug;
 
