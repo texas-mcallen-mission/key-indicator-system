@@ -588,11 +588,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     combinedNames: 13,
                 },
             },
-            fbReferrals: {
+            techSquad: {
                 tabName: "techSquad Data",
                 headerRow: 1,
                 includeSoftcodedColumns: false,
-                sheetId: CONFIG.dataFlow.sheetTargets.fbReferrals,
+                sheetId: CONFIG.dataFlow.sheetTargets.techSquad,
                 initialColumnOrder: {
                     areaName: 0,
                     areaID: 1,

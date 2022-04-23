@@ -102,7 +102,7 @@ function updateTMMReport() {
     let kicData = new kiDataClass(data);
     let tmmReport = remoteSheetData.tmmReport
 
-    let tmmReportData = kicData.removeDuplicates().addShortLang().calculateCombinedName().calculateRR().sumFacebookReferrals().end
+    let tmmReportData = kicData.removeDuplicates().getThisWeeksData().addShortLang().calculateCombinedName().calculateRR().sumFacebookReferrals().end
     // this gets rid of any and all data that might be left behind- in practice, this clears the sheet when there are no responses for the current week.
     // tmmReport.clearContent()
     tmmReport.setData(tmmReportData)
@@ -116,11 +116,11 @@ function updateTechSquadReport() {
 
     let data = dataSheet.getData();
     let kicData = new kiDataClass(data);
-    let techReport = remoteSheetData.fbReferrals;
+    let techReport = remoteSheetData.techSquad;
 
 
     let startDate = new Date("2022-01-20"); // TODO: I forgot what day we actually started calculating these
-    let refData = kicData.removeDuplicates().removeBeforeDate(startDate).calculateCombinedName().end;
+    let refData = kicData.removeDuplicates().removeBeforeDate(startDate).calculateCombinedName().sumFacebookReferrals().end;
 
     techReport.setData(refData);
 }
