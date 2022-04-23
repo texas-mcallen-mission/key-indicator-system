@@ -498,6 +498,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-spa": 66,
                     "fb-ref-rgv-eng": 67,
                     "fb-ref-corpus": 68,
+                    "fb-ref-personal": 69,
                 },
             },
             areaFilesys: {
@@ -608,6 +609,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-spa": 12,
                     "fb-ref-rgv-eng": 13,
                     "fb-ref-corpus": 14,
+                    "fb-ref-personal": 15,
+                    "fb-ref-sum":16,
                 },
             },
             remoteData: {
@@ -693,6 +696,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-spa": 66,
                     "fb-ref-rgv-eng": 67,
                     "fb-ref-corpus": 68,
+                    "fb-ref-personal": 69,
 
                 },
             },
