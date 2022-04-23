@@ -63,6 +63,7 @@ class kiDataClass {
             "fb-ref-rgv-spa": 5,
             "fb-ref-rgv-eng": 6,
             "fb-ref-corpus": 7,
+            "fb-ref-personal":8,
         }
 
         for (let entry of this.data) {
