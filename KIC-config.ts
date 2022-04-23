@@ -589,7 +589,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 },
             },
             techSquad: {
-                tabName: "techSquad Data",
+                tabName: "FB Referral Data",
                 headerRow: 1,
                 includeSoftcodedColumns: false,
                 sheetId: CONFIG.dataFlow.sheetTargets.techSquad,
