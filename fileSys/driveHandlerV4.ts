@@ -132,7 +132,7 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
         outEntry = filesystem.sheetData[currIndex];
     } else {
         let folderString = folderNameString;
-        if (INTERNAL_CONFIG.fileSystem.includeScopeInFolderName) {
+        if (CONFIG.fileSystem.includeScopeInFolderName) {
             folderString += " " + filesystem.fsScope;
         }
         console.log("creating FSentry for ", folderNameString);
@@ -213,21 +213,21 @@ function loadFilesystems_(allSheetData):manyFilesystemEntries {
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
             existingFolders: [],
-            reportTemplate:INTERNAL_CONFIG.reportCreator.docIDs.zoneTemplate
+            reportTemplate:CONFIG.reportCreator.docIDs.zoneTemplate
         },
         District: {
             fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
             existingFolders: [],
-            reportTemplate: INTERNAL_CONFIG.reportCreator.docIDs.distTemplate
+            reportTemplate: CONFIG.reportCreator.docIDs.distTemplate
         },
         Area: {
             fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
             existingFolders: [],
-            reportTemplate: INTERNAL_CONFIG.reportCreator.docIDs.areaTemplate
+            reportTemplate: CONFIG.reportCreator.docIDs.areaTemplate
         }
     };
     for (let fs in filesystems) {

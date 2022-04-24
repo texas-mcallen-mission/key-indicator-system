@@ -35,11 +35,11 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     let worked = false
     let availableShards = []
     // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
-    for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
+    for (let i = 1; i <= CONFIG.fileSystem.shardManager.number_of_shards; i++){
         if (currentState[scope][i.toString()] == false) {
             availableShards.push(i.toString())
         } else {
-            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards) {
+            if (i == CONFIG.fileSystem.shardManager.number_of_shards) {
                 console.log("Nothing available to update on scope" + scope)
                 return // breaks function, so we don't run anything else
             }
@@ -71,7 +71,7 @@ interface shardValueSet {
 
 
 function createShardValues():manyShardValues {
-    let maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards
+    let maxShards = CONFIG.fileSystem.shardManager.number_of_shards
     let output: manyShardValues = {}
     for (let scope of ["Zone", "District", "Area"]) {
         output[scope] = {}
@@ -85,7 +85,7 @@ function createShardValues():manyShardValues {
 
 function loadCacheValues() {
     let cache = CacheService.getScriptCache()
-    let cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key)
+    let cacheValues = cache.get(CONFIG.fileSystem.shardManager.shard_cache_base_key)
     let cacheOutput: manyShardValues = {}
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
         cacheOutput = createShardValues()
@@ -112,11 +112,11 @@ function testShardCache() {
 
 function clearShardCache() {
     let cache = CacheService.getScriptCache();
-    cache.remove(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
+    cache.remove(CONFIG.fileSystem.shardManager.shard_cache_base_key);
 }
 
 function setCacheValues(shardCacheObject: manyShardValues) {
     let cacheValue = JSON.stringify(shardCacheObject)
     let cache = CacheService.getScriptCache()
-    cache.put(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue,
+    cache.put(CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue,
 }

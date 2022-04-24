@@ -52,19 +52,9 @@ class kiDataClass {
      */
     sumFacebookReferrals():this {
         let output = [];
-        let newKeyName = "fb-ref-sum";
+        let newKeyName = CONFIG.kiData.new_key_names.fb_referral_sum
 
-        let fb_referral_keys = {
-            "fb-ref-ysa": 0,
-            "fb-ref-asl": 1,
-            "fb-ref-service": 2,
-            "fb-ref-laredo-spa": 3,
-            "fb-ref-laredo-eng": 4,
-            "fb-ref-rgv-spa": 5,
-            "fb-ref-rgv-eng": 6,
-            "fb-ref-corpus": 7,
-            "fb-ref-personal":8,
-        }
+        let fb_referral_keys = CONFIG.kiData.fb_referral_keys
 
         for (let entry of this.data) {
             // This was originally just a let sum = 0, sum += loop, but it meant that there were zeros going back further than fb-referrals were being tracked
@@ -147,14 +137,8 @@ class kiDataClass {
     addShortLang(): this {
 
         let output = [];
-        let newKeyName = "truncLang";
-        let langLookup = {
-            "English": "Eng",
-            "Spanish": "Spa",
-            "Sign Language": "ASL",
-            "English,English": "Eng",
-            "Spanish,Spanish": "Spa"
-        };
+        let newKeyName = CONFIG.kiData.new_key_names.shortLang
+        let langLookup = CONFIG.kiData.shortLanguageLookup
         for (let entry of this.data) {
             entry[newKeyName] = langLookup[entry.languageString];
             output.push(entry);
@@ -191,7 +175,7 @@ class kiDataClass {
 
 
         let output = [];
-        let newKeyName = "rrPercent";
+        let newKeyName = CONFIG.kiData.new_key_names.retentionRate
 
         for (let entry of this.data) {
 
@@ -215,24 +199,10 @@ class kiDataClass {
         // this is a bit computationally expensive, you'll probably want to run this *after* you run scoping things
         // creates a key with the name ``combinedNames`` of type string
         let output = [];
-        let newKeyName = "combinedNames";
-        let missionaryKeys = {
-            m1: {
-                name: "name1",
-                pos: "position1",
-                trainer: "isTrainer1"
-            },
-            m2: {
-                name: "name2",
-                pos: "position2",
-                trainer: "isTrainer2"
-            },
-            m3: {
-                name: "name3",
-                pos: "position3",
-                trainer: "isTrainer3"
-            }
-        };
+        let newKeyName = CONFIG.kiData.new_key_names.combinedNames
+        let missionaryKeys = CONFIG.kiData.combinedNameLookupKeys
+
+
         for (let entry of this.data) {
             let preOut = "";
             for (let missionary in missionaryKeys) {

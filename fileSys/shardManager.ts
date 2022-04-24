@@ -13,8 +13,8 @@
 
 function updateShards() {
     clearAllSheetDataCache()
-    let NUMBER_OF_SHARDS = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards
-    let MAX_ALLOWABLE_SPREAD = INTERNAL_CONFIG.fileSystem.shardManager.max_spread
+    let NUMBER_OF_SHARDS = CONFIG.fileSystem.shardManager.number_of_shards
+    let MAX_ALLOWABLE_SPREAD = CONFIG.fileSystem.shardManager.max_spread
     let allSheetData = constructSheetData()
     let filesystems = loadFilesystems_(allSheetData);
 

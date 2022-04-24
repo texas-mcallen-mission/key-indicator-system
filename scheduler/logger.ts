@@ -300,7 +300,7 @@ function time_a_function_classy() {
 
     logger.startFunction(functionName);
     try {
-        updateDistrictReports(logger);
+        updateDistrictReportsV5();
     } catch (error) {
         logger.addFailure(functionName, error);
     }

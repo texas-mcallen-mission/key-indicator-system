@@ -295,7 +295,8 @@ function testGroupAndSendReports(): void {
  * @param {kiDataClass} kiData
  * @return {*}  {manyKiDataClasses}
  */
-function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataClass, scope: filesystemEntry["fsScope"]):manyKiDataClasses {
+function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataClass, scope: filesystemEntry["fsScope"]): manyKiDataClasses {
+    let sheetId = CONFIG.reportCreator.targetSheetId
     let output: manyKiDataClasses = {}
     if (Object.keys(fsData).length == 0) {
         console.error("NO fsData to update!")
@@ -312,11 +313,11 @@ function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataCla
         
         // output[entry] = kiDataCopy
         // TODO: Consider passing through the sheetID key, so that these core functions can be re-used to create more reports?
-        if (typeof entryData.sheetID1 == null || typeof entryData.sheetID1 == undefined || !isFileAccessible_(entryData.sheetID1) ) {
+        if (typeof entryData[sheetId] == null || typeof entryData[sheetId] == undefined || !isFileAccessible_(entryData[sheetId]) ) {
             console.error("SHEET ID EITHER NULL OR NOT ACCESSIBLE FOR ENTRY",entryData.folderName)
             
         } else {
-            updateSingleReportV5_(entryData.sheetID1, data,entryData.folderBaseName/* I could probably add a fileName entry thingy to this... */, scope)
+            updateSingleReportV5_(entryData[sheetId], data,entryData.folderBaseName/* I could probably add a fileName entry thingy to this... */, scope)
             
         }
     }
@@ -356,39 +357,11 @@ function testSingleReportUpdater():void {
  */
 function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
-    let REPORT_COLUMN_CONFIG: columnConfig = {
-        areaName: 0,
-        kiDate: 1,
-        areaID: 2,
-        zone: 3,
-        district: 4,
-        combinedNames: 5,
-        np: 6,
-        sa: 7,
-        bd: 8,
-        bc: 9,
-        serviceHrs: 10,
-        rca: 11,
-        rc: 12,
-        cki: 13,
-        "fb-role": 14,
-        "fb-ref-sum": 15,
-        isDuplicate:16,
-        rrPercent: 17,
-
-    }
-    let reportInfo: sheetDataEntry = {
-        tabName: "reportData",
-        headerRow: 3,
-        includeSoftcodedColumns: false,
-        initialColumnOrder: REPORT_COLUMN_CONFIG,
-        sheetId: sheetID,
-        allowWrite:true
-    }
+    let reportInfo: sheetDataEntry = CONFIG.reportCreator.reportDataEntryConfig
     let updateTime = new Date()
     let preHeader = [["Report Scope:",scope,"Area Name:",areaName,"Last Updated:",updateTime]]
 
-    let rawReportSheetData = new RawSheetData(reportInfo.tabName,reportInfo.headerRow,reportInfo.initialColumnOrder,reportInfo.includeSoftcodedColumns,reportInfo.sheetId,reportInfo.allowWrite)
+    let rawReportSheetData = new RawSheetData(reportInfo.tabName,reportInfo.headerRow,reportInfo.initialColumnOrder,reportInfo.includeSoftcodedColumns,sheetID,reportInfo.allowWrite)
     let targetReport = new SheetData(rawReportSheetData)
 
     targetReport.setData(kiData)

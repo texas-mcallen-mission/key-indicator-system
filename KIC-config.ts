@@ -19,6 +19,38 @@ let INTERNAL_CONFIG = {
         outputDataSheetName: "Data",
         configPageSheetName: "config",
         kicDataStoreSheetName: "Data",
+
+        // OH BOI
+        targetSheetId: "sheetID1",
+
+        reportDataEntryConfig: {
+            tabName: "reportData",
+            headerRow: 3,
+            includeSoftcodedColumns: false,
+            // Initial Column Order 
+            initialColumnOrder: {
+                areaName: 0,
+                kiDate: 1,
+                areaID: 2,
+                zone: 3,
+                district: 4,
+                combinedNames: 5,
+                np: 6,
+                sa: 7,
+                bd: 8,
+                bc: 9,
+                serviceHrs: 10,
+                rca: 11,
+                rc: 12,
+                cki: 13,
+                "fb-role": 14,
+                "fb-ref-sum": 15,
+                isDuplicate: 16,
+                rrPercent: 17,
+            },
+            sheetId: "",
+            allowWrite: true
+        }
     },
 
     // general
@@ -94,6 +126,50 @@ let INTERNAL_CONFIG = {
             max_spread: 2, // the maximum amount of variation allowed in shard size- needs to be at least 1 otherwise you might have some problems, especially with large shard counts.
             shard_cache_base_key: "THISISTHESONGTHATNEVERENDSOHYESMYFRIENDS",
             timeout_in_seconds: 1880,
+        },
+
+    },
+    kiData: {
+        fb_referral_keys: {
+            "fb-ref-ysa": 0,
+            "fb-ref-asl": 1,
+            "fb-ref-service": 2,
+            "fb-ref-laredo-spa": 3,
+            "fb-ref-laredo-eng": 4,
+            "fb-ref-rgv-spa": 5,
+            "fb-ref-rgv-eng": 6,
+            "fb-ref-corpus": 7,
+            "fb-ref-personal": 8,
+        },
+        new_key_names: {
+            fb_referral_sum: "fb-ref-sum",
+            shortLang: "truncLang",
+            retentionRate: "rrPercent",
+            combinedNames: "combinedNames",
+        },
+        shortLanguageLookup: {
+            "English": "Eng",
+            "Spanish": "Spa",
+            "Sign Language": "ASL",
+            "English,English": "Eng",
+            "Spanish,Spanish": "Spa"
+        },
+        combinedNameLookupKeys: {
+            m1: {
+                name: "name1",
+                pos: "position1",
+                trainer: "isTrainer1"
+            },
+            m2: {
+                name: "name2",
+                pos: "position2",
+                trainer: "isTrainer2"
+            },
+            m3: {
+                name: "name3",
+                pos: "position3",
+                trainer: "isTrainer3"
+            }
         }
     },
 
@@ -150,7 +226,7 @@ let INTERNAL_CONFIG = {
                 updateAreaReports_TimeBasedTrigger: 10,
                 updateDistrictReports_TimeBasedTrigger: 10,
                 updateZoneReports_TimeBasedTrigger: 10,
-                
+
                 pruneFS_TimeBasedTrigger: 30,
                 updateTMMReport_TimeBasedTrigger: 1,
                 updateLocalDataStore_TimeBasedTrigger: 1,
@@ -163,14 +239,14 @@ let INTERNAL_CONFIG = {
             },
             hours: { // valid increments: any integer >= 1
                 updateForm_TimeBasedTrigger: 2, // 
-                createMissingReports:1,
+                createMissingReports: 1,
             },
             days: { // valid increments: any integer >= 1
                 sharefileSystem_TimeBasedTrigger: 1,
             },
             weeks: { // valid increments: any integer >= 1
-                updateTimeBasedTriggers:1, // every week, update and make sure triggers are good.  (CAN BE DANGEROUS!!!)
-                
+                updateTimeBasedTriggers: 1, // every week, update and make sure triggers are good.  (CAN BE DANGEROUS!!!)
+
             },
 
         },
@@ -215,7 +291,7 @@ interface sheetDataEntry {
     headerRow: number,
     sheetId?: string,
     allowWrite?: boolean,
-    
+
     initialColumnOrder: columnConfig,
 
 }
@@ -237,7 +313,7 @@ var sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries
  * @return {{ local: manySheetDataEntries, remote: manySheetDataEntries; }}
  */
 function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetDataEntries; } {
-    let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA)
+    let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
     // this is stuck inside of a function for no other reason than that I was having some problems with it being static and referencing the CONFIG before that was declared.
 
     let sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = {
@@ -245,7 +321,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
             form: {
                 tabName: "Form Responses",
                 headerRow: 0,
-                includeSoftcodedColumns:true,
+                includeSoftcodedColumns: true,
                 initialColumnOrder: {
                     areaName: 0,
                     responsePulled: 1,
@@ -282,13 +358,13 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-spa": 32,
                     "fb-ref-rgv-eng": 33,
                     "fb-ref-corpus": 34,
-                    "fb-ref-personal":35,
+                    "fb-ref-personal": 35,
                 },
             },
             data: {
                 tabName: "Data",
                 headerRow: 0,
-                includeSoftcodedColumns:true,
+                includeSoftcodedColumns: true,
                 initialColumnOrder: {
                     areaName: 0,
                     log: 1,
@@ -610,7 +686,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                     "fb-ref-rgv-eng": 13,
                     "fb-ref-corpus": 14,
                     "fb-ref-personal": 15,
-                    "fb-ref-sum":16,
+                    "fb-ref-sum": 16,
                 },
             },
             remoteData: {
