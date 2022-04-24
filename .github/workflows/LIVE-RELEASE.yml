@@ -1,4 +1,4 @@
-name: BERT-INSTANCE-1
+name: LIVE RELEASE
 # Copy this one into your own repository- change up the things your secrets reference if necessary, and run!
 on:
   workflow_dispatch:
