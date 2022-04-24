@@ -11,67 +11,78 @@ function testShardUpdater2() {
 function testShardUpdater3() {
     updateShard("Zone")
 }
+function testShardUpdater4() {
+    updateShard("Area");
+}
 
-function updateShard1_Area() {
-    let scope = "Area";
-    let targetShard = "1";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+function testShardUpdater5() {
+    updateShard("District");
 }
-function updateShard2_Area() {
-    let scope = "Area";
-    let targetShard = "2";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+
+function testShardUpdater6() {
+    updateShard("Zone");
 }
-function updateShard3_Area() {
-    let scope = "Area";
-    let targetShard = "3";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard4_Area() {
-    let scope = "Area";
-    let targetShard = "4";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard1_District() {
-    let scope = "District";
-    let targetShard = "1";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard2_District() {
-    let scope = "District";
-    let targetShard = "2";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard3_District() {
-    let scope = "District";
-    let targetShard = "3";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard4_District() {
-    let scope = "District";
-    let targetShard = "4";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard1_Zone() {
-    let scope = "Zone";
-    let targetShard = "1";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard2_Zone() {
-    let scope = "Zone";
-    let targetShard = "2";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard3_Zone() {
-    let scope = "Zone";
-    let targetShard = "3";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
-function updateShard4_Zone() {
-    let scope = "Zone";
-    let targetShard = "4";
-    meta_runner(scope, triggerTypes.timeBased, targetShard, true);
-}
+
+// function updateShard1_Area() {
+//     let scope = "Area";
+//     let targetShard = "1";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard2_Area() {
+//     let scope = "Area";
+//     let targetShard = "2";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard3_Area() {
+//     let scope = "Area";
+//     let targetShard = "3";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard4_Area() {
+//     let scope = "Area";
+//     let targetShard = "4";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard1_District() {
+//     let scope = "District";
+//     let targetShard = "1";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard2_District() {
+//     let scope = "District";
+//     let targetShard = "2";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard3_District() {
+//     let scope = "District";
+//     let targetShard = "3";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard4_District() {
+//     let scope = "District";
+//     let targetShard = "4";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard1_Zone() {
+//     let scope = "Zone";
+//     let targetShard = "1";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard2_Zone() {
+//     let scope = "Zone";
+//     let targetShard = "2";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard3_Zone() {
+//     let scope = "Zone";
+//     let targetShard = "3";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
+// function updateShard4_Zone() {
+//     let scope = "Zone";
+//     let targetShard = "4";
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+// }
 
 
 

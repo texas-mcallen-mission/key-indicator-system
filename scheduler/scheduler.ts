@@ -129,4 +129,5 @@ function addOnOpenTriggers() {
 function updateSpreadsheetTriggers() {
     removeSheetTriggers()
     addOnOpenTriggers()
+    updateTimeBasedTriggers()
 }
