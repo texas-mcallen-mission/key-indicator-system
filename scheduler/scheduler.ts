@@ -2,11 +2,13 @@
 
 
 // This makes using the dLog 
-function meta_runner(functionName, trigger, functionArg1 = undefined, ignoreLockout = false) {
+function meta_runner(functionName, trigger, functionArg1 = undefined, ignoreLockout = false, shardNumber:string|null = null) {
     let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + trigger
+    if(shardNumber != null) {logString += "RUNNING ON SHARD: "+shardNumber}
     if(ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
     console.log(logString);
-    let locker = new meta_locker(functionName.name)
+
+    let locker = new meta_locker(functionName.name,shardNumber)
     if (locker.isLocked()== true && ignoreLockout == false) {
         Logger.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
         return
@@ -32,15 +34,24 @@ function meta_runner(functionName, trigger, functionArg1 = undefined, ignoreLock
 }
 
 
-class meta_locker{
+class meta_locker {
     
-    functionName = ""
-    appendString = "Some Random Words To Avoid Weird Problems"
+    functionName = "";
+    appendString = "Some Random Words To Avoid Weird Problems";
+
+    onShard = false;
+    shardValue: string|null = null 
 
     cacheString = "UNDEFINED"
-    constructor(functionName) {
+    constructor(functionName,shardString:null|string = null) {
         this.functionName = functionName
-        this.cacheString = this.functionName + this.appendString
+        if (shardString != null) {
+            this.onShard = true
+            this.shardValue = shardString
+            this.cacheString = this.functionName + this.appendString + this.shardValue
+        } else {
+            this.cacheString = this.functionName + this.appendString
+        }
     }
 
     isLocked() {
