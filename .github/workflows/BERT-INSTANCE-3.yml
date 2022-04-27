@@ -3,7 +3,7 @@ name: BERT-INSTANCE-3
 on:
   workflow_dispatch:
   push:
-    branches: [report-creator-sharding-refactor]
+    branches: [move-sheetData-to-own-repository]
   release:
     types: [published]
   schedule:
