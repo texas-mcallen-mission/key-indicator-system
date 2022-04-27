@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [sheetData-refactor]
+    branches: [patching-runner]
   release:
     types: [published]
   schedule:
