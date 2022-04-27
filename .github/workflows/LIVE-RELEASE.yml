@@ -1,0 +1,32 @@
+name: LIVE RELEASE
+# Copy this one into your own repository- change up the things your secrets reference if necessary, and run!
+on:
+  workflow_dispatch:
+  push:
+
+    branches: [live-release]
+  release:
+    types: [published]
+  schedule:
+    - cron: "0 0 * * SUN"
+
+
+jobs:
+  call-workflow-passing-data:
+    uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/.github/workflows/reusable.yml@v2.2.0
+    with:
+      # Github repository information
+      sha: ${{ github.sha }}
+      event_name: ${{ github.event_name }}
+      actor: ${{ github.actor }}
+      job: ${{ github.job }}
+      repository: ${{ github.repository }}
+      ref_name: ${{ github.ref_name }}
+    secrets:
+      # THESE are the ones that are deployment-specific.
+      IN_CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+      IN_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      IN_DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+      IN_SCRIPT_ID: ${{ secrets.LIVE_RELEASE_SCRIPT_ID }}
+      IN_PARENT_ID: ${{ secrets.LIVE_RELEASE_PARENT_ID }}
+      IN_CONFIG_DATA: ${{ secrets.LIVE_RELEASE_CONFIG_OPTIONS }}

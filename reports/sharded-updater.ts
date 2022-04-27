@@ -114,7 +114,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     currentState[scope][targetShard.toString()] = true;
     setCacheValues(currentState);
     // LOCKOUT as fast as possible
-    meta_runner(scopeFunctionTargets[scope], triggerTypes.timeBased, targetShard.toString(), true);
+    meta_runner(scopeFunctionTargets[scope], triggerTypes.timeBased, targetShard.toString(), false,targetShard.toString())
     currentState = loadCacheValues();
     currentState[scope][targetShard.toString()] = false;
     setCacheValues(currentState)
