@@ -34,10 +34,14 @@ function testBattery() {
 function updateLocalDataStore() {
     let localSheetData = constructSheetDataV2(sheetDataConfig.local);
     let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
-    let dataSource = remoteSheetData.remoteData;
-    syncDataFlowCols_(dataSource, localSheetData.data)
+    // let dataSource = remoteSheetData.remoteData;
+    let data = remoteSheetData.remoteData.getData();
 
-    let data = dataSource.getData();
+    localSheetData.data.addKeys(remoteSheetData.remoteData)
+
+    // dataSource.addKeys(localSheetData.data)
+    // syncDataFlowCols_(dataSource, localSheetData.data)
+
     let kicData = new kiDataClass(data);
 
     localSheetData.data.setData(kicData.removeDuplicates().end)
@@ -46,8 +50,9 @@ function updateLocalDataStore() {
 
 
 function testSyncDataFlowCols() {
-    let allSheetData2:manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
-    syncDataFlowCols_(allSheetData2.form,allSheetData2.data)
+    let allSheetData2: manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
+    allSheetData2.data.addKeys(allSheetData2.form)
+    // syncDataFlowCols_(allSheetData2.form,allSheetData2.data)
     
     let kiData = allSheetData2.form.getData()
     console.log("testing adding new keys")
