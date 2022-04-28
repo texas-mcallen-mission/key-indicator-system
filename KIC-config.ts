@@ -89,7 +89,7 @@ let INTERNAL_CONFIG = {
 
         freezeContactData: false,
 
-        formColumnsToExcludeFromDataSheet: ["responsePulled", "submissionEmail"],
+        // formColumnsToExcludeFromDataSheet: ["responsePulled", "submissionEmail"],
         sheetTargets: {}
     },
 
@@ -282,29 +282,7 @@ const OVERRIDE_SECRET_DATA = {
 var CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
 
 
-interface manySheetDatas {
-    [index: string]: SheetData,
-}
 
-interface sheetDataEntry {
-    tabName: string,
-    includeSoftcodedColumns: boolean,
-    headerRow: number,
-    sheetId?: string,
-    allowWrite?: boolean,
-
-    initialColumnOrder: columnConfig,
-
-}
-
-interface manySheetDataEntries {
-    [index: string]: sheetDataEntry;
-}
-
-interface columnConfig {
-    [index: string]: number,
-
-}
 
 
 var sheetDataConfig: { local: manySheetDataEntries, remote: manySheetDataEntries; } = getSheetDataConfig();

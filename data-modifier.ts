@@ -79,7 +79,7 @@ function testNewHeader() {
     SpreadsheetApp.flush()
 
     // step three: create a rawSheetData class.
-    let rawSheetData = new RawSheetData(targetSheet.tabName, targetSheet.headerRow, targetSheet.initialColumnOrder,true);
+    let rawSheetData = new RawSheetData(targetSheet);
     let headerTestSheet = new SheetData(rawSheetData);
 
     populateExtraColumnData_(headerTestSheet)
@@ -89,7 +89,7 @@ function testNewHeader() {
 }
 
 /**
- * updates the TMM report
+ *  updates the TMM report
  *
  */
 function updateTMMReport() {

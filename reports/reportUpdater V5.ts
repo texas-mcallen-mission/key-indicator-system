@@ -361,7 +361,7 @@ function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntrie
     let updateTime = new Date()
     let preHeader = [["Report Scope:",scope,"Area Name:",areaName,"Last Updated:",updateTime]]
 
-    let rawReportSheetData = new RawSheetData(reportInfo.tabName,reportInfo.headerRow,reportInfo.initialColumnOrder,reportInfo.includeSoftcodedColumns,sheetID,reportInfo.allowWrite)
+    let rawReportSheetData = new RawSheetData(reportInfo)
     let targetReport = new SheetData(rawReportSheetData)
 
     targetReport.setData(kiData)
