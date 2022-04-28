@@ -344,6 +344,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 tabName: "Data",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
+                keyNamesToIgnore: ["responsePulled", "submissionEmail"],
                 initialColumnOrder: {
                     areaName: 0,
                     log: 1,
@@ -674,6 +675,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries, remote: manySheetD
                 sheetId: CONFIG.dataFlow.sheetTargets.remoteData,
                 includeSoftcodedColumns: true,
                 allowWrite: false,
+                keyNamesToIgnore: ["responsePulled", "submissionEmail"],
                 initialColumnOrder: {
                     areaName: 0,
                     log: 1,
