@@ -48,6 +48,7 @@ let INTERNAL_CONFIG = {
                 isDuplicate: 16,
                 rrPercent: 17,
             },
+            requireRemote:true,
             sheetId: "",
             allowWrite: true
         }
