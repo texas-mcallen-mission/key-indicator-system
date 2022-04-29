@@ -357,7 +357,8 @@ function testSingleReportUpdater():void {
  */
 function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
-    let reportInfo: sheetDataEntry = CONFIG.reportCreator.reportDataEntryConfig
+    let reportInfo: sheetDataEntry = _.cloneDeep(CONFIG.reportCreator.reportDataEntryConfig)
+    reportInfo.sheetId = sheetID
     let updateTime = new Date()
     let preHeader = [["Report Scope:",scope,"Area Name:",areaName,"Last Updated:",updateTime]]
 
