@@ -7,6 +7,7 @@ General and debugging configuration parameters
 const sheetCoreConfig: sheetCoreConfigInfo = {
     cacheKey: "AYYO_SHEETCACHE",
     cacheExpiration: 1800,
+    cacheEnabled:true,
 
 }
 
@@ -70,16 +71,16 @@ let INTERNAL_CONFIG = {
     dataFlow: {
         forceAreaIdReloadOnUpdateDataSheet: false,
 
+        areaId_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
+        
+        areaId_cacheKey: "butterflies and clouds", //ID to use when storing areaIDs in the cache
+        
         // !MOVED: Now part of sheetCoreConfig 
-        // areaId_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
+        // allSheetData_cacheEnabled: true, //Cache allSheetData, the object returned by constructSheetData()
 
-        // areaId_cacheKey: "butterflies and clouds", //ID to use when storing areaIDs in the cache
+        // allSheetData_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
 
-        allSheetData_cacheEnabled: true, //Cache allSheetData, the object returned by constructSheetData()
-
-        allSheetData_cacheExpirationLimit: 1800, //Maximum time in seconds before the cache gets reset
-
-        allSheetData_cacheKey: "puppies and flowers", //ID to use when storing allSheetData in the cache
+        // allSheetData_cacheKey: "puppies and flowers", //ID to use when storing allSheetData in the cache
 
         missionOrgData_cacheEnabled: false, //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
 
