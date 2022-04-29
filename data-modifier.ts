@@ -106,8 +106,9 @@ function updateTMMReport() {
     let data = dataSheet.getData();
     let kicData = new kiDataClass(data);
     let tmmReport = remoteSheetData.tmmReport
-
-    let tmmReportData = kicData.removeDuplicates().getThisWeeksData().addShortLang().calculateCombinedName().calculateRR().sumFacebookReferrals().end
+    kicData.calculatePercentage("rca", "rc", CONFIG.kiData.new_key_names.retentionRate)
+    kicData.createSumOfKeys(INTERNAL_CONFIG.kiData.fb_referral_keys, INTERNAL_CONFIG.kiData.new_key_names.fb_referral_sum)
+    let tmmReportData = kicData.removeDuplicates().getThisWeeksData().addShortLang().calculateCombinedName().end
     // this gets rid of any and all data that might be left behind- in practice, this clears the sheet when there are no responses for the current week.
     // tmmReport.clearContent()
     tmmReport.setData(tmmReportData)
@@ -125,7 +126,9 @@ function updateTechSquadReport() {
 
 
     let startDate = new Date("2022-01-20"); // TODO: I forgot what day we actually started calculating these
-    let refData = kicData.removeDuplicates().removeBeforeDate(startDate).calculateCombinedName().sumFacebookReferrals().end;
+    kicData.createSumOfKeys(INTERNAL_CONFIG.kiData.fb_referral_keys, INTERNAL_CONFIG.kiData.new_key_names.fb_referral_sum)
+
+    let refData = kicData.removeDuplicates().removeBeforeDate(startDate).calculateCombinedName().end;
 
     techReport.setData(refData);
 }
@@ -145,18 +148,6 @@ function updateServiceRepReport() {
     let serviceData = kicData.removeDuplicates().removeBeforeDate(startDate).calculateCombinedName().end
 
     serviceReport.setData(serviceData)
-}
-function getSundayOfCurrentWeek() {
-    const today = new Date();
-    const first = today.getDate() - today.getDay() + 1;
-    const last = first + 6;
-
-    const monday = new Date(today.setDate(first));
-    console.log(monday); // 👉️ Mon Jan 17 2022
-
-    const sunday = new Date(today.setDate(last - 8));
-    console.log(sunday);
-    return sunday;
 }
 
 

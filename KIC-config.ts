@@ -138,47 +138,48 @@ let INTERNAL_CONFIG = {
 
     },
     kiData: {
-        fb_referral_keys: {
-            "fb-ref-ysa": 0,
-            "fb-ref-asl": 1,
-            "fb-ref-service": 2,
-            "fb-ref-laredo-spa": 3,
-            "fb-ref-laredo-eng": 4,
-            "fb-ref-rgv-spa": 5,
-            "fb-ref-rgv-eng": 6,
-            "fb-ref-corpus": 7,
-            "fb-ref-personal": 8,
-        },
+        fb_referral_keys: [
+            "fb-ref-ysa",
+            "fb-ref-asl",
+            "fb-ref-service",
+            "fb-ref-laredo-spa",
+            "fb-ref-laredo-eng",
+            "fb-ref-rgv-spa",
+            "fb-ref-rgv-eng",
+            "fb-ref-corpus",
+            "fb-ref-personal"
+        ],
+        
         new_key_names: {
             fb_referral_sum: "fb-ref-sum",
-            shortLang: "truncLang",
+        //     shortLang: "truncLang",
             retentionRate: "rrPercent",
-            combinedNames: "combinedNames",
+        //     combinedNames: "combinedNames",
         },
-        shortLanguageLookup: {
-            "English": "Eng",
-            "Spanish": "Spa",
-            "Sign Language": "ASL",
-            "English,English": "Eng",
-            "Spanish,Spanish": "Spa"
-        },
-        combinedNameLookupKeys: {
-            m1: {
-                name: "name1",
-                pos: "position1",
-                trainer: "isTrainer1"
-            },
-            m2: {
-                name: "name2",
-                pos: "position2",
-                trainer: "isTrainer2"
-            },
-            m3: {
-                name: "name3",
-                pos: "position3",
-                trainer: "isTrainer3"
-            }
-        }
+        // shortLanguageLookup: {
+        //     "English": "Eng",
+        //     "Spanish": "Spa",
+        //     "Sign Language": "ASL",
+        //     "English,English": "Eng",
+        //     "Spanish,Spanish": "Spa"
+        // },
+        // combinedNameLookupKeys: {
+        //     m1: {
+        //         name: "name1",
+        //         pos: "position1",
+        //         trainer: "isTrainer1"
+        //     },
+        //     m2: {
+        //         name: "name2",
+        //         pos: "position2",
+        //         trainer: "isTrainer2"
+        //     },
+        //     m3: {
+        //         name: "name3",
+        //         pos: "position3",
+        //         trainer: "isTrainer3"
+        //     }
+        // }
     },
 
     // triggers
