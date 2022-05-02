@@ -3,7 +3,7 @@ name: BERT-INSTANCE-3
 on:
   workflow_dispatch:
   push:
-    branches: [report-creator-sharding-refactor]
+    branches: [move-sheetData-to-own-repository]
   release:
     types: [published]
   schedule:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/.github/workflows/reusable.yml@v2.2.0
+    uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/.github/workflows/reusable.yml 
     with:
       # Github repository information
       sha: ${{ github.sha }}
