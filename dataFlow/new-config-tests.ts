@@ -60,19 +60,9 @@ function constructSheetDataV2(target: manySheetDataEntries): manySheetDatas {
     let allSheetData: manySheetDatas = {};
     let keys: string[] = ["Constructed SheetData objects for:"];
     for (let key in target) {
-        let entry = target[key];
-        let targetSheet: string | null = null;
-        if (entry.sheetId != undefined && entry.sheetId != null && entry.sheetId != "") {
-            targetSheet = entry.sheetId;
-        }
-        let rawSheetData = new RawSheetData(
-            entry.tabName,
-            entry.headerRow,
-            entry.initialColumnOrder,
-            entry.includeSoftcodedColumns,
-            targetSheet,
-            entry.allowWrite,
-        );
+        let entry: sheetDataEntry = target[key];
+        
+        let rawSheetData = new RawSheetData(entry);
         let sheetData = new SheetData(rawSheetData);
         keys.push(key);
         allSheetData[key] = sheetData;
