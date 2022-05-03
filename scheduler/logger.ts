@@ -77,7 +77,7 @@ class dataLogger {
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
         this.inline = isInline;
         let targetSheetEntry = sheetDataConfig.local.debug
-        let rawSheetData = new RawSheetData(targetSheetEntry.tabName,targetSheetEntry.headerRow,targetSheetEntry.initialColumnOrder,targetSheetEntry.includeSoftcodedColumns,targetSheetEntry.sheetId,targetSheetEntry.allowWrite)
+        let rawSheetData = new RawSheetData(targetSheetEntry)
         this.sheetData = new SheetData(rawSheetData)
     }
 
