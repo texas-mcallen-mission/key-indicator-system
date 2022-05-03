@@ -26,7 +26,7 @@ function testShardUpdater6() {
 // function updateShard1_Area() {
 //     let scope = "Area";
 //     let targetShard = "1";
-//     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
+//     meta_runner(scope, triggerTypes.timeBased, targetShard, true,targetShard);
 // }
 // function updateShard2_Area() {
 //     let scope = "Area";

@@ -24,7 +24,7 @@ const logMetaKeys = {
     triggerType: "triggerType",
     timeStarted: "timeStarted",
     timeEnded: "timeEnded",
-    shardId:"shardId",
+    shardID:"shardID",
 };
 
 const triggerTypes = {
@@ -79,9 +79,9 @@ class dataLogger {
         this.logMetaData[logMetaKeys.triggerType] = trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
         if (shardId != null) {
-            this.logMetaData[logMetaKeys.shardId] = shardId
+            this.logMetaData[logMetaKeys.shardID] = shardId
         } else {
-            this.logMetaData[logMetaKeys.shardId] = ""
+            this.logMetaData[logMetaKeys.shardID] = ""
         }
         this.inline = isInline;
         let targetSheetEntry = sheetDataConfig.local.debug
