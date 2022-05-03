@@ -113,7 +113,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // BUGFIX:   was Math.floor(Math.random() * availableShards.length)
     // Making things be offset by 1 was a terrible idea in retrospect- should've handled zero differently from null / "" / undefined.  Oops.
 
-    let targetShard = Math.floor(Math.random() * (availableShards.length - 1)) + 1
+    let targetShard = availableShards[Math.floor(Math.random() * (availableShards.length-1))]
     currentState[scope][targetShard.toString()] = true;
     setCacheValues(currentState);
     // LOCKOUT as fast as possible
