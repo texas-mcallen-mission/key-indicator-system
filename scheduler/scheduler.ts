@@ -14,7 +14,7 @@ function meta_runner(functionName, trigger, functionArg1 = undefined, ignoreLock
         return
     } else {
         locker.lock()
-        let dLog: dataLogger = new dataLogger(functionName.name, trigger, false);
+        let dLog: dataLogger = new dataLogger(functionName.name, trigger, false,shardNumber);
         dLog.startFunction(functionName.name);
         try {
             if (functionArg1 == undefined) {

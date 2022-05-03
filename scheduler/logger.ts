@@ -23,7 +23,8 @@ const logMetaKeys = {
     baseFunction: "baseFunction",
     triggerType: "triggerType",
     timeStarted: "timeStarted",
-    timeEnded: "timeEnded"
+    timeEnded: "timeEnded",
+    shardId:"shardId",
 };
 
 const triggerTypes = {
@@ -70,14 +71,22 @@ class dataLogger {
     logMetaData = {};
 
     inline = false;
-    constructor(baseFunctionName, trigger, isInline = false) {
+    
+
+    constructor(baseFunctionName:string, trigger, isInline:boolean = false,shardId:null|string|number = null) {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;
         this.logMetaData[logMetaKeys.timeStarted] = new Date();
         this.logMetaData[logMetaKeys.triggerType] = trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
+        if (shardId != null) {
+            this.logMetaData[logMetaKeys.shardId] = shardId
+        } else {
+            this.logMetaData[logMetaKeys.shardId] = ""
+        }
         this.inline = isInline;
         let targetSheetEntry = sheetDataConfig.local.debug
         let rawSheetData = new RawSheetData(targetSheetEntry)
+
         this.sheetData = new SheetData(rawSheetData)
     }
 
@@ -143,32 +152,11 @@ class dataLogger {
             }
         }
 
-
-
-        // let dataLogSheetData = getDataLogSheet_();
-        // let dataLogSheet = dataLogSheetData.sheet;
-
         let log_data = [];
-        // let header = [];
 
-        // let header_changed = false;
-
-        // This will get integrated into the config file in the future, but there isn't much of a reason to quite yet
-        // NEXT GOAL: Get things to not overwrite each other
-        // let USE_OLD_DATA = true;
         let GET_META_DATA = true;
         let INCLUDE_GITHUB_METADATA = true;
         let REMOVE_CYCLE_TIMING_DATA = false;
-
-        // if (USE_OLD_DATA) {
-        //     header = dataLogSheetData.headerData;
-        //     // log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
-        // }
-
-        // if (!header.includes(logKeys.functionName)) {
-        //     header.push(logKeys.functionName);
-        //     header_changed = true;
-        // }
 
         for (let functionNameKey in this.logData) {
             // let entry = [];
@@ -198,61 +186,21 @@ class dataLogger {
             }
 
             if (GET_META_DATA) {
-                // for (let metaKey in logMetaKeys) {
-                //     // if (!header.includes(metaKey)) { header.push(metaKey); header_changed = true; }
-                //     // entry[header.indexOf(metaKey)] = this.logMetaData[metaKey];
-                // }
+
                 newEntry = { ...newEntry, ...this.logMetaData };
             }
 
             // pulls in data from git-info- SUPER useful for multiple deployments
             if (INCLUDE_GITHUB_METADATA) {
-                // for (let gitKey in GITHUB_DATA) {
-                //     // if (!header.includes(gitKey)) { header.push(gitKey); header_changed = true; }
-                //     entry[header.indexOf(gitKey)] = GITHUB_DATA[gitKey];
-                // }
+
                 newEntry = { ...newEntry, ...GITHUB_DATA };
             }
 
-
-
-            // for (let subKey in this.logData[functionNameKey]) {
-            //     if (!header.includes(subKey)) {
-            //         header.push(subKey);
-            //         header_changed = true;
-            //     }
-            //     entry[header.indexOf(subKey)] = this.logData[functionNameKey][subKey];
-            // addToSheet_(log_data)
-
+            // TODO rework this... 
             debug_write_lock_();
             addToSheet_(newEntry);
             debug_write_unlock_();
-            // log_data.push(newEntry);
 
-
-
-
-            // THIS WAS THE WAY I DID IT: But it has a problem:  We REALLY don't want to have to deal with accidentally overwriting data with concurrent functions, and this just increases our risk a LOT
-            // let outData = resize_data_(log_data, header);
-
-            // let sortColumn = 1;
-            // if (header.includes(logMetaKeys.timeStarted)) { sortColumn = header.indexOf(logMetaKeys.timeStarted); }
-
-            // let args = {
-            //     sortColumn: sortColumn,
-            //     ascending: false
-            // };
-
-            // sendDataToDisplayV3_(header, outData, dataLogSheet, args);
-
-            // if (header_changed == true) {
-            // let headerRange = dataLogSheet.getRange(1, 1, 1, header.length);
-
-            // headerRange.setValues([header])
-            // }
-            // prependRows_(log_data, dataLogSheet)
-
-            // Logger.log("logging finished.")
         }
 
     }
@@ -296,7 +244,7 @@ function time_a_function_classy() {
 
     let startTime = new Date();
     let functionName = "updateDistrictReports";
-    let logger: dataLogger = new dataLogger(functionName, triggerTypes.DEBUG);
+    let logger: dataLogger = new dataLogger(functionName, triggerTypes.DEBUG,false);
 
     logger.startFunction(functionName);
     try {

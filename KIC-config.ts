@@ -512,6 +512,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     cycleStartMillis: 14,
                     failures: 15,
                     errors: 16,
+                    shardID:17,
 
                 },
             },
