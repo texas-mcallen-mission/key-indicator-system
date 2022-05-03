@@ -59,7 +59,40 @@ let INTERNAL_CONFIG = {
             allowWrite: true
         }
     },
+    
+    kiData: {
+        fb_referral_keys: [
+            "fb-ref-ysa",
+            "fb-ref-asl",
+            "fb-ref-service",
+            "fb-ref-laredo-spa",
+            "fb-ref-laredo-eng",
+            "fb-ref-rgv-spa",
+            "fb-ref-rgv-eng",
+            "fb-ref-corpus",
+            "fb-ref-personal"
+        ],
+        baptism_source_keys: [
+            "bap-self-ref",
+            "bap-street",
+            "bap-ward-activity-or-event",
+            "bap-ref-recent-convert",
+            "bap-ref-part-member",
+            "bap-ref-other-member",
+            "bap-ref-teaching-pool",
+            "bap-ref-other-non-member",
+            "bap-fb-mission",
+            "bap-fb-personal",
+            "bap-family-history",
+            "bap-taught-prev",
+        ],
 
+        new_key_names: {
+            fb_referral_sum: "fb-ref-sum",
+            retentionRate: "rrPercent",
+        },
+
+    },
     // general
 
     general_areaNameQuestionTitle: "Area Name",
