@@ -110,7 +110,10 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
 
     }
     // this should be a little smarter, because it'll pick one from the available shards at random instead of running the first one all the time.
-    let targetShard = Math.floor(Math.random() * availableShards.length)
+    // BUGFIX:   was Math.floor(Math.random() * availableShards.length)
+    // Making things be offset by 1 was a terrible idea in retrospect- should've handled zero differently from null / "" / undefined.  Oops.
+
+    let targetShard = Math.floor(Math.random() * (availableShards.length - 1)) + 1
     currentState[scope][targetShard.toString()] = true;
     setCacheValues(currentState);
     // LOCKOUT as fast as possible
