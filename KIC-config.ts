@@ -237,14 +237,14 @@ let INTERNAL_CONFIG = {
                 // updateZoneReports_TimeBasedTrigger: 10,
 
                 pruneFS_TimeBasedTrigger: 30,
-                updateTMMReport_TimeBasedTrigger: 1,
-                updateLocalDataStore_TimeBasedTrigger: 1,
-                testShardUpdater2: 5,
-                testShardUpdater1: 5,
-                testShardUpdater3: 5,
-                testShardUpdater4: 5,
-                testShardUpdater5: 5,
-                testShardUpdater6: 5,
+                // updateTMMReport_TimeBasedTrigger: 1,
+                // updateLocalDataStore_TimeBasedTrigger: 1,
+                testShardUpdater2: 1,
+                testShardUpdater1: 1,
+                testShardUpdater3: 1,
+                testShardUpdater4: 1,
+                testShardUpdater5: 1,
+                testShardUpdater6: 1,
 
             },
             hours: { // valid increments: any integer >= 1
