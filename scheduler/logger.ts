@@ -31,7 +31,8 @@ const triggerTypes = {
     "timeBased": "timeBased",
     "manual": "manual",
     "menu": "menu",
-    "DEBUG": "DEBUG"
+    "DEBUG": "DEBUG",
+    "onOpen":"onOpen"
 };
 
 function justForTesting_(dLog: dataLogger, arg1: any) {
@@ -39,7 +40,8 @@ function justForTesting_(dLog: dataLogger, arg1: any) {
 }
 
 function testMetaRunnerSys() {
-    meta_runner(justForTesting_, triggerTypes.DEBUG);
+    let meta_args: meta_runner_args = {trigger: triggerTypes.DEBUG }
+    meta_runner(justForTesting_,meta_args);
 }
 
 function test_dataLogger() {
@@ -72,6 +74,15 @@ class dataLogger {
 
     inline = false;
     
+    get sheetData(): SheetData {
+        //@ts-expect-error
+        return this.sheetDataa
+    }
+
+    set sheetData(SheetData: SheetData){
+        //@ts-expect-error
+        this.sheetDataa = this.sheetData
+    }
 
     constructor(baseFunctionName:string, trigger, isInline:boolean = false,shardId:null|string|number = null) {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;

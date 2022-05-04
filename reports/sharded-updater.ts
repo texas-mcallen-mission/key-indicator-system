@@ -118,7 +118,13 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     currentState[scope][targetShard.toString()] = true;
     setCacheValues(currentState);
     // LOCKOUT as fast as possible
-    meta_runner(scopeFunctionTargets[scope], triggerTypes.timeBased, targetShard.toString(), false,targetShard.toString())
+    let runner_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased,
+        functionArg: targetShard.toString(),
+        ignoreLockout: false,
+        shardNumber: targetShard.toString(),
+    }
+    meta_runner(scopeFunctionTargets[scope], runner_args)
     currentState = loadCacheValues();
     currentState[scope][targetShard.toString()] = false;
     setCacheValues(currentState)
@@ -128,7 +134,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
 
 
 
-type manyShardValues {
+type manyShardValues = {
     [index in filesystemEntry["fsScope"]]:shardValueSet
 }
 
@@ -185,5 +191,5 @@ function clearShardCache() {
 function setCacheValues(shardCacheObject: manyShardValues) {
     let cacheValue = JSON.stringify(shardCacheObject)
     let cache = CacheService.getScriptCache()
-    cache.put(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue,
+    cache.put(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue)
 }

@@ -1,27 +1,33 @@
 // The Scheduler!  This bad boi's job is to execute functions at given intervals.  This will supersede triggers.ts and will (eventually) integrate with KIC-config.js for maximum configurability.
 
+interface meta_runner_args {
+    trigger: string,
+    functionArg?: any,
+    ignoreLockout?: boolean,
+    shardNumber?:string|null
+}
 
 // This makes using the dLog 
-function meta_runner(functionName:Function, trigger, functionArg1:any = undefined, ignoreLockout = false, shardNumber:string|null = null) {
-    let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + trigger
-    if(shardNumber != null) {logString += "RUNNING ON SHARD: "+shardNumber}
-    if(ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
+function meta_runner(functionName:Function,args: meta_runner_args) {
+    let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + args.trigger
+    if(args.shardNumber != null) {logString += "RUNNING ON SHARD: "+args.shardNumber}
+    if(args.ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
     console.log(logString);
 
-    let locker = new meta_locker(functionName.name,shardNumber)
-    if (locker.isLocked()== true && ignoreLockout == false) {
+    let locker = new meta_locker(functionName.name,args.shardNumber)
+    if (locker.isLocked()== true && args.ignoreLockout == false) {
         Logger.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
         return
     } else {
         locker.lock()
-        let dLog: dataLogger = new dataLogger(functionName.name, trigger, false,shardNumber);
+        let dLog: dataLogger = new dataLogger(functionName.name,args.trigger, false,args.shardNumber);
         dLog.startFunction(functionName.name);
         try {
-            if (functionArg1 == undefined) {
+            if (args.functionArg == undefined) {    
                 functionName(dLog);
             } else {
-                Logger.log(typeof functionArg1);
-                functionName(functionArg1, dLog);
+                Logger.log(typeof args.functionArg);
+                functionName(args.functionArg, dLog);
             }
         } catch (error) {
             dLog.addFailure(functionName.name, error);
