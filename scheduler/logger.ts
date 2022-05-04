@@ -219,8 +219,11 @@ class dataLogger {
 }
 
 function addToSheet_(data: any) {
-    let allSheetData = constructSheetData();
-    let debug = allSheetData.debug;
+    // let allSheetData = constructSheetData();
+    // let debug = allSheetData.debug;
+    let rawSheetData = new RawSheetData(getSheetDataConfig().local.debug)
+    let debug = new SheetData(rawSheetData)
+
 
     debug.appendData(data);
 }

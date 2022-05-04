@@ -26,7 +26,13 @@ function testShardUpdater6() {
 // function updateShard1_Area() {
 //     let scope = "Area";
 //     let targetShard = "1";
-//     meta_runner(scope, triggerTypes.timeBased, targetShard, true,targetShard);
+//     let runner_args = {
+//         trigger: triggerTypes.DEBUG,
+//         functionArg: targetShard.toString(),
+//         ignoreLockout: true,
+//         shardNumber: targetShard.toString(),
+//     };
+//     meta_runner(updateAreaReportsV5, runner_args);
 // }
 // function updateShard2_Area() {
 //     let scope = "Area";
