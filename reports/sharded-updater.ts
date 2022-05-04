@@ -102,7 +102,8 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         if (currentState[scope][i.toString()] == false) {
             availableShards.push(i.toString())
         } else {
-            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards) {
+            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && availableShards.length == i) {
+                
                 console.log("Nothing available to update on scope" + scope)
                 return // breaks function, so we don't run anything else
             }
