@@ -123,7 +123,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     let runner_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
         functionArg: targetShard.toString(),
-        ignoreLockout: false,
+        ignoreLockout: true,
         shardNumber: targetShard.toString(),
     }
     meta_runner(scopeFunctionTargets[scope], runner_args)
