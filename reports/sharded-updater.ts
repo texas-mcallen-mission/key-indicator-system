@@ -88,7 +88,7 @@ function testShardUpdater6() {
 
 function updateShard(scope: filesystemEntry["fsScope"]) {
     // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
-    let currentState = loadCacheValues()
+    let currentState = loadShardCache()
     let scopeFunctionTargets = {
         "Zone": updateZoneReportsV5,
         "District": updateDistrictReportsV5,
@@ -115,8 +115,9 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
 
     let targetShard:Number = availableShards[Math.floor(Math.random() * (availableShards.length))]
     console.log("available shards:",availableShards,"targeted shard:",targetShard)
-    currentState[scope][targetShard.toString()] = true;
-    setCacheValues(currentState);
+    // currentState[scope][targetShard.toString()] = true;
+    // setShardCache(currentState);
+    updateCacheValue(scope, targetShard.toString(),true)
     // LOCKOUT as fast as possible
     let runner_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
@@ -125,14 +126,33 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         shardNumber: targetShard.toString(),
     }
     meta_runner(scopeFunctionTargets[scope], runner_args)
-    currentState = loadCacheValues();
-    currentState[scope][targetShard.toString()] = false;
-    setCacheValues(currentState)
+    // currentState = loadShardCache();
+    // currentState[scope][targetShard.toString()] = false;
+    // setShardCache(currentState)
+    updateCacheValue(scope, targetShard.toString(), false)
     
 
 }
 
+function updateCacheValue(scope: filesystemEntry["fsScope"], shard: string, value: boolean) {
+    let cacheValues = loadShardCache();
+    cacheValues[scope][shard] = value;
+    setShardCache(cacheValues);
+}
 
+function testShardCache() {
+    let shardCacheValues = loadShardCache();
+    console.log(shardCacheValues);
+
+    shardCacheValues.Area[0] = true;
+
+    setShardCache(shardCacheValues);
+
+    let testCache = loadShardCache();
+
+    console.log(shardCacheValues.Area[0]);
+
+}
 
 type manyShardValues = {
     [index in filesystemEntry["fsScope"]]:shardValueSet
@@ -156,7 +176,7 @@ function createShardValues():manyShardValues {
     return output
 }
 
-function loadCacheValues() {
+function loadShardCache() {
     let cache = CacheService.getScriptCache()
     let cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key)
     let cacheOutput: manyShardValues = {}
@@ -169,26 +189,16 @@ function loadCacheValues() {
     return cacheOutput
 }
 
-function testShardCache() {
-    let shardCacheValues = loadCacheValues()
-    console.log(shardCacheValues)
-    
-    shardCacheValues.Area[0] = true
 
-    setCacheValues(shardCacheValues)
 
-    let testCache = loadCacheValues()
 
-    console.log(shardCacheValues.Area[0])
-
-}
 
 function clearShardCache() {
     let cache = CacheService.getScriptCache();
     cache.remove(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
 }
 
-function setCacheValues(shardCacheObject: manyShardValues) {
+function setShardCache(shardCacheObject: manyShardValues) {
     let cacheValue = JSON.stringify(shardCacheObject)
     let cache = CacheService.getScriptCache()
     cache.put(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue)
