@@ -4,7 +4,9 @@ interface meta_runner_args {
     trigger: string,
     functionArg?: any,
     ignoreLockout?: boolean,
-    shardNumber?:string|null
+    shardNumber?: string | null,
+    
+    shardScope?: string
 }
 
 // This makes using the dLog 
@@ -20,7 +22,7 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
         return
     } else {
         locker.lock()
-        let dLog: dataLogger = new dataLogger(functionName.name,args.trigger, false,args.shardNumber);
+        let dLog: dataLogger = new dataLogger(functionName.name,args.trigger, false,args.shardNumber,args.shardScope);
         dLog.startFunction(functionName.name);
         try {
             if (args.functionArg == undefined) {    

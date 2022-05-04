@@ -131,6 +131,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         functionArg: targetShard.toString(),
         ignoreLockout: true,
         shardNumber: targetShard.toString(),
+        shardScope:scope
     }
     meta_runner(scopeFunctionTargets[scope], runner_args)
     // currentState = loadShardCache();

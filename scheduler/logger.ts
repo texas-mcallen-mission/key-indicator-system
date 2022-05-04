@@ -24,7 +24,8 @@ const logMetaKeys = {
     triggerType: "triggerType",
     timeStarted: "timeStarted",
     timeEnded: "timeEnded",
-    shardID:"shardID",
+    shardID: "shardID",
+    shardInstanceID:"shardInstanceID",
 };
 
 const triggerTypes = {
@@ -84,13 +85,14 @@ class dataLogger {
         this.sheetDataa = this.sheetData
     }
 
-    constructor(baseFunctionName:string, trigger, isInline:boolean = false,shardId:null|string|number = null) {
+    constructor(baseFunctionName:string, trigger, isInline:boolean = false,shardId:null|string|number = null,scopeValue:string = "") {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;
         this.logMetaData[logMetaKeys.timeStarted] = new Date();
         this.logMetaData[logMetaKeys.triggerType] = trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
         if (shardId != null) {
             this.logMetaData[logMetaKeys.shardID] = shardId
+            if (scopeValue != "") { this.logMetaData[logMetaKeys.shardInstanceID] = scopeValue + "_" + shardId; }
         } else {
             this.logMetaData[logMetaKeys.shardID] = ""
         }
