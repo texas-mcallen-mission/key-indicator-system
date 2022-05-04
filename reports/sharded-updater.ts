@@ -115,7 +115,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // Making things be offset by 1 was a terrible idea in retrospect- should've handled zero differently from null / "" / undefined.  Oops.
 
     let targetShard:Number = availableShards[Math.floor(Math.random() * (availableShards.length))]
-    console.log("available shards:",availableShards,"targeted shard:",targetShard)
+    console.log("Scope: ",scope," available shards:",availableShards,"targeted shard:",targetShard)
     // currentState[scope][targetShard.toString()] = true;
     // setShardCache(currentState);
     updateCacheValue(scope, targetShard.toString(),true)
@@ -131,6 +131,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // currentState[scope][targetShard.toString()] = false;
     // setShardCache(currentState)
     updateCacheValue(scope, targetShard.toString(), false)
+    console.log(loadShardCache())
     
 
 }
