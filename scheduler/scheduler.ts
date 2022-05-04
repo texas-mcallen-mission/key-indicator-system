@@ -2,7 +2,7 @@
 
 
 // This makes using the dLog 
-function meta_runner(functionName, trigger, functionArg1 = undefined, ignoreLockout = false, shardNumber:string|null = null) {
+function meta_runner(functionName:Function, trigger, functionArg1:any = undefined, ignoreLockout = false, shardNumber:string|null = null) {
     let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + trigger
     if(shardNumber != null) {logString += "RUNNING ON SHARD: "+shardNumber}
     if(ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
