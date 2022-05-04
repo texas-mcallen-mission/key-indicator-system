@@ -10,7 +10,7 @@ interface meta_runner_args {
 // This makes using the dLog 
 function meta_runner(functionName:Function,args: meta_runner_args) {
     let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + args.trigger
-    if(args.shardNumber != null) {logString += "RUNNING ON SHARD: "+args.shardNumber}
+    if(args.shardNumber != null) {logString += " RUNNING ON SHARD: "+args.shardNumber}
     if(args.ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
     console.log(logString);
 
