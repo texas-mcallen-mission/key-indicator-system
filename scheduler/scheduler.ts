@@ -55,7 +55,7 @@ class meta_locker {
             this.onShard = true
             this.shardValue = shardString
             this.cacheString = this.functionName + this.appendString + this.shardValue
-            console.log("LOCK ON SHARD",shardString)
+            console.log("LOCK ON SHARD",shardString,"Cache String: ",this.cacheString)
         } else {
             this.cacheString = this.functionName + this.appendString
             console.log("LOCK NOT SHARDED")
