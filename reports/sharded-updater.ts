@@ -145,17 +145,17 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         availableShards.push(entry.toString())
     }
 
-    let targetShard:number = availableShards[Math.floor(Math.random() * (availableShards.length))]
+    let targetShard:string = availableShards[Math.floor(Math.random() * (availableShards.length))]
     console.log("Scope: ",scope," available shards:",availableShards,smallGuys,"targeted shard:",targetShard)
     // currentState[scope][targetShard.toString()] = true;
     // setShardCache(currentState);
     // LOCKOUT as fast as possible
-    shardLock_updateActivity(scope, targetShard.toString(),true)
+    shardLock_updateActivity(scope, targetShard,true)
     let runner_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
-        functionArg: targetShard.toString(),
+        functionArg: targetShard,
         ignoreLockout: true,
-        shardNumber: targetShard.toString(),
+        shardNumber: targetShard,
         shardScope: scope,
         preLogData:turnArrayToString(availableShards)
     }
@@ -163,7 +163,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // currentState = loadShardCache();
     // currentState[scope][targetShard.toString()] = false;
     // setShardCache(currentState)
-    shardLock_updateActivity(scope, targetShard.toString(), false)
+    shardLock_updateActivity(scope, targetShard, false)
     console.log(loadShardCache())
     
 
