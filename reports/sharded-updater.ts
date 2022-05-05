@@ -229,15 +229,21 @@ function verifyCache(cacheOutput) :shardLockCache{
     let testScope:string = scopes[Math.floor(Math.random() * scopes.length)]
     let testShard:string = Math.floor(Math.random()*INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString()
     let testSet = cacheOutput[testScope][testShard]
-    if (typeof testSet.active == 'boolean' && typeof +testSet.lastUpdate == 'number') {
-        // Force convert cacheOutput's lastUpdate to type Number
-        for (let scope in cacheOutput) {
-            for (let shard in cacheOutput[scope])
-                cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate
+    try {
+        if (typeof testSet["active"] == 'boolean' && typeof +testSet[lastUpdate] == 'number') {
+            // Force convert cacheOutput's lastUpdate to type Number
+            for (let scope in cacheOutput) {
+                for (let shard in cacheOutput[scope])
+                    cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate
+            }
+            return cacheOutput
+        } else {
+            console.warn("Cache did not verify, resetting")
+            return createShardValues()
         }
-        return cacheOutput
-    } else {
-        console.warn("Cache did not verify, resetting")
+        
+    } catch (error) {
+        console.error(error);
         return createShardValues()
     }
 }
