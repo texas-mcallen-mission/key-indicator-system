@@ -22,7 +22,13 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
         return
     } else {
         locker.lock()
-        let dLog: dataLogger = new dataLogger(functionName.name,args.trigger, false,args.shardNumber,args.shardScope);
+        let dLogArgs: debugLogArgs = {
+            trigger: args.trigger,
+            isInline: false,
+            shardId: args.shardNumber,
+            scopeValue:args.shardScope
+        }
+        let dLog: dataLogger = new dataLogger(functionName.name,dLogArgs);
         dLog.startFunction(functionName.name);
         try {
             if (args.functionArg == undefined) {    

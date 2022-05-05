@@ -25,7 +25,8 @@ const logMetaKeys = {
     timeStarted: "timeStarted",
     timeEnded: "timeEnded",
     shardID: "shardID",
-    shardInstanceID:"shardInstanceID",
+    shardInstanceID: "shardInstanceID",
+    debugLogData:"debugLogData",
 };
 
 const triggerTypes = {
@@ -49,7 +50,11 @@ function test_dataLogger() {
     // basically yoinked from meta_runner for debugging purposes
     let functionArg1 = "PASSTHROUGH ARGUMENT";
     console.log("[META_RUNNER] - Running ", "justForTesting_", " with trigger:", triggerTypes.DEBUG);
-    let dLog = new dataLogger("justForTesting_", triggerTypes.DEBUG, false);
+    let dLogArgs: debugLogArgs = {
+        trigger: triggerTypes.DEBUG,
+        isInline:false
+    }
+    let dLog = new dataLogger("justForTesting_", dLogArgs);
     dLog.startFunction("justForTesting_");
     try {
 
@@ -61,6 +66,13 @@ function test_dataLogger() {
     }
     dLog.endFunction("justForTesting_");
     dLog.end();
+}
+
+interface debugLogArgs {
+    trigger:string
+    isInline?: boolean,
+    shardId?: null | string | number,
+    scopeValue?:string,
 }
 
 // function getDataLogSheet_() {
@@ -85,18 +97,18 @@ class dataLogger {
         this.sheetDataa = this.sheetData
     }
 
-    constructor(baseFunctionName:string, trigger, isInline:boolean = false,shardId:null|string|number = null,scopeValue:string = "") {
+    constructor(baseFunctionName: string, args: debugLogArgs = { trigger: "", isInline: false, shardId: null, scopeValue: "" }) {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;
         this.logMetaData[logMetaKeys.timeStarted] = new Date();
-        this.logMetaData[logMetaKeys.triggerType] = trigger;
+        this.logMetaData[logMetaKeys.triggerType] = args.trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
-        if (shardId != null) {
-            this.logMetaData[logMetaKeys.shardID] = shardId
-            if (scopeValue != "") { this.logMetaData[logMetaKeys.shardInstanceID] = scopeValue + "_" + shardId; }
+        if (args.shardId != null) {
+            this.logMetaData[logMetaKeys.shardID] = args.shardId
+            if (args.scopeValue != "") { this.logMetaData[logMetaKeys.shardInstanceID] = args.scopeValue + "_" + args.shardId; }
         } else {
             this.logMetaData[logMetaKeys.shardID] = ""
         }
-        this.inline = isInline;
+        this.inline = args.isInline;
         let targetSheetEntry = sheetDataConfig.local.debug
         let rawSheetData = new RawSheetData(targetSheetEntry)
 
@@ -260,7 +272,12 @@ function time_a_function_classy() {
 
     let startTime = new Date();
     let functionName = "updateDistrictReports";
-    let logger: dataLogger = new dataLogger(functionName, triggerTypes.DEBUG,false);
+    let dLogArgs: debugLogArgs = {
+        trigger: triggerTypes.DEBUG,
+        isInline: false
+    }
+    
+    let logger: dataLogger = new dataLogger(functionName,dLogArgs);
 
     logger.startFunction(functionName);
     try {

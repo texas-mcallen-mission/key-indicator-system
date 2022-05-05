@@ -170,50 +170,25 @@ let INTERNAL_CONFIG = {
         },
 
     },
-    kiData: {
-        fb_referral_keys: [
-            "fb-ref-ysa",
-            "fb-ref-asl",
-            "fb-ref-service",
-            "fb-ref-laredo-spa",
-            "fb-ref-laredo-eng",
-            "fb-ref-rgv-spa",
-            "fb-ref-rgv-eng",
-            "fb-ref-corpus",
-            "fb-ref-personal"
-        ],
+    // kiData: {
+    //     fb_referral_keys: [
+    //         "fb-ref-ysa",
+    //         "fb-ref-asl",
+    //         "fb-ref-service",
+    //         "fb-ref-laredo-spa",
+    //         "fb-ref-laredo-eng",
+    //         "fb-ref-rgv-spa",
+    //         "fb-ref-rgv-eng",
+    //         "fb-ref-corpus",
+    //         "fb-ref-personal"
+    //     ],
         
-        new_key_names: {
-            fb_referral_sum: "fb-ref-sum",
-        //     shortLang: "truncLang",
-            retentionRate: "rrPercent",
-        //     combinedNames: "combinedNames",
-        },
-        // shortLanguageLookup: {
-        //     "English": "Eng",
-        //     "Spanish": "Spa",
-        //     "Sign Language": "ASL",
-        //     "English,English": "Eng",
-        //     "Spanish,Spanish": "Spa"
-        // },
-        // combinedNameLookupKeys: {
-        //     m1: {
-        //         name: "name1",
-        //         pos: "position1",
-        //         trainer: "isTrainer1"
-        //     },
-        //     m2: {
-        //         name: "name2",
-        //         pos: "position2",
-        //         trainer: "isTrainer2"
-        //     },
-        //     m3: {
-        //         name: "name3",
-        //         pos: "position3",
-        //         trainer: "isTrainer3"
-        //     }
-        // }
-    },
+    //     new_key_names: {
+    //         fb_referral_sum: "fb-ref-sum",
+    //         retentionRate: "rrPercent",
+    //     },
+
+    // },
 
     // triggers
     // this is *technically* optional, as you can just not check it in your timeBasedTrigger caller dude
@@ -513,7 +488,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     failures: 15,
                     errors: 16,
                     shardID: 17,
-                    shardInstanceID:18,
+                    shardInstanceID: 18,
+                    debugLogData:19,
 
                 },
             },
