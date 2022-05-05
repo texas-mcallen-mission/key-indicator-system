@@ -224,37 +224,40 @@ function createShardValues():shardLockCache {
  * @param {*} cacheOutput
  * @return {*}  {shardLockCache}
  */
-function verifyCache(cacheOutput) :shardLockCache{
+function updateCache(cacheOutput): shardLockCache {
     let scopes = ["Zone", "District", "Area"];
-    let testScope:string = scopes[Math.floor(Math.random() * scopes.length)]
-    let testShard:string = Math.floor(Math.random()*INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString()
-    let testSet = cacheOutput[testScope][testShard]
+    let testScope: string = scopes[Math.floor(Math.random() * scopes.length)];
+    let testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
+    let testSet = cacheOutput[testScope][testShard];
+    // try {
+    // if (typeof testSet["active"] == 'boolean' && typeof +testSet[lastUpdate] == 'number') {
+    //     // Force convert cacheOutput's lastUpdate to type Number
     try {
-        if (typeof testSet["active"] == 'boolean' && typeof +testSet[lastUpdate] == 'number') {
-            // Force convert cacheOutput's lastUpdate to type Number
-            for (let scope in cacheOutput) {
-                for (let shard in cacheOutput[scope])
-                    cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate
-            }
-            return cacheOutput
-        } else {
-            console.warn("Cache did not verify, resetting")
-            return createShardValues()
+
+        for (let scope in cacheOutput) {
+            for (let shard in cacheOutput[scope])
+            cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
         }
-        
+        return cacheOutput;
+    // }
+    // } else {
+    //     console.warn("Cache did not verify, resetting")
+    //     return createShardValues()
+    // }
+    
     } catch (error) {
         console.error(error);
         return createShardValues()
     }
+    // }
 }
-
 function loadShardCache() {
     let cache = CacheService.getScriptCache()
     let cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key)
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
         var cacheOutput = createShardValues()
     } else {
-        var cacheOutput:shardLockCache = verifyCache(JSON.parse(cacheValues))
+        var cacheOutput:shardLockCache = updateCache(JSON.parse(cacheValues))
     }
     console.log(cacheOutput)
     return cacheOutput
