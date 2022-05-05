@@ -6,7 +6,9 @@ interface meta_runner_args {
     ignoreLockout?: boolean,
     shardNumber?: string | null,
     
-    shardScope?: string
+    shardScope?: string,
+    preLogData?:string
+    
 }
 
 // This makes using the dLog 
@@ -28,6 +30,7 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
             shardId: args.shardNumber,
             scopeValue:args.shardScope
         }
+        if(args.preLogData != undefined){dLogArgs.logString = args.preLogData}
         let dLog: dataLogger = new dataLogger(functionName.name,dLogArgs);
         dLog.startFunction(functionName.name);
         try {

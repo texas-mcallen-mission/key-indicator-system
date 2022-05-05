@@ -72,7 +72,8 @@ interface debugLogArgs {
     trigger:string
     isInline?: boolean,
     shardId?: null | string | number,
-    scopeValue?:string,
+    scopeValue?: string,
+    logString?:string
 }
 
 // function getDataLogSheet_() {
@@ -97,7 +98,7 @@ class dataLogger {
         this.sheetDataa = this.sheetData
     }
 
-    constructor(baseFunctionName: string, args: debugLogArgs = { trigger: "", isInline: false, shardId: null, scopeValue: "" }) {
+    constructor(baseFunctionName: string, args: debugLogArgs = { trigger: "", isInline: false, shardId: null, scopeValue: "" ,logString:""}) {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;
         this.logMetaData[logMetaKeys.timeStarted] = new Date();
         this.logMetaData[logMetaKeys.triggerType] = args.trigger;
@@ -108,6 +109,7 @@ class dataLogger {
         } else {
             this.logMetaData[logMetaKeys.shardID] = ""
         }
+        if(args.logString!=""){this.logMetaData[logMetaKeys.debugLogData] = args.logString}
         this.inline = args.isInline;
         let targetSheetEntry = sheetDataConfig.local.debug
         let rawSheetData = new RawSheetData(targetSheetEntry)

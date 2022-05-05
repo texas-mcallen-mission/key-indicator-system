@@ -131,7 +131,8 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         functionArg: targetShard.toString(),
         ignoreLockout: true,
         shardNumber: targetShard.toString(),
-        shardScope:scope
+        shardScope: scope,
+        preLogData:turnArrayToString(availableShards)
     }
     meta_runner(scopeFunctionTargets[scope], runner_args)
     // currentState = loadShardCache();
@@ -141,6 +142,24 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     console.log(loadShardCache())
     
 
+}
+
+
+function turnArrayToString(array) {
+    let outString = "[";
+    for (let i in array) {
+        let entry = array[i];
+        if (entry.constructor.name == "Array") {
+            outString += turnArrayToString(entry);
+
+        } else {
+            outString += entry;
+        }
+        // formatting: if not the last entry in a stack, append a comma.
+        if (+i != array.length - 1) { outString += ", "; }
+    }
+    outString += "]";
+    return outString;
 }
 
 function updateCacheValue(scope: filesystemEntry["fsScope"], shard: string, value: boolean) {
