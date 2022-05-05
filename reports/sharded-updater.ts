@@ -231,8 +231,8 @@ function verifyCache(cacheOutput) :shardLockCache{
     let testSet = cacheOutput[testScope][testShard]
     if (typeof testSet.active == 'boolean' && typeof +testSet.lastUpdate == 'number') {
         // Force convert cacheOutput's lastUpdate to type Number
-        for (let scope of cacheOutput) {
-            for (let shard of cacheOutput[scope])
+        for (let scope in cacheOutput) {
+            for (let shard in cacheOutput[scope])
                 cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate
         }
         return cacheOutput
