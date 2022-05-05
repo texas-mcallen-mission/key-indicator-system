@@ -90,23 +90,28 @@ function testShardUpdater6() {
 //     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
 // }
 
-function getSmallestGroup(shardKeys: shardEntry[]):shardEntry[] {
+function getSmallestGroup(shardKeys: manyShardEntries):manyShardEntries {
     let smallest: number = Number.MAX_SAFE_INTEGER
-    let smallestSet:shardEntry[] = []
-    for (let shardKey of shardKeys) {
-        let updateTime: number = shardKey.lastUpdate
+    let smallestSet: manyShardEntries = {}
+    for (let key in shardKeys) {
+        let keyValue:shardEntry = shardKeys[key]
+        let updateTime: number = keyValue.lastUpdate
         if (updateTime == smallest) {
-            smallestSet.push(shardKey)
+            smallestSet[key] = keyValue
         }
         if (updateTime < smallest) {
             smallest = updateTime
-            smallestSet = [shardKey]
+            smallestSet = {}
+            smallestSet[key] = keyValue
         }
     }
     return smallestSet
     
 }
 
+interface manyShardEntries {
+    [index:string]:shardEntry
+}
 
 function updateShard(scope: filesystemEntry["fsScope"]) {
     // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
@@ -118,14 +123,14 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     }
     let targetScope = currentState[scope]
     let worked = false
-    let availShardKeys:shardEntry[] = []
+    let availShardKeys: manyShardEntries = {}
     // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
         if (currentState[scope][i.toString()].active == false) {
             // availableShards.push(i.toString())
-            availShardKeys.push(currentState[scope][i.toString()])
+            availShardKeys[i.toString()] = currentState[scope][i.toString()]
         } else {
-            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && availShardKeys.length == 0) {
+            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && Object.keys(availShardKeys.length).length == 0) {
                 
                 console.log("Nothing available to update on scope" + scope)
             }
