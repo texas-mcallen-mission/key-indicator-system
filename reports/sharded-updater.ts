@@ -182,8 +182,22 @@ function turnArrayToString(array) {
 }
 
 function shardLock_updateActivity(scope: filesystemEntry["fsScope"], shard: string, isActive: boolean) {
-    let cacheValues = loadShardCache();
+    let cacheValues =  loadShardCache();
     let lastUpdateTime = new Date().getTime()
+    try {
+
+        for (let scope in cacheValues) {
+            for (let shard in cacheValues[scope])
+                cacheValues[scope][shard].lastUpdate = +cacheValues[scope][shard].lastUpdate;
+        }
+        // return cacheValues;
+
+
+    } catch (error) {
+        console.warn(cacheValues);
+        console.error(error);
+        
+    }
     cacheValues[scope][shard].active = isActive;
     cacheValues[scope][shard].lastUpdate = lastUpdateTime
     setShardCache(cacheValues);
@@ -237,50 +251,60 @@ function createShardValues():shardLockCache {
     }
     return output
 }
-/**
- * Takes the output from JSON.parse'ing the cache and verifies that it matches the shardLockCache interface.
- *
- * @param {*} cacheOutput
- * @return {*}  {shardLockCache}
- */
-function updateCache(cacheOutput): shardLockCache {
-    let scopes = ["Zone", "District", "Area"];
-    let testScope: string = scopes[Math.floor(Math.random() * scopes.length)];
-    let testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
-    let testSet = cacheOutput[testScope][testShard];
-    // try {
-    // if (typeof testSet["active"] == 'boolean' && typeof +testSet[lastUpdate] == 'number') {
-    //     // Force convert cacheOutput's lastUpdate to type Number
-    try {
+// /**
+//  * Takes the output from JSON.parse'ing the cache and verifies that it matches the shardLockCache interface.
+//  *
+//  * @param {*} cacheOutput
+//  * @return {*}  {shardLockCache}
+//  */
+// function updateCache(cacheOutput): shardLockCache {
+//     let scopes = ["Zone", "District", "Area"];
+//     let testScope: string = scopes[Math.floor(Math.random() * scopes.length)];
+//     let testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
+//     let testSet = cacheOutput[testScope][testShard];
+//     // try {
+//     // if (typeof testSet["active"] == 'boolean' && typeof +testSet[lastUpdate] == 'number') {
+//     //     // Force convert cacheOutput's lastUpdate to type Number
+//     try {
 
-        for (let scope in cacheOutput) {
-            for (let shard in cacheOutput[scope])
-            cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
-        }
-        return cacheOutput;
-    // }
-    // } else {
-    //     console.warn("Cache did not verify, resetting")
-    //     return createShardValues()
-    // }
+//         for (let scope in cacheOutput) {
+//             for (let shard in cacheOutput[scope])
+//             cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
+//         }
+//         return cacheOutput;
+
     
-    } catch (error) {
-        console.warn(cacheOutput)
-        console.error(error);
-        return createShardValues()
-    }
-    // }
-}
-function loadShardCache() {
+//     } catch (error) {
+//         console.warn(cacheOutput)
+//         console.error(error);
+//         return createShardValues()
+//     }
+//     // }
+// }
+function loadShardCache():shardLockCache {
     let cache = CacheService.getScriptCache()
     let cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key)
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
-        var cacheOutput = createShardValues()
+        var cacheOutput:shardLockCache = createShardValues()
     } else {
-        var cacheOutput:shardLockCache = updateCache(JSON.parse(cacheValues))
+        var cacheOutput:shardLockCache = JSON.parse(cacheValues)
+            try {
+                //force converts lastUpdate to number.
+                for (let scope in cacheOutput) {
+                    for (let shard in cacheOutput[scope])
+                        cacheOutput[scope][shard]["lastUpdate"] = +cacheOutput[scope][shard]["lastUpdate"];
+                }
+                // If I can figure out how to, making sure that .active is boolean would be nice, too
+        
+            } catch (error) {
+                console.warn(cacheOutput);
+                console.error(error);
+                return createShardValues()
+            }
+
+        console.log(cacheOutput)
+        return cacheOutput
     }
-    console.log(cacheOutput)
-    return cacheOutput
 }
 
 
