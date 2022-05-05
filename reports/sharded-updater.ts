@@ -124,20 +124,21 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     let targetScope = currentState[scope]
     let worked = false
     let availShardKeys: manyShardEntries = {}
+    let lockedKeys = 0
     // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
         if (currentState[scope][i.toString()].active == false) {
             // availableShards.push(i.toString())
             availShardKeys[i.toString()] = currentState[scope][i.toString()]
+            lockedKeys++
         } else {
-            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && Object.keys(availShardKeys.length).length == 0) {
-                
+            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && lockedKeys == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards) {
                 console.log("Nothing available to update on scope" + scope)
             }
         }
 
     }
-    //T3_H4_R6: Choose from group of least recently updated shards.
+    //T3_H5_R6: Choose from group of least recently updated shards.
     let smallGuys = getSmallestGroup(availShardKeys)
     let availableShards = []
     for (let entry in smallGuys) {
