@@ -260,8 +260,11 @@ function updateCache(cacheOutput): shardLockCache {
     try {
 
         for (let scope in cacheOutput) {
-            for (let shard in cacheOutput[scope])
-            cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
+            for (let shard in cacheOutput[scope]) {
+                cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
+                cacheOutput[scope][shard].active = Boolean(cacheOutput[scope][shard].active)
+                
+            }
         }
         return cacheOutput;
     // }
