@@ -188,10 +188,10 @@ function turnArrayToString(array) {
 }
 
 function shardLock_updateActivity(scope: filesystemEntry["fsScope"], shard: string, isActive: boolean) {
-    let cacheValues = loadShardCache();
+    let cacheValues = updateCache(loadShardCache());
     let lastUpdateTime = new Date().getTime()
-    cacheValues[scope][shard].active = isActive;
-    cacheValues[scope][shard].lastUpdate = lastUpdateTime
+    cacheValues[scope][shard]["active"] = isActive;
+    cacheValues[scope][shard]["lastUpdate"] = lastUpdateTime
     setShardCache(cacheValues);
 }
 
