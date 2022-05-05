@@ -94,7 +94,7 @@ function testShardUpdater6() {
 
 function updateShard(scope: filesystemEntry["fsScope"]) {
     // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
-    let currentState = loadShardCache()
+    let currentState:shardLockCache = loadShardCache()
     let scopeFunctionTargets = {
         "Zone": updateZoneReportsV5,
         "District": updateDistrictReportsV5,
@@ -105,7 +105,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     let availableShards = []
     // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
-        if (currentState[scope][i.toString()] == false) {
+        if (currentState[scope][i.toString()].active == false) {
             availableShards.push(i.toString())
         } else {
             if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && availableShards.length == 0) {
@@ -120,12 +120,12 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // BUGFIX:   was Math.floor(Math.random() * availableShards.length)
     // Making things be offset by 1 was a terrible idea in retrospect- should've handled zero differently from null / "" / undefined.  Oops.
 
-    let targetShard:Number = availableShards[Math.floor(Math.random() * (availableShards.length))]
+    let targetShard:number = availableShards[Math.floor(Math.random() * (availableShards.length))]
     console.log("Scope: ",scope," available shards:",availableShards,"targeted shard:",targetShard)
     // currentState[scope][targetShard.toString()] = true;
     // setShardCache(currentState);
-    updateCacheValue(scope, targetShard.toString(),true)
     // LOCKOUT as fast as possible
+    shardLock_updateActivity(scope, targetShard.toString(),true)
     let runner_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
         functionArg: targetShard.toString(),
@@ -138,7 +138,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // currentState = loadShardCache();
     // currentState[scope][targetShard.toString()] = false;
     // setShardCache(currentState)
-    updateCacheValue(scope, targetShard.toString(), false)
+    shardLock_updateActivity(scope, targetShard.toString(), false)
     console.log(loadShardCache())
     
 
@@ -162,56 +162,93 @@ function turnArrayToString(array) {
     return outString;
 }
 
-function updateCacheValue(scope: filesystemEntry["fsScope"], shard: string, value: boolean) {
+function shardLock_updateActivity(scope: filesystemEntry["fsScope"], shard: string, isActive: boolean) {
     let cacheValues = loadShardCache();
-    cacheValues[scope][shard] = value;
+    let lastUpdateTime = new Date().getTime()
+    cacheValues[scope][shard].active = isActive;
+    cacheValues[scope][shard].lastUpdate = lastUpdateTime
     setShardCache(cacheValues);
 }
 
-function testShardCache() {
-    let shardCacheValues = loadShardCache();
-    console.log(shardCacheValues);
+// function testShardCache() {
+//     let shardCacheValues = loadShardCache();
+//     console.log(shardCacheValues);
 
-    shardCacheValues.Area[0] = true;
+//     shardCacheValues[Area][0].
 
-    setShardCache(shardCacheValues);
+//     setShardCache(shardCacheValues);
 
-    let testCache = loadShardCache();
+//     let testCache = loadShardCache();
 
-    console.log(shardCacheValues.Area[0]);
+//     console.log(shardCacheValues.Area[0]);
 
+// }
+
+
+type shardLockCache = {
+    [index in filesystemEntry["fsScope"]]:shardSet
+}
+interface shardSet {
+    [index:string]:shardEntry
 }
 
-type manyShardValues = {
-    [index in filesystemEntry["fsScope"]]:shardValueSet
-}
-
-interface shardValueSet {
-    [index:number]:boolean|null
+interface shardEntry {
+    active: boolean,
+    lastUpdate:number,
 }
 
 
-function createShardValues():manyShardValues {
+
+
+
+function createShardValues():shardLockCache {
     let maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards
-    let output: manyShardValues = {}
+    let output: shardLockCache = {"Zone": {},"District": {},"Area": {},
+    }
     for (let scope of ["Zone", "District", "Area"]) {
         output[scope] = {}
         for (let i = 1; i <= maxShards; i++){
-            output[scope][i.toString()] = false
+            let entry: shardEntry = {
+                active: false,
+                lastUpdate:0
+            }
+            output[scope][i.toString()] = entry
         }
         
     }
     return output
 }
+/**
+ * Takes the output from JSON.parse'ing the cache and verifies that it matches the shardLockCache interface.
+ *
+ * @param {*} cacheOutput
+ * @return {*}  {shardLockCache}
+ */
+function verifyCache(cacheOutput) :shardLockCache{
+    let scopes = ["Zone", "District", "Area"];
+    let testScope:string = scopes[Math.floor(Math.random() * scopes.length)]
+    let testShard:string = Math.floor(Math.random()*INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString()
+    let testSet = cacheOutput[testScope][testShard]
+    if (typeof testSet.active == 'boolean' && typeof +testSet.lastUpdate == 'number') {
+        // Force convert cacheOutput's lastUpdate to type Number
+        for (let scope of cacheOutput) {
+            for (let shard of cacheOutput[scope])
+                cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate
+        }
+        return cacheOutput
+    } else {
+        console.warn("Cache did not verify, resetting")
+        return createShardValues()
+    }
+}
 
 function loadShardCache() {
     let cache = CacheService.getScriptCache()
     let cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key)
-    let cacheOutput: manyShardValues = {}
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
-        cacheOutput = createShardValues()
+        var cacheOutput = createShardValues()
     } else {
-        cacheOutput = JSON.parse(cacheValues)
+        var cacheOutput:shardLockCache = verifyCache(JSON.parse(cacheValues))
     }
     console.log(cacheOutput)
     return cacheOutput
@@ -226,7 +263,7 @@ function clearShardCache() {
     cache.remove(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
 }
 
-function setShardCache(shardCacheObject: manyShardValues) {
+function setShardCache(shardCacheObject: shardLockCache) {
     let cacheValue = JSON.stringify(shardCacheObject)
     let cache = CacheService.getScriptCache()
     cache.put(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue)
