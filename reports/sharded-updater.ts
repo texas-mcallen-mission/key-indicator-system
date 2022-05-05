@@ -246,6 +246,7 @@ function updateCache(cacheOutput): shardLockCache {
     // }
     
     } catch (error) {
+        console.warn(cacheOutput)
         console.error(error);
         return createShardValues()
     }
