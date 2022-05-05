@@ -140,7 +140,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     }
 
     let targetShard:number = availableShards[Math.floor(Math.random() * (availableShards.length))]
-    console.log("Scope: ",scope," available shards:",availableShards,"targeted shard:",targetShard)
+    console.log("Scope: ",scope," available shards:",availableShards,smallGuys,"targeted shard:",targetShard)
     // currentState[scope][targetShard.toString()] = true;
     // setShardCache(currentState);
     // LOCKOUT as fast as possible
