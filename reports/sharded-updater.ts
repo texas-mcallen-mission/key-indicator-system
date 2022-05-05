@@ -90,6 +90,22 @@ function testShardUpdater6() {
 //     meta_runner(scope, triggerTypes.timeBased, targetShard, true);
 // }
 
+function getSmallestGroup(shardKeys: shardEntry[]):shardEntry[] {
+    let smallest: number = Number.MAX_SAFE_INTEGER
+    let smallestSet:shardEntry[] = []
+    for (let shardKey of shardKeys) {
+        let updateTime: number = shardKey.lastUpdate
+        if (updateTime == smallest) {
+            smallestSet.push(shardKey)
+        }
+        if (updateTime < smallest) {
+            smallest = updateTime
+            smallestSet = [shardKey]
+        }
+    }
+    return smallestSet
+    
+}
 
 
 function updateShard(scope: filesystemEntry["fsScope"]) {
@@ -102,23 +118,26 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     }
     let targetScope = currentState[scope]
     let worked = false
-    let availableShards = []
+    let availShardKeys:shardEntry[] = []
     // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
         if (currentState[scope][i.toString()].active == false) {
-            availableShards.push(i.toString())
+            // availableShards.push(i.toString())
+            availShardKeys.push(currentState[scope][i.toString()])
         } else {
-            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && availableShards.length == 0) {
+            if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && availShardKeys.length == 0) {
                 
                 console.log("Nothing available to update on scope" + scope)
-                return // breaks function, so we don't run anything else
             }
         }
 
     }
-    // this should be a little smarter, because it'll pick one from the available shards at random instead of running the first one all the time.
-    // BUGFIX:   was Math.floor(Math.random() * availableShards.length)
-    // Making things be offset by 1 was a terrible idea in retrospect- should've handled zero differently from null / "" / undefined.  Oops.
+    //T3_H4_R6: Choose from group of least recently updated shards.
+    let smallGuys = getSmallestGroup(availShardKeys)
+    let availableShards = []
+    for (let entry in smallGuys) {
+        availableShards.push(entry.toString())
+    }
 
     let targetShard:number = availableShards[Math.floor(Math.random() * (availableShards.length))]
     console.log("Scope: ",scope," available shards:",availableShards,"targeted shard:",targetShard)
