@@ -34,7 +34,7 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
         let dLog: dataLogger = new dataLogger(functionName.name,dLogArgs);
         dLog.startFunction(functionName.name);
         try {
-            if (args.functionArg == undefined) {    
+            if (args.functionArg == undefined) {
                 functionName(dLog);
             } else {
                 Logger.log(typeof args.functionArg);
@@ -57,7 +57,7 @@ class meta_locker {
     appendString = "Some Random Words To Avoid Weird Problems";
 
     onShard = false;
-    shardValue: string|null = null 
+    shardValue: string|null = null
 
     cacheString = "UNDEFINED"
     constructor(functionName,shardString:null|string = null) {
