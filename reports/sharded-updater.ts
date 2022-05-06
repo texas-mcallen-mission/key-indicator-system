@@ -139,9 +139,6 @@ interface shardEntry {
 }
 
 
-
-
-
 function createShardValues(): shardLockCache {
     let maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards;
     let output: shardLockCache = {
@@ -176,11 +173,11 @@ function updateCache(cacheOutput): shardLockCache {
         for (let scope in cacheOutput) {
             if (Object.prototype.hasOwnProperty.call(cacheOutput, scope)) {// codefactor.io suggestion
                 for (let shard in cacheOutput[scope]) {
-                    cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
-                    cacheOutput[scope][shard].active = Boolean(cacheOutput[scope][shard].active);
-    
+                    if (Object.prototype.hasOwnProperty.call(cacheOutput[scope], shard)) { // codefactor.io suggestion
+                        cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
+                        cacheOutput[scope][shard].active = Boolean(cacheOutput[scope][shard].active);
+                    }
                 }
-                
             }
         }
         return cacheOutput;
