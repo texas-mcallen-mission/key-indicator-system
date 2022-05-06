@@ -144,7 +144,10 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     for (let entry in smallGuys) {
         availableShards.push(entry.toString())
     }
-
+    if (availableShards.length == 0) {
+        console.warn("Nothing to update!")
+        return
+    }
     let targetShard:string = availableShards[Math.floor(Math.random() * (availableShards.length))]
     console.log("Scope: ",scope," available shards:",availableShards,smallGuys,"targeted shard:",targetShard)
     // currentState[scope][targetShard.toString()] = true;
