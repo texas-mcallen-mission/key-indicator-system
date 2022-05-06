@@ -400,6 +400,22 @@ class shardLockV2 {
         return this;
     }
 
+    testShardUpdating() {
+        let cache_pre = this.cacheData
+        let targetShard = "2"
+        let shardPre = cache_pre[targetShard]
+        shardPre.active = !shardPre.active
+        shardPre.lastUpdate += 200
+        this.updateShard(targetShard, shardPre)
+
+        let cache_post = this.cacheData
+        if (cache_pre == cache_post) {
+            throw "🔥 Cache Update Test FAILED!"
+        } else {
+            console.info("✅Cache Update Passed!")
+        }
+    }
+
     pickShardToUpdate(): string | null {
         let cacheData = this.cacheData;
 
