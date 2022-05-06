@@ -160,8 +160,11 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     }
     let shardLocker = new shardLockV2(scope)
 
-    let targetShard = shardLocker.pickShardToUpdate()
-
+    let targetShard:string|null = shardLocker.pickShardToUpdate()
+    if (targetShard == null) {
+        console.info("Exiting: Nothing to Update!")
+        return
+    }
     shardLocker.updateShard(targetShard, true)
     let runner_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
