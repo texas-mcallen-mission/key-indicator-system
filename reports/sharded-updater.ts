@@ -125,15 +125,16 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     let worked = false
     let availShardKeys: manyShardEntries = {}
     let lockedKeys = 0
-    // TODO: make this a little smarter so that the first group of seeds isn't the only one getting updated in weird unloaded edge cases
+
     for (let i = 1; i <= INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards; i++){
         if (currentState[scope][i.toString()].active == false) {
             // availableShards.push(i.toString())
             availShardKeys[i.toString()] = currentState[scope][i.toString()]
-            lockedKeys++
         } else {
+            lockedKeys++ // H5_R14: Failure point analysis
             if (i == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards && lockedKeys == INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards) {
                 console.log("Nothing available to update on scope" + scope)
+                return // H5_R14: Failure point analysis
             }
         }
 
@@ -188,6 +189,24 @@ function turnArrayToString(array) {
     }
     outString += "]";
     return outString;
+}
+
+function testShardLock() {
+    let shardLockCache_Pre:shardLockCache = updateCache(loadShardCache())
+    let scope:"District" = "District"
+    let test: shardSet = {}
+    let shard = "2"
+    let isActive = !shardLockCache_Pre[scope][shard].active
+    shardLock_updateActivity(scope, shard, isActive)
+    let shardLockCache_Post: shardLockCache = updateCache(loadShardCache())
+    
+    if (shardLockCache_Post[scope][shard].active == shardLockCache_Pre[scope][shard].active) {
+        console.error("FAILURE")
+        throw "shardLockTest failed, value not changed"
+    } else {
+        shardLock_updateActivity(scope, shard, !isActive)
+        console.warn("testShardLock PASSED!")
+    }
 }
 
 function shardLock_updateActivity(scope: filesystemEntry["fsScope"], shard: string, isActive: boolean) {
