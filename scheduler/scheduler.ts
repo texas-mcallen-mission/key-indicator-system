@@ -40,7 +40,7 @@ class meta_locker {
     appendString = "Some Random Words To Avoid Weird Problems";
 
     onShard = false;
-    shardValue: string|null = null 
+    shardValue: string|null = null
 
     cacheString = "UNDEFINED"
     constructor(functionName,shardString:null|string = null) {
