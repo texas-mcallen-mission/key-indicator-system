@@ -203,29 +203,11 @@ function turnArrayToString(array) {
 }
 
 function testShardLock() {
-    let shardLockCache_Pre: shardLockCache = updateCache(loadShardCache());
-    let scope: "District" = "District";
-    let test: shardSet = {};
-    let shard = "2";
-    let isActive = !shardLockCache_Pre[scope][shard].active;
-    shardLock_updateActivity(scope, shard, isActive);
-    let shardLockCache_Post: shardLockCache = updateCache(loadShardCache());
-
-    if (shardLockCache_Post[scope][shard].active == shardLockCache_Pre[scope][shard].active) {
-        console.error("FAILURE");
-        throw "shardLockTest failed, value not changed";
-    } else {
-        shardLock_updateActivity(scope, shard, !isActive);
-        console.warn("testShardLock PASSED!");
+    let args: shardLockV2Args = {
+        enableConcurrentUpdates:false
     }
-}
-
-function shardLock_updateActivity(scope: filesystemEntry["fsScope"], shard: string, isActive: boolean) {
-    let cacheValues = updateCache(loadShardCache());
-    let lastUpdateTime = new Date().getTime();
-    cacheValues[scope][shard]["active"] = isActive;
-    cacheValues[scope][shard]["lastUpdate"] = lastUpdateTime;
-    setShardCache(cacheValues);
+    let shardLocker = new shardLockV2("Zone", args)
+    shardLocker.testShardUpdating()
 }
 
 
