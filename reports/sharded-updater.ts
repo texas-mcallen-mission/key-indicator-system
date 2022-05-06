@@ -372,7 +372,7 @@ class shardLockV2 {
     get cacheData(): shardSet {
         let cache = CacheService.getScriptCache();
         let shardData: shardSet = {};
-        // let cacheStrings:string[] = []
+
         for (let i = 1; i <= this.numberOfShards; i++) {
             if (this.currentScope) {
                 let cacheKey: string = this.shard_prefix + i.toString();
@@ -391,8 +391,12 @@ class shardLockV2 {
     updateShard(shardNumber: string,value:boolean): this {
         let cache = CacheService.getScriptCache()
         let cacheKey = this.shard_prefix + shardNumber;
-        let cacheValue = value.toString()
-        cache.put(cacheKey, cacheValue)
+        let updateTime = new Date().getTime()
+        let cacheValue: shardEntry = {
+            active: value,
+            lastUpdate:updateTime
+        }
+        cache.put(cacheKey, JSON.stringify(cacheValue))
         return this;
     }
 
