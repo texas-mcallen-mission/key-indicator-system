@@ -326,7 +326,7 @@ function parseCacheLockValue(cacheVal: string | null): shardEntry {
         active: false,
         lastUpdate: 0,
     };
-    if (!cacheVal) { // uses falsy characteristics: if null or "", we'll return the default number
+    if (cacheVal != null) { // used, until T4_R6, falsy characteristics: if null or "", we'll return the default number
         let deString = JSON.parse(cacheVal);
         try {
             output.active = deString["active"];
@@ -388,16 +388,16 @@ class shardLockV2 {
     }
 
     testShardUpdating() {
-        let cache_mod = this.cacheData
-        let targetShard = "2"
-        let shardPre = cache_mod[targetShard]
+        let cache_mod:shardSet = this.cacheData
+        let targetShard:string = "2"
+        let shardPre:shardEntry = cache_mod[targetShard]
         shardPre.active = !shardPre.active
         shardPre.lastUpdate += 200
-        let cache_pre = this.cacheData
+        let cache_pre: shardSet = this.cacheData
         this.updateShard(targetShard, shardPre.active)
 
-        let cache_post = this.cacheData
-        if (cache_pre == cache_post) {
+        let cache_post:shardSet = this.cacheData
+        if (cache_pre[targetShard].lastUpdate == cache_post[targetShard].lastUpdate) {
             throw "🔥 Cache Update Test FAILED!"
         } else {
             console.info("✅Cache Update Passed!")
