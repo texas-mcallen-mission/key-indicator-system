@@ -217,19 +217,7 @@ function shardLock_updateActivity(scope: filesystemEntry["fsScope"], shard: stri
     setShardCache(cacheValues);
 }
 
-// function testShardCache() {
-//     let shardCacheValues = loadShardCache();
-//     console.log(shardCacheValues);
 
-//     shardCacheValues[Area][0].
-
-//     setShardCache(shardCacheValues);
-
-//     let testCache = loadShardCache();
-
-//     console.log(shardCacheValues.Area[0]);
-
-// }
 
 
 type shardLockCache = {
