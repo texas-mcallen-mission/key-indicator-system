@@ -370,7 +370,7 @@ class shardLockV2 {
         return shardData;
     }
 
-    updateShard(shardNumber: string,value): this {
+    updateShard(shardNumber: string,value:boolean): this {
         let cache = CacheService.getScriptCache()
         let cacheKey = this.shard_prefix + shardNumber;
         let updateTime = new Date().getTime()
@@ -380,17 +380,18 @@ class shardLockV2 {
         }
         let cacheValue = JSON.stringify(cacheData)
         console.warn(cacheValue)
-        cache.put(cacheKey, cacheValue)
+        cache.put(cacheKey, cacheValue,900 /*15 minutes * 60 seconds*/)
         return this;
     }
 
     testShardUpdating() {
-        let cache_pre = this.cacheData
+        let cache_mod = this.cacheData
         let targetShard = "2"
-        let shardPre = cache_pre[targetShard]
+        let shardPre = cache_mod[targetShard]
         shardPre.active = !shardPre.active
         shardPre.lastUpdate += 200
-        this.updateShard(targetShard, shardPre)
+        let cache_pre = this.cacheData
+        this.updateShard(targetShard, shardPre.active)
 
         let cache_post = this.cacheData
         if (cache_pre == cache_post) {
