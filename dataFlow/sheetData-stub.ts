@@ -13,7 +13,8 @@ function constructSheetData(force = false) {
     }
     let allSheetData = constructSheetDataV2(sheetDataConfig.local);
     let preKey = allSheetData.data.getKeys();
-    syncDataFlowCols_(allSheetData.form, allSheetData.data);
+    // syncDataFlowCols_(allSheetData.form, allSheetData.data);
+    allSheetData.data.addKeys(allSheetData.form)
     let postKey = allSheetData.data.getKeys();
     Logger.log(preKey);
     Logger.log(postKey);
