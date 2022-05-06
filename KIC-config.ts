@@ -247,12 +247,12 @@ let INTERNAL_CONFIG = {
                 pruneFS_TimeBasedTrigger: 30,
                 // updateTMMReport_TimeBasedTrigger: 1,
                 // updateLocalDataStore_TimeBasedTrigger: 1,
-                testShardUpdater2: 1,
-                testShardUpdater1: 1,
-                testShardUpdater3: 1,
-                testShardUpdater4: 1,
-                testShardUpdater5: 1,
-                testShardUpdater6: 1,
+                areaShardUpdater1: 1,
+                areaShardUpdater2: 1,
+                districtShardUpdater1: 1,
+                districtShardUpdater2: 1,
+                zoneShardUpdater1: 1,
+                zoneShardUpdater2: 1,
 
             },
             hours: { // valid increments: any integer >= 1

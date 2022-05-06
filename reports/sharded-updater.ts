@@ -1,25 +1,25 @@
 // Goal:  Build three a shard updating thing, using caching 
 
-function testShardUpdater1() {
+function areaShardUpdater1() {
     updateShard("Area")
 }
 
-function testShardUpdater2() {
+function districtShardUpdater1() {
     updateShard("District");
 }
 
-function testShardUpdater3() {
+function zoneShardUpdater1() {
     updateShard("Zone")
 }
-function testShardUpdater4() {
+function areaShardUpdater2() {
     updateShard("Area");
 }
 
-function testShardUpdater5() {
+function districtShardUpdater2() {
     updateShard("District");
 }
 
-function testShardUpdater6() {
+function zoneShardUpdater2() {
     updateShard("Zone");
 }
 
