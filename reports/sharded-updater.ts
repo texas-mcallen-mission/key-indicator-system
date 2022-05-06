@@ -206,7 +206,7 @@ function testShardLock() {
     let args: shardLockV2Args = {
         enableConcurrentUpdates:false
     }
-    let shardLocker = new shardLockV2("Zone", args)
+    let shardLocker = new shardLockV2("District", args)
     shardLocker.testShardUpdating()
 }
 
@@ -370,15 +370,17 @@ class shardLockV2 {
         return shardData;
     }
 
-    updateShard(shardNumber: string,value:boolean): this {
+    updateShard(shardNumber: string,value): this {
         let cache = CacheService.getScriptCache()
         let cacheKey = this.shard_prefix + shardNumber;
         let updateTime = new Date().getTime()
-        let cacheValue: shardEntry = {
+        let cacheData: shardEntry = {
             active: value,
             lastUpdate:updateTime
         }
-        cache.put(cacheKey, JSON.stringify(cacheValue))
+        let cacheValue = JSON.stringify(cacheData)
+        console.warn(cacheValue)
+        cache.put(cacheKey, cacheValue)
         return this;
     }
 
