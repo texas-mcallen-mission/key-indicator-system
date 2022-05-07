@@ -97,23 +97,23 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
 
 }
 
+// No longer needed.
+// function turnArrayToString(array) {
+//     let outString = "[";
+//     for (let i in array) {
+//         let entry = array[i];
+//         if (entry.constructor.name == "Array") {
+//             outString += turnArrayToString(entry);
 
-function turnArrayToString(array) {
-    let outString = "[";
-    for (let i in array) {
-        let entry = array[i];
-        if (entry.constructor.name == "Array") {
-            outString += turnArrayToString(entry);
-
-        } else {
-            outString += entry;
-        }
-        // formatting: if not the last entry in a stack, append a comma.
-        if (+i != array.length - 1) { outString += ", "; }
-    }
-    outString += "]";
-    return outString;
-}
+//         } else {
+//             outString += entry;
+//         }
+//         // formatting: if not the last entry in a stack, append a comma.
+//         if (+i != array.length - 1) { outString += ", "; }
+//     }
+//     outString += "]";
+//     return outString;
+// }
 
 function testShardLock() {
     let args: shardLockV2Args = {
@@ -285,7 +285,7 @@ class shardLockV2 {
         };
         let cacheValue = JSON.stringify(cacheData);
         console.warn(cacheValue);
-        cache.put(cacheKey, cacheValue, 900 /*15 minutes * 60 seconds*/);
+        cache.put(cacheKey, cacheValue, INTERNAL_CONFIG.fileSystem.shardManager.timeout_in_seconds );
         return this;
     }
 

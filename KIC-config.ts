@@ -166,7 +166,7 @@ let INTERNAL_CONFIG = {
             number_of_shards: 4, // this is 1-indexed: if you put 4 here, you will get 4 shards, not 5 total
             max_spread: 2, // the maximum amount of variation allowed in shard size- needs to be at least 1 otherwise you might have some problems, especially with large shard counts.
             shard_cache_base_key: "THISISTHESONGTHATNEVERENDSOHYESMYFRIENDS",
-            timeout_in_seconds: 1880,
+            timeout_in_seconds: 600, /*10 minutes: 60 seconds * 10 */
         },
 
     },
@@ -258,6 +258,9 @@ let INTERNAL_CONFIG = {
             hours: { // valid increments: any integer >= 1
                 updateForm_TimeBasedTrigger: 2, // 
                 createMissingReports: 1,
+                updateAreaReportsV5:1,
+                updateDistrictReportsV5:1,
+                updateZoneReportsV5:1,
             },
             days: { // valid increments: any integer >= 1
                 sharefileSystem_TimeBasedTrigger: 1,
