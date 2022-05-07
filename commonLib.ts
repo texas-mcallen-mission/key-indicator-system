@@ -156,7 +156,7 @@ function isFolderAccessible_(folderID:string):boolean {
             output = false;
         }
     }
-    if (output = true) {
+    if (output == true) {
         accessibleFolderCache.good.push(folderID);
     } else {
         accessibleFolderCache.bad.push(folderID);
@@ -202,7 +202,7 @@ function isFileAccessible_(fileID: string):boolean {
         }
     }
 
-    if (output = true) {
+    if (output == true) {
         accessibleFileCache.good.push(fileID)
     } else {
         accessibleFileCache.bad.push(fileID)
