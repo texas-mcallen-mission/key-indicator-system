@@ -1,10 +1,8 @@
 # key-indicator-system
 
-| Branch | Status |
-| --- | --- |
-| Main | [![Deploy Script](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/main.yml) |
-| bert-instance-2 |[![BERT-INSTANCE-2 - ReportCreator-HOTFIX](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml/badge.svg)](https://github.com/texas-mcallen-mission/key-indicator-system/actions/workflows/BERT-INSTANCE-2.yml) |
-| [tmm-dev/kic-release](https://github.com/tmm-dev/kic-release) | [![RELEASE](https://github.com/tmm-dev/kic-release/actions/workflows/main.yml/badge.svg)](https://github.com/tmm-dev/kic-release/actions/workflows/main.yml) |
+[![CodeFactor](https://www.codefactor.io/repository/github/texas-mcallen-mission/key-indicator-system/badge)](https://www.codefactor.io/repository/github/texas-mcallen-mission/key-indicator-system)
+
+***This is no longer being actively developed!  It is being maintained, and will continue to be for at least the remainder of 2022.  At this point, it is likely that the only major changes to this system will be stability improvements.***
 
 ## What Is This?
 

@@ -30,11 +30,11 @@ function testStringify() {
     let test = JSON.stringify(sheetDataConfig);
     console.log(test);
 
-    let test2 = JSON.stringify(sheetDataConfig.local);
+    let test2 = JSON.stringify(sheetDataConfig);
     console.log(test2);
 
-    let allSheetDataLocal = constructSheetDataV2(sheetDataConfig.local);
-    let allSheetDataRemote = constructSheetDataV2(sheetDataConfig.remote);
+    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    // let allSheetDataRemote = constructSheetDataV2(sheetDataConfig.remote);
     // I think I can turn this bad boi into a cached sheetData again if I try hard enough
 
     let testingSheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -43,9 +43,9 @@ function testStringify() {
 
     if (jsonTestSheet != null) {
         let localRange = jsonTestSheet.getRange(1, 1);
-        localRange.setValue(JSON.stringify(allSheetDataLocal));
+        localRange.setValue(JSON.stringify(allSheetData));
         let remoteRange = jsonTestSheet.getRange(2, 1);
-        remoteRange.setValue(JSON.stringify(allSheetDataRemote));
+        remoteRange.setValue(JSON.stringify(allSheetData));
     }
 }
 

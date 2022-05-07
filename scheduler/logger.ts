@@ -23,14 +23,18 @@ const logMetaKeys = {
     baseFunction: "baseFunction",
     triggerType: "triggerType",
     timeStarted: "timeStarted",
-    timeEnded: "timeEnded"
+    timeEnded: "timeEnded",
+    shardID: "shardID",
+    shardInstanceID: "shardInstanceID",
+    debugLogData:"debugLogData",
 };
 
 const triggerTypes = {
     "timeBased": "timeBased",
     "manual": "manual",
     "menu": "menu",
-    "DEBUG": "DEBUG"
+    "DEBUG": "DEBUG",
+    "onOpen":"onOpen"
 };
 
 function justForTesting_(dLog: dataLogger, arg1: any) {
@@ -38,14 +42,19 @@ function justForTesting_(dLog: dataLogger, arg1: any) {
 }
 
 function testMetaRunnerSys() {
-    meta_runner(justForTesting_, triggerTypes.DEBUG);
+    let meta_args: meta_runner_args = {trigger: triggerTypes.DEBUG }
+    meta_runner(justForTesting_,meta_args);
 }
 
 function test_dataLogger() {
     // basically yoinked from meta_runner for debugging purposes
     let functionArg1 = "PASSTHROUGH ARGUMENT";
     console.log("[META_RUNNER] - Running ", "justForTesting_", " with trigger:", triggerTypes.DEBUG);
-    let dLog = new dataLogger("justForTesting_", triggerTypes.DEBUG, false);
+    let dLogArgs: debugLogArgs = {
+        trigger: triggerTypes.DEBUG,
+        isInline:false
+    }
+    let dLog = new dataLogger("justForTesting_", dLogArgs);
     dLog.startFunction("justForTesting_");
     try {
 
@@ -59,6 +68,14 @@ function test_dataLogger() {
     dLog.end();
 }
 
+interface debugLogArgs {
+    trigger:string
+    isInline?: boolean,
+    shardId?: null | string | number,
+    scopeValue?: string,
+    logString?:string
+}
+
 // function getDataLogSheet_() {
 //     let worksheet = SpreadsheetApp.getActiveSpreadsheet();
 //     let sheetData = getReportOrSetUpFromOtherSource_("DEBUG SHEET", worksheet);
@@ -70,14 +87,33 @@ class dataLogger {
     logMetaData = {};
 
     inline = false;
-    constructor(baseFunctionName, trigger, isInline = false) {
+    
+    get sheetData(): SheetData {
+        //@ts-expect-error
+        return this.sheetDataa
+    }
+
+    set sheetData(SheetData: SheetData){
+        //@ts-expect-error
+        this.sheetDataa = this.sheetData
+    }
+
+    constructor(baseFunctionName: string, args: debugLogArgs = { trigger: "", isInline: false, shardId: null, scopeValue: "" ,logString:""}) {
         this.logMetaData[logMetaKeys.baseFunction] = baseFunctionName;
         this.logMetaData[logMetaKeys.timeStarted] = new Date();
-        this.logMetaData[logMetaKeys.triggerType] = trigger;
+        this.logMetaData[logMetaKeys.triggerType] = args.trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
-        this.inline = isInline;
+        if (args.shardId != null) {
+            this.logMetaData[logMetaKeys.shardID] = args.shardId
+            if (args.scopeValue != "") { this.logMetaData[logMetaKeys.shardInstanceID] = args.scopeValue + "_" + args.shardId; }
+        } else {
+            this.logMetaData[logMetaKeys.shardID] = ""
+        }
+        if(args.logString!=""){this.logMetaData[logMetaKeys.debugLogData] = args.logString}
+        this.inline = args.isInline;
         let targetSheetEntry = sheetDataConfig.local.debug
-        let rawSheetData = new RawSheetData(targetSheetEntry.tabName,targetSheetEntry.headerRow,targetSheetEntry.initialColumnOrder,targetSheetEntry.includeSoftcodedColumns,targetSheetEntry.sheetId,targetSheetEntry.allowWrite)
+        let rawSheetData = new RawSheetData(targetSheetEntry)
+
         this.sheetData = new SheetData(rawSheetData)
     }
 
@@ -143,32 +179,11 @@ class dataLogger {
             }
         }
 
-
-
-        // let dataLogSheetData = getDataLogSheet_();
-        // let dataLogSheet = dataLogSheetData.sheet;
-
         let log_data = [];
-        // let header = [];
 
-        // let header_changed = false;
-
-        // This will get integrated into the config file in the future, but there isn't much of a reason to quite yet
-        // NEXT GOAL: Get things to not overwrite each other
-        // let USE_OLD_DATA = true;
         let GET_META_DATA = true;
         let INCLUDE_GITHUB_METADATA = true;
         let REMOVE_CYCLE_TIMING_DATA = false;
-
-        // if (USE_OLD_DATA) {
-        //     header = dataLogSheetData.headerData;
-        //     // log_data = dataLogSheetData.data;  // This code assumes that this will either be an empty array or a two-dimensional array of arrays (like this: [ [],[],[]])
-        // }
-
-        // if (!header.includes(logKeys.functionName)) {
-        //     header.push(logKeys.functionName);
-        //     header_changed = true;
-        // }
 
         for (let functionNameKey in this.logData) {
             // let entry = [];
@@ -198,61 +213,21 @@ class dataLogger {
             }
 
             if (GET_META_DATA) {
-                // for (let metaKey in logMetaKeys) {
-                //     // if (!header.includes(metaKey)) { header.push(metaKey); header_changed = true; }
-                //     // entry[header.indexOf(metaKey)] = this.logMetaData[metaKey];
-                // }
+
                 newEntry = { ...newEntry, ...this.logMetaData };
             }
 
             // pulls in data from git-info- SUPER useful for multiple deployments
             if (INCLUDE_GITHUB_METADATA) {
-                // for (let gitKey in GITHUB_DATA) {
-                //     // if (!header.includes(gitKey)) { header.push(gitKey); header_changed = true; }
-                //     entry[header.indexOf(gitKey)] = GITHUB_DATA[gitKey];
-                // }
+
                 newEntry = { ...newEntry, ...GITHUB_DATA };
             }
 
-
-
-            // for (let subKey in this.logData[functionNameKey]) {
-            //     if (!header.includes(subKey)) {
-            //         header.push(subKey);
-            //         header_changed = true;
-            //     }
-            //     entry[header.indexOf(subKey)] = this.logData[functionNameKey][subKey];
-            // addToSheet_(log_data)
-
+            // TODO rework this... 
             debug_write_lock_();
             addToSheet_(newEntry);
             debug_write_unlock_();
-            // log_data.push(newEntry);
 
-
-
-
-            // THIS WAS THE WAY I DID IT: But it has a problem:  We REALLY don't want to have to deal with accidentally overwriting data with concurrent functions, and this just increases our risk a LOT
-            // let outData = resize_data_(log_data, header);
-
-            // let sortColumn = 1;
-            // if (header.includes(logMetaKeys.timeStarted)) { sortColumn = header.indexOf(logMetaKeys.timeStarted); }
-
-            // let args = {
-            //     sortColumn: sortColumn,
-            //     ascending: false
-            // };
-
-            // sendDataToDisplayV3_(header, outData, dataLogSheet, args);
-
-            // if (header_changed == true) {
-            // let headerRange = dataLogSheet.getRange(1, 1, 1, header.length);
-
-            // headerRange.setValues([header])
-            // }
-            // prependRows_(log_data, dataLogSheet)
-
-            // Logger.log("logging finished.")
         }
 
     }
@@ -260,8 +235,11 @@ class dataLogger {
 }
 
 function addToSheet_(data: any) {
-    let allSheetData = constructSheetData();
-    let debug = allSheetData.debug;
+    // let allSheetData = constructSheetData();
+    // let debug = allSheetData.debug;
+    let rawSheetData = new RawSheetData(getSheetDataConfig().local.debug)
+    let debug = new SheetData(rawSheetData)
+
 
     debug.appendData(data);
 }
@@ -296,7 +274,12 @@ function time_a_function_classy() {
 
     let startTime = new Date();
     let functionName = "updateDistrictReports";
-    let logger: dataLogger = new dataLogger(functionName, triggerTypes.DEBUG);
+    let dLogArgs: debugLogArgs = {
+        trigger: triggerTypes.DEBUG,
+        isInline: false
+    }
+    
+    let logger: dataLogger = new dataLogger(functionName,dLogArgs);
 
     logger.startFunction(functionName);
     try {

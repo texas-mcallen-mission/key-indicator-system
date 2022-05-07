@@ -215,7 +215,7 @@ function testDoDataOperations() {
 function testDoDataOperationsLive() {
     // integration-style test
     let localSheetData = constructSheetDataV2(sheetDataConfig.local);
-    let fsData: manyFilesystemDatas = localSheetData.distFilesys.getData();
+    let fsData: filesystemData[] = localSheetData.distFilesys.getData();
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
     let kiData = new kiDataClass(localSheetData.data.getData());
 
@@ -231,8 +231,9 @@ function testDoDataOperationsLive() {
  */
 function doDataOperations_(kiData:kiDataClass):kiDataClass {
     let kiDataMod: kiDataClass = _.cloneDeep(kiData)
-    
-    kiDataMod.removeDuplicates().calculateCombinedName().calculateRR().sumFacebookReferrals().calculateRR()
+    kiDataMod.calculatePercentage("rca", "rc", CONFIG.kiData.new_key_names.retentionRate);
+    kiDataMod.createSumOfKeys(CONFIG.kiData.fb_referral_keys, CONFIG.kiData.new_key_names.fb_referral_sum);
+    kiDataMod.removeDuplicates().calculateCombinedName()
 
 
     return kiDataMod
@@ -295,7 +296,7 @@ function testGroupAndSendReports(): void {
  * @param {kiDataClass} kiData
  * @return {*}  {manyKiDataClasses}
  */
-function groupDataAndSendReports_(fsData: manyFilesystemDatas, kiData: kiDataClass, scope: filesystemEntry["fsScope"]): manyKiDataClasses {
+function groupDataAndSendReports_(fsData: filesystemData[], kiData: kiDataClass, scope: filesystemEntry["fsScope"]): manyKiDataClasses {
     let sheetId = CONFIG.reportCreator.targetSheetId
     let output: manyKiDataClasses = {}
     if (Object.keys(fsData).length == 0) {

@@ -9,15 +9,22 @@
 
 //                Time-based triggers
 
-function updateTMMReport_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateTMMReport() from a time-based trigger");
-    meta_runner(updateTMMReport, triggerTypes.timeBased);
-}
+// DEPRECATED, DO NOT NEED ANYMORE
+// function updateTMMReport_TimeBasedTrigger() {
+//     Logger.log("[TRIGGER] Running updateTMMReport() from a time-based trigger");
+//     let meta_args: meta_runner_args = {
+//         trigger:triggerTypes.timeBased
+//     }
+//     meta_runner(updateTMMReport,meta_args);
+// }
 
-function updateLocalDataStore_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateLocalDataStore() from a time-based trigger");
-    meta_runner(updateLocalDataStore,triggerTypes.timeBased)
-}
+// function updateLocalDataStore_TimeBasedTrigger() {
+//     Logger.log("[TRIGGER] Running updateLocalDataStore() from a time-based trigger");
+//         let meta_args: meta_runner_args = {
+//         trigger:triggerTypes.timeBased
+//     }
+//     meta_runner(updateLocalDataStore,meta_args)
+// }
 
 function updateDataSheet_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
@@ -25,8 +32,11 @@ function updateDataSheet_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
         return;
     }
-    meta_runner(updateDataSheet, triggerTypes.timeBased);
-}
+    let meta_args: meta_runner_args = {
+        trigger:triggerTypes.timeBased
+    }
+    meta_runner(updateDataSheet,meta_args)
+    }
 
 function importContacts_TimeBasedTrigger() {
 
@@ -38,8 +48,12 @@ function importContacts_TimeBasedTrigger() {
     }
 
     let allSheetData = constructSheetData();
-    meta_runner(importContacts, triggerTypes.timeBased, allSheetData);
-}
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased,
+        functionArg:allSheetData
+    };
+    meta_runner(importContacts, meta_args)
+    }
 
 function updateForm_TimeBasedTrigger() {
     Logger.log("[TRIGGER] Running updateForm() from a time-based trigger");
@@ -47,9 +61,10 @@ function updateForm_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
-
-    meta_runner(updateForm, triggerTypes.timeBased);
-
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(updateForm, meta_args)
 }
 
 function updateFS_TimeBasedTrigger() {
@@ -58,7 +73,10 @@ function updateFS_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
         return;
     }
-    meta_runner(updateFSV4, triggerTypes.timeBased);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(updateFSV4, meta_args);
 }
 
 function updateAreaReports_TimeBasedTrigger() {
@@ -67,8 +85,11 @@ function updateAreaReports_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateAreaReports is set to false");
         return;
     }
-    meta_runner(updateAreaReportsV5, triggerTypes.timeBased);
-    // updateAreaReports();
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(updateAreaReportsV5, meta_args)
+
 }
 
 function updateDistrictReports_TimeBasedTrigger() {
@@ -77,8 +98,10 @@ function updateDistrictReports_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDistReports is set to false");
         return;
     }
-    meta_runner(updateDistrictReportsV5, triggerTypes.timeBased);
-    // updateDistrictReports();
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(updateDistrictReportsV5, meta_args)
 }
 
 function updateZoneReports_TimeBasedTrigger() {
@@ -87,7 +110,10 @@ function updateZoneReports_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateZoneReports is set to false");
         return;
     }
-    meta_runner(updateZoneReportsV5, triggerTypes.timeBased);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(updateZoneReportsV5, meta_args)
 }
 
 function sharefileSystem_TimeBasedTrigger() {
@@ -96,16 +122,13 @@ function sharefileSystem_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.shareFileSystem is set to false");
         return;
     }//@ts-check
-    /*
-            triggers.gs
-            Helper functions relating to installable, time-based, and custom menu triggers. Used to create a layer of abstraction between triggers and raw functions
-    
-            */
+
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(shareFileSystem, meta_args);
 }
 
-
-
-//                Installable triggers
 
 function onOpen_InstallableTrigger() {
     Logger.log("[TRIGGER] Running buildMenu() as an installable trigger()");
@@ -113,7 +136,11 @@ function onOpen_InstallableTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.installable.onOpen is set to false");
         return;
     }
-    buildMenu();
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.onOpen
+    };
+    meta_runner(buildMenu, meta_args)
+    // buildMenu();
 }
 
 function buildMenu() {
@@ -130,23 +157,6 @@ function buildMenu() {
 }
 
 
-// function testSomethingInsane() {
-//     passThroughFunctionAndRun(updateZoneReports, triggerTypes.DEBUG)
-// }
-
-// function passThroughFunctionAndRun(functionName,trigger) {
-//     let dLog: dataLogger = new dataLogger(functionName.name, trigger)
-//     Logger.log(testSomethingInsane.name)
-//     console.info("running ", functionName.name, " from a ", trigger)
-//     dLog.startFunction(functionName.name)
-//     try {
-//         functionName(dLog)
-//     } catch (error) {
-//         dLog.addFailure(functionName.name, error)
-//     }
-//     dLog.endFunction(functionName.name)
-//     dLog.end()
-// }
 
 
 
@@ -157,7 +167,10 @@ function pruneFS_TimeBasedTrigger() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.pruneFS is set to false");
         return;
     }
-    meta_runner(pruneFS, triggerTypes.timeBased);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.timeBased
+    };
+    meta_runner(pruneFS, meta_args)
 }
 
 
@@ -172,7 +185,11 @@ function updateDataSheet_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDataSheet is set to false");
         return;
     }
-    meta_runner(updateDataSheet, triggerTypes.menu);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu
+    };
+    meta_runner(updateDataSheet, meta_args)
+
 }
 
 function updateFS_MenuTrigger_() {
@@ -181,7 +198,10 @@ function updateFS_MenuTrigger_() {
         return;
     }
     Logger.log("[TRIGGER] Running buildFSV4() from the Manual Commands menu");
-    meta_runner(buildFSV4, triggerTypes.menu);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu
+    };
+    meta_runner(buildFSV4, meta_args)
 }
 
 function updateAreaReports_MenuTrigger_() {
@@ -190,7 +210,10 @@ function updateAreaReports_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateAreaReports is set to false");
         return;
     }
-    meta_runner(updateAreaReportsV5, triggerTypes.menu);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu
+    };
+    meta_runner(updateAreaReportsV5, meta_args)
 }
 
 function updateDistrictReports_MenuTrigger_() {
@@ -199,7 +222,10 @@ function updateDistrictReports_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDistReports is set to false");
         return;
     }
-    meta_runner(updateDistrictReportsV5, triggerTypes.menu);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu
+    };
+    meta_runner(updateDistrictReportsV5, meta_args)
 }
 
 function updateZoneReports_MenuTrigger_() {
@@ -208,7 +234,10 @@ function updateZoneReports_MenuTrigger_() {
         Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateZoneReports is set to false");
         return;
     }
-    meta_runner(updateZoneReportsV5, triggerTypes.menu);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu
+    };
+    meta_runner(updateZoneReportsV5, meta_args)
 }
 
 function importContacts_MenuTrigger_() {
@@ -218,8 +247,11 @@ function importContacts_MenuTrigger_() {
         return;
     }
     let allSheetData = constructSheetData();
-    meta_runner(importContacts, triggerTypes.menu, allSheetData);
-    // importContacts(allSheetData);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu,
+        functionArg:allSheetData,
+    };
+    meta_runner(importContacts, meta_args)
 }
 
 function markDuplicates_MenuTrigger_() {
@@ -229,7 +261,11 @@ function markDuplicates_MenuTrigger_() {
         return;
     }
     let allSheetData = constructSheetData();
-    meta_runner(markDuplicates, triggerTypes.menu, allSheetData);
+    let meta_args: meta_runner_args = {
+        trigger: triggerTypes.menu,
+        functionArg:allSheetData
+    };
+    meta_runner(markDuplicates, meta_args)
 }
 
 

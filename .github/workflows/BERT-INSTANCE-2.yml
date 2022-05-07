@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [patching-runner]
+    branches: [102-updates-not-occuring-automatically]
   release:
     types: [published]
   schedule:
