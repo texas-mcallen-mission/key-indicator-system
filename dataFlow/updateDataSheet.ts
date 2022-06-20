@@ -68,6 +68,10 @@ function updateDataSheet() {
 function pullFormData(allSheetData) {
     Logger.log("Pulling Form Data...");
 
+    // Bugfix: the following was previously inside of the last if/else loop.
+    let formSheet = fSheetData.getSheet();
+    let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
+    
     let fSheetData = allSheetData.form;
     let responses = fSheetData.getData();
     let missionData = [];
@@ -103,8 +107,8 @@ function pullFormData(allSheetData) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
     }
     else {
-        let formSheet = fSheetData.getSheet();
-        let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
+        console.log("During Testing: PUT A BREAKPOINT HERE!")
+        // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
         formSheet.getRange("B2").setValue(true);
         formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
     }
