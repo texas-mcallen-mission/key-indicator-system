@@ -71,7 +71,9 @@ function pullFormData(allSheetData) {
     let fSheetData = allSheetData.form;
     let responses = fSheetData.getData();
     let missionData = [];
-    let rangeString = "B2:B" + responses.getLastRow()
+    // Bugfix: the following was previously inside of the last if/else loop.
+    let formSheet = fSheetData.getSheet();
+    let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
 
     Logger.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
 
@@ -105,8 +107,7 @@ function pullFormData(allSheetData) {
     }
     else {
         console.log("During Testing: PUT A BREAKPOINT HERE!")
-        let formSheet = fSheetData.getSheet();
-        let markerRange = formSheet.getRange(rangeString); // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
+        // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
         formSheet.getRange("B2").setValue(true);
         formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
     }
