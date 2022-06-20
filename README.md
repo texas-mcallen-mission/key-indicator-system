@@ -1,7 +1,5 @@
 # key-indicator-system
 
-[![CodeFactor](https://www.codefactor.io/repository/github/texas-mcallen-mission/key-indicator-system/badge)](https://www.codefactor.io/repository/github/texas-mcallen-mission/key-indicator-system)
-
 ***This is no longer being actively developed!  It is being maintained, and will continue to be for at least the remainder of 2022.  At this point, it is likely that the only major changes to this system will be stability improvements.***
 
 ## What Is This?
