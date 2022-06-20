@@ -68,12 +68,13 @@ function updateDataSheet() {
 function pullFormData(allSheetData) {
     Logger.log("Pulling Form Data...");
 
-    let fSheetData = allSheetData.form;
-    let responses = fSheetData.getData();
-    let missionData = [];
     // Bugfix: the following was previously inside of the last if/else loop.
     let formSheet = fSheetData.getSheet();
     let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
+    
+    let fSheetData = allSheetData.form;
+    let responses = fSheetData.getData();
+    let missionData = [];
 
     Logger.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
 
