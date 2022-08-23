@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
 
-    branches: [feedback-round-1]
+    branches: [facebook-updates]
   release:
     types: [published]
   schedule:
