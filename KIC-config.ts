@@ -70,7 +70,9 @@ let INTERNAL_CONFIG = {
             "fb-ref-rgv-spa",
             "fb-ref-rgv-eng",
             "fb-ref-corpus",
-            "fb-ref-personal"
+            "fb-ref-personal",
+            "fb-ref-st-eng",
+            "fb-ref-st-spa"
         ],
         baptism_source_keys: [
             "bap-self-ref",
@@ -358,6 +360,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "fb-ref-service": 33,
                     "fb-ref-corpus": 34,
                     "fb-ref-personal": 35,
+                    "feedback-general": 36, // had to hardcode these because I added more questions afterwards.
+                    "feedback-improvement": 37,
+                    "feedback-analysis":38,
+                    "fb-ref-st-eng": 39,
+                    "fb-ref-st-spa":40
                 },
             },
             data: {
