@@ -28,4 +28,4 @@ jobs:
       IN_DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
       IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_2_SCRIPT_ID }}
       IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }}
-      IN_CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }}
+      IN_CONFIG_DATA: ${{ secrets.BERT_INSTANCE_2_CONFIG }}
