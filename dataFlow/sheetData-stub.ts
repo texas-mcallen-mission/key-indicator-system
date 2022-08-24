@@ -14,6 +14,7 @@ function constructSheetData(force = false) {
     let allSheetData = constructSheetDataV2(sheetDataConfig.local);
     let preKey = allSheetData.data.getKeys();
     // syncDataFlowCols_(allSheetData.form, allSheetData.data);
+    console.warn("HEYO Syncing keys *should* be happening...")
     allSheetData.data.addKeys(allSheetData.form)
     let postKey = allSheetData.data.getKeys();
     Logger.log(preKey);
