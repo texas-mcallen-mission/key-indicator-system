@@ -589,7 +589,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             areaFilesys: {
-                tabName: "Area Filesys V3",
+                tabName: "Area Filesys",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
@@ -605,7 +605,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             distFilesys: {
-                tabName: "Dist Filesys V3",
+                tabName: "Dist Filesys",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
@@ -621,7 +621,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             zoneFilesys: {
-                tabName: "Zone Filesys V3",
+                tabName: "Zone Filesys",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
