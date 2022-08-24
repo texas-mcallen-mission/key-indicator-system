@@ -41,7 +41,7 @@ function testCachingV2() {
     if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
         console.log("To and From Cache on local sheetData probably worked");
     }
-
+    //@ts-expect-error
     let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
     cacheAllSheetData(remoteSheetData);
     let allSheetDataRemote = getAllSheetDataFromCache();
