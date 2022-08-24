@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [not-in-data-response-fixing]
+    branches: [facebook-updates]
   release:
     types: [published]
   schedule:
