@@ -443,6 +443,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "fb-ref-service": 67,
                     "fb-ref-corpus": 68,
                     "fb-ref-personal": 69,
+                    'feedback-general': 70,
+                    'feedback-improvement': 71,
+                    'feedback-analysis': 72,
+                    'fb-ref-st-eng': 73,
+                    'fb-ref-st-spa': 74,
                 },
             },
             contact: {
