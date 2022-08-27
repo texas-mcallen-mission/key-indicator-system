@@ -70,7 +70,9 @@ let INTERNAL_CONFIG = {
             "fb-ref-rgv-spa",
             "fb-ref-rgv-eng",
             "fb-ref-corpus",
-            "fb-ref-personal"
+            "fb-ref-personal",
+            "fb-ref-st-eng",
+            "fb-ref-st-spa"
         ],
         baptism_source_keys: [
             "bap-self-ref",
@@ -124,7 +126,7 @@ let INTERNAL_CONFIG = {
         log_responsePulled: false,
         log_duplicates: false,
         // TODO PULL THIS OUT somewhere a little easier to access?
-        skipMarkingPulled: false, //Stops marking Form Responses as having been pulled into the data sheet
+        skipMarkingPulled: true, //Stops marking Form Responses as having been pulled into the data sheet
 
         skipMarkingDuplicates: false, //TODO Re-implement?
 
@@ -358,6 +360,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "fb-ref-service": 33,
                     "fb-ref-corpus": 34,
                     "fb-ref-personal": 35,
+                    "feedback-general": 36, // had to hardcode these because I added more questions afterwards.
+                    "feedback-improvement": 37,
+                    "feedback-analysis":38,
+                    "fb-ref-st-eng": 39,
+                    "fb-ref-st-spa":40
                 },
             },
             data: {
@@ -436,6 +443,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "fb-ref-service": 67,
                     "fb-ref-corpus": 68,
                     "fb-ref-personal": 69,
+                    'feedback-general': 70,
+                    'feedback-improvement': 71,
+                    'feedback-analysis': 72,
+                    'fb-ref-st-eng': 73,
+                    'fb-ref-st-spa': 74,
                 },
             },
             contact: {
@@ -497,95 +509,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
 
                 },
             },
-            headerTest: {
-                tabName: "headerTest",
-                headerRow: 1,
-                includeSoftcodedColumns: true,
-                sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
-                initialColumnOrder: {
-                    areaName: 0,
-                    log: 1,
-                    areaEmail: 2,
-                    isDuplicate: 3,
-                    formTimestamp: 4, //form data
-                    areaID: 5,
-                    kiDate: 6, //form data
-
-                    np: 7, //form data
-                    sa: 8, //form data
-                    bd: 9, //form data
-                    bc: 10, //form data
-                    rca: 11, //form data
-                    rc: 12, //form data
-                    serviceHrs: 14, //form data
-
-                    name1: 15,
-                    position1: 16,
-                    isTrainer1: 17,
-                    name2: 18,
-                    position2: 19,
-                    isTrainer2: 20,
-                    name3: 21,
-                    position3: 22,
-                    isTrainer3: 23, // hello, update!
-
-                    cki: 13, //form data
-                    // super confused
-                    districtLeader: 24,
-                    zoneLeader1: 25,
-                    zoneLeader2: 26,
-                    zoneLeader3: 27,
-                    stl1: 28,
-                    stl2: 29,
-                    stl3: 30,
-                    stlt1: 31,
-                    stlt2: 32,
-                    stlt3: 33,
-                    assistant1: 34,
-                    assistant2: 35,
-                    assistant3: 36,
-
-                    district: 37,
-                    zone: 38,
-                    unitString: 39,
-                    hasMultipleUnits: 40,
-                    languageString: 41,
-                    isSeniorCouple: 42,
-                    isSisterArea: 43,
-                    hasVehicle: 44,
-                    vehicleMiles: 45,
-                    vinLast8: 46,
-                    aptAddress: 47,
-
-                    "bap-self-ref": 48,
-                    "bap-street": 49,
-                    "bap-ward-activity-or-event": 50,
-                    "bap-ref-recent-convert": 51,
-                    "bap-ref-part-member": 52,
-                    "bap-ref-other-member": 53,
-                    "bap-ref-teaching-pool": 54,
-                    "bap-ref-other-non-member": 55,
-                    "bap-fb-mission": 56,
-                    "bap-fb-personal": 57,
-                    "bap-family-history": 58,
-                    "bap-taught-prev": 59,
-                    "fb-role": 60,
-                    "fb-ref-ysa": 61,
-                    "fb-ref-asl": 62,
-                    "fb-ref-service": 63,
-                    "fb-ref-laredo-spa": 64,
-                    "fb-ref-laredo-eng": 65,
-                    "fb-ref-rgv-spa": 66,
-                    "fb-ref-rgv-eng": 67,
-                    "fb-ref-corpus": 68,
-                    "fb-ref-personal": 69,
-                },
-            },
             areaFilesys: {
-                tabName: "Area Filesys V3",
+                tabName: "Area Filesys",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
-                sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
+                // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
                 initialColumnOrder: {
                     folderName: 0,
                     parentFolder: 1,
@@ -598,10 +526,10 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             distFilesys: {
-                tabName: "Dist Filesys V3",
+                tabName: "Dist Filesys",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
-                sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
+                // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
                 initialColumnOrder: {
                     folderName: 0,
                     parentFolder: 1,
@@ -614,10 +542,10 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             zoneFilesys: {
-                tabName: "Zone Filesys V3",
+                tabName: "Zone Filesys",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
-                sheetId: CONFIG.dataFlow.sheetTargets.headerTest,
+                // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
                 initialColumnOrder: {
                     folderName: 0,
                     parentFolder: 1,

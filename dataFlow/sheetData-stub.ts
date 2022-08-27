@@ -14,6 +14,7 @@ function constructSheetData(force = false) {
     let allSheetData = constructSheetDataV2(sheetDataConfig.local);
     let preKey = allSheetData.data.getKeys();
     // syncDataFlowCols_(allSheetData.form, allSheetData.data);
+    console.warn("HEYO Syncing keys *should* be happening...")
     allSheetData.data.addKeys(allSheetData.form)
     let postKey = allSheetData.data.getKeys();
     Logger.log(preKey);
@@ -40,7 +41,7 @@ function testCachingV2() {
     if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
         console.log("To and From Cache on local sheetData probably worked");
     }
-
+    //@ts-expect-error
     let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
     cacheAllSheetData(remoteSheetData);
     let allSheetDataRemote = getAllSheetDataFromCache();
