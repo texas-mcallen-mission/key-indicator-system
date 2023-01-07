@@ -33,6 +33,7 @@ function updateDataSheet() {
         Logger.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
         return;
     }
+    let numberOfEntries = missionData.length
     // former ignore
     refreshContacts(allSheetData);
 
