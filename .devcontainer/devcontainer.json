@@ -1,0 +1,14 @@
+{
+    "customizations": {
+        "codespaces": {
+            "repositories": {
+                "texas-mcallen-mission/*": {
+                    "permissions": {
+                        "issues": "write",
+                        "contents": "write"
+                    }
+                }
+            }
+        }
+    }
+}
