@@ -20,7 +20,7 @@
 function updateDataSheet() {
     Logger.log("BEGINNING UPDATE");
 
-    let allSheetData: any = constructSheetData();
+    let allSheetData: manySheetDatas = constructSheetData();
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
         loadAreaIDs(allSheetData);
     } //Force a full recalculation
@@ -36,6 +36,8 @@ function updateDataSheet() {
     // former ignore
     refreshContacts(allSheetData);
 
+    allSheetData.responses.rsd.sheet.
+
     let contacts = getContactData(allSheetData);
 
     let leaders = getLeadershipAreaData(contacts);
@@ -43,9 +45,27 @@ function updateDataSheet() {
     missionData = mergeIntoMissionData(missionData, contacts, "contact data");
     missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
-
+    // FIRST, ADD THE DATA TO THE SHEETS
     allSheetData.data.insertData(missionData);
+    // THEN MARK THE STUFF AS HAVING BEEN PULLED
 
+    if (CONFIG.dataFlow.skipMarkingPulled) {
+        console.warn("[DEBUG] Skipping marking responses as pulled");
+    } else {
+        
+    }
+
+    // console.info("TODO: Improve marking responses as pulled");
+    // if (CONFIG.dataFlow.skipMarkingPulled) {
+    //     Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
+    // }
+    // else {
+    //     console.log("During Testing: PUT A BREAKPOINT HERE!");
+    //     // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
+    //     // somehow this regressed and got bad again.  SHOOOT
+    //     formSheet.getRange("B2").setValue(true);
+    //     formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+    // }
     markDuplicates(allSheetData);
 
     pushErrorMessages();  //Unimplemented
@@ -106,16 +126,17 @@ function pullFormData(allSheetData) {
 
 
     //Mark responses as having been pulled
-    console.info("TODO: Improve marking responses as pulled");
-    if (CONFIG.dataFlow.skipMarkingPulled) {
-        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
-    }
-    else {
-        console.log("During Testing: PUT A BREAKPOINT HERE!")
-        // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
-        formSheet.getRange("B2").setValue(true);
-        formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
-    }
+    // console.info("TODO: Improve marking responses as pulled");
+    // if (CONFIG.dataFlow.skipMarkingPulled) {
+    //     Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
+    // }
+    // else {
+    //     console.log("During Testing: PUT A BREAKPOINT HERE!")
+    //     // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
+    //     // somehow this regressed and got bad again.  SHOOOT
+    //     formSheet.getRange("B2").setValue(true);
+    //     formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+    // }
 
     Logger.log("Finished pulling Form Data.");
     return missionData;
