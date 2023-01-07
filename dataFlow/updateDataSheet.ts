@@ -37,7 +37,6 @@ function updateDataSheet() {
     // former ignore
     refreshContacts(allSheetData);
 
-    allSheetData.responses.rsd.sheet.
 
     let contacts = getContactData(allSheetData);
 
@@ -53,7 +52,9 @@ function updateDataSheet() {
     if (CONFIG.dataFlow.skipMarkingPulled) {
         console.warn("[DEBUG] Skipping marking responses as pulled");
     } else {
-        
+        let column = allSheetData.data.getIndex("isPulled")
+        let minRow = allSheetData.data.rsd.headerRow + 1
+        allSheetData.data.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
     }
 
     // console.info("TODO: Improve marking responses as pulled");
