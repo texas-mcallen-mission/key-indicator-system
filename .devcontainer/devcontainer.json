@@ -7,6 +7,11 @@
                         "issues": "write",
                         "contents": "write"
                     }
+                },
+                "texas-mcallen-mission/sheetCore":{
+                    "permissions": {
+                        "contents": "write"
+                    }
                 }
             }
         }
