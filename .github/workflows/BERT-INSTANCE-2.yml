@@ -11,21 +11,18 @@ on:
 
 
 jobs:
-  call-workflow-passing-data:
-    uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/.github/workflows/reusable.yml@v2.3.0
-    with:
-      # Github repository information
-      sha: ${{ github.sha }}
-      event_name: ${{ github.event_name }}
-      actor: ${{ github.actor }}
-      job: ${{ github.job }}
-      repository: ${{ github.repository }}
-      ref_name: ${{ github.ref_name }}
-    secrets:
-      # THESE are the ones that are deployment-specific.
-      IN_CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-      IN_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-      IN_DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-      IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_2_SCRIPT_ID }}
-      IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }}
-      IN_CONFIG_DATA: ${{ secrets.BERT_INSTANCE_2_CONFIG }}
+  clasp-update-aio:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Call Reusable Action
+      uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/@v3.0.1
+      with:
+        CLASP_TOKEN_VALUE: ${{ secrets.CLASPRC_JSON }}
+        CLASP_TOKEN_NAME: 'CLASPRC_JSON'
+        REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+        USES_ORG_SECRET: false # optional.
+        # ORG_VISIBILITY: all # optional, default all.
+        SCRIPT_ID: ${{ secrets.BERT_INSTANCE_2_SCRIPT_ID }}
+        PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }} # optional.
+        # DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }} # optional.
+        CONFIG_DATA: ${{ secrets.BERT_INSTANCE_2_CONFIG }} # optional.

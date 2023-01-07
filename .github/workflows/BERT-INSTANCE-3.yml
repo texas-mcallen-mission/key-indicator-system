@@ -29,3 +29,20 @@ jobs:
       IN_SCRIPT_ID: ${{ secrets.BERT_INSTANCE_3_SCRIPT_ID }}
       IN_PARENT_ID: ${{ secrets.BERT_INSTANCE_3_PARENT_ID }}
       IN_CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }}
+
+jobs:
+  clasp-update-aio:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Call Reusable Action
+      uses: texas-mcallen-mission/deploy-google-app-script-action-typescript/@v3.0.1
+      with:
+        CLASP_TOKEN_VALUE: ${{ secrets.CLASPRC_JSON }}
+        CLASP_TOKEN_NAME: 'CLASPRC_JSON'
+        REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+        USES_ORG_SECRET: false # optional.
+        # ORG_VISIBILITY: all # optional, default all.
+        SCRIPT_ID: ${{ secrets.BERT_INSTANCE_3_SCRIPT_ID }}
+        PARENT_ID: ${{ secrets.BERT_INSTANCE_3_PARENT_ID }} # optional.
+        # DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }} # optional.
+        CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }} # optional.
