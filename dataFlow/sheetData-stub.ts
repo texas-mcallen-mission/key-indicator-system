@@ -9,7 +9,9 @@
 function constructSheetData(force = false) {
     if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
         let allSheetData = getAllSheetDataFromCache();
-        if (allSheetData != null) return allSheetData;
+        if (allSheetData != null) {
+            return allSheetData;
+        }
     }
     let allSheetData = constructSheetDataV2(sheetDataConfig.local);
     let preKey = allSheetData.data.getKeys();

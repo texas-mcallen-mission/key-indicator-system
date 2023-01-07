@@ -21,7 +21,9 @@ function updateDataSheet() {
     Logger.log("BEGINNING UPDATE");
 
     let allSheetData: any = constructSheetData();
-    if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) { loadAreaIDs(allSheetData); } //Force a full recalculation
+    if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
+        loadAreaIDs(allSheetData);
+    } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
 
@@ -181,7 +183,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
         let areaName = missionAreaData.areaName;
         let sourceAreaData = sourceData[missionAreaData.areaID];
 
-        if (CONFIG.dataFlow.log_dataMerge) Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
+        if (CONFIG.dataFlow.log_dataMerge) { Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID); }
 
         if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
             throw "Found a form response for area '" + areaName + "' (id '" + areaID + "'), but couldn't find that area in source '" + sourceID + "'";
@@ -236,7 +238,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
 
-    function logNeither(key, areaID, areaName, sourceID:any = ".") {
+    function logNeither(key, areaID, areaName, sourceID: any = ".") {
         console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + sourceID + "'");
     }
 

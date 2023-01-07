@@ -82,7 +82,7 @@ function getSingleFilesysData(filesys) {
     }
     return {
         folders: folderIDs,
-        docs:sheetIDs
+        docs: sheetIDs
     }
 }
 

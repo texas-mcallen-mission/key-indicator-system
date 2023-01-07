@@ -30,7 +30,9 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
             shardId: args.shardNumber,
             scopeValue:args.shardScope
         }
-        if(args.preLogData != undefined){dLogArgs.logString = args.preLogData}
+        if (args.preLogData != undefined) {
+            dLogArgs.logString = args.preLogData;
+        }
         let dLog: dataLogger = new dataLogger(functionName.name,dLogArgs);
         dLog.startFunction(functionName.name);
         try {
@@ -66,7 +68,7 @@ class meta_locker {
             this.onShard = true
             this.shardValue = shardString
             this.cacheString = this.functionName + this.appendString + this.shardValue
-            console.log("LOCK ON SHARD",shardString,"Cache String: ",this.cacheString)
+            console.log("LOCK ON SHARD", shardString, "Cache String: ",  this.cacheString)
         } else {
             this.cacheString = this.functionName + this.appendString
             console.log("LOCK NOT SHARDED")

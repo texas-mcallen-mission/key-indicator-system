@@ -37,7 +37,8 @@ function updateShards() {
         for (let entry in filesystems[fs].sheetData) {
             // let Testentry: fsEntry = entry
             let entryData = filesystems[fs].sheetData[entry]
-            // console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
+            // If there's not a seed / shard assigned to a particular entry, figure out
+            // which grouping has the smallest population and add to that
             if (entryData.seedId <= 0 || entryData.seedId == "" || entryData.seedId == undefined || parseInt(entryData.seedId) > NUMBER_OF_SHARDS) {
                 let shardKey = getKeyWithSmallestValue_(shardCounter)
                 entryData.seedId = shardKey

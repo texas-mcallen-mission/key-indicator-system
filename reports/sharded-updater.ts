@@ -171,7 +171,7 @@ function updateCache(cacheOutput): shardLockCache {
     try {
 
         for (let scope in cacheOutput) {
-            if (Object.prototype.hasOwnProperty.call(cacheOutput, scope)) {// codefactor.io suggestion
+            if (Object.prototype.hasOwnProperty.call(cacheOutput, scope)) { // codefactor.io suggestion
                 for (let shard in cacheOutput[scope]) {
                     if (Object.prototype.hasOwnProperty.call(cacheOutput[scope], shard)) { // codefactor.io suggestion
                         cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;

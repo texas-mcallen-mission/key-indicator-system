@@ -1,8 +1,8 @@
 /**
  *  Step 0: load Filesystem Data
  *  Step 1: Iterate through the filesystem
- *      
- * 
+ *
+ *
  *  Step 3: Create A Single Template
  *      - Return sheet ID
  */
@@ -35,7 +35,8 @@ function createMissingReports() {
     }
 }
 
-function makeCopyOfTemplate(templateID:string,reportFolderID:string,reportName:string) {
+// returns the sheet id, as a string, of a new template.
+function makeCopyOfTemplate(templateID:string, reportFolderID:string, reportName:string) {
     let file = DriveApp.getFileById(templateID)
     let folder = DriveApp.getFolderById(reportFolderID)
     let newFile = file.makeCopy(reportName, folder)
