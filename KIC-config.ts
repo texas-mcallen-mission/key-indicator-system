@@ -363,7 +363,9 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "feedback-improvement": 37,
                     "feedback-analysis":38,
                     "fb-ref-st-eng": 39,
-                    "fb-ref-st-spa":40
+                    "fb-ref-st-spa": 40,
+                    "mpl": 41,
+                    "RCA-weekly":42
                 },
             },
             data: {
@@ -447,6 +449,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     'feedback-analysis': 72,
                     'fb-ref-st-eng': 73,
                     'fb-ref-st-spa': 74,
+                    "mpl": 75,
+                    "RCA-weekly": 76
                 },
             },
             contact: {
