@@ -52,9 +52,9 @@ function updateDataSheet() {
     if (CONFIG.dataFlow.skipMarkingPulled) {
         console.warn("[DEBUG] Skipping marking responses as pulled");
     } else {
-        let column = allSheetData.data.getIndex("isPulled")
-        let minRow = allSheetData.data.rsd.headerRow + 1
-        allSheetData.data.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
+        let column = allSheetData.form.getIndex("responsePulled")
+        let minRow = allSheetData.form.rsd.headerRow + 1
+        allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
     }
 
     // console.info("TODO: Improve marking responses as pulled");
