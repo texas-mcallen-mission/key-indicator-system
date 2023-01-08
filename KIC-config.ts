@@ -53,6 +53,8 @@ let INTERNAL_CONFIG = {
                 "fb-ref-sum": 15,
                 isDuplicate: 16,
                 rrPercent: 17,
+                mpl: 18,
+                "rca-weekly": 19,
             },
             requireRemote: true,
             sheetId: "",
