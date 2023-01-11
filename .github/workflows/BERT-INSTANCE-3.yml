@@ -3,7 +3,7 @@ name: BERT-INSTANCE-3
 on:
   workflow_dispatch:
   push:
-    branches: [Move-Debug-To-Remote]
+    branches: [leFort]
   release:
     types: [published]
   schedule:
