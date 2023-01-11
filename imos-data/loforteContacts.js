@@ -4,6 +4,5 @@ function getContact() {
     let contacts = group.getContacts();                     // Fetches contact list of group 
 
 
-
-} // end getContacts
+} // end getContact
 
