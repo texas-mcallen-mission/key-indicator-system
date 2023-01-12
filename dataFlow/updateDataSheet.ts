@@ -26,7 +26,7 @@ function updateDataSheet() {
     } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
-
+    
     let missionData = pullFormData(allSheetData);
 
     if (missionData.length == 0) {
@@ -57,16 +57,6 @@ function updateDataSheet() {
         allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
     }
 
-    // console.info("TODO: Improve marking responses as pulled");
-    // if (CONFIG.dataFlow.skipMarkingPulled) {
-        // }
-        // else {
-            //     console.log("During Testing: PUT A BREAKPOINT HERE!");
-            //     // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
-            //     // somehow this regressed and got bad again.  SHOOOT
-            //     formSheet.getRange("B2").setValue(true);
-            //     formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
-            // }
     if (CONFIG.dataflow.skipMarkingPulled) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
         return        
@@ -102,7 +92,7 @@ function pullFormData(allSheetData) {
     
     // Bugfix: the following was previously inside of the last if/else loop.
     let formSheet = fSheetData.getSheet();
-    let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
+    // let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
     let responses = fSheetData.getData();
     let missionData = [];
 
@@ -130,19 +120,6 @@ function pullFormData(allSheetData) {
         missionData.push(response);
     }
 
-
-    //Mark responses as having been pulled
-    // console.info("TODO: Improve marking responses as pulled");
-    // if (CONFIG.dataFlow.skipMarkingPulled) {
-    //     Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
-    // }
-    // else {
-    //     console.log("During Testing: PUT A BREAKPOINT HERE!")
-    //     // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
-    //     // somehow this regressed and got bad again.  SHOOOT
-    //     formSheet.getRange("B2").setValue(true);
-    //     formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
-    // }
 
     Logger.log("Finished pulling Form Data.");
     return missionData;
