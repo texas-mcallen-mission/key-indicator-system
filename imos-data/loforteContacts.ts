@@ -5,13 +5,19 @@ let contacts = group.getContacts(); // Fetches contact list of group
 
     function getContact() {
         
+        //console.log(contacts[1]);
 
         for(let contact of contacts){
 
-            let date1 = contact.getDates[1];
+            let nameFull1 = contact.getFullName();
+            let idk = contact.getHomeAddress();
+            let contactEmail = contact.getEmailAddresses();
+            let areaEmail = contactEmail[0];
+            let email1 = contactEmail[1];
+            let email2 = contactEmail[2];
     
-            console.log(date1);
+    console.log(areaEmail);
 
-    } // end getContact
+    } // end forLoop
     
-}
+} // end getContacts
