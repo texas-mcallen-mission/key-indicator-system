@@ -7,7 +7,7 @@ function getContact() {
     console.log(contacts[1]);
 
     for (let i = 0; i < contacts.length; i++) {
-        
-    }
+        console.log(contacts[i])
+    } // end for loop
 } // end getContact
 
