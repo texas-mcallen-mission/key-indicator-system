@@ -1,13 +1,17 @@
-function getContact() {
+// Compiled using undefined undefined (TypeScript 4.9.4)
 
-    let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-    let contacts = group.getContacts();                     // Fetches contact list of group 
+let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+let contacts = group.getContacts(); // Fetches contact list of group 
 
-    // @ts-ignore
-    console.log(contacts[1]);
+    function getContact() {
+        
 
-    for (let i = 0; i < contacts.length; i++) {
-        console.log(contacts[i])
-    } // end for loop
-} // end getContact
+        for(let contact of contacts){
 
+            let date1 = contact.getDates[1];
+    
+            console.log(date1);
+
+    } // end getContact
+    
+}
