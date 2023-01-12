@@ -59,16 +59,20 @@ function updateDataSheet() {
 
     // console.info("TODO: Improve marking responses as pulled");
     // if (CONFIG.dataFlow.skipMarkingPulled) {
-    //     Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
-    // }
-    // else {
-    //     console.log("During Testing: PUT A BREAKPOINT HERE!");
-    //     // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
-    //     // somehow this regressed and got bad again.  SHOOOT
-    //     formSheet.getRange("B2").setValue(true);
-    //     formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
-    // }
-    markDuplicates(allSheetData);
+        // }
+        // else {
+            //     console.log("During Testing: PUT A BREAKPOINT HERE!");
+            //     // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
+            //     // somehow this regressed and got bad again.  SHOOOT
+            //     formSheet.getRange("B2").setValue(true);
+            //     formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+            // }
+    if (CONFIG.dataflow.skipMarkingPulled) {
+        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
+        return        
+    } else {
+        markDuplicates(allSheetData);
+    }
 
     pushErrorMessages();  //Unimplemented
 
@@ -154,6 +158,7 @@ function pullFormData(allSheetData) {
 
 /**
   * Pulls data from the Contact Data sheet and adds areaIDs.
+  * Honestly more of a loadContactData because it just pulls from Sheets.
   */
 function getContactData(allSheetData) {
 
