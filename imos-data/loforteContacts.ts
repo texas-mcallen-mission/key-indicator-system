@@ -9,14 +9,16 @@ let contacts = group.getContacts(); // Fetches contact list of group
 
         for(let contact of contacts){
 
-            let nameFull1 = contact.getFullName();
-            let idk = contact.getHomeAddress();
-            let contactEmail = contact.getEmailAddresses();
-            let areaEmail = contactEmail[0];
-            let email1 = contactEmail[1];
-            let email2 = contactEmail[2];
+            // let nameFull1 = contact.getFullName();
+            // let idk = contact.getHomeAddress();
+            // let contactEmail = contact.getEmailAddresses();
+            // let areaEmail = contactEmail[0];
+            // let email1 = contactEmail[1];
+            // let email2 = contactEmail[2];
+
+
     
-    console.log(areaEmail);
+    console.log(contact[1]);
 
     } // end forLoop
     
