@@ -11,8 +11,8 @@ function markDuplicates(allSheetData) {
  * @param {*} allSheetData 
  */
 function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
-    Logger.log("Marking duplicate responses. Pulling data...");
-    Logger.log("TODO: Don't pull the whole sheet?");
+    console.log("Marking duplicate responses. Pulling data...");
+    console.log("TODO: Don't pull the whole sheet?");
 
     let sd = allSheetData.data;
     let sheet = sd.getSheet();
@@ -53,7 +53,7 @@ function markDuplicates_old(allSheetData) { //                                  
             log += '\nSkipping row';
             skippedRows.push(row);
 
-            if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
+            if (CONFIG.dataFlow.log_duplicates) console.log(log);
             continue;
         }
 
@@ -80,7 +80,7 @@ function markDuplicates_old(allSheetData) { //                                  
             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
 
             log += "\nFirst ocurrence, continuing.";
-            if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
+            if (CONFIG.dataFlow.log_duplicates) console.log(log);
             continue;
         }
 
@@ -117,10 +117,10 @@ function markDuplicates_old(allSheetData) { //                                  
             }
         }
 
-        if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
+        if (CONFIG.dataFlow.log_duplicates) console.log(log);
     }
 
-    Logger.log("Finished pulling duplicate data. Pushing to sheet...");
+    console.log("Finished pulling duplicate data. Pushing to sheet...");
 
 
     let out = [];
@@ -136,6 +136,6 @@ function markDuplicates_old(allSheetData) { //                                  
     sheet.getRange(minRow + 1, sd.getIndex('isDuplicate') + 1, out.length, 1).setValues(out);
 
 
-    Logger.log("Finished marking duplicate responses.");
+    console.log("Finished marking duplicate responses.");
 
 }

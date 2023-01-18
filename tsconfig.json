@@ -2,13 +2,18 @@
     "compilerOptions": {
         "allowJs": true,
         "checkJs": true,
-        "lib": ["ESNext"],
+        "lib": [
+            "ESNext"
+        ],
         "target": "ES6",
         "types": [
             "google-apps-script"
         ],
         "outDir": "./ts",
-        "rootDir": "./"
-        
+        "rootDir": "./",
+        "typeRoots": [
+            "./sheetCore/typescript-interfaces.ts",
+            "./sheetCore/dataManipulator.ts"
+        ]
     }
 }

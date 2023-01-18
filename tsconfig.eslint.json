@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "types": ["@types/google-apps-script"],
+        "allowJs": true,
+
+    },
+    "extends":"tsconfig.json",
+
+
+    
+}

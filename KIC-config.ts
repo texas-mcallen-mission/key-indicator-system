@@ -288,7 +288,7 @@ let INTERNAL_CONFIG = {
 
 // this combines the two objects together- the bottom ones overwrite the top ones.
 //@ts-ignore
-var _ = lodash.load();
+const _ = lodash.load();
 
 function test_lodash() {
     console.log(CONFIG);
@@ -301,13 +301,13 @@ const OVERRIDE_SECRET_DATA = {
 };
 
 
-var CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
+const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
 
 
 
 
 
-var sheetDataConfig: { local: manySheetDataEntries} = getSheetDataConfig();
+const sheetDataConfig: { local: manySheetDataEntries} = getSheetDataConfig();
 /**
  * this exists because of some weird problems I was having with the GAS environment not loading the CONFIG thing properly.
  *
