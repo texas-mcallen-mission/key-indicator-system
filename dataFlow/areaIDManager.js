@@ -16,6 +16,8 @@
  * @returns {string} The areaID string.
  */
 function getAreaID(allSheetData, areaName) {
+    // this is because 
+    // eslint-disable-next-line no-undef
     let cache = CacheService.getDocumentCache();
     let areaIDs_JSONString = cache.get(CONFIG.dataFlow.areaId_cacheKey);
 
