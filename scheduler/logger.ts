@@ -37,7 +37,7 @@ const triggerTypes = {
     "onOpen":"onOpen"
 };
 
-function justForTesting_(dLog: dataLogger, arg1: any) {
+function justForTesting_(dLog: dataLogger, arg1: unknown) {
     console.log("WWWWEEEE", arg1);
 }
 
@@ -187,7 +187,7 @@ class dataLogger {
 
         for (let functionNameKey in this.logData) {
             // let entry = [];
-            let newEntry:{} = {};
+            let newEntry: object = {};
 
             // add function name:
 
@@ -234,7 +234,7 @@ class dataLogger {
 
 }
 
-function addToSheet_(data: any) {
+function addToSheet_(data: kiDataEntry) {
     // let allSheetData = constructSheetData();
     // let debug = allSheetData.debug;
     let rawSheetData = new RawSheetData(getSheetDataConfig().local.debug)
