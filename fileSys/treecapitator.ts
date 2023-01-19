@@ -5,17 +5,17 @@
 
 
 function pruneFS() {
-    let allSheetData = constructSheetData()
+    const allSheetData = constructSheetData()
 
-    let fsData = getFilesystemDocsAndFolders_(allSheetData);
+    const fsData = getFilesystemDocsAndFolders_(allSheetData);
 
-    let baseFolderID = getOrCreateReportFolder()
+    const baseFolderID = getOrCreateReportFolder()
 
-    let currentFSData = getAllFoldersAndFiles_(baseFolderID)
+    const currentFSData = getAllFoldersAndFiles_(baseFolderID)
 
     let foldersDeleted = 0
 
-    for (let folder of currentFSData.folders) {
+    for (const folder of currentFSData.folders) {
         if (!fsData.folders.includes(folder.id)) {
             folder.folder.setTrashed(true);
             foldersDeleted += 1
@@ -23,7 +23,7 @@ function pruneFS() {
     }
 
     let filesDeleted = 0
-    for (let file of currentFSData.files) {
+    for (const file of currentFSData.files) {
         if (!fsData.files.includes(file.id)) {
             file.file.setTrashed(true)
             filesDeleted += 1
@@ -36,11 +36,11 @@ function pruneFS() {
 
 
 function testGetFilesystemData() {
-    let allSheetData = constructSheetData()
-    let fsData = getFilesystemDocsAndFolders_(allSheetData)
+    const allSheetData = constructSheetData()
+    const fsData = getFilesystemDocsAndFolders_(allSheetData)
 
-    for (let key in fsData) {
-        for (let entry of fsData[key]) {
+    for (const key in fsData) {
+        for (const entry of fsData[key]) {
             console.log(key,entry)
         }
     }
@@ -49,16 +49,16 @@ function testGetFilesystemData() {
 
 function getFilesystemDocsAndFolders_(allSheetData) {
 
-    let filesystems = {
+    const filesystems = {
         zoneFS: allSheetData.zoneFilesys,
         distFS: allSheetData.distFilesys,
         areaFS: allSheetData.areaFilesys
     };
 
-    let docs = [];
-    let folders = [];
-    for (let fs in filesystems) {
-        let data = getSingleFilesysData(filesystems[fs]);
+    const docs = [];
+    const folders = [];
+    for (const fs in filesystems) {
+        const data = getSingleFilesysData(filesystems[fs]);
         docs.push(...data.docs);
         folders.push(...data.folders);
     }
@@ -71,10 +71,10 @@ function getFilesystemDocsAndFolders_(allSheetData) {
 
 
 function getSingleFilesysData(filesys) {
-    let fsData = filesys.getData()
-    let folderIDs = [];
-    let sheetIDs = [];
-    for (let entry of fsData) {
+    const fsData = filesys.getData()
+    const folderIDs = [];
+    const sheetIDs = [];
+    for (const entry of fsData) {
         if (entry.folderId != "") folderIDs.push(entry.folderId);
         if (entry.parentFolder != "") folderIDs.push(entry.parentFolder)
         if (entry.sheetID1 != "") sheetIDs.push(entry.sheetID1);
@@ -88,11 +88,11 @@ function getSingleFilesysData(filesys) {
 
 
 function testGetAllFoldersAndFiles() {
-    let output = getAllFoldersAndFiles_(getOrCreateReportFolder());
-    for (let folder of output.folders) {
+    const output = getAllFoldersAndFiles_(getOrCreateReportFolder());
+    for (const folder of output.folders) {
         console.log(folder.id,folder.name)
     }
-    for (let file of output.files) {
+    for (const file of output.files) {
         console.log(file.id,file.name,file.type)
     }
 
@@ -100,16 +100,16 @@ function testGetAllFoldersAndFiles() {
 
 function getAllFoldersAndFiles_(baseFolderID) {
     // currently this only goes three levels deep.  It's fairly easy to go further down, though- just add another subfolder loop or convert it to a while thingy or something like that
-    let basefolder = DriveApp.getFolderById(baseFolderID);
+    const basefolder = DriveApp.getFolderById(baseFolderID);
 
-    let subfolders = getSubfolders_(basefolder);
-    let subSubfolders = [];
-    let subsubsubfolders = [];
-    for (let folder of subfolders) {
+    const subfolders = getSubfolders_(basefolder);
+    const subSubfolders = [];
+    const subsubsubfolders = [];
+    for (const folder of subfolders) {
         // console.log(folder.id,folder.name)
         subSubfolders.push(...getSubfolders_(folder.folder));
     }
-    for (let subfolder of subSubfolders) {
+    for (const subfolder of subSubfolders) {
         // console.log(subfolder.id,subfolder.name)
         subsubsubfolders.push(...getSubfolders_(subfolder.folder));
     }
@@ -118,18 +118,18 @@ function getAllFoldersAndFiles_(baseFolderID) {
     //     // console.log(subsubfolder.id,subsubfolder.name)
     // }
 
-    let files = [];
+    const files = [];
 
-    let combinedFolders = [];
+    const combinedFolders = [];
     // combinedFolders.push(...basefolder)
     combinedFolders.push(...subfolders);
     combinedFolders.push(...subsubsubfolders);
 
-    for (let folder of combinedFolders) {
+    for (const folder of combinedFolders) {
         files.push(...getFiles_(folder.folder));
     }
 
-    for (let file of files) {
+    for (const file of files) {
         // console.log(file.type, file.id, file.name);
     }
 
@@ -140,11 +140,11 @@ function getAllFoldersAndFiles_(baseFolderID) {
 }
 
 function getSubfolders_(folder) {
-    let output = [];
-    let subfolders = folder.getFolders();
+    const output = [];
+    const subfolders = folder.getFolders();
     while (subfolders.hasNext()) {
         var folder = subfolders.next();
-        let subOutput = {
+        const subOutput = {
             folder: folder,
             id: folder.getId(),
             lastUpdated: folder.getLastUpdated(),
@@ -159,11 +159,11 @@ function getSubfolders_(folder) {
 }
 
 function getFiles_(folder) {
-    let output = [];
-    let subfiles = folder.getFiles();
+    const output = [];
+    const subfiles = folder.getFiles();
     while (subfiles.hasNext()) {
-        var file = subfiles.next();
-        let subOutput = {
+        const file = subfiles.next();
+        const subOutput = {
             file: file,
             id: file.getId(),
             lastUpdated: file.getLastUpdated(),

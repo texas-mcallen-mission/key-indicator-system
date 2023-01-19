@@ -18,20 +18,20 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
     if(args.ignoreLockout){ logString += " EXECUTION LOCKOUT IS DISABLED"}
     console.log(logString);
 
-    let locker = new meta_locker(functionName.name,args.shardNumber)
+    const locker = new meta_locker(functionName.name,args.shardNumber)
     if (locker.isLocked()== true && args.ignoreLockout == false) {
         console.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
         return
     } else {
         locker.lock()
-        let dLogArgs: debugLogArgs = {
+        const dLogArgs: debugLogArgs = {
             trigger: args.trigger,
             isInline: false,
             shardId: args.shardNumber,
             scopeValue:args.shardScope
         }
         if(args.preLogData != undefined){dLogArgs.logString = args.preLogData}
-        let dLog: dataLogger = new dataLogger(functionName.name,dLogArgs);
+        const dLog: dataLogger = new dataLogger(functionName.name,dLogArgs);
         dLog.startFunction(functionName.name);
         try {
             if (args.functionArg == undefined) {
@@ -74,8 +74,8 @@ class meta_locker {
     }
 
     isLocked() {
-        let cache = CacheService.getScriptCache()
-        let cacheData = cache.get(this.cacheString)
+        const cache = CacheService.getScriptCache()
+        const cacheData = cache.get(this.cacheString)
         if (!cacheData) {
             return false
         } else {
@@ -85,12 +85,12 @@ class meta_locker {
     }
 
     lock() {
-        let cache = CacheService.getScriptCache()
+        const cache = CacheService.getScriptCache()
         cache.put(this.cacheString,"true",CONFIG.scheduler.meta_locker.cacheTimeoutTime)
     }
 
     unlock() {
-        let cache = CacheService.getScriptCache()
+        const cache = CacheService.getScriptCache()
         cache.remove(this.cacheString)
     }
 
@@ -98,8 +98,8 @@ class meta_locker {
 
 
 function deleteClockTriggers() {
-    let triggers = ScriptApp.getProjectTriggers()
-    for (let trigger of triggers) {
+    const triggers = ScriptApp.getProjectTriggers()
+    for (const trigger of triggers) {
         if (trigger.getTriggerSource() == ScriptApp.TriggerSource.CLOCK) {
             ScriptApp.deleteTrigger(trigger);
         }
@@ -107,24 +107,24 @@ function deleteClockTriggers() {
 }
 
 function addTimeBasedTriggers() {
-    for (let minuteTrigger in CONFIG.scheduler.time_based_triggers.minutes) {
-        let triggerTime = CONFIG.scheduler.time_based_triggers.minutes[minuteTrigger]
-        let triggerGuy = ScriptApp.newTrigger(minuteTrigger)
+    for (const minuteTrigger in CONFIG.scheduler.time_based_triggers.minutes) {
+        const triggerTime = CONFIG.scheduler.time_based_triggers.minutes[minuteTrigger]
+        const triggerGuy = ScriptApp.newTrigger(minuteTrigger)
         triggerGuy.timeBased().everyMinutes(triggerTime).create()
     }
-    for (let hourTrigger in CONFIG.scheduler.time_based_triggers.hours) {
-        let triggerTime = CONFIG.scheduler.time_based_triggers.hours[hourTrigger];
-        let triggerGuy = ScriptApp.newTrigger(hourTrigger);
+    for (const hourTrigger in CONFIG.scheduler.time_based_triggers.hours) {
+        const triggerTime = CONFIG.scheduler.time_based_triggers.hours[hourTrigger];
+        const triggerGuy = ScriptApp.newTrigger(hourTrigger);
         triggerGuy.timeBased().everyHours(triggerTime).create();
     }
-    for (let dayTrigger in CONFIG.scheduler.time_based_triggers.days) {
-        let triggerTime = CONFIG.scheduler.time_based_triggers.days[dayTrigger];
-        let triggerGuy = ScriptApp.newTrigger(dayTrigger);
+    for (const dayTrigger in CONFIG.scheduler.time_based_triggers.days) {
+        const triggerTime = CONFIG.scheduler.time_based_triggers.days[dayTrigger];
+        const triggerGuy = ScriptApp.newTrigger(dayTrigger);
         triggerGuy.timeBased().everyDays(triggerTime).create();
     }
-    for (let weekTrigger in CONFIG.scheduler.time_based_triggers.weeks) {
-        let TriggerTime = CONFIG.scheduler.time_based_triggers.weeks[weekTrigger];
-        let triggerGuy = ScriptApp.newTrigger(weekTrigger)
+    for (const weekTrigger in CONFIG.scheduler.time_based_triggers.weeks) {
+        const TriggerTime = CONFIG.scheduler.time_based_triggers.weeks[weekTrigger];
+        const triggerGuy = ScriptApp.newTrigger(weekTrigger)
         triggerGuy.timeBased().everyWeeks(TriggerTime).onWeekDay(ScriptApp.WeekDay.TUESDAY).create()
         // Set to Tuesday because it's the day after p-Day, which is the big number reporting day.
     }
@@ -140,8 +140,8 @@ function updateTimeBasedTriggers() {
 }
 
 function removeSheetTriggers() {
-    let triggers = ScriptApp.getProjectTriggers()
-    for (let trigger of triggers) {
+    const triggers = ScriptApp.getProjectTriggers()
+    for (const trigger of triggers) {
         if (trigger.getTriggerSource() == ScriptApp.TriggerSource.SPREADSHEETS) {
             ScriptApp.deleteTrigger(trigger)
         }
@@ -149,9 +149,9 @@ function removeSheetTriggers() {
 }
 
 function addOnOpenTriggers() {
-    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
-    for (let trigger in CONFIG.scheduler.onOpen_triggers) {
-        let triggerDood = ScriptApp.newTrigger(trigger)
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+    for (const trigger in CONFIG.scheduler.onOpen_triggers) {
+        const triggerDood = ScriptApp.newTrigger(trigger)
         triggerDood.forSpreadsheet(spreadsheet).onOpen().create()
     }
 }

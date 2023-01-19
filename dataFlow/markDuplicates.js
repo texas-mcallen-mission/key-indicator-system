@@ -14,13 +14,13 @@ function markDuplicates_old(allSheetData) { //                                  
     console.log("Marking duplicate responses. Pulling data...");
     console.log("TODO: Don't pull the whole sheet?");
 
-    let sd = allSheetData.data;
-    let sheet = sd.getSheet();
-    let vals = sheet.getDataRange().getValues();
+    const sd = allSheetData.data;
+    const sheet = sd.getSheet();
+    const vals = sheet.getDataRange().getValues();
 
-    let mostRecentResponse = {};   //Previously checked responses. Uses rIDs as keys, and contains row numbers for marking and timestamps for comparison
-    let duplicates = [];  //Row indices that contain duplicates
-    let skippedRows = []; //Row indices that are blank
+    const mostRecentResponse = {};   //Previously checked responses. Uses rIDs as keys, and contains row numbers for marking and timestamps for comparison
+    const duplicates = [];  //Row indices that contain duplicates
+    const skippedRows = []; //Row indices that are blank
 
     let minRow; //Used for bounds on the edit range
     let maxRow = vals.length - 1;   //Used for bounds on the edit range
@@ -32,7 +32,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
 
 
-    let firstPass = true; //Used to make the loop run twice (in case it's not sorted by timestamp)
+    const firstPass = true; //Used to make the loop run twice (in case it's not sorted by timestamp)
     console.info("TODO: make mark dupes loop run twice");
 
     for (let row = maxRow; row > 0; row--) {    //WARNING: this assumes header is on the top row
@@ -60,7 +60,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
         minRow = row; //Update topmost row
 
-        let areaName = vals[row][sd.getIndex('areaName')];
+        const areaName = vals[row][sd.getIndex('areaName')];
         let areaID;
         try {
             areaID = getAreaID(allSheetData, areaName);
@@ -69,10 +69,10 @@ function markDuplicates_old(allSheetData) { //                                  
         }
 
 
-        let kiDate = vals[row][sd.getIndex('kiDate')];
-        let tstamp = vals[row][sd.getIndex('formTimestamp')];
+        const kiDate = vals[row][sd.getIndex('kiDate')];
+        const tstamp = vals[row][sd.getIndex('formTimestamp')];
 
-        let rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
+        const rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
 
         log += "\nResponse ID: '" + rID + "'";
 
@@ -84,7 +84,7 @@ function markDuplicates_old(allSheetData) { //                                  
             continue;
         }
 
-        let prev = mostRecentResponse[rID];  //Previous ocurrence
+        const prev = mostRecentResponse[rID];  //Previous ocurrence
         log += "\nFound previous ocurrence on row index ${prev.row}, comparing...";
 
         //Handle comparing historical records (which don't have timestamps)
@@ -123,11 +123,11 @@ function markDuplicates_old(allSheetData) { //                                  
     console.log("Finished pulling duplicate data. Pushing to sheet...");
 
 
-    let out = [];
+    const out = [];
 
     for (let row = minRow; row <= maxRow; row++) {
-        let isDuplicate = duplicates.includes(row);
-        let isSkipped = skippedRows.includes(row);
+        const isDuplicate = duplicates.includes(row);
+        const isSkipped = skippedRows.includes(row);
         out[row - minRow] = [];
         out[row - minRow][0] = isDuplicate ? true :
             isSkipped ? "" : false;

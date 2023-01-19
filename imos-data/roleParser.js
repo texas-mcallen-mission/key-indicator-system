@@ -2,38 +2,38 @@
 
 
 function roleParser(labelNameObject, listOfEmails) {
-    let compRoles = [];
-    let isTrainer = [];
+    const compRoles = [];
+    const isTrainer = [];
     // Position Strings: First is the tested for value, second is the readable output one.
-    let ap = ["(AP)", "AP"];
-    let zl1 = ["(ZL1)", "ZL1"];
-    let zl2 = ["(ZL2)", "ZL2"];
-    let zl3 = ["(ZL3)", "ZL3"];
-    let stl1 = ["(STL1)", "STL1"];
-    let stl2 = ["(STL2)", "STL2"];
-    let stl3 = ["(STL3)", "STL3"];
-    let dl = ["(DL)", "DL"];
-    let seniorComp = ["(SC)", "SC"];
-    let juniorComp = ["(JC)", "JC"];
-    let seniorCompTrainer = ["(TR)", "TR"];
-    let zlTrainer = ["(ZLT)", "ZLT"];
-    let stlTrainer = ["(STLT)", "STLT"];
-    let dlTrainer = ["(DT)", "DT"];
-    let specialAssignment = ["(SA)", "SA"];
+    const ap = ["(AP)", "AP"];
+    const zl1 = ["(ZL1)", "ZL1"];
+    const zl2 = ["(ZL2)", "ZL2"];
+    const zl3 = ["(ZL3)", "ZL3"];
+    const stl1 = ["(STL1)", "STL1"];
+    const stl2 = ["(STL2)", "STL2"];
+    const stl3 = ["(STL3)", "STL3"];
+    const dl = ["(DL)", "DL"];
+    const seniorComp = ["(SC)", "SC"];
+    const juniorComp = ["(JC)", "JC"];
+    const seniorCompTrainer = ["(TR)", "TR"];
+    const zlTrainer = ["(ZLT)", "ZLT"];
+    const stlTrainer = ["(STLT)", "STLT"];
+    const dlTrainer = ["(DT)", "DT"];
+    const specialAssignment = ["(SA)", "SA"];
 
 
 
     // console.log([labelNameObject[0],labelNameObject[1],labelNameObject[2],labelNameObject[3]])
     for (let labelIterant = 0; labelIterant < listOfEmails.length; labelIterant++) {
-        let labelString = labelNameObject[labelIterant].toString();
+        const labelString = labelNameObject[labelIterant].toString();
         if (typeof labelNameObject[labelIterant] == "object") {
             console.log(["weird edge-case thingy:", labelIterant, listOfEmails[labelIterant], labelNameObject[labelIterant], labelNameObject[labelIterant].toString()]);
         }
-        let openParenPos = labelString.lastIndexOf("("); /* indexOf was originally used here, switched to lastIndexOf because somebody */
-        let closeParenPos = labelString.lastIndexOf(")"); /* with a nickname in parenthesis, ie (Siri) was breaking it and they weren't getting their role parsed properly. */
+        const openParenPos = labelString.lastIndexOf("("); /* indexOf was originally used here, switched to lastIndexOf because somebody */
+        const closeParenPos = labelString.lastIndexOf(")"); /* with a nickname in parenthesis, ie (Siri) was breaking it and they weren't getting their role parsed properly. */
         /* https://www.codegrepper.com/code-examples/javascript/find+the+last+occurrence+of+a+character+in+a+string+javascript */
         // let regexSearch = labelString.search(/\(\w*/) // this one stopped working and was harder to debug and read, so I switched it.
-        let roleString = labelString.substring(openParenPos, closeParenPos + 1);
+        const roleString = labelString.substring(openParenPos, closeParenPos + 1);
         switch (roleString) {
             // AP's
             case ap[0]:

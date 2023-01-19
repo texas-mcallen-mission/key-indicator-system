@@ -18,10 +18,10 @@
 function getAreaID(allSheetData, areaName) {
     // this is because 
     // eslint-disable-next-line no-undef
-    let cache = CacheService.getDocumentCache();
-    let areaIDs_JSONString = cache.get(CONFIG.dataFlow.areaId_cacheKey);
+    const cache = CacheService.getDocumentCache();
+    const areaIDs_JSONString = cache.get(CONFIG.dataFlow.areaId_cacheKey);
 
-    let areaIDs = areaIDs_JSONString == null
+    const areaIDs = areaIDs_JSONString == null
         ? loadAreaIDs(allSheetData)
         : JSON.parse(areaIDs_JSONString);
 
@@ -42,22 +42,22 @@ function loadAreaIDs(allSheetData) {
     console.time('Time loading areaIDs');
 
     // let allSheetData = constructSheetData();
-    let cSheetData = allSheetData.contact;
-    let data = cSheetData.getData();
-    let areaIDs = {};
+    const cSheetData = allSheetData.contact;
+    const data = cSheetData.getData();
+    const areaIDs = {};
 
-    let cache = CacheService.getDocumentCache();
+    const cache = CacheService.getDocumentCache();
     cache.remove(CONFIG.dataFlow.areaId_cacheKey);
 
-    for (let contactData of data) {
+    for (const contactData of data) {
 
-        let areaName = contactData.areaName;
-        let areaEmail = contactData.areaEmail;
-        let areaID = emailToID(areaEmail);
+        const areaName = contactData.areaName;
+        const areaEmail = contactData.areaEmail;
+        const areaID = emailToID(areaEmail);
         areaIDs[areaName] = areaID;
     }
 
-    let areaIDs_JSONString = JSON.stringify(areaIDs);
+    const areaIDs_JSONString = JSON.stringify(areaIDs);
 
     cache.put(CONFIG.dataFlow.areaId_cacheKey,
         areaIDs_JSONString,
@@ -79,6 +79,6 @@ function loadAreaIDs(allSheetData) {
 
 
 function runLoadAreaIDs() {
-    let allSheetData = constructSheetData();
+    const allSheetData = constructSheetData();
     loadAreaIDs(allSheetData);
 }

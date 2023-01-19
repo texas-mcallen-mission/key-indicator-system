@@ -20,7 +20,7 @@
 function updateDataSheet() {
     console.log("BEGINNING UPDATE");
 
-    let allSheetData: any = constructSheetData();
+    const allSheetData: any = constructSheetData();
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) { loadAreaIDs(allSheetData); } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
@@ -34,9 +34,9 @@ function updateDataSheet() {
     // former ignore
     refreshContacts(allSheetData);
 
-    let contacts = getContactData(allSheetData);
+    const contacts = getContactData(allSheetData);
 
-    let leaders = getLeadershipAreaData(contacts);
+    const leaders = getLeadershipAreaData(contacts);
 
     missionData = mergeIntoMissionData(missionData, contacts, "contact data");
     missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
@@ -70,18 +70,18 @@ function pullFormData(allSheetData) {
 
 
     
-    let fSheetData = allSheetData.form;
+    const fSheetData = allSheetData.form;
     
     // Bugfix: the following was previously inside of the last if/else loop.
-    let formSheet = fSheetData.getSheet();
-    let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
-    let responses = fSheetData.getData();
-    let missionData = [];
+    const formSheet = fSheetData.getSheet();
+    const markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
+    const responses = fSheetData.getData();
+    const missionData = [];
 
     console.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
 
 
-    for (let response of responses) {
+    for (const response of responses) {
         if (response.responsePulled == true || response.areaName == "")
             continue;
 
@@ -134,10 +134,10 @@ function getContactData(allSheetData) {
 
     console.log("Getting data from Contact Data sheet...");
 
-    let cSheetData = allSheetData.contact;
-    let contactData = cSheetData.getData();
-    let contacts = {}; //contactData, keyed by areaID
-    for (let contact of contactData) {
+    const cSheetData = allSheetData.contact;
+    const contactData = cSheetData.getData();
+    const contacts = {}; //contactData, keyed by areaID
+    for (const contact of contactData) {
         contact.areaID = getAreaID(allSheetData, contact.areaName);
         if ((typeof contact.log) == 'undefined')
             contact.log = {};
@@ -170,16 +170,16 @@ function getContactData(allSheetData) {
 function mergeIntoMissionData(missionData, sourceData, sourceID) {
     console.log("Beginning to merge source '" + sourceID + "' into missionData");
 
-    let newMissionData = [];
-    let mdKeys = Object.keys(missionData[0]);
-    let sdKeys = Object.keys(sourceData[missionData[0].areaID]);
-    let keys = new Set(mdKeys.concat(sdKeys)); //Set of all keys from both objects (a Set removes duplicates automatically)
+    const newMissionData = [];
+    const mdKeys = Object.keys(missionData[0]);
+    const sdKeys = Object.keys(sourceData[missionData[0].areaID]);
+    const keys = new Set(mdKeys.concat(sdKeys)); //Set of all keys from both objects (a Set removes duplicates automatically)
 
 
-    for (let missionAreaData of missionData) {
-        let areaID = missionAreaData.areaID;
-        let areaName = missionAreaData.areaName;
-        let sourceAreaData = sourceData[missionAreaData.areaID];
+    for (const missionAreaData of missionData) {
+        const areaID = missionAreaData.areaID;
+        const areaName = missionAreaData.areaName;
+        const sourceAreaData = sourceData[missionAreaData.areaID];
 
         if (CONFIG.dataFlow.log_dataMerge) console.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
 
@@ -187,17 +187,17 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
             throw "Found a form response for area '" + areaName + "' (id '" + areaID + "'), but couldn't find that area in source '" + sourceID + "'";
 
 
-        let newAreaData = {};
-        let mergeLog =
+        const newAreaData = {};
+        const mergeLog =
         {
             'missingKeys': [],
             'collisions': {},
         };
 
-        for (let key of keys) {
+        for (const key of keys) {
 
-            let mHasKey = typeof missionAreaData[key] != 'undefined';
-            let sHasKey = typeof sourceAreaData[key] != 'undefined';
+            const mHasKey = typeof missionAreaData[key] != 'undefined';
+            const sHasKey = typeof sourceAreaData[key] != 'undefined';
 
             //Log warnings if neither object has this key (should be unreachable), or if both do and they disagree
             if (!mHasKey && !sHasKey) {
@@ -253,7 +253,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 function pushToDataSheetV2(allSheetData, missionData) {
     console.log("Pushing data to Data sheet...");
 
-    let dSheetData = allSheetData.data;
+    const dSheetData = allSheetData.data;
     dSheetData.insertData(missionData);
 
     console.log("Finished pushing to Data sheet.");

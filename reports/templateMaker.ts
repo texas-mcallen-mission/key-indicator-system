@@ -13,17 +13,17 @@
  *
  */
 function createMissingReports() {
-    let localSheetData: manySheetDatas = constructSheetDataV2(sheetDataConfig.local);
-    let fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData);
-    let reportTemplates = {
+    const localSheetData: manySheetDatas = constructSheetDataV2(sheetDataConfig.local);
+    const fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData);
+    const reportTemplates = {
         "Zone": CONFIG.reportCreator.docIDs.zoneTemplate,
         "District": CONFIG.reportCreator.docIDs.distTemplate,
         "Area": CONFIG.reportCreator.docIDs.areaTemplate
     }
     let newReportCounter = 0
-    for (let fsDataEntry in fsDataEntries) {
-        let fsData:filesystemEntry = fsDataEntries[fsDataEntry]
-        for (let entry of fsData.sheetData) {
+    for (const fsDataEntry in fsDataEntries) {
+        const fsData:filesystemEntry = fsDataEntries[fsDataEntry]
+        for (const entry of fsData.sheetData) {
             if (entry.sheetID1 == "" || typeof entry.sheetID1 == null || typeof entry.sheetID1 == undefined) {
                 entry.sheetID1 = makeCopyOfTemplate(reportTemplates[fsData.fsScope], entry.folderId, entry.folderName)
                 newReportCounter += 1
@@ -36,8 +36,8 @@ function createMissingReports() {
 }
 
 function makeCopyOfTemplate(templateID:string,reportFolderID:string,reportName:string) {
-    let file = DriveApp.getFileById(templateID)
-    let folder = DriveApp.getFolderById(reportFolderID)
-    let newFile = file.makeCopy(reportName, folder)
+    const file = DriveApp.getFileById(templateID)
+    const folder = DriveApp.getFolderById(reportFolderID)
+    const newFile = file.makeCopy(reportName, folder)
     return newFile.getId()
 }
