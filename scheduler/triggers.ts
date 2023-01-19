@@ -32,7 +32,7 @@ function updateDataSheet_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger:triggerTypes.timeBased
     }
     meta_runner(updateDataSheet,meta_args)
@@ -47,8 +47,8 @@ function importContacts_TimeBasedTrigger() {
         return;
     }
 
-    let allSheetData = constructSheetData();
-    let meta_args: meta_runner_args = {
+    const allSheetData = constructSheetData();
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
         functionArg:allSheetData
     };
@@ -61,7 +61,7 @@ function updateForm_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(updateForm, meta_args)
@@ -73,7 +73,7 @@ function updateFS_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(updateFSV4, meta_args);
@@ -85,7 +85,7 @@ function updateAreaReports_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateAreaReports is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(updateAreaReportsV5, meta_args)
@@ -98,7 +98,7 @@ function updateDistrictReports_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDistReports is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(updateDistrictReportsV5, meta_args)
@@ -110,7 +110,7 @@ function updateZoneReports_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateZoneReports is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(updateZoneReportsV5, meta_args)
@@ -123,7 +123,7 @@ function sharefileSystem_TimeBasedTrigger() {
         return;
     }//@ts-check
 
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(shareFileSystem, meta_args);
@@ -136,7 +136,7 @@ function onOpen_InstallableTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.installable.onOpen is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.onOpen
     };
     meta_runner(buildMenu, meta_args)
@@ -167,7 +167,7 @@ function pruneFS_TimeBasedTrigger() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.pruneFS is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
     meta_runner(pruneFS, meta_args)
@@ -185,7 +185,7 @@ function updateDataSheet_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDataSheet is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
     meta_runner(updateDataSheet, meta_args)
@@ -198,7 +198,7 @@ function updateFS_MenuTrigger_() {
         return;
     }
     console.log("[TRIGGER] Running buildFSV4() from the Manual Commands menu");
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
     meta_runner(buildFSV4, meta_args)
@@ -210,7 +210,7 @@ function updateAreaReports_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateAreaReports is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
     meta_runner(updateAreaReportsV5, meta_args)
@@ -222,7 +222,7 @@ function updateDistrictReports_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDistReports is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
     meta_runner(updateDistrictReportsV5, meta_args)
@@ -234,7 +234,7 @@ function updateZoneReports_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateZoneReports is set to false");
         return;
     }
-    let meta_args: meta_runner_args = {
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
     meta_runner(updateZoneReportsV5, meta_args)
@@ -246,8 +246,8 @@ function importContacts_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.importContacts is set to false");
         return;
     }
-    let allSheetData = constructSheetData();
-    let meta_args: meta_runner_args = {
+    const allSheetData = constructSheetData();
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu,
         functionArg:allSheetData,
     };
@@ -260,8 +260,8 @@ function markDuplicates_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.markDuplicates is set to false");
         return;
     }
-    let allSheetData = constructSheetData();
-    let meta_args: meta_runner_args = {
+    const allSheetData = constructSheetData();
+    const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu,
         functionArg:allSheetData
     };

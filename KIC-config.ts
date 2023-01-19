@@ -315,7 +315,7 @@ const sheetDataConfig: { local: manySheetDataEntries} = getSheetDataConfig();
  * @return {{ local: manySheetDataEntries, remote: manySheetDataEntries; }}
  */
 function getSheetDataConfig(): { local: manySheetDataEntries } {
-    let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
+    const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
     // this is stuck inside of a function for no other reason than that I was having some problems with it being static and referencing the CONFIG before that was declared.
 
     const sheetDataConfig: { local: manySheetDataEntries } = {

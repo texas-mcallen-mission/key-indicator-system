@@ -8,7 +8,7 @@ function run_updateDataSheet() {
 }
 
 function run_importContacts() {
-    let allSheetData = constructSheetData();
+    const allSheetData = constructSheetData();
     importContacts(allSheetData);
 }
 
@@ -23,7 +23,7 @@ function run_updateReports() {
 }
 
 function run_markDuplicates() {
-    let allSheetData = constructSheetData();
+    const allSheetData = constructSheetData();
     markDuplicates(allSheetData);
 }
 
@@ -32,13 +32,13 @@ function run_updateForm() {
 }
 
 function clearCache() {
-    let cacheIds = [CONFIG.dataFlow_areaId_cacheKey, CONFIG.dataFlow_allSheetData_cacheKey];
-    let cache = CacheService.getDocumentCache();
+    const cacheIds = [CONFIG.dataFlow_areaId_cacheKey, CONFIG.dataFlow_allSheetData_cacheKey];
+    const cache = CacheService.getDocumentCache();
     cache.removeAll(cacheIds);
 }
 
 function run_constructSheetData() {
-    let allSheetData = constructSheetData();
+    const allSheetData = constructSheetData();
 }
 
 function setUpTriggers() {
