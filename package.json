@@ -4,12 +4,12 @@
     "lodash": "^4.17.21"
 },
 "devDependencies": {
-      "clasp": "^1.0.0",
+    "clasp": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "eslint": "^8.32.0",
     "typedoc": "^0.23.24",
-    "typedoc-plugin-markdown": "^3.14.0",
+    "typedoc-plugin-markdown": "^3.14.0"
 
   }
 }
