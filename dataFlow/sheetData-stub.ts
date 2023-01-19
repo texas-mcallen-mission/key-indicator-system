@@ -17,8 +17,8 @@ function constructSheetData(force = false) {
     console.warn("HEYO Syncing keys *should* be happening...")
     allSheetData.data.addKeys(allSheetData.form)
     let postKey = allSheetData.data.getKeys();
-    Logger.log(preKey);
-    Logger.log(postKey);
+    console.log(preKey);
+    console.log(postKey);
     return allSheetData;
 }
 

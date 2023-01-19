@@ -58,7 +58,7 @@ function test_dataLogger() {
     dLog.startFunction("justForTesting_");
     try {
 
-        Logger.log(typeof functionArg1);
+        console.log(typeof functionArg1);
         justForTesting_(dLog, functionArg1);
 
     } catch (error) {
@@ -175,7 +175,7 @@ class dataLogger {
 
         if (debug_write_is_locked_()) {
             while (!debug_write_is_locked_()) {
-                Logger.log("waiting for other thing to save");
+                console.log("waiting for other thing to save");
             }
         }
 
@@ -281,15 +281,15 @@ function time_a_function_classy() {
     
     let logger: dataLogger = new dataLogger(functionName,dLogArgs);
 
-    logger.startFunction(functionName);
+    console.startFunction(functionName);
     try {
         updateDistrictReportsV5();
     } catch (error) {
-        logger.addFailure(functionName, error);
+        console.addFailure(functionName, error);
     }
-    logger.endFunction(functionName);
+    console.endFunction(functionName);
 
-    logger.end();
+    console.end();
 
 }
 
@@ -301,7 +301,7 @@ function resize_data_(in_data, header) {
     for (let i = 0; i < in_data.length; i++) {
         if (in_data[i].length > length) {
             length = in_data[i].length;
-            Logger.log("Resized array length");
+            console.log("Resized array length");
         }
     }
     console.log("Max Array Length:", length);

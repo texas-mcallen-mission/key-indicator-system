@@ -16,16 +16,16 @@ function refreshContacts(allSheetData) {
 function importContacts(allSheetData) {
 
     
-    Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
+    console.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
 
 
 
     if (CONFIG.dataFlow.freezeContactData) {
-        Logger.log("Execution halted - dataFlow.freezeContactData is set to true");
+        console.log("Execution halted - dataFlow.freezeContactData is set to true");
         return;
     }
 
-    Logger.log("Importing Contact data from Google Contacts...");
+    console.log("Importing Contact data from Google Contacts...");
 
 
     // let effectiveEmail = Session.getEffectiveUser().getEmail();
@@ -108,7 +108,7 @@ function importContacts(allSheetData) {
     }
 
     allSheetData.contact.setData(data);
-    Logger.log("Finished importing Contact data.");
+    console.log("Finished importing Contact data.");
 
 }
 

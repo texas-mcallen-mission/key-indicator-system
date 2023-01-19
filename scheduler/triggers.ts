@@ -11,7 +11,7 @@
 
 // DEPRECATED, DO NOT NEED ANYMORE
 // function updateTMMReport_TimeBasedTrigger() {
-//     Logger.log("[TRIGGER] Running updateTMMReport() from a time-based trigger");
+//     console.log("[TRIGGER] Running updateTMMReport() from a time-based trigger");
 //     let meta_args: meta_runner_args = {
 //         trigger:triggerTypes.timeBased
 //     }
@@ -19,7 +19,7 @@
 // }
 
 // function updateLocalDataStore_TimeBasedTrigger() {
-//     Logger.log("[TRIGGER] Running updateLocalDataStore() from a time-based trigger");
+//     console.log("[TRIGGER] Running updateLocalDataStore() from a time-based trigger");
 //         let meta_args: meta_runner_args = {
 //         trigger:triggerTypes.timeBased
 //     }
@@ -27,9 +27,9 @@
 // }
 
 function updateDataSheet_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
+    console.log("[TRIGGER] Running updateDataSheet() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateDataSheet) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDataSheet is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -40,10 +40,10 @@ function updateDataSheet_TimeBasedTrigger() {
 
 function importContacts_TimeBasedTrigger() {
 
-    // Logger.log("[TRIGGER] Running importContacts() from a time-based trigger");
+    // console.log("[TRIGGER] Running importContacts() from a time-based trigger");
 
     if (!CONFIG.triggers.timeBased.importContacts) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.importContacts is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.importContacts is set to false");
         return;
     }
 
@@ -56,9 +56,9 @@ function importContacts_TimeBasedTrigger() {
     }
 
 function updateForm_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateForm() from a time-based trigger");
+    console.log("[TRIGGER] Running updateForm() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateForm) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateForm is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -68,9 +68,9 @@ function updateForm_TimeBasedTrigger() {
 }
 
 function updateFS_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateFS() from a time-based trigger");
+    console.log("[TRIGGER] Running updateFS() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateFileSystem) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateFileSystem is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -80,9 +80,9 @@ function updateFS_TimeBasedTrigger() {
 }
 
 function updateAreaReports_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateAreaReports from a time-based trigger");
+    console.log("[TRIGGER] Running updateAreaReports from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateAreaReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateAreaReports is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateAreaReports is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -93,9 +93,9 @@ function updateAreaReports_TimeBasedTrigger() {
 }
 
 function updateDistrictReports_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateDistrictReports from a time-based trigger");
+    console.log("[TRIGGER] Running updateDistrictReports from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateDistReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDistReports is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateDistReports is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -105,9 +105,9 @@ function updateDistrictReports_TimeBasedTrigger() {
 }
 
 function updateZoneReports_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running updateZoneReports() from a time-based trigger");
+    console.log("[TRIGGER] Running updateZoneReports() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.updateZoneReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateZoneReports is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.updateZoneReports is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -117,9 +117,9 @@ function updateZoneReports_TimeBasedTrigger() {
 }
 
 function sharefileSystem_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running shareFileSystem() from a time-based trigger");
+    console.log("[TRIGGER] Running shareFileSystem() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.shareFileSystem) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.shareFileSystem is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.shareFileSystem is set to false");
         return;
     }//@ts-check
 
@@ -131,9 +131,9 @@ function sharefileSystem_TimeBasedTrigger() {
 
 
 function onOpen_InstallableTrigger() {
-    Logger.log("[TRIGGER] Running buildMenu() as an installable trigger()");
+    console.log("[TRIGGER] Running buildMenu() as an installable trigger()");
     if (!CONFIG.triggers.installable.onOpen) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.installable.onOpen is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.installable.onOpen is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -162,9 +162,9 @@ function buildMenu() {
 
 
 function pruneFS_TimeBasedTrigger() {
-    Logger.log("[TRIGGER] Running pruneFS() from a time-based trigger");
+    console.log("[TRIGGER] Running pruneFS() from a time-based trigger");
     if (!CONFIG.triggers.timeBased.pruneFS) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.pruneFS is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.timeBased.pruneFS is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -180,9 +180,9 @@ function pruneFS_TimeBasedTrigger() {
 
 
 function updateDataSheet_MenuTrigger_() {
-    Logger.log("[TRIGGER] Running updateDataSheet() from the Manual Commands menu");
+    console.log("[TRIGGER] Running updateDataSheet() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateDataSheet) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDataSheet is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDataSheet is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -194,10 +194,10 @@ function updateDataSheet_MenuTrigger_() {
 
 function updateFS_MenuTrigger_() {
     if (!CONFIG.triggers.menu.updateFileSystem) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateFileSystem is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateFileSystem is set to false");
         return;
     }
-    Logger.log("[TRIGGER] Running buildFSV4() from the Manual Commands menu");
+    console.log("[TRIGGER] Running buildFSV4() from the Manual Commands menu");
     let meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
@@ -205,9 +205,9 @@ function updateFS_MenuTrigger_() {
 }
 
 function updateAreaReports_MenuTrigger_() {
-    Logger.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu");
+    console.log("[TRIGGER] Running updateAreaReports() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateAreaReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateAreaReports is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateAreaReports is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -217,9 +217,9 @@ function updateAreaReports_MenuTrigger_() {
 }
 
 function updateDistrictReports_MenuTrigger_() {
-    Logger.log("[TRIGGER] Running updateDistrictReports() from the Manual Commands menu");
+    console.log("[TRIGGER] Running updateDistrictReports() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateDistReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDistReports is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateDistReports is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -229,9 +229,9 @@ function updateDistrictReports_MenuTrigger_() {
 }
 
 function updateZoneReports_MenuTrigger_() {
-    Logger.log("[TRIGGER] Running updateZoneReports() from the Manual Commands menu");
+    console.log("[TRIGGER] Running updateZoneReports() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.updateZoneReports) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateZoneReports is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.updateZoneReports is set to false");
         return;
     }
     let meta_args: meta_runner_args = {
@@ -241,9 +241,9 @@ function updateZoneReports_MenuTrigger_() {
 }
 
 function importContacts_MenuTrigger_() {
-    Logger.log("[TRIGGER] Running importContacts() from the Manual Commands menu");
+    console.log("[TRIGGER] Running importContacts() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.importContacts) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.importContacts is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.importContacts is set to false");
         return;
     }
     let allSheetData = constructSheetData();
@@ -255,9 +255,9 @@ function importContacts_MenuTrigger_() {
 }
 
 function markDuplicates_MenuTrigger_() {
-    Logger.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu");
+    console.log("[TRIGGER] Running markDuplicates() from the Manual Commands menu");
     if (!CONFIG.triggers.menu.markDuplicates) {
-        Logger.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.markDuplicates is set to false");
+        console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.markDuplicates is set to false");
         return;
     }
     let allSheetData = constructSheetData();

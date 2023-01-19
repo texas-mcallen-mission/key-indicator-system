@@ -23,11 +23,11 @@ function roleParser(labelNameObject, listOfEmails) {
 
 
 
-    // Logger.log([labelNameObject[0],labelNameObject[1],labelNameObject[2],labelNameObject[3]])
+    // console.log([labelNameObject[0],labelNameObject[1],labelNameObject[2],labelNameObject[3]])
     for (let labelIterant = 0; labelIterant < listOfEmails.length; labelIterant++) {
         let labelString = labelNameObject[labelIterant].toString();
         if (typeof labelNameObject[labelIterant] == "object") {
-            Logger.log(["weird edge-case thingy:", labelIterant, listOfEmails[labelIterant], labelNameObject[labelIterant], labelNameObject[labelIterant].toString()]);
+            console.log(["weird edge-case thingy:", labelIterant, listOfEmails[labelIterant], labelNameObject[labelIterant], labelNameObject[labelIterant].toString()]);
         }
         let openParenPos = labelString.lastIndexOf("("); /* indexOf was originally used here, switched to lastIndexOf because somebody */
         let closeParenPos = labelString.lastIndexOf(")"); /* with a nickname in parenthesis, ie (Siri) was breaking it and they weren't getting their role parsed properly. */

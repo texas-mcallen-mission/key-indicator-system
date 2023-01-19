@@ -14,7 +14,7 @@ function shareFileSystem() {
 
     console.warn("Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission.")
 
-    Logger.log('Beginning read/write file sharing...');
+    console.log('Beginning read/write file sharing...');
 
     let allSheetData = constructSheetData();
     let contacts = getContactData(allSheetData);
@@ -62,7 +62,7 @@ function shareFileSystem() {
 
         let zoneOrgData = missionOrgData.zones[zoneName];
 
-        if (CONFIG.fileSystem.log_fileShare) Logger.log("Sharing folder for zone '" + zoneName + "'");
+        if (CONFIG.fileSystem.log_fileShare) console.log("Sharing folder for zone '" + zoneName + "'");
 
 
         //      Update folder access: zEmails, officeEmails
@@ -73,7 +73,7 @@ function shareFileSystem() {
         zEmails.push(zoneOrgData.zlArea.areaEmail);  //Add ZL area email
         if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail);  //Add STL area email if it exists
 
-        if (CONFIG.fileSystem.log_fileShare) Logger.log('zEmails: ' + zEmails);
+        if (CONFIG.fileSystem.log_fileShare) console.log('zEmails: ' + zEmails);
 
         //Remove old editors, then add new ones
         let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
@@ -89,7 +89,7 @@ function shareFileSystem() {
         silentShareToGroup(zoneFolderID, officeEmails);
 
         let editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
-        if (CONFIG.fileSystem.log_fileShare) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
+        if (CONFIG.fileSystem.log_fileShare) console.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
         // if (CONFIG.fileSystem.updateSheetProtectionsOnLoad) {
@@ -105,7 +105,7 @@ function shareFileSystem() {
         //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
         //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
         //         );
-        //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+        //         if (CONFIG.fileSystem.log_fileShare) console.log('Updating ' + protections.length + ' protections in sheet');
 
         //         for (let protection of protections) {
         //             for (let editor of protection.getEditors()) {
@@ -134,7 +134,7 @@ function shareFileSystem() {
             let distOrgData = zoneOrgData.districts[districtName];
 
 
-            if (CONFIG.fileSystem.log_fileShare) Logger.log("Sharing folder for district '" + districtName + "'");
+            if (CONFIG.fileSystem.log_fileShare) console.log("Sharing folder for district '" + districtName + "'");
 
 
             //      Update folder access: everyone with zone level access, plus the DL
@@ -170,7 +170,7 @@ function shareFileSystem() {
             //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
             //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
             //         );
-            //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+            //         if (CONFIG.fileSystem.log_fileShare) console.log('Updating ' + protections.length + ' protections in sheet');
 
             //         for (let protection of protections) {
             //             for (let editor of protection.getEditors()) {
@@ -198,7 +198,7 @@ function shareFileSystem() {
                 let areaOrgData = distOrgData.areas[areaName];
 
 
-                if (CONFIG.fileSystem.log_fileShare) Logger.log('Sharing folder for area ' + areaName);
+                if (CONFIG.fileSystem.log_fileShare) console.log('Sharing folder for area ' + areaName);
 
 
                 //      Update folder access: everyone with zone or district level access, plus the area email
@@ -234,7 +234,7 @@ function shareFileSystem() {
                 //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
                 //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
                 //         );
-                //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+                //         if (CONFIG.fileSystem.log_fileShare) console.log('Updating ' + protections.length + ' protections in sheet');
 
                 //         for (let protection of protections) {
                 //             for (let editor of protection.getEditors()) {
@@ -253,14 +253,14 @@ function shareFileSystem() {
                 //Finished sharing folder for this area
             }
 
-            Logger.log('Finished sharing folders for district ' + districtName);
+            console.log('Finished sharing folders for district ' + districtName);
         }
 
-        Logger.log('Finished sharing folders for zone ' + zoneName);
+        console.log('Finished sharing folders for zone ' + zoneName);
     }
 
 
-    Logger.log('Completed read/write file sharing.');
+    console.log('Completed read/write file sharing.');
 
 
 
@@ -293,7 +293,7 @@ function silentShare(fileId, recipient) {
             }
         );
     } catch (e) {
-        Logger.log("Failed to share:\n" + e);
+        console.log("Failed to share:\n" + e);
     }
 }
 
@@ -304,7 +304,7 @@ function silentShare(fileId, recipient) {
  */
 function silentShareToGroup(fileId, recipients) {
     if (CONFIG.fileSystem.log_fileShare)
-        Logger.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
+        console.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
     
     for (let recipient of recipients) {
         silentShare(fileId, recipient);

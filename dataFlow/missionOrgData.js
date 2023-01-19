@@ -20,7 +20,7 @@ function getMissionOrgData(allSheetData) {
     let contactData = cSheetData.getData();
     let zones = {};
 
-    Logger.log("Calculating mission organization data...");
+    console.log("Calculating mission organization data...");
 
     /*    Format of zones object
     zones = {
@@ -64,7 +64,7 @@ function getMissionOrgData(allSheetData) {
  */
 function getMissionLeadershipData(contacts) {
 
-    Logger.log("Calculating leader data from contact data...");
+    console.log("Calculating leader data from contact data...");
 
 
     //Initialized to the empty string to guarantee a defined value
@@ -326,7 +326,7 @@ function getLeadershipAreaData(contacts) {
     }
 
 
-    Logger.log("Finished calculating leadership data for each area.");
+    console.log("Finished calculating leadership data for each area.");
 
     return leaderAreaData;
 

@@ -64,7 +64,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
     //@ts-ignore
     let orgData = getMissionOrgData(allSheetData);
 
-    Logger.log(orgData);
+    console.log(orgData);
 
     let filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
 
@@ -152,7 +152,7 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
 function createNewFolderV4_(parentFolderId, name) {
     // creates new folder in parent folder, and then returns that folder's ID.
     // TODO: Potentially implement a caching thing with a global object to speed up second and third occurences of creating the same folderObject?
-    Logger.log(parentFolderId);
+    console.log(parentFolderId);
     let parentFolder = DriveApp.getFolderById(parentFolderId);
     let newFolder = parentFolder.createFolder(name);
     let newFolderID = newFolder.getId();

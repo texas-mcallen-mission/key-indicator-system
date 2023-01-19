@@ -20,7 +20,7 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
 
     let locker = new meta_locker(functionName.name,args.shardNumber)
     if (locker.isLocked()== true && args.ignoreLockout == false) {
-        Logger.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
+        console.log("[META_RUNNER][META_LOCKER] Currently in Lockout, ending execution ")
         return
     } else {
         locker.lock()
@@ -37,7 +37,7 @@ function meta_runner(functionName:Function,args: meta_runner_args) {
             if (args.functionArg == undefined) {
                 functionName(dLog);
             } else {
-                Logger.log(typeof args.functionArg);
+                console.log(typeof args.functionArg);
                 functionName(args.functionArg, dLog);
             }
         } catch (error) {

@@ -18,7 +18,7 @@ function getOrCreateReportFolder() {
     let spreadsheetFile = DriveApp.getFileById(spreadsheetId);
     let parentFolder = spreadsheetFile.getParents();
     // let oneLinerParentFolderID = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).getParents().next().getId()
-    // Logger.log(oneLinerParentFolderID)
+    // console.log(oneLinerParentFolderID)
     // let parentFolderID = parentFolder.getId()
     // let parentFolderMatches = parentFolder.next()
     let nextFolder = parentFolder.next();
@@ -27,10 +27,10 @@ function getOrCreateReportFolder() {
     let reportsFolderID = "";
     if (matchingChildFolders.hasNext() == true) {
         reportsFolderID = matchingChildFolders.next().getId();
-        Logger.log("reports folder found");
+        console.log("reports folder found");
     } else {
         reportsFolderID = createNewFolderV4_(parentFolderID, folderName);
-        Logger.log("reports folder not found, creating");
+        console.log("reports folder not found, creating");
     }
     return reportsFolderID;
 }
@@ -44,19 +44,19 @@ function sendDataToDisplayV3_(header, finalData, sheet, args = {sortColumn:1,asc
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     sheet.clearContents();
     sheet.appendRow(header);
-    Logger.log(finalData.length);
-    if (CONFIG.commonLib.log_display_info) { Logger.log("adding Header"); }
-    Logger.log(header);
+    console.log(finalData.length);
+    if (CONFIG.commonLib.log_display_info) { console.log("adding Header"); }
+    console.log(header);
     sheet.getRange(1, 1, 1, header.length).setValues([header]);
-    if (CONFIG.commonLib.log_display_info) { Logger.log("added header, adding data"); }
+    if (CONFIG.commonLib.log_display_info) { console.log("added header, adding data"); }
     if (finalData.length == 0 || typeof finalData == null) {
-        Logger.log("no data, skipping");
+        console.log("no data, skipping");
         return;
     } else {
         sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData);
-        if (CONFIG.commonLib.log_display_info) { Logger.log("Data added, sorting"); }
+        if (CONFIG.commonLib.log_display_info) { console.log("Data added, sorting"); }
         sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: args.sortColumn, ascending: args.ascending }]);
-        // Logger.log("data added")
+        // console.log("data added")
     }
     let postDate = new Date
     if (CONFIG.commonLib.log_time_taken) {
@@ -69,18 +69,18 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
     sheet.clearContents();
     // sheet.appendRow(header);
-    // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { Logger.log(finalData.length); }
-    if (CONFIG.commonLib.log_display_info) { Logger.log("adding Header"); }
+    // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { console.log(finalData.length); }
+    if (CONFIG.commonLib.log_display_info) { console.log("adding Header"); }
     sheet.getRange(2, 1, 1, header.length).setValues([header]);
-    if (CONFIG.commonLib.log_display_info) {Logger.log("added header, adding data");}
+    if (CONFIG.commonLib.log_display_info) {console.log("added header, adding data");}
         if (finalData == null) {
-            if (CONFIG.commonLib.log_display_info_extended) { Logger.log("no data, skipping"); }
+            if (CONFIG.commonLib.log_display_info_extended) { console.log("no data, skipping"); }
         return;
     }
     let prepredate = new Date
     sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData);
     if (CONFIG.commonLib.log_display_info) {
-        Logger.log("data added, sorting");
+        console.log("data added, sorting");
     }
     sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
     let postDate = new Date
@@ -89,7 +89,7 @@ function sendReportToDisplayV3_(header, finalData, sheet) {
     }
     // going to run this one more time without a flush to see what happens when this changes.
     // SpreadsheetApp.flush()
-    // Logger.log("data added")
+    // console.log("data added")
 }
 
 function getReportOrSetUpFromOtherSource_(sheetName, targetSpreadsheet, headerData = []) {
@@ -147,12 +147,12 @@ function isFolderAccessible_(folderID:string):boolean {
     } catch (e) {
         output = false;
         gone = true;
-        if (CONFIG.commonLib.log_access_info) { Logger.log("Folder deleted with ID " + folderID); }
+        if (CONFIG.commonLib.log_access_info) { console.log("Folder deleted with ID " + folderID); }
     }
     if (gone == false) {
         
         if (folder.isTrashed() == true) {
-            if (CONFIG.commonLib.log_access_info) { Logger.log("folder exists but in the bin"); }
+            if (CONFIG.commonLib.log_access_info) { console.log("folder exists but in the bin"); }
             output = false;
         }
     }
@@ -192,12 +192,12 @@ function isFileAccessible_(fileID: string):boolean {
     } catch (e) {
         output = false;
         gone = true;
-        if (CONFIG.commonLib.log_access_info) { Logger.log("File deleted with ID " + fileID); }
+        if (CONFIG.commonLib.log_access_info) { console.log("File deleted with ID " + fileID); }
 
     }
     if (gone == false) {
         if (file.isTrashed() == true) {
-            if (CONFIG.commonLib.log_access_info) { Logger.log("file exists but in the bin"); }
+            if (CONFIG.commonLib.log_access_info) { console.log("file exists but in the bin"); }
             output = false;
         }
     }
@@ -216,7 +216,7 @@ function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
     //currently just for zones, but we'll change that once I know this thing actually works.
     let checkPosition = tagColumn; // for zones
     let tagList = getUniqueFromPosition_(referenceData, checkPosition);
-    // Logger.log(tagList)
+    // console.log(tagList)
     let splitData = {};//[tagList.length]
     // set up splitData
     for (let tag of tagList) {
@@ -224,11 +224,11 @@ function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
     }
     for (let data of referenceData) {
         let refTag = data[checkPosition];
-        // Logger.log(refTag)
+        // console.log(refTag)
         if (tagList.includes(refTag) == true && (data[dupeColumn] == false || dupeColumn == null /*typeof dupeColumn == "undefined" (ONLY IF THAT DOESN'T WORK)*/)) {
             let currentTag = tagList[tagList.indexOf(refTag)];
-            // Logger.log(currentTag)
-            // Logger.log(tagList.indexOf(refTag))
+            // console.log(currentTag)
+            // console.log(tagList.indexOf(refTag))
             splitData[currentTag].push(data);
         }
     }
@@ -240,7 +240,7 @@ function splitDataByTag_(referenceData, tagColumn) {
     //currently just for zones, but we'll change that once I know this thing actually works.
     let checkPosition = tagColumn; // for zones
     let tagList = getUniqueFromPosition_(referenceData, checkPosition);
-    // Logger.log(tagList)
+    // console.log(tagList)
     let splitData = {};//[tagList.length]
     // set up splitData
     for (let tag of tagList) {
@@ -248,7 +248,7 @@ function splitDataByTag_(referenceData, tagColumn) {
     }
     for (let data of referenceData) {
         let refTag = data[checkPosition];
-        // Logger.log(refTag)
+        // console.log(refTag)
         if (tagList.includes(refTag) == true) {
             let currentTag = tagList[tagList.indexOf(refTag)];
             splitData[currentTag].push(data);
