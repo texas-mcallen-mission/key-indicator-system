@@ -13,7 +13,8 @@
         "rootDir": "./",
         "typeRoots": [
             "./sheetCore/typescript-interfaces.ts",
-            "./sheetCore/dataManipulator.ts"
+            "./sheetCore/dataManipulator.ts",
+            "./node_modules/@types"
         ]
     }
 }

@@ -4,5 +4,9 @@
         "allowJs": true,
 
     },
-    "extends":"tsconfig.json",    
+    "extends":"tsconfig.json",
+    "exclude": [
+        "docs/*"
+    ],
+    "rules":""
 }
