@@ -12,7 +12,7 @@ const sheetCoreConfig: sheetCoreConfigInfo = {
 }
 
 /** @type {*} */
-let INTERNAL_CONFIG = {
+const INTERNAL_CONFIG = {
     // docIds
     docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
@@ -290,6 +290,7 @@ let INTERNAL_CONFIG = {
 //@ts-ignore
 const _ = lodash.load();
 
+
 function test_lodash() {
     console.log(CONFIG);
     // if you stick something in override_secret_data you'll be able to notice the changes.
@@ -317,7 +318,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
     let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
     // this is stuck inside of a function for no other reason than that I was having some problems with it being static and referencing the CONFIG before that was declared.
 
-    let sheetDataConfig: { local: manySheetDataEntries } = {
+    const sheetDataConfig: { local: manySheetDataEntries } = {
         local: {
             form: {
                 tabName: "Form Responses",
