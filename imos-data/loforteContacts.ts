@@ -1,78 +1,91 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
+// Compiled using undefined undefined (TypeScript 4.9.4)
 // @ts-nocheck
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
 let contacts = group.getContacts(); // Fetches contact list of group 
 let name3 = "";
-
-
 function wrapper_boi() {
-  let configData = {
-      tabName: "Contact Data LoFoort",
-      headerRow: 0,
-      includeSoftcodedColumns: true,
-      initialColumnOrder: {
-          dateContactGenerated: 0,
-          areaEmail: 1,
-          areaName: 2,
-          name1: 3,
-          position1: 4,
-          isTrainer1: 5,
-          name2: 6,
-          position2: 7,
-          isTrainer2: 8,
-          name3: 9,
-          position3: 10,
-          isTrainer3: 11,
-          district: 12,
-          zone: 13,
-          unitString: 14,
-          hasMultipleUnits: 15,
-          languageString: 16,
-          isSeniorCouple: 17,
-          isSisterArea: 18,
-          hasVehicle: 19,
-          vehicleMiles: 20,
-          vinLast8: 21,
-          aptAddress: 22,
-      },
-  }
-  let loForteContacts = new SheetData(new RawSheetData(configData))
-
-  let data = getContact();
-  loForteContacts.setData(data);
-
+    let configData = {
+        tabName: "Contact Data LoFoort",
+        headerRow: 0,
+        includeSoftcodedColumns: true,
+        initialColumnOrder: {
+            dateContactGenerated: 0,
+            areaEmail: 1,
+            areaName: 2,
+            name1: 3,
+            position1: 4,
+            isTrainer1: 5,
+            name2: 6,
+            position2: 7,
+            isTrainer2: 8,
+            name3: 9,
+            position3: 10,
+            isTrainer3: 11,
+            district: 12,
+            zone: 13,
+            unitString: 14,
+            hasMultipleUnits: 15,
+            languageString: 16,
+            isSeniorCouple: 17,
+            isSisterArea: 18,
+            hasVehicle: 19,
+            vehicleMiles: 20,
+            vinLast8: 21,
+            aptAddress: 22,
+        },
+    };
+    let loForteContacts = new SheetData(new RawSheetData(configData));
+    //let data = getContact();
+    loForteContacts.setData(writeArray());
 }
-
 function writeObject(contact) {
-
-  let dateContactGenerated = contact.getLastUpdated();
-        let areaEmail = contact.getEmails()[0].getAddress();
-        let areaName = contact.getFamilyName();
-        let name1 = getName(contact, 1);
-
-  obj1 = {
-      dateContactGenerated: dateContactGenerated,
-      areaEmail: areaEmail,
-      areaName: areaName,
-      name1: name1
-  };
-  obj1.toString = function () {return "storp"}
-return obj1;
+    let dateContactGenerated = contact.getLastUpdated();
+    let areaEmail = contact.getEmails()[0].getAddress();
+    let areaName = contact.getFamilyName();
+    let name1 = getName(contact, 1);
+    let zone = getWhere(contact,2);
+    let district = getWhere(contact, 1);
+    let isSisterArea = isSisterAreaFunc(contact);
+    let isSeniorCouple = isSeniorCoupleFunc(contact);
+    let hasVehicle = hasVehicleFunc(contact);
+    let vehicleMiles = getMiles(hasVehicle, contact);
+    let vinLast8 = getVin(hasVehicle, contact);
+    let aptAddress = contact.getAddresses()[0].getAddress(); // this isnt working!!!!
+console.log(aptAddress); 
+    return  {
+        dateContactGenerated: dateContactGenerated,
+        areaEmail: areaEmail,
+        areaName: areaName,
+        name1: name1,
+        zone: zone,
+        district: district,
+        isSisterArea: isSisterArea,
+        isSeniorCouple: isSeniorCouple,
+        vehicleMiles: vehicleMiles,
+        hasVehicle: hasVehicle,
+        vinLast8: vinLast8,
+        aptAddress: aptAddress
+    };
+    
 }
 
-function writeArray() {
-    array1 = [];
+function getWhere (c, i) {
+  return c.getNotes().split("\n")[i];
+}
+
+function writeArray() { // loops the writeObject and returns and array of objects
+    let array1 = [];
     for (let contact of contacts) {
-      array1 = array1 + writeObject(contact);
+        array1.push(writeObject(contact));
     }
-    console.log(array1);
+    return array1;
 }
- // this is what i need to fix
-
+// this is what i need to fix
 function getContact() {
     for (let contact of contacts) {
         let dateContactGenerated = contact.getLastUpdated();
@@ -81,8 +94,6 @@ function getContact() {
         let name1 = getName(contact, 1);
         //let name2 = getName(contact, 2);
         //let name3 = getName3(contact)
-
-          console.log(areaEmail);
         let position1 = "IDK";
         let isTrainer1 = "IDK";
         let position2 = "IDK";
@@ -93,18 +104,21 @@ function getContact() {
         let unitString = contact.getNotes();
         let hasMultipleUnits = "IDK";
         let languageString = "IDk";
-        let isSeniorCouple = isSeniorCoupleFunc(contact);
-        let isSisterArea = isSisterAreaFunc(contact);
-        let hasVehicle = hasVehicleFunc(contact);
-        let vehicleMiles = getMiles(hasVehicle, contact);
+        
+        
         let district = contact.getNotes();
         //console.log(contact);
         let nameFull1 = contact.getFullName();
         let idk = contact.getHomeAddress();
         let contactEmail = contact.getEmailAddresses();
-        
     } // end forLoop
 } // end getContacts
+
+function hasVehicleFunc(c) {
+    if (c.getNotes().includes("Car")) {
+        return true;
+    }
+} // end hasVehicleFunc
 
 
 function getName(c, i) {
@@ -117,7 +131,6 @@ function getName3(c) {
         return getName(c, 3);
     } // end if
 } // end getName 3
-
 function isAreaContact(c) {
     if (c.getEmails().length == 2) {
         return true;
@@ -147,11 +160,6 @@ function isSeniorCoupleFunc(c) {
         return true;
     }
 } // end isSeniorCoupleFunc
-function hasVehicleFunc(c) {
-    if (c.getNotes().includes("Car")) {
-        return true;
-    }
-} // end hasVehicleFunc
 
 function getMiles(hasCar, c) {
     if (hasCar) {
@@ -162,3 +170,14 @@ function getMiles(hasCar, c) {
         } // end for
     } // end if
 } //  end function
+
+function getVin(hasCar, c) {
+    if (hasCar) {
+        for (i = 1; i < 15; i++) {
+            if (c.getNotes().split("\n")[i].includes("Vehicle VIN Last 8: ")) {
+                return (c.getNotes().split("\n")[i].toString().split(" ")[4]);
+            } // end if
+        } // end for
+    } // end if
+} //  end function
+
