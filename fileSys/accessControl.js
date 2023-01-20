@@ -11,7 +11,7 @@
 // written by @than2000
 
 function shareFileSystem() {
-
+    
     console.warn("Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission.")
 
     console.log('Beginning read/write file sharing...');
