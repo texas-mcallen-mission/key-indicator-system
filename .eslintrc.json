@@ -1,9 +1,8 @@
 {
     "env": {
         "es2021": true,
-        
+        "googleappsscript/googleappsscript":true,
         "browser": true
-        
     },
     "extends": [
         "eslint:recommended",
@@ -16,7 +15,7 @@
         "ecmaVersion": "latest"
     },
     "plugins": [
-        "google-apps-script",
+        "googleappsscript",
         "@typescript-eslint"
     ],
     "rules": {
