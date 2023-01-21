@@ -145,9 +145,8 @@ function isSisterAreaFunc(c) {
     }
 } // end isSisterArea
 function isSeniorCoupleFunc(c) {
-    if (c.getNotes().includes("Senior Couple")) {
-        return true;
-    }
+    if (c.getNotes().includes("Senior Couple")) return true;
+        
 } // end isSeniorCoupleFunc
 function getMiles(hasCar, c) {
     if (hasCar) {
