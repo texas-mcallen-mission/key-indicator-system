@@ -44,6 +44,15 @@ function wrapper_boi() {
     //let data = getContact();
     loForteContacts.setData(writeArray());
 }
+
+function writeArray() {
+    let array1 = [];
+    for (let contact of contacts) {
+        array1.push(writeObject(contact));
+    }
+    return array1;
+} // end wirteArray
+
 function writeObject(contact) {
     let dateContactGenerated = contact.getLastUpdated();
     let areaEmail = contact.getEmails()[0].getAddress();
@@ -80,7 +89,7 @@ function writeObject(contact) {
     };
 }
 
-function isTrainer(position) {
+function isTrainer(position) { // another way is to add all to an array and then call the array
   switch (position) {
     case "TR":
     case "DT":
@@ -95,22 +104,10 @@ function getPosition(c, i) {
   return c.getEmails()[i].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
 }
 
-function formatName (c) {
-  string1 = getName(c,1);
-  console.log(string1);
-  return string1;
-}
-
 function getWhere(c, i) {
     return c.getNotes().split("\n")[i];
 }
-function writeArray() {
-    let array1 = [];
-    for (let contact of contacts) {
-        array1.push(writeObject(contact));
-    }
-    return array1;
-}
+
 // this is what i need to fix
 function getContact() {
     for (let contact of contacts) {
@@ -142,15 +139,6 @@ function isTreo(c) {
         return true;
     }
 } // end isTreo
-function getMissionaryRole() {
-    let missionary1 = contact.getEmails()[1].getLabel();
-    let missionary2 = contact.getEmails()[2].getLabel();
-    let missionary3 = contact.getEmails()[3].getLabel();
-    console.log(missionary1);
-    console.log(missionary2);
-    console.log(missionary3);
-    console.log("end");
-} // end getMissionaryRole
 function isSisterAreaFunc(c) {
     if (c.getNotes().includes("Junior Sister")) {
         return true;
