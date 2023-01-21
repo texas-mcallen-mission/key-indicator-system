@@ -130,23 +130,16 @@ function getName3(c) {
     } // end if
 } // end getName 3
 function isAreaContact(c) {
-    if (c.getEmails().length == 2) {
-        return true;
-    }
+    if (c.getEmails().length == 2) return true;
 }
 function isTreo(c) {
-    if (c.getEmails().length >= 3) {
-        return true;
-    }
+    if (c.getEmails().length >= 3) return true;
 } // end isTreo
 function isSisterAreaFunc(c) {
-    if (c.getNotes().includes("Junior Sister")) {
-        return true;
-    }
+    if (c.getNotes().includes("Junior Sister")) return true;
 } // end isSisterArea
 function isSeniorCoupleFunc(c) {
-    if (c.getNotes().includes("Senior Couple")) return true;
-        
+    if (c.getNotes().includes("Senior Couple"))  return true;     
 } // end isSeniorCoupleFunc
 function getMiles(hasCar, c) {
     if (hasCar) {
