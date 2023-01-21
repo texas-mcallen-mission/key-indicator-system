@@ -1,6 +1,8 @@
 {
     "env": {
-        "es2021": true
+        "es2021": true,
+        
+        "browser": true
         
     },
     "extends": [
@@ -14,6 +16,7 @@
         "ecmaVersion": "latest"
     },
     "plugins": [
+        "google-apps-script",
         "@typescript-eslint"
     ],
     "rules": {
@@ -26,6 +29,7 @@
         "CONFIG":"readonly"
     },
     "ignorePatterns":[
-        "sheetCore/**"
+        "sheetCore/**",
+        "node_modules/eslint/lib/api.js"
     ]
 }
