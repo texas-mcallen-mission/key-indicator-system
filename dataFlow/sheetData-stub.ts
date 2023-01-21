@@ -6,6 +6,7 @@
 //  * @enum {SheetData}
 //  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
 //  */
+
 function constructSheetData(force = false) {
     if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
         const allSheetData = getAllSheetDataFromCache();

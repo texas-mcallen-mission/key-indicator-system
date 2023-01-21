@@ -78,6 +78,7 @@ function loadAreaIDs(allSheetData) {
 
 
 
+/*global constructSheetData*/
 function runLoadAreaIDs() {
     const allSheetData = constructSheetData();
     loadAreaIDs(allSheetData);

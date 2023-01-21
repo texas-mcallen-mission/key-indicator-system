@@ -63,6 +63,7 @@ function markDuplicates_old(allSheetData) { //                                  
         const areaName = vals[row][sd.getIndex('areaName')];
         let areaID;
         try {
+            /*global getAreaID*/
             areaID = getAreaID(allSheetData, areaName);
         } catch (e) {
             console.warn("Couldn't get areaID on line " + (row + 1) + " while marking duplicates. Area '" + areaName + "' not found");

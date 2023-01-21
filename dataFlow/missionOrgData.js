@@ -39,6 +39,7 @@ function getMissionOrgData(allSheetData) {
         const area = {
             areaName: areaData.areaName,
             areaData: areaData,
+            /*global getAreaID*/
             areaID: getAreaID(allSheetData,areaData.areaName)
         }
         const district = areaData.district;
