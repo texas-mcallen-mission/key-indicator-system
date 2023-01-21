@@ -2,6 +2,7 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
+// Compiled using undefined undefined (TypeScript 4.9.4)
 // @ts-nocheck
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
@@ -47,21 +48,26 @@ function writeObject(contact) {
     let dateContactGenerated = contact.getLastUpdated();
     let areaEmail = contact.getEmails()[0].getAddress();
     let areaName = contact.getFamilyName();
-    let name1 = getName(contact, 1);
-    let zone = getWhere(contact,2);
+    let name1 = getName(contact,1);
+    //let name2 = getName(contact,2);
+    let position1 = getPosition(contact, 1);
+    let isTrainer1 = isTrainer(position1);
+    let zone = getWhere(contact, 2);
     let district = getWhere(contact, 1);
     let isSisterArea = isSisterAreaFunc(contact);
     let isSeniorCouple = isSeniorCoupleFunc(contact);
     let hasVehicle = hasVehicleFunc(contact);
     let vehicleMiles = getMiles(hasVehicle, contact);
     let vinLast8 = getVin(hasVehicle, contact);
-    let aptAddress = contact.getAddresses()[0].getAddress(); // this isnt working!!!!
-console.log(aptAddress); 
-    return  {
+    //let aptAddress = contact.getAddresses()[0].getAddress(); // this isnt working!!!!
+    //console.log(aptAddress);
+    return {
         dateContactGenerated: dateContactGenerated,
         areaEmail: areaEmail,
         areaName: areaName,
         name1: name1,
+        position1: position1,
+        //name2: name2,
         zone: zone,
         district: district,
         isSisterArea: isSisterArea,
@@ -69,16 +75,36 @@ console.log(aptAddress);
         vehicleMiles: vehicleMiles,
         hasVehicle: hasVehicle,
         vinLast8: vinLast8,
-        aptAddress: aptAddress
+        //aptAddress: aptAddress,
+        isTrainer1: isTrainer1
     };
-    
 }
 
-function getWhere (c, i) {
-  return c.getNotes().split("\n")[i];
+function isTrainer(position) {
+  switch (position) {
+    case "TR":
+    case "DT":
+    case "ZLT":
+      return true
+    default:
+    return false
+  } // end switch
+} // end isTrainer
+
+function getPosition(c, i) {
+  return c.getEmails()[i].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
 }
 
-function writeArray() { // loops the writeObject and returns and array of objects
+function formatName (c) {
+  string1 = getName(c,1);
+  console.log(string1);
+  return string1;
+}
+
+function getWhere(c, i) {
+    return c.getNotes().split("\n")[i];
+}
+function writeArray() {
     let array1 = [];
     for (let contact of contacts) {
         array1.push(writeObject(contact));
@@ -88,43 +114,18 @@ function writeArray() { // loops the writeObject and returns and array of object
 // this is what i need to fix
 function getContact() {
     for (let contact of contacts) {
-        let dateContactGenerated = contact.getLastUpdated();
-        let areaEmail = contact.getEmails()[0].getAddress();
-        let areaName = contact.getFamilyName();
-        let name1 = getName(contact, 1);
-        //let name2 = getName(contact, 2);
-        //let name3 = getName3(contact)
-        let position1 = "IDK";
-        let isTrainer1 = "IDK";
-        let position2 = "IDK";
-        let isTrainer2 = "IDK";
-        let position3 = "IDK";
-        let isTrainer3 = "IDK";
-        let zone = contact.getNotes();
         let unitString = contact.getNotes();
         let hasMultipleUnits = "IDK";
         let languageString = "IDk";
-        
-        
-        let district = contact.getNotes();
-        //console.log(contact);
-        let nameFull1 = contact.getFullName();
-        let idk = contact.getHomeAddress();
-        let contactEmail = contact.getEmailAddresses();
     } // end forLoop
 } // end getContacts
-
 function hasVehicleFunc(c) {
     if (c.getNotes().includes("Car")) {
         return true;
     }
 } // end hasVehicleFunc
-
-
 function getName(c, i) {
-    if (isAreaContact(c)) {
         return c.getEmails()[i].getLabel().toString().split(" ").slice(0, -1).join(" "); // i = 1 for first person
-    }
 } // end getName
 function getName3(c) {
     if (isTreo(c)) {
@@ -160,7 +161,6 @@ function isSeniorCoupleFunc(c) {
         return true;
     }
 } // end isSeniorCoupleFunc
-
 function getMiles(hasCar, c) {
     if (hasCar) {
         for (i = 1; i < 15; i++) {
@@ -170,7 +170,6 @@ function getMiles(hasCar, c) {
         } // end for
     } // end if
 } //  end function
-
 function getVin(hasCar, c) {
     if (hasCar) {
         for (i = 1; i < 15; i++) {
@@ -180,4 +179,3 @@ function getVin(hasCar, c) {
         } // end for
     } // end if
 } //  end function
-
