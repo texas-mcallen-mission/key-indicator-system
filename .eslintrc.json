@@ -1,8 +1,7 @@
 {
     "env": {
-        "es2021": true,
         "googleappsscript/googleappsscript":true,
-        "browser": true
+        "es2021": true
     },
     "extends": [
         "eslint:recommended",
@@ -28,7 +27,7 @@
         "CONFIG":"readonly"
     },
     "ignorePatterns":[
-        "sheetCore/**",
+        "sheetCore/node_modules/**",
         "node_modules/eslint/lib/api.js"
     ]
 }
