@@ -511,7 +511,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             areaFilesys: {
-                tabName: "Area Filesys",
+                tabName: "areaFS",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
@@ -527,7 +527,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             distFilesys: {
-                tabName: "Dist Filesys",
+                tabName: "distFS",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
@@ -543,7 +543,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             zoneFilesys: {
-                tabName: "Zone Filesys",
+                tabName: "zoneFS",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.

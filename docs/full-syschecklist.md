@@ -19,7 +19,7 @@ I honestly don't know how I would automate this, so here's a written out guide o
   - if you get an error, make sure that your area names are up to date with ones in Contact Data
 
 ## Report Updater
-
+- *optional* - delete the ``reports`` folder and delete the ``areaFS``,``distFS``, & ``zoneFS`` tabs
 - Run ``run_reportTester`` in ``aa-shortcuts.gs``
 - This will take a minute because it'll create templates for *all* areas, districts, and zones
 - Check the execution log to see what groups updated, and look at a report from each of the three report types.
