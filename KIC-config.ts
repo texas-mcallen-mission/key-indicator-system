@@ -288,7 +288,7 @@ const INTERNAL_CONFIG = {
 
 // this combines the two objects together- the bottom ones overwrite the top ones.
 //@ts-ignore
-const _ = lodash.load();
+// const _ = lodash.load();
 
 
 function test_lodash() {
