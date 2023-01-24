@@ -5,3 +5,6 @@ function annoying_Breaker_of_sanity() {
     //literally just to trigger a re-run
 }
 
+function reportUpdaterTests() {
+    
+}

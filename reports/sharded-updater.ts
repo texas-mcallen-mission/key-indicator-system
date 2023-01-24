@@ -91,7 +91,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         preLogData: JSON.stringify(shardLocker.cacheData)
     };
 
-    meta_runner(scopeFunctionTargets[scope], runner_args);
+    meta_runner_(scopeFunctionTargets[scope], runner_args);
     shardLocker.updateShard(targetShard, false);
 
 

@@ -35,7 +35,7 @@ function updateDataSheet_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger:triggerTypes.timeBased
     }
-    meta_runner(updateDataSheet,meta_args)
+    meta_runner_(updateDataSheet,meta_args)
     }
 
 function importContacts_TimeBasedTrigger() {
@@ -52,7 +52,7 @@ function importContacts_TimeBasedTrigger() {
         trigger: triggerTypes.timeBased,
         functionArg:allSheetData
     };
-    meta_runner(importContacts, meta_args)
+    meta_runner_(importContacts, meta_args)
     }
 
 function updateForm_TimeBasedTrigger() {
@@ -64,7 +64,7 @@ function updateForm_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(updateForm, meta_args)
+    meta_runner_(updateForm, meta_args)
 }
 
 function updateFS_TimeBasedTrigger() {
@@ -76,7 +76,7 @@ function updateFS_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(updateFSV4, meta_args);
+    meta_runner_(updateFSV4, meta_args);
 }
 
 function updateAreaReports_TimeBasedTrigger() {
@@ -88,7 +88,7 @@ function updateAreaReports_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(updateAreaReportsV5, meta_args)
+    meta_runner_(updateAreaReportsV5, meta_args)
 
 }
 
@@ -101,7 +101,7 @@ function updateDistrictReports_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(updateDistrictReportsV5, meta_args)
+    meta_runner_(updateDistrictReportsV5, meta_args)
 }
 
 function updateZoneReports_TimeBasedTrigger() {
@@ -113,7 +113,7 @@ function updateZoneReports_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(updateZoneReportsV5, meta_args)
+    meta_runner_(updateZoneReportsV5, meta_args)
 }
 
 function sharefileSystem_TimeBasedTrigger() {
@@ -126,7 +126,7 @@ function sharefileSystem_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(shareFileSystem, meta_args);
+    meta_runner_(shareFileSystem, meta_args);
 }
 
 
@@ -139,7 +139,7 @@ function onOpen_InstallableTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.onOpen
     };
-    meta_runner(buildMenu, meta_args)
+    meta_runner_(buildMenu, meta_args)
     // buildMenu();
 }
 
@@ -170,7 +170,7 @@ function pruneFS_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased
     };
-    meta_runner(pruneFS, meta_args)
+    meta_runner_(pruneFS, meta_args)
 }
 
 
@@ -188,7 +188,7 @@ function updateDataSheet_MenuTrigger_() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
-    meta_runner(updateDataSheet, meta_args)
+    meta_runner_(updateDataSheet, meta_args)
 
 }
 
@@ -201,7 +201,7 @@ function updateFS_MenuTrigger_() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
-    meta_runner(buildFSV4, meta_args)
+    meta_runner_(buildFSV4, meta_args)
 }
 
 function updateAreaReports_MenuTrigger_() {
@@ -213,7 +213,7 @@ function updateAreaReports_MenuTrigger_() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
-    meta_runner(updateAreaReportsV5, meta_args)
+    meta_runner_(updateAreaReportsV5, meta_args)
 }
 
 function updateDistrictReports_MenuTrigger_() {
@@ -225,7 +225,7 @@ function updateDistrictReports_MenuTrigger_() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
-    meta_runner(updateDistrictReportsV5, meta_args)
+    meta_runner_(updateDistrictReportsV5, meta_args)
 }
 
 function updateZoneReports_MenuTrigger_() {
@@ -237,7 +237,7 @@ function updateZoneReports_MenuTrigger_() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
-    meta_runner(updateZoneReportsV5, meta_args)
+    meta_runner_(updateZoneReportsV5, meta_args)
 }
 
 function importContacts_MenuTrigger_() {
@@ -251,7 +251,7 @@ function importContacts_MenuTrigger_() {
         trigger: triggerTypes.menu,
         functionArg:allSheetData,
     };
-    meta_runner(importContacts, meta_args)
+    meta_runner_(importContacts, meta_args)
 }
 
 function markDuplicates_MenuTrigger_() {
@@ -265,7 +265,7 @@ function markDuplicates_MenuTrigger_() {
         trigger: triggerTypes.menu,
         functionArg:allSheetData
     };
-    meta_runner(markDuplicates, meta_args)
+    meta_runner_(markDuplicates, meta_args)
 }
 
 

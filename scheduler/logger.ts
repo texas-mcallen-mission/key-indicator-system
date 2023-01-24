@@ -43,7 +43,7 @@ function justForTesting_(dLog: dataLogger, arg1: unknown) {
 
 function testMetaRunnerSys() {
     const meta_args: meta_runner_args = {trigger: triggerTypes.DEBUG }
-    meta_runner(justForTesting_,meta_args);
+    meta_runner_(justForTesting_,meta_args);
 }
 
 function test_dataLogger() {
