@@ -11,17 +11,17 @@
 // written by @than2000
 
 function shareFileSystem() {
-
+    
     console.warn("Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission.")
 
-    Logger.log('Beginning read/write file sharing...');
+    console.log('Beginning read/write file sharing...');
 
-    let allSheetData = constructSheetData();
-    let contacts = getContactData(allSheetData);
-    let missionOrgData = getMissionLeadershipData(contacts);
+    const allSheetData = constructSheetData();
+    const contacts = getContactData(allSheetData);
+    const missionOrgData = getMissionLeadershipData(contacts);
 
     //List of emails with full access
-    let officeEmails = [];
+    const officeEmails = [];
     officeEmails.push(missionOrgData.apArea.areaEmail); //Add AP email
     if (missionOrgData.hasStltArea) officeEmails.push(missionOrgData.stltArea.areaEmail); //Add STLT email if it exists
 
@@ -32,20 +32,20 @@ function shareFileSystem() {
 
 
     function getFolders(sheetData) {
-        let allFoldersList = sheetData.getData(); //List of objects containing the folder data for each folder
-        let allFolders = {};                      //Turn allFoldersList into an object keyed by name, rather than a list
+        const allFoldersList = sheetData.getData(); //List of objects containing the folder data for each folder
+        const allFolders = {};                      //Turn allFoldersList into an object keyed by name, rather than a list
         //i.e. allZoneFolders["BROWNSVILLE"] returns Brownsville zone's folder data
         for (let i = 0; i < allFoldersList.length; i++) {
-            let folder = allFoldersList[i];
-            let name = folder.folderName;
+            const folder = allFoldersList[i];
+            const name = folder.folderName;
             allFolders[name] = folder;
         }
         return allFolders;
     }
 
-    let allZoneFolderData = getFolders(allSheetData.zoneFilesys);
-    let allDistFolderData = getFolders(allSheetData.distFilesys);
-    let allAreaFolderData = getFolders(allSheetData.areaFilesys);
+    const allZoneFolderData = getFolders(allSheetData.zoneFilesys);
+    const allDistFolderData = getFolders(allSheetData.distFilesys);
+    const allAreaFolderData = getFolders(allSheetData.areaFilesys);
 
 
 
@@ -55,29 +55,29 @@ function shareFileSystem() {
 
 
 
-    for (let zoneName in missionOrgData.zones) {
-        let zoneFolderData = allZoneFolderData[zoneName];
-        let zoneFolderID = zoneFolderData.folderId;
-        let zoneFolder = DriveApp.getFolderById(zoneFolderID);
+    for (const zoneName in missionOrgData.zones) {
+        const zoneFolderData = allZoneFolderData[zoneName];
+        const zoneFolderID = zoneFolderData.folderId;
+        const zoneFolder = DriveApp.getFolderById(zoneFolderID);
 
-        let zoneOrgData = missionOrgData.zones[zoneName];
+        const zoneOrgData = missionOrgData.zones[zoneName];
 
-        if (CONFIG.fileSystem.log_fileShare) Logger.log("Sharing folder for zone '" + zoneName + "'");
+        if (CONFIG.fileSystem.log_fileShare) console.log("Sharing folder for zone '" + zoneName + "'");
 
 
         //      Update folder access: zEmails, officeEmails
 
 
         //List of emails with limited editor access at the zone level
-        let zEmails = [];
+        const zEmails = [];
         zEmails.push(zoneOrgData.zlArea.areaEmail);  //Add ZL area email
         if (zoneOrgData.hasStlArea) zEmails.push(zoneOrgData.stlArea.areaEmail);  //Add STL area email if it exists
 
-        if (CONFIG.fileSystem.log_fileShare) Logger.log('zEmails: ' + zEmails);
+        if (CONFIG.fileSystem.log_fileShare) console.log('zEmails: ' + zEmails);
 
         //Remove old editors, then add new ones
-        let editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
-        for (let editor of editorEmails) {
+        const editorEmails = zoneFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
+        for (const editor of editorEmails) {
             if (!zEmails.includes(editor) && !officeEmails.includes(editor)) {
                 zoneFolder.removeEditor(editor);
             }
@@ -88,8 +88,8 @@ function shareFileSystem() {
         silentShareToGroup(zoneFolderID, zEmails);
         silentShareToGroup(zoneFolderID, officeEmails);
 
-        let editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
-        if (CONFIG.fileSystem.log_fileShare) Logger.log('Removed and re-added zone folder editors: ' + editorNames);
+        const editorNames = zoneFolder.getEditors().map(e => { return e.getName(); });
+        if (CONFIG.fileSystem.log_fileShare) console.log('Removed and re-added zone folder editors: ' + editorNames);
 
 
         // if (CONFIG.fileSystem.updateSheetProtectionsOnLoad) {
@@ -105,7 +105,7 @@ function shareFileSystem() {
         //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
         //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
         //         );
-        //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+        //         if (CONFIG.fileSystem.log_fileShare) console.log('Updating ' + protections.length + ' protections in sheet');
 
         //         for (let protection of protections) {
         //             for (let editor of protection.getEditors()) {
@@ -127,26 +127,26 @@ function shareFileSystem() {
 
 
 
-        for (let districtName in zoneOrgData.districts) {
-            let distFolderData = allDistFolderData[districtName];
-            let distFolderID = distFolderData.folderId;
-            let distFolder = DriveApp.getFolderById(distFolderID);
-            let distOrgData = zoneOrgData.districts[districtName];
+        for (const districtName in zoneOrgData.districts) {
+            const distFolderData = allDistFolderData[districtName];
+            const distFolderID = distFolderData.folderId;
+            const distFolder = DriveApp.getFolderById(distFolderID);
+            const distOrgData = zoneOrgData.districts[districtName];
 
 
-            if (CONFIG.fileSystem.log_fileShare) Logger.log("Sharing folder for district '" + districtName + "'");
+            if (CONFIG.fileSystem.log_fileShare) console.log("Sharing folder for district '" + districtName + "'");
 
 
             //      Update folder access: everyone with zone level access, plus the DL
 
 
             //List of emails with limited editor access at the district level
-            let dEmails = [];
+            const dEmails = [];
             dEmails.push(distOrgData.dlArea.areaEmail);  //Add DL area email
 
             //Remove old editors (except for the ZLs and office emails), then add back the DL area email
-            let editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
-            for (let editor of editorEmails) {
+            const editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
+            for (const editor of editorEmails) {
                 if (!dEmails.includes(editor)
                     && !zEmails.includes(editor)
                     && !officeEmails.includes(editor)) {
@@ -170,7 +170,7 @@ function shareFileSystem() {
             //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
             //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
             //         );
-            //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+            //         if (CONFIG.fileSystem.log_fileShare) console.log('Updating ' + protections.length + ' protections in sheet');
 
             //         for (let protection of protections) {
             //             for (let editor of protection.getEditors()) {
@@ -191,26 +191,26 @@ function shareFileSystem() {
 
 
 
-            for (let areaName in distOrgData.areas) {
-                let areaFolderData = allAreaFolderData[areaName];
-                let areaFolderID = areaFolderData.folderId;
-                let areaFolder = DriveApp.getFolderById(areaFolderID);
-                let areaOrgData = distOrgData.areas[areaName];
+            for (const areaName in distOrgData.areas) {
+                const areaFolderData = allAreaFolderData[areaName];
+                const areaFolderID = areaFolderData.folderId;
+                const areaFolder = DriveApp.getFolderById(areaFolderID);
+                const areaOrgData = distOrgData.areas[areaName];
 
 
-                if (CONFIG.fileSystem.log_fileShare) Logger.log('Sharing folder for area ' + areaName);
+                if (CONFIG.fileSystem.log_fileShare) console.log('Sharing folder for area ' + areaName);
 
 
                 //      Update folder access: everyone with zone or district level access, plus the area email
 
 
                 //List of emails with limited editor access at the area level
-                let aEmails = [];
+                const aEmails = [];
                 aEmails.push(areaOrgData.areaEmail);  //Add area email
 
                 //Remove old editors (except for the DL, ZLs, and office emails), then add back the DL area email
-                let editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
-                for (let editor of editorEmails) {
+                const editorEmails = distFolder.getEditors().map(editor => { return editor.getEmail(); }); //Get a list of Editor objects, then convert to list of emails
+                for (const editor of editorEmails) {
                     if (!aEmails.includes(editor)
                         && !dEmails.includes(editor)
                         && !zEmails.includes(editor)
@@ -234,7 +234,7 @@ function shareFileSystem() {
                 //         let protections = ss.getProtections(SpreadsheetApp.ProtectionType.RANGE).concat(
                 //             ss.getProtections(SpreadsheetApp.ProtectionType.SHEET)
                 //         );
-                //         if (CONFIG.fileSystem.log_fileShare) Logger.log('Updating ' + protections.length + ' protections in sheet');
+                //         if (CONFIG.fileSystem.log_fileShare) console.log('Updating ' + protections.length + ' protections in sheet');
 
                 //         for (let protection of protections) {
                 //             for (let editor of protection.getEditors()) {
@@ -253,14 +253,14 @@ function shareFileSystem() {
                 //Finished sharing folder for this area
             }
 
-            Logger.log('Finished sharing folders for district ' + districtName);
+            console.log('Finished sharing folders for district ' + districtName);
         }
 
-        Logger.log('Finished sharing folders for zone ' + zoneName);
+        console.log('Finished sharing folders for zone ' + zoneName);
     }
 
 
-    Logger.log('Completed read/write file sharing.');
+    console.log('Completed read/write file sharing.');
 
 
 
@@ -279,7 +279,7 @@ function shareFileSystem() {
  */
 function silentShare(fileId, recipient) {
     try {
-        let file = DriveApp.getFileById(fileId);
+        const file = DriveApp.getFileById(fileId);
 
         Drive.Permissions.insert(
             {
@@ -293,7 +293,7 @@ function silentShare(fileId, recipient) {
             }
         );
     } catch (e) {
-        Logger.log("Failed to share:\n" + e);
+        console.log("Failed to share:\n" + e);
     }
 }
 
@@ -304,9 +304,9 @@ function silentShare(fileId, recipient) {
  */
 function silentShareToGroup(fileId, recipients) {
     if (CONFIG.fileSystem.log_fileShare)
-        Logger.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
+        console.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
     
-    for (let recipient of recipients) {
+    for (const recipient of recipients) {
         silentShare(fileId, recipient);
     }
 }
@@ -317,8 +317,8 @@ function silentShareToGroup(fileId, recipients) {
 
 
 function testSharing() {
-    let fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
-    let editor = 'nathaniel.gerlek@gmail.com';
+    const fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
+    const editor = 'nathaniel.gerlek@gmail.com';
 
     silentShare(fileId, editor);
 

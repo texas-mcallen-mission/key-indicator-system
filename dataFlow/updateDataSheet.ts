@@ -18,9 +18,9 @@
   * Updates the Data sheet.
   */
 function updateDataSheet() {
-    Logger.log("BEGINNING UPDATE");
+    console.log("BEGINNING UPDATE");
 
-    let allSheetData: any = constructSheetData();
+    const allSheetData: any = constructSheetData();
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) { loadAreaIDs(allSheetData); } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
@@ -28,15 +28,15 @@ function updateDataSheet() {
     let missionData = pullFormData(allSheetData);
 
     if (missionData.length == 0) {
-        Logger.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
+        console.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
         return;
     }
     // former ignore
     refreshContacts(allSheetData);
 
-    let contacts = getContactData(allSheetData);
+    const contacts = getContactData(allSheetData);
 
-    let leaders = getLeadershipAreaData(contacts);
+    const leaders = getLeadershipAreaData(contacts);
 
     missionData = mergeIntoMissionData(missionData, contacts, "contact data");
     missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
@@ -48,7 +48,7 @@ function updateDataSheet() {
 
     pushErrorMessages();  //Unimplemented
 
-    Logger.log("UPDATE COMPLETED");
+    console.log("UPDATE COMPLETED");
 }
 
 
@@ -66,26 +66,26 @@ function updateDataSheet() {
   * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
   */
 function pullFormData(allSheetData) {
-    Logger.log("Pulling Form Data...");
+    console.log("Pulling Form Data...");
 
 
     
-    let fSheetData = allSheetData.form;
+    const fSheetData = allSheetData.form;
     
     // Bugfix: the following was previously inside of the last if/else loop.
-    let formSheet = fSheetData.getSheet();
-    let markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
-    let responses = fSheetData.getData();
-    let missionData = [];
+    const formSheet = fSheetData.getSheet();
+    const markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
+    const responses = fSheetData.getData();
+    const missionData = [];
 
-    Logger.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
+    console.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
 
 
-    for (let response of responses) {
+    for (const response of responses) {
         if (response.responsePulled == true || response.areaName == "")
             continue;
 
-        if (CONFIG.dataFlow.log_responsePulled) Logger.log("Pulling response for area: '" + response.areaName + "'");
+        if (CONFIG.dataFlow.log_responsePulled) console.log("Pulling response for area: '" + response.areaName + "'");
 
         response.areaID = getAreaID(allSheetData, response.areaName);
 
@@ -106,7 +106,7 @@ function pullFormData(allSheetData) {
     //Mark responses as having been pulled
     console.info("TODO: Improve marking responses as pulled");
     if (CONFIG.dataFlow.skipMarkingPulled) {
-        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
+        console.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
     }
     else {
         console.log("During Testing: PUT A BREAKPOINT HERE!")
@@ -115,7 +115,7 @@ function pullFormData(allSheetData) {
         formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
     }
 
-    Logger.log("Finished pulling Form Data.");
+    console.log("Finished pulling Form Data.");
     return missionData;
 }
 
@@ -132,12 +132,12 @@ function pullFormData(allSheetData) {
   */
 function getContactData(allSheetData) {
 
-    Logger.log("Getting data from Contact Data sheet...");
+    console.log("Getting data from Contact Data sheet...");
 
-    let cSheetData = allSheetData.contact;
-    let contactData = cSheetData.getData();
-    let contacts = {}; //contactData, keyed by areaID
-    for (let contact of contactData) {
+    const cSheetData = allSheetData.contact;
+    const contactData = cSheetData.getData();
+    const contacts = {}; //contactData, keyed by areaID
+    for (const contact of contactData) {
         contact.areaID = getAreaID(allSheetData, contact.areaName);
         if ((typeof contact.log) == 'undefined')
             contact.log = {};
@@ -150,7 +150,7 @@ function getContactData(allSheetData) {
         contacts[contact.areaID] = contact;
     }
 
-    Logger.log("Finished pulling contact data.");
+    console.log("Finished pulling contact data.");
 
     return contacts;
 
@@ -168,36 +168,36 @@ function getContactData(allSheetData) {
   * Takes a reference to missionData, a reference to the datasource, and an ID string for that datasource.
   */
 function mergeIntoMissionData(missionData, sourceData, sourceID) {
-    Logger.log("Beginning to merge source '" + sourceID + "' into missionData");
+    console.log("Beginning to merge source '" + sourceID + "' into missionData");
 
-    let newMissionData = [];
-    let mdKeys = Object.keys(missionData[0]);
-    let sdKeys = Object.keys(sourceData[missionData[0].areaID]);
-    let keys = new Set(mdKeys.concat(sdKeys)); //Set of all keys from both objects (a Set removes duplicates automatically)
+    const newMissionData = [];
+    const mdKeys = Object.keys(missionData[0]);
+    const sdKeys = Object.keys(sourceData[missionData[0].areaID]);
+    const keys = new Set(mdKeys.concat(sdKeys)); //Set of all keys from both objects (a Set removes duplicates automatically)
 
 
-    for (let missionAreaData of missionData) {
-        let areaID = missionAreaData.areaID;
-        let areaName = missionAreaData.areaName;
-        let sourceAreaData = sourceData[missionAreaData.areaID];
+    for (const missionAreaData of missionData) {
+        const areaID = missionAreaData.areaID;
+        const areaName = missionAreaData.areaName;
+        const sourceAreaData = sourceData[missionAreaData.areaID];
 
-        if (CONFIG.dataFlow.log_dataMerge) Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
+        if (CONFIG.dataFlow.log_dataMerge) console.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
 
         if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
             throw "Found a form response for area '" + areaName + "' (id '" + areaID + "'), but couldn't find that area in source '" + sourceID + "'";
 
 
-        let newAreaData = {};
-        let mergeLog =
+        const newAreaData = {};
+        const mergeLog =
         {
             'missingKeys': [],
             'collisions': {},
         };
 
-        for (let key of keys) {
+        for (const key of keys) {
 
-            let mHasKey = typeof missionAreaData[key] != 'undefined';
-            let sHasKey = typeof sourceAreaData[key] != 'undefined';
+            const mHasKey = typeof missionAreaData[key] != 'undefined';
+            const sHasKey = typeof sourceAreaData[key] != 'undefined';
 
             //Log warnings if neither object has this key (should be unreachable), or if both do and they disagree
             if (!mHasKey && !sHasKey) {
@@ -230,7 +230,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
         newMissionData.push(newAreaData);
     }
 
-    Logger.log("Finished merging source '" + sourceID + "'");
+    console.log("Finished merging source '" + sourceID + "'");
 
     return newMissionData;
 
@@ -241,7 +241,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
     }
 
     function logDataCollision(key, areaID, areaName, sourceID, sourceAreaDataOfKey, missionAreaDataOfKey) {
-        Logger.log("Warning: possible data collision on key '" + key + "' for area '" + areaName + "' (id '" + areaID + "'). Source '" + sourceID + "' has value '" + sourceAreaDataOfKey + "' while missionData has value '" + missionAreaDataOfKey + "'");
+        console.log("Warning: possible data collision on key '" + key + "' for area '" + areaName + "' (id '" + areaID + "'). Source '" + sourceID + "' has value '" + sourceAreaDataOfKey + "' while missionData has value '" + missionAreaDataOfKey + "'");
     }
 
 }
@@ -251,12 +251,12 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
   * Inserts responses from missionData into the Data sheet.
   */
 function pushToDataSheetV2(allSheetData, missionData) {
-    Logger.log("Pushing data to Data sheet...");
+    console.log("Pushing data to Data sheet...");
 
-    let dSheetData = allSheetData.data;
+    const dSheetData = allSheetData.data;
     dSheetData.insertData(missionData);
 
-    Logger.log("Finished pushing to Data sheet.");
+    console.log("Finished pushing to Data sheet.");
 }
 
 

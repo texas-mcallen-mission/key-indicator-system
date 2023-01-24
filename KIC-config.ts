@@ -12,7 +12,7 @@ const sheetCoreConfig: sheetCoreConfigInfo = {
 }
 
 /** @type {*} */
-let INTERNAL_CONFIG = {
+const INTERNAL_CONFIG = {
     // docIds
     docIds_kicFormId: "This, along with the ones below, should probably be set in env secrets", //The Document ID of the Key Indicators for Conversion Report Google Form (where missionaries submit their KICs every Sunday).    gcopy:'1CbCGdXXjPmQmpLKJAaER0cSYSGrb3ES3y2XGpr3czEw'    live:'1Zc-3omEIjAeQrmUxyG8YFk4PdnPf37XiFy3PRK2cP8g'
 
@@ -288,7 +288,8 @@ let INTERNAL_CONFIG = {
 
 // this combines the two objects together- the bottom ones overwrite the top ones.
 //@ts-ignore
-var _ = lodash.load();
+// const _ = lodash.load();
+
 
 function test_lodash() {
     console.log(CONFIG);
@@ -301,23 +302,23 @@ const OVERRIDE_SECRET_DATA = {
 };
 
 
-var CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
+const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
 
 
 
 
 
-var sheetDataConfig: { local: manySheetDataEntries} = getSheetDataConfig();
+const sheetDataConfig: { local: manySheetDataEntries} = getSheetDataConfig();
 /**
  * this exists because of some weird problems I was having with the GAS environment not loading the CONFIG thing properly.
  *
  * @return {{ local: manySheetDataEntries, remote: manySheetDataEntries; }}
  */
 function getSheetDataConfig(): { local: manySheetDataEntries } {
-    let CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
+    // const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
     // this is stuck inside of a function for no other reason than that I was having some problems with it being static and referencing the CONFIG before that was declared.
 
-    let sheetDataConfig: { local: manySheetDataEntries } = {
+    const sheetDataConfig: { local: manySheetDataEntries } = {
         local: {
             form: {
                 tabName: "Form Responses",
@@ -510,7 +511,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             areaFilesys: {
-                tabName: "Area Filesys",
+                tabName: "areaFS",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
@@ -526,7 +527,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             distFilesys: {
-                tabName: "Dist Filesys",
+                tabName: "distFS",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
@@ -542,7 +543,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 },
             },
             zoneFilesys: {
-                tabName: "Zone Filesys",
+                tabName: "zoneFS",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
                 // sheetId: CONFIG.dataFlow.sheetTargets.headerTest, // removed because this should probably always be on the local sheet.  Doesn't take up that much space.
