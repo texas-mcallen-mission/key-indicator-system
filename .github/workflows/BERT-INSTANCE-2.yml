@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [facebook-updates]
+    branches: [reFactor]
   release:
     types: [published]
   schedule:
@@ -26,3 +26,4 @@ jobs:
         PARENT_ID: ${{ secrets.BERT_INSTANCE_2_PARENT_ID }} # optional.
         # DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }} # optional.
         CONFIG_DATA: ${{ secrets.BERT_INSTANCE_2_CONFIG }} # optional.
+

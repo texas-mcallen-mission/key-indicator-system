@@ -51,7 +51,7 @@ class fsEntry {
 }
 
 function updateFSV4() {
-    let allSheetData = constructSheetDataV2(sheetDataConfig.local)
+    const allSheetData = constructSheetDataV2(sheetDataConfig.local)
     verifyFSV4(allSheetData)
     clearAllSheetDataCache()
     buildFSV4()
@@ -62,35 +62,35 @@ function updateFSV4() {
 
 function buildFSV4(allSheetData = constructSheetData()) {
     //@ts-ignore
-    let orgData = getMissionOrgData(allSheetData);
+    const orgData = getMissionOrgData(allSheetData);
 
-    Logger.log(orgData);
+    console.log(orgData);
 
-    let filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
+    const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
 
-    let reportBaseFolderId = getOrCreateReportFolder();
+    const reportBaseFolderId = getOrCreateReportFolder();
     
-    for (let zone in orgData) {
+    for (const zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        let zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId,"" )
-        let zoneEntry = zoneEntryData.entry
+        const zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId,"" )
+        const zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry)
-        let zoneAreaIds = []
+        const zoneAreaIds = []
 
         
-        for (let district in orgData[zone]) {
+        for (const district in orgData[zone]) {
             //@ts-ignore
-            let distEntryData = createOrGetFsEntry_(filesystems.District, district, zoneEntry.folderId, "");
-            let distAreaIds = []
-            let distEntry = distEntryData.entry;
+            const distEntryData = createOrGetFsEntry_(filesystems.District, district, zoneEntry.folderId, "");
+            const distAreaIds = []
+            const distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.District.sheetData.push(distEntry)
             
-            for (let area in orgData[zone][district]) {
-                let areaData = orgData[zone][district][area];
+            for (const area in orgData[zone][district]) {
+                const areaData = orgData[zone][district][area];
                 //@ts-ignore
                 distAreaIds.push(areaData.areaID)
-                let areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID)
-                let areaEntry = areaEntryData.entry
+                const areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID)
+                const areaEntry = areaEntryData.entry
                 if(areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry)
             }
 
@@ -104,7 +104,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
     }
 
     console.log("sending data to display");
-    for (let filesystem in filesystems) {
+    for (const filesystem in filesystems) {
         filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
     }
     // filesystems.zone.fsData.setData(filesystems.zone.sheetData)
@@ -127,7 +127,7 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
 
         console.info("fs entry already exists for ", folderNameString);
         // if there's weird errors, it's probably because things got out of whack here.
-        let currIndex = filesystem.existingFolders.indexOf(folderNameString);
+        const currIndex = filesystem.existingFolders.indexOf(folderNameString);
         // console.log(zone, filesystems["zone"].sheetData[currIndex])
         outEntry = filesystem.sheetData[currIndex];
     } else {
@@ -136,8 +136,8 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
             folderString += " " + filesystem.fsScope;
         }
         console.log("creating FSentry for ", folderNameString);
-        let folderId = createNewFolderV4_(parentFolderId, folderString)
-        let preEntry = new fsEntry(folderString, parentFolderId,folderId,"", "", areaId, folderNameString).data
+        const folderId = createNewFolderV4_(parentFolderId, folderString)
+        const preEntry = new fsEntry(folderString, parentFolderId,folderId,"", "", areaId, folderNameString).data
         // filesystem.sheetData.push(outEntry);
         outEntry = preEntry;
         createdNew = true;
@@ -152,15 +152,15 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
 function createNewFolderV4_(parentFolderId, name) {
     // creates new folder in parent folder, and then returns that folder's ID.
     // TODO: Potentially implement a caching thing with a global object to speed up second and third occurences of creating the same folderObject?
-    Logger.log(parentFolderId);
-    let parentFolder = DriveApp.getFolderById(parentFolderId);
-    let newFolder = parentFolder.createFolder(name);
-    let newFolderID = newFolder.getId();
+    console.log(parentFolderId);
+    const parentFolder = DriveApp.getFolderById(parentFolderId);
+    const newFolder = parentFolder.createFolder(name);
+    const newFolderID = newFolder.getId();
     return newFolderID;
 }
 function buildIncludesArray_(fsData, key) {
-    let outData = [];
-    for (let entry of fsData) {
+    const outData = [];
+    for (const entry of fsData) {
         if (entry != "" && entry != undefined) {
             outData.push(entry[key]);
         }
@@ -188,7 +188,7 @@ interface manyFilesystemDatas {
  *
  * @interface filesystemData
  */
-interface filesystemData {
+interface filesystemData extends kiDataEntry {
     folderName: string,
     parentFolder: string,
     folderId: string,
@@ -207,7 +207,7 @@ interface filesystemData {
  * @return {manyFilesystemEntries}  wheeee
  */
 function loadFilesystems_(allSheetData):manyFilesystemEntries {
-    let filesystems:manyFilesystemEntries = {
+    const filesystems:manyFilesystemEntries = {
         Zone: {
             fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
@@ -230,8 +230,8 @@ function loadFilesystems_(allSheetData):manyFilesystemEntries {
             reportTemplate: CONFIG.reportCreator.docIDs.areaTemplate
         }
     };
-    for (let fs in filesystems) {
-        let fsInter = filesystems[fs].fsData;
+    for (const fs in filesystems) {
+        const fsInter = filesystems[fs].fsData;
         filesystems[fs].sheetData.push(...fsInter.getData())
         filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
 
@@ -241,9 +241,9 @@ function loadFilesystems_(allSheetData):manyFilesystemEntries {
 }
 
 function verifyFSV4(allSheetData = constructSheetData()) {
-    let filesystems = loadFilesystems_(allSheetData);
+    const filesystems = loadFilesystems_(allSheetData);
 
-    for (let filesystem in filesystems) {
+    for (const filesystem in filesystems) {
         verifySingleFilesysV4_(filesystems[filesystem]);
     }
 
@@ -251,11 +251,11 @@ function verifyFSV4(allSheetData = constructSheetData()) {
 }
 
 function verifySingleFilesysV4_(filesystem) {
-    let sheetDataObj = filesystem.fsData;
-    let sheetData: { any; }[] = sheetDataObj.getData();
-    let outData = [];
-    let failData = [];
-    for (let entry of sheetData) {
+    const sheetDataObj = filesystem.fsData;
+    const sheetData: { any; }[] = sheetDataObj.getData();
+    const outData = [];
+    const failData = [];
+    for (const entry of sheetData) {
         let push = true;
         // @ts-ignore
         if (isFolderAccessible_(entry.folder)) { push = false; }
