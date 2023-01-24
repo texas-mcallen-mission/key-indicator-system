@@ -188,7 +188,7 @@ interface manyFilesystemDatas {
  *
  * @interface filesystemData
  */
-interface filesystemData {
+interface filesystemData extends kiDataEntry {
     folderName: string,
     parentFolder: string,
     folderId: string,

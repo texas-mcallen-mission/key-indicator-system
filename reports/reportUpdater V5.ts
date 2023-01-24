@@ -143,24 +143,28 @@ function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:
  * Single Level Updater: Has a shard argument in case we want to filter out shards.
  */
 
-function removeFSEntriesNotInShard_(fsData: manyFilesystemDatas, shardValue: string): manyFilesystemDatas {
-    const output: manyFilesystemDatas = {}
+function removeFSEntriesNotInShard_(fsData: filesystemData[], shardValue: string): filesystemData[] {
+    const output: filesystemData[] = []
     const shardKey = "seedId"
-    
-    for (const entry in fsData) {
-        const entryData:filesystemData = fsData[entry]
-        if (entryData.seedId.toString() == shardValue) {
-            output[entry] = (entryData)
+    for (const entry of fsData) {
+        if (entry.seedId.toString() == shardValue) {
+            output.push(entry)
         }
     }
+    // for (const entry in fsData) {
+    //     const entryData:filesystemData = fsData[entry]
+    //     if (entryData.seedId.toString() == shardValue) {
+    //         output[entry] = (entryData)
+    //     }
+    // }
     return output
 }
 
 function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiDataClass,scope:filesystemEntry["fsScope"],shard:string|null= null) {
     const targetFSEntry = fsDataEntries[scope]
     
-    //@ts-ignore
-    let fsData: manyFilesystemDatas = targetFSEntry.sheetData
+    // is of type filesystemData at runtime
+    let fsData: filesystemData[] = targetFSEntry.sheetData
     if (shard != null) {
         fsData = removeFSEntriesNotInShard_(fsData, shard)
         console.info("Running Report Updater in Shard Mode on Scope:",scope," Shard ID:",shard)
@@ -185,7 +189,7 @@ function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiData
 
 function testDoDataOperations() {
     // stand-alone test
-    const kiData: manyKiDataEntries = [
+    const kiData: kiDataEntry[] = [
         {
             areaName: "WORDS", areaID: "WORDS", zone: "WORDS", district: "WORDS",
             serviceHrs: "WORDS", rca: "WORDS", rc: "WORDS", "fb-role": "WORDS",
@@ -212,10 +216,29 @@ function testDoDataOperations() {
     
 }
 
+
+function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
+    let output: filesystemData[] = []
+    for (let entry of kiData) {
+        let fsDataBase: filesystemData = {
+            folderName: '',
+            parentFolder: '',
+            folderId: '',
+            sheetID1: '',
+            sheetID2: '',
+            areaID: '',
+            folderBaseName: '',
+            seedId: ''
+        ,...entry}
+    }
+
+    return output
+}
+
 function testDoDataOperationsLive() {
     // integration-style test
     const localSheetData = constructSheetDataV2(sheetDataConfig.local);
-    const fsData: filesystemData[] = localSheetData.distFilesys.getData();
+    const fsData: filesystemData[] = convertToFilesystemData(localSheetData.distFilesys.getData())
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
     let kiData = new kiDataClass(localSheetData.data.getData());
 
@@ -277,7 +300,7 @@ function testKeepMatchingByKey2() {
 function testGroupAndSendReports(): void {
     // integration test: loads external data, pushes it.
     const localSheetData = constructSheetDataV2(sheetDataConfig.local)
-    const fsData:manyFilesystemDatas = localSheetData.distFilesys.getData()
+    const fsData:filesystemData[] = convertToFilesystemData(localSheetData.distFilesys.getData())
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
     const kiData = new kiDataClass(localSheetData.data.getData())
 
@@ -341,7 +364,7 @@ function testSingleReportUpdater():void {
 
     const kiData = new kiDataClass(localSheetData.data.getData()).calculateCombinedName().createSumOfKeys(CONFIG.kiData.fb_referral_keys,CONFIG.kiData.new_key_names.fb_referral_sum).keepMatchingByKey("district",["ZAPATA","Zapata"]).end
 
-    console.log(kiData.length)
+    console.log(kiData.length.toString())
     const report = updateSingleReportV5_(CONFIG.dataFlow.sheetTargets.headerTest, kiData,"TESTBOI", "Area")
     console.log(report.rsd.tabName)
 }
