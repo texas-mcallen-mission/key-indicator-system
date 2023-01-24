@@ -226,7 +226,7 @@ function languageParser(multipleUnits, unitString) {
             const regexData = unit.match(/\(([^)]+)\)/);
             const regexMatch = regexData[1];
             langString = regexMatch;
-            console.log(unitString, langString);
+            // console.log(unitString, langString);
 
         }
         if (!returnData.includes(langString)) { returnData.push(langString); }
