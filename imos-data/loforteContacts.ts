@@ -137,7 +137,7 @@ interface makeObj {
 }
 
 
-function getAllWhere(config: makeObj) {
+function getAllWhere(c)  {
   let zone = "";
   let district = "";
   let unitString = "";
@@ -152,10 +152,7 @@ function getAllWhere(config: makeObj) {
   makeObj.zone = array1[i];
 
   return {
-    Zone: zone,
-    District: district,
-    UnitString: unitString,
-    
+    makeObj
   };
 }
 
