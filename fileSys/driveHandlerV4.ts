@@ -250,20 +250,21 @@ function verifyFSV4(allSheetData = constructSheetData()) {
     // this SHOULD be everything we need to do for the new FS verifier
 }
 
-function verifySingleFilesysV4_(filesystem) {
+function verifySingleFilesysV4_(filesystem: filesystemEntry) {
     const sheetDataObj = filesystem.fsData;
-    const sheetData: { any; }[] = sheetDataObj.getData();
-    const outData = [];
-    const failData = [];
+    
+    const sheetData: filesystemData[] = convertToFilesystemData(sheetDataObj.getData());
+    const outData:filesystemData[] = [];
+    const failData: filesystemData[] = [];
     for (const entry of sheetData) {
         let push = true;
-        // @ts-ignore
+
         if (isFolderAccessible_(entry.folder)) { push = false; }
-        // @ts-ignore
+
         if (isFolderAccessible_(entry.parentFolder)) { push = false; }
-        // @ts-ignore
+
         if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) { entry.sheetID1 = ""; }
-        // @ts-ignore
+
         if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) { entry.sheetID2 = ""; }
         if (!push) {
             //@ts-ignore
