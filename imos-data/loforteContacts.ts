@@ -94,6 +94,7 @@ function writeObject(contact) {
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
 
     console.log(getAllWhere(contact));
+    console.log(makeObj);
     
     return {
         dateContactGenerated: dateContactGenerated,
@@ -129,19 +130,27 @@ function writeObject(contact) {
     };
 }
 
+interface makeObj {
+  Zone: string,
+  District: string,
+  UnitString: string,
+}
 
-function getAllWhere(c) {
+
+function getAllWhere(config: makeObj) {
   let zone = "";
   let district = "";
   let unitString = "";
   
   let array1 = c.getNotes().split("\n");
   for (let i = 0; i < array1.length; i++) {
-    
        if (array1[i].includes("Zone: ")) area = array1[i];
        else if (array1[i].includes("District: ")) district = array1[i];
        else if (array1[i].includes("Ecclesiastical Unit: ")) unitString = array1[i];
   }
+
+  makeObj.zone = array1[i];
+
   return {
     Zone: zone,
     District: district,
