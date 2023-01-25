@@ -59,22 +59,29 @@ function testUpdateOneBranch() {
     updateOneBranch("A500412899")
 }
 
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateOneBranch(areaID:string) {
     const allData = loadData()
     multiLevelUpdateSingleAreaID_(allData.fsData, allData.kiData, areaID)
 }
 
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateAreaReportsV5(shard:null|string= null) {
     const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "Area",shard)
 
 }
-
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateDistrictReportsV5(shard: null | string = null) {
     const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "District",shard)
 }
 
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateZoneReportsV5(shard: null | string = null) {
     const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "Zone",shard)
@@ -149,7 +156,7 @@ function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:
 
 function removeFSEntriesNotInShard_(fsData: filesystemData[], shardValue: string): filesystemData[] {
     const output: filesystemData[] = []
-    const shardKey = "seedId"
+    // const shardKey = "seedId"
     for (const entry of fsData) {
         if (entry.seedId.toString() == shardValue) {
             output.push(entry)
@@ -236,7 +243,9 @@ function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
             areaID: '',
             folderBaseName: '',
             seedId: ''
-        ,...entry}
+            , ...entry
+        }
+        output.push(fsDataBase)
     }
 
     return output
@@ -292,7 +301,7 @@ function testKeepMatchingByKey() {
         { val1: "WHEEE", areaID: "AREA_NUMBER_3", testThingy: "AREA3-ENTRY-1" },
     ];
     const kiDataa = new kiDataClass(kiData);
-    kiDataa.keepMatchingByKey("areaID", ["AREA_NUMBER_1", "AREA_NUMBER_2"]);
+    kiDataa.keepMatchingByKey(testKey, ["AREA_NUMBER_1", "AREA_NUMBER_2"]);
     console.log(kiDataa.end);
 }
 
@@ -305,7 +314,7 @@ function testKeepMatchingByKey2() {
     const testKey = "areaID";
     const kiData = localSheetData.data.getData();
     const kiDataa = new kiDataClass(kiData);
-    kiDataa.keepMatchingByKey("areaID", ["A500364080", "A6974467"]);
+    kiDataa.keepMatchingByKey(testKey, ["A500364080", "A6974467"]);
     console.log(kiDataa.end);
 }
 
