@@ -1,6 +1,7 @@
 //@ts-check
 // Shortcut functions just to make full-system testing from GAS easier
 
+/* global constructSheetData,shareFileSystem,importContacts, updateDataSheet, markDuplicates, createMissingReports, areaShardUpdater1, districtShardUpdater1, zoneShardUpdater1, updateAreaReportsV5, updateDistrictReportsV5, updateZoneReportsV5, updateForm, updateTimeBasedTriggers, updateSpreadsheetTriggers*/
 
 function run_importContacts() {
     const allSheetData = constructSheetData();

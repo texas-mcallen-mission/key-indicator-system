@@ -4,6 +4,8 @@
         Main functions for importing data into the Contact Data sheet from Google Contacts.
 */
 
+/* global parseNotes, roleParser*/
+
 /**
  * Refreshes the data in the Contact Data sheet if it is no longer recent.
  * @param {{contact: SheetData;}} allSheetData
@@ -225,6 +227,8 @@ function languageParser(multipleUnits, unitString) {
         if (!unit.includes("(")) {
             langString = DEFAULT_LANGUAGE;
         } else {
+            // this is regex, not a normal string thank-you-very-much
+            // eslint-disable-next-line no-useless-escape
             const regexString = new RegExp('\(([^\)]+) \)');
             const regexData = unit.match(/\(([^)]+)\)/);
             const regexMatch = regexData[1];
