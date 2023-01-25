@@ -129,18 +129,25 @@ function writeObject(contact) {
     };
 }
 
-function getAllWhere(c) {
-  let area = "";
-    let array1 = c.getNotes().split("\n")[i];
-      for (let i = 0; i < array1.length; i++) {
-        if (array1[i].includes("Area: ")) {
-          area = array1[i];
-        }
-      }
 
-  return {
-    Area: area
+function getAllWhere(c) {
+  let zone = "";
+  let district = "";
+  let unitString = "";
+  
+  let array1 = c.getNotes().split("\n");
+  for (let i = 0; i < array1.length; i++) {
+    
+       if (array1[i].includes("Zone: ")) area = array1[i];
+       else if (array1[i].includes("District: ")) district = array1[i];
+       else if (array1[i].includes("Ecclesiastical Unit: ")) unitString = array1[i];
   }
+  return {
+    Zone: zone,
+    District: district,
+    UnitString: unitString,
+    
+  };
 }
 
 function noAddress (c) {
