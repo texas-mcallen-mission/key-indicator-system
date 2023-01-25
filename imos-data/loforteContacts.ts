@@ -92,6 +92,8 @@ function writeObject(contact) {
     let vinLast8 = getVin(hasVehicle, contact);
 
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
+
+    console.log(getAllWhere(contact));
     
     return {
         dateContactGenerated: dateContactGenerated,
@@ -127,8 +129,18 @@ function writeObject(contact) {
     };
 }
 
-function cleanUpStrings() {
+function getAllWhere(c, s) {
+  let area = "";
+    array1 = c.getNotes().split("\n")[i];
+      for (i = 0; i < array1.length; i++) {
+        if (array1[i].includes("Area: ")) {
+          area = array1[i];
+        }
+      }
 
+  return {
+    Area: area
+  }
 }
 
 function noAddress (c) {
