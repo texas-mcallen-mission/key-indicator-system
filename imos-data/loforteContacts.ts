@@ -9,6 +9,9 @@
 let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
 let contacts = group.getContacts(); // Fetches contact list of group 
 let name3 = "";
+
+
+
 function wrapper_boi() {
     let configData = {
         tabName: "Contact Data LoFoort",
@@ -59,7 +62,42 @@ function writeArray() {
     }
     return array1;
 } // end wirteArray
-function writeObject(contact) {
+
+interface kiDataEntry {
+  dateContactGenerated: string,
+  areaEmail: string,
+  areaName: string,
+
+  name1: string,
+  position1: string,
+  isTrainer1: boolean,
+
+  name2: string,
+  position2: string,
+  isTrainer2: boolean,
+
+  name3: string,
+  position3: string,
+  isTrainer3: boolean,
+
+  district: string,
+  zone: string,
+
+  unitString: string,
+  hasMultipleUnits: boolean,
+  languageString: string,
+
+  isSeniorCouple: boolean,
+  isSisterArea: boolean,
+
+  hasVehicle?: boolean,
+  vehicleMiles: string,
+  vinLast8: string,
+
+  aptAddress: string,
+}
+
+function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
     let dateContactGenerated = contact.getLastUpdated();
     let areaEmail = contact.getEmails()[0].getAddress();
     let areaName = contact.getFamilyName();
@@ -72,7 +110,7 @@ function writeObject(contact) {
     let position2 = getPosition(isSolo(contact), contact, 2);
     let isTrainer2 = isTrainer(position2);
 
-    let name3 = getName3(contact, 3);
+    let name3 = getName3(contact);
     let position3 = getPosition3(isTreo(contact), contact, 3)
     let isTrainer3 = isTrainer(position3);
 
@@ -93,7 +131,7 @@ function writeObject(contact) {
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
 
     console.log(getAllWhere(contact));
-    console.log(makeObj);
+
     
     return {
         dateContactGenerated: dateContactGenerated,
@@ -135,33 +173,48 @@ interface makeObj extends kiDataEntry {
   UnitString: string,
 }
 
+
 interface obj2 extends makeObj {
   potato?: boolean
 }
 
-let objdemo:obj2 = {
-  Zone: "",
-  District: "",
-  UnitString: ""
-}
 
-function getAllWhere(c)  {
-  let zone = "";
-  let district = "";
-  let unitString = "";
-  
-  let array1 = c.getNotes().split("\n");
-  for (let i = 0; i < array1.length; i++) {
-       if (array1[i].includes("Zone: ")) area = array1[i];
-       else if (array1[i].includes("District: ")) district = array1[i];
-       else if (array1[i].includes("Ecclesiastical Unit: ")) unitString = array1[i];
+
+function getAllWhere(c:GoogleAppsScript.Contacts.Contact)  {
+    let object:kiDataEntry = {
+      dateContactGenerated: "",
+      areaEmail: "",
+      areaName: "",
+      name1: "",
+      position1: "",
+      isTrainer1: false,
+      name2: "",
+      position2: "",
+      isTrainer2: false,
+      name3: "",
+      position3: "",
+      isTrainer3: false,
+      district: "",
+      zone: "",
+      unitString: "",
+      hasMultipleUnits: false,
+      languageString: "",
+      isSeniorCouple: false,
+      isSisterArea: false,
+      vehicleMiles: "",
+      vinLast8: "",
+      aptAddress: "",
   }
 
-  makeObj.zone = array1[i];
 
-  return {
-    makeObj
-  };
+  let array1 = c.getNotes().split("\n");
+  for (let i = 0; i < array1.length; i++) {
+       if (array1[i].includes("Zone: ")) object.zone = array1[i];
+       else if (array1[i].includes("District: ")) object.district = array1[i];
+       else if (array1[i].includes("Ecclesiastical Unit: ")) object.unitString = array1[i];
+  }
+
+return object
 }
 
 function noAddress (c) {
@@ -279,7 +332,7 @@ function isSeniorCoupleFunc(c) {
 
 function getMiles(hasCar, c) {
     if (hasCar) {
-        for (i = 1; i < 15; i++) {
+        for (let i = 1; i < 15; i++) {
             if (c.getNotes().split("\n")[i].includes("Vehicle Allowance/Mo:")) {
                 return (c.getNotes().split("\n")[i].toString().split(" ")[2]) * 1;
             } // end if
@@ -288,7 +341,7 @@ function getMiles(hasCar, c) {
 } //  end function
 function getVin(hasCar, c) {
     if (hasCar) {
-        for (i = 1; i < 15; i++) {
+        for (let i = 1; i < 15; i++) {
             if (c.getNotes().split("\n")[i].includes("Vehicle VIN Last 8: ")) {
                 return (c.getNotes().split("\n")[i].toString().split(" ")[4]);
             } // end if
