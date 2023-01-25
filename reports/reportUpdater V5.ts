@@ -47,10 +47,14 @@
  *      Theoretically the single-area updater could be used to update ALL of them if you set something differently...
  */
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testUpdateSingleShard() {
     updateAreaReportsV5("3");
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testUpdateOneBranch() {
     updateOneBranch("A500412899")
 }
@@ -186,7 +190,8 @@ function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiData
             - note: this is entirely different from scoping / removing entries (rows) based on zone/district/area- this is simply adding calculated and/or removing keys (columns) per entry.
             - this will, however, delete entries (rows) with methods like removeDuplicates()
  */
-
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testDoDataOperations() {
     // stand-alone test
     const kiData: kiDataEntry[] = [
@@ -237,6 +242,8 @@ function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
     return output
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testDoDataOperationsLive() {
     // integration-style test
     const localSheetData = constructSheetDataV2(sheetDataConfig.local);
@@ -271,7 +278,8 @@ function doDataOperations_(kiData:kiDataClass):kiDataClass {
  * STEP 4 TEST FUNCTIONS
  */
 
-
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testKeepMatchingByKey() {
     // standalone test, because this thing was having problems
     // _.deepClone(object) solved them, but these are good demos / sanity checks.
@@ -288,6 +296,8 @@ function testKeepMatchingByKey() {
     console.log(kiDataa.end);
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testKeepMatchingByKey2() {
     // semi-integrated test- loads external data
     const localSheetData = constructSheetDataV2(sheetDataConfig.local);
@@ -299,6 +309,8 @@ function testKeepMatchingByKey2() {
     console.log(kiDataa.end);
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testGroupAndSendReports(): void {
     // integration test: loads external data, pushes it.
     const localSheetData = constructSheetDataV2(sheetDataConfig.local)
@@ -360,6 +372,8 @@ function groupDataAndSendReports_(fsData: filesystemData[], kiData: kiDataClass,
  *  test code for updateSingleReportV5, will put / overwrite a tab on your active spreadsheet.
  *  
  */
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testSingleReportUpdater():void {
     
     const localSheetData = constructSheetDataV2(sheetDataConfig.local)
