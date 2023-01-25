@@ -132,7 +132,7 @@ function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:
     const fsEntryMod: manyFilesystemEntries = _.cloneDeep(fsEntries)
     for (const fsEntry in fsEntryMod) {
         const fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
-        //@ts-ignore
+        
         fsEntryData.sheetData = removeFSEntriesWithoutAreaId_(fsEntryData.sheetData, areaID)
         singleLevelUpdater_(fsEntryMod, kiData, fsEntryData.fsScope)
     }
