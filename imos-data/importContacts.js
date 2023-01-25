@@ -15,7 +15,10 @@ function refreshContacts(allSheetData) {
 
 function importContacts(allSheetData) {
 
-    
+    if (!Object.hasOwnProperty.call(allSheetData, "contact")) {
+        console.error("No contact sheet in allSheetData, exiting!");
+        throw "Unable to access contacts in sheetData"
+    }
     console.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
 
 

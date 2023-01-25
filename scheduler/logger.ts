@@ -269,29 +269,29 @@ function debug_write_is_locked_() {
         return true;
     }
 }
+// commented out, I don't think this gets used anywhere?
+// function time_a_function_classy() {
 
-function time_a_function_classy() {
-
-    const startTime = new Date();
-    const functionName = "updateDistrictReports";
-    const dLogArgs: debugLogArgs = {
-        trigger: triggerTypes.DEBUG,
-        isInline: false
-    }
+//     const startTime = new Date();
+//     const functionName = "updateDistrictReports";
+//     const dLogArgs: debugLogArgs = {
+//         trigger: triggerTypes.DEBUG,
+//         isInline: false
+//     }
     
-    const logger: dataLogger = new dataLogger(functionName,dLogArgs);
+//     const logger: dataLogger = new dataLogger(functionName,dLogArgs);
 
-    console.startFunction(functionName);
-    try {
-        updateDistrictReportsV5();
-    } catch (error) {
-        console.addFailure(functionName, error);
-    }
-    console.endFunction(functionName);
+//     console.startFunction(functionName);
+//     try {
+//         updateDistrictReportsV5();
+//     } catch (error) {
+//         console.addFailure(functionName, error);
+//     }
+//     console.endFunction(functionName);
 
-    console.end();
+//     console.end();
 
-}
+// }
 
 
 function resize_data_(in_data, header) {

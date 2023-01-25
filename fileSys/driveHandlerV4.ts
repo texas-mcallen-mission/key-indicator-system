@@ -175,7 +175,7 @@ interface filesystemEntry {
     fsData: SheetData,
     fsScope: "Zone" | "District" | "Area",
     sheetData: filesystemData[]
-    existingFolders: any[]
+    existingFolders: GoogleAppsScript.Drive.Folder[]
     reportTemplate:string
 }
 
@@ -194,7 +194,7 @@ interface filesystemData extends kiDataEntry {
     folderId: string,
     sheetID1: string | null,
     sheetID2: string | null,
-    areaID: string, // you have to split this into an array manually, using .split()
+    areaID: string, // comma-separated values.
     folderBaseName: string,
     seedId: string | number,
 }

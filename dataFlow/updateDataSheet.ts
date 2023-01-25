@@ -20,7 +20,7 @@
 function updateDataSheet() {
     console.log("BEGINNING UPDATE");
 
-    const allSheetData: any = constructSheetData();
+    const allSheetData: manySheetDatas = constructSheetData();
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) { loadAreaIDs(allSheetData); } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
@@ -32,6 +32,12 @@ function updateDataSheet() {
         return;
     }
     // former ignore
+    if (!Object.hasOwnProperty.call(allSheetData, "contact")) {
+        throw "missing contacts!"
+    }
+    /* I understand that this is not the greatest, I can basically guarantee that the base error here won't happen, and if it does, it deserves to crash.*/
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore this bit is silly...
     refreshContacts(allSheetData);
 
     const contacts = getContactData(allSheetData);
@@ -236,7 +242,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
 
-    function logNeither(key, areaID, areaName, sourceID:any = ".") {
+    function logNeither(key, areaID, areaName, sourceID = ".") {
         console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + sourceID + "'");
     }
 

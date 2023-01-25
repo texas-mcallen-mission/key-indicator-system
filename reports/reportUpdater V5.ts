@@ -107,15 +107,15 @@ function loadData(): { fsData: manyFilesystemEntries; kiData: kiDataClass; } {
  * @param {string} areaID
  * @return {*} 
  */
-function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: string) {
-    const output: manyFilesystemDatas = {};
+function removeFSEntriesWithoutAreaId_(fsData: filesystemData[], areaID: string): filesystemData[] {
+    const output: filesystemData[] = [];
     const shardKey = "seedId";
     for (const entry in fsData) {
         const entryData = fsData[entry];
         const areaIDs = entryData.areaID.split(",")
-        for(const areaID of areaIDs) areaID.trim()
+        for (const areaID of areaIDs) { areaID.trim(); }
         if (areaID.includes(areaID)) {
-            output[entry] = (entryData);
+            output.push(entryData);
         }
     }
     return output;
@@ -130,8 +130,8 @@ function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: stri
  */
 function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:kiDataClass,areaID: string) {
     const fsEntryMod: manyFilesystemEntries = _.cloneDeep(fsEntries)
-    for (const fsEntry in fsEntryMod) {
-        const fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
+    for (const fsScopeKey in fsEntryMod) {
+        const fsEntryData: filesystemEntry = fsEntryMod[fsScopeKey]
         
         fsEntryData.sheetData = removeFSEntriesWithoutAreaId_(fsEntryData.sheetData, areaID)
         singleLevelUpdater_(fsEntryMod, kiData, fsEntryData.fsScope)
@@ -218,8 +218,10 @@ function testDoDataOperations() {
 
 
 function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
-    let output: filesystemData[] = []
-    for (let entry of kiData) {
+    const output: filesystemData[] = []
+    for (const entry of kiData) {
+        // 👇 may be reassigned later
+        // eslint-disable-next-line prefer-const 
         let fsDataBase: filesystemData = {
             folderName: '',
             parentFolder: '',
@@ -379,7 +381,7 @@ function testSingleReportUpdater():void {
  * @param {filesystemEntry["fsScope"]} scope // currently unused, but will need to exist for updating the config pages in the future.
  * @return {*}  {SheetData}
  */
-function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
+function updateSingleReportV5_(sheetID: string, kiData: kiDataEntry[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
     const reportInfo: sheetDataEntry = _.cloneDeep(CONFIG.reportCreator.reportDataEntryConfig)
     reportInfo.sheetId = sheetID
