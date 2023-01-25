@@ -4,7 +4,6 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
-// @ts-nocheck
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
@@ -130,12 +129,21 @@ function writeObject(contact) {
     };
 }
 
-interface makeObj {
+interface makeObj extends kiDataEntry {
   Zone: string,
   District: string,
   UnitString: string,
 }
 
+interface obj2 extends makeObj {
+  potato?: boolean
+}
+
+let objdemo:obj2 = {
+  Zone: "",
+  District: "",
+  UnitString: ""
+}
 
 function getAllWhere(c)  {
   let zone = "";
@@ -163,7 +171,7 @@ function noAddress (c) {
     return false; 
   }
 }
-function getAddress (noAddress, c) {
+function getAddress (noAddress, c:GoogleAppsScript.Contacts.Contact) {
   if (noAddress) {
     return "No Address On Record";
   } else {
