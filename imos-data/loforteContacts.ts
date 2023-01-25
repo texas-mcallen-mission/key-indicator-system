@@ -132,7 +132,7 @@ function writeObject(contact) {
 function getAllWhere(c, s) {
   let area = "";
     array1 = c.getNotes().split("\n")[i];
-      for (i = 0; i < array1.length; i++) {
+      for (let i = 0; i < array1.length; i++) {
         if (array1[i].includes("Area: ")) {
           area = array1[i];
         }
