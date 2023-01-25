@@ -15,7 +15,10 @@
 * @param {{ contact: any; }} allSheetData
 * @returns {any}
 */
-function getMissionOrgData(allSheetData) {
+function getMissionOrgData(allSheetData:manySheetDatas) {
+    if (!Object.hasOwnProperty.call(allSheetData, "contact")) {
+        throw "sheet 'contact' missing from allSheetData"
+    }
     const cSheetData = allSheetData.contact;
     const contactData = cSheetData.getData();
     const zones = {};
@@ -83,8 +86,19 @@ function getMissionLeadershipData(contacts) {
 
     const zones = {};
 
+interface zone_org_data {
+    [index:string]: district_org_data,
+}
 
+interface district_org_data {
+    [index: string]: area_org_data,
+    
+}
 
+interface area_org_data {
+    areaName: string,
+    areaEmail: string
+}
 
 
     /*    REFERENCE

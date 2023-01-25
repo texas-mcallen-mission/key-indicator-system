@@ -61,9 +61,11 @@ function updateFSV4() {
 
 
 function buildFSV4(allSheetData = constructSheetData()) {
-    //@ts-ignore
+    
     const orgData = getMissionOrgData(allSheetData);
-
+    if (!Object.prototype.hasOwnProperty.call(orgData, "contact")) {
+        throw "unable to build FS, contact data tab declaration is missing."
+    }
     console.log(orgData);
 
     const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
@@ -79,7 +81,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
 
         
         for (const district in orgData[zone]) {
-            //@ts-ignore
+            
             const distEntryData = createOrGetFsEntry_(filesystems.District, district, zoneEntry.folderId, "");
             const distAreaIds = []
             const distEntry = distEntryData.entry;
@@ -87,7 +89,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
             
             for (const area in orgData[zone][district]) {
                 const areaData = orgData[zone][district][area];
-                //@ts-ignore
+                
                 distAreaIds.push(areaData.areaID)
                 const areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 const areaEntry = areaEntryData.entry
@@ -267,7 +269,7 @@ function verifySingleFilesysV4_(filesystem: filesystemEntry) {
 
         if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) { entry.sheetID2 = ""; }
         if (!push) {
-            //@ts-ignore
+
             console.log("entry does not exist ", entry.folderName);
             failData.push(entry);
         }
