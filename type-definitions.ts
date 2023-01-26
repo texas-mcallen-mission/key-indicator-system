@@ -24,7 +24,6 @@ interface contactDataEntryTemporary {
     vehicleMiles: number | string,
     vinLast8: string,
     aptAddress: string,
-    ,
     areaID: string;
 }
 
