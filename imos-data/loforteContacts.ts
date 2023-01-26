@@ -58,7 +58,7 @@ function wrapper_boi() {
     loForteContacts.setData(writeArray());
 }
 
-function writeArray(): any[] {
+function writeArray1(): any[] {
     let array1 = [];
     for (let contact of contacts) {
       array1.push(getAllWhere(contact))  
@@ -102,7 +102,7 @@ interface kiDataEntry {
   aptAddress: string,
 }
 
-function getAllWhere(c:GoogleAppsScript.Contacts.Contact)  {
+function getAllWhere1(c:GoogleAppsScript.Contacts.Contact)  {
     let object:kiDataEntry = {
       dateContactGenerated: "",
       areaEmail: "",
