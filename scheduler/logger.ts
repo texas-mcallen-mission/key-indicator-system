@@ -87,14 +87,15 @@ class dataLogger {
     logMetaData = {};
 
     inline = false;
+    sheetDataa: SheetData;
     
     get sheetData(): SheetData {
-        //@ts-expect-error
+
         return this.sheetDataa
     }
 
     set sheetData(SheetData: SheetData){
-        //@ts-expect-error
+
         this.sheetDataa = this.sheetData
     }
 
