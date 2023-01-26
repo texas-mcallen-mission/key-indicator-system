@@ -92,8 +92,6 @@ return object
 
 function stringCleanUp (s: string) {
 
-    if (s.includes(":")) {
-        s = s.split(": ")[1];
-    }    
-    return s;
+     
+    return s.replace("Zone: ", '');
 }
