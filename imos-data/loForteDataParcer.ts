@@ -83,8 +83,8 @@ function getAllWhere(c:GoogleAppsScript.Contacts.Contact)  {
   let array1 = c.getNotes().split("\n");
   for (let i = 0; i < array1.length; i++) {
        if (array1[i].includes("Zone: ")) object.zone = stringCleanUp(array1[i], "Zone: ");
-       else if (array1[i].includes("District: ")) object.district = array1[i];
-       else if (array1[i].includes("Ecclesiastical Unit: ")) object.unitString = array1[i];
+       else if (array1[i].includes("District: ")) object.district = stringCleanUp(array1[i], "District: ");
+       else if (array1[i].includes("Ecclesiastical Unit: ")) object.unitString = stringCleanUp(array1[i], "Ecclesiastical Unit: ");
   }
 
 return object
