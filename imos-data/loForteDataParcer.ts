@@ -108,14 +108,11 @@ let hasVehicle = str.includes("Car");
 
     for (let i = 0; i < array1.length; i++) {
 
-        ifHas (array1[i], "zone", "Zone:"); // returns the zone
-        ifHas (array1[i], "district", "District:")
-
-        //if (array1[i].includes("Zone: ")) zone = stringCleanUp(array1[i], "Zone:");
-        //if (array1[i].includes("District: ")) district = stringCleanUp(array1[i], "District:");
+        if (array1[i].includes("Zone: ")) zone = stringCleanUp(array1[i], "Zone:");
+        if (array1[i].includes("District: ")) district = stringCleanUp(array1[i], "District:");
         if (array1[i].includes("Ecclesiastical Unit: ")) unitString = stringCleanUp(array1[i], "Ecclesiastical Unit:");
 
-       if (hasVehicle) {
+        if (hasVehicle) {
         var vehicle;
         if (array1[i].includes("Vehicle:")) vehicle = stringCleanUp(array1[i], "Vehicle:");
 
@@ -134,12 +131,6 @@ let hasVehicle = str.includes("Car");
     }
 
 }
-
-function ifHas(str1: string, objType: string, text: string) {
-    if (str1.includes(text)) objType = stringCleanUp(str1, text);
-}
-
-
 
 function stringCleanUp (s: string, type: string) {
     return s.replace(type, '').trim();
