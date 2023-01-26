@@ -6,9 +6,11 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
-let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-let contacts = group.getContacts(); // Fetches contact list of group 
-let name3 = "";
+
+
+//let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+//let contacts = group.getContacts(); // Fetches contact list of group 
+//let name3 = "";
 
 
 
@@ -55,6 +57,7 @@ function wrapper_boi() {
     //let data = getContact();
     loForteContacts.setData(writeArray());
 }
+
 function writeArray(): any[] {
     let array1 = [];
     for (let contact of contacts) {
@@ -63,6 +66,7 @@ function writeArray(): any[] {
     }
     return array1;
 } // end wirteArray
+
 
 interface kiDataEntry {
   dateContactGenerated: string,
@@ -97,15 +101,6 @@ interface kiDataEntry {
 
   aptAddress: string,
 }
-
-
-interface makeObj extends kiDataEntry {
-  Zone: string,
-  District: string,
-  UnitString: string,
-}
-
-
 
 function getAllWhere(c:GoogleAppsScript.Contacts.Contact)  {
     let object:kiDataEntry = {
