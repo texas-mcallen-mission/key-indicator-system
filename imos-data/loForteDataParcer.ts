@@ -48,12 +48,12 @@ function runSheet(): void {
 function writeArray(): any[] {
     let array1 = [];
     for (let contact of contacts) {
-      array1.push(getAllWhere(contact))
+      array1.push(writeObject1(contact))
     }
     return array1;
 } // end wirteArray
 
-function getAllWhere(c:GoogleAppsScript.Contacts.Contact)  {
+function writeObject1(c:GoogleAppsScript.Contacts.Contact)  {
     let object:kiDataEntry = {
       dateContactGenerated: "",
       areaEmail: "",
@@ -79,15 +79,67 @@ function getAllWhere(c:GoogleAppsScript.Contacts.Contact)  {
       aptAddress: "",
   }
 
+let object1 = getNote(c.getNotes());
 
-  let array1 = c.getNotes().split("\n");
-  for (let i = 0; i < array1.length; i++) {
-       if (array1[i].includes("Zone: ")) object.zone = stringCleanUp(array1[i], "Zone:");
-       else if (array1[i].includes("District: ")) object.district = stringCleanUp(array1[i], "District:");
-       else if (array1[i].includes("Ecclesiastical Unit: ")) object.unitString = stringCleanUp(array1[i], "Ecclesiastical Unit:");
-  }
-return object
+
+
+//   let array1 = c.getNotes().split("\n");
+//   for (let i = 0; i < array1.length; i++) {
+
+//        if (array1[i].includes("Zone: ")) object.zone = stringCleanUp(array1[i], "Zone:");
+//        else if (array1[i].includes("District: ")) object.district = stringCleanUp(array1[i], "District:");
+//        else if (array1[i].includes("Ecclesiastical Unit: ")) object.unitString = stringCleanUp(array1[i], "Ecclesiastical Unit:");
+//        else if (array1[i].includes(""))
+//   }
+return object1;
 }
+
+function getNote (str: string) {
+
+var zone;
+var district;
+var unitString;
+
+
+let hasVehicle = str.includes("Car");
+
+
+    let array1 = str.split("\n");
+
+    for (let i = 0; i < array1.length; i++) {
+
+        ifHas (array1[i], "zone", "Zone:"); // returns the zone
+        ifHas (array1[i], "district", "District:")
+
+        //if (array1[i].includes("Zone: ")) zone = stringCleanUp(array1[i], "Zone:");
+        //if (array1[i].includes("District: ")) district = stringCleanUp(array1[i], "District:");
+        if (array1[i].includes("Ecclesiastical Unit: ")) unitString = stringCleanUp(array1[i], "Ecclesiastical Unit:");
+
+       if (hasVehicle) {
+        var vehicle;
+        if (array1[i].includes("Vehicle:")) vehicle = stringCleanUp(array1[i], "Vehicle:");
+
+       }
+       
+    
+
+    }
+
+    return {
+        Zone: zone,
+        District: district,
+        unitString: unitString,
+        Vehicle: vehicle,
+        
+    }
+
+}
+
+function ifHas(str1: string, objType: string, text: string) {
+    if (str1.includes(text)) objType = stringCleanUp(str1, text);
+}
+
+
 
 function stringCleanUp (s: string, type: string) {
     return s.replace(type, '').trim();
