@@ -122,7 +122,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 return object
 }
 
-function stringCleanUp (s: string, type: string) {
+function stringCleanUp(s: string, type: string) {
   return s.replace(type, '').trim();
 }
 
