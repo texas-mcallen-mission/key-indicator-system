@@ -6,45 +6,47 @@
 //  * @enum {SheetData}
 //  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
 //  */
+
 function constructSheetData(force = false) {
     if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
-        let allSheetData = getAllSheetDataFromCache();
+
+        const allSheetData = getAllSheetDataFromCache();
         if (allSheetData != null) return allSheetData;
     }
-    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
-    let preKey = allSheetData.data.getKeys();
+    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const preKey = allSheetData.data.getKeys();
     // syncDataFlowCols_(allSheetData.form, allSheetData.data);
     console.warn("HEYO Syncing keys *should* be happening...")
     allSheetData.data.addKeys(allSheetData.form)
-    let postKey = allSheetData.data.getKeys();
-    Logger.log(preKey);
-    Logger.log(postKey);
+    const postKey = allSheetData.data.getKeys();
+    console.log(preKey);
+    console.log(postKey);
     return allSheetData;
 }
 
 function testConstructor() {
-    let test = constructSheetData();
+    const test = constructSheetData();
 }
 
 function clearAllSheetDataCache() {
-    let cache = CacheService.getDocumentCache();
+    const cache = CacheService.getDocumentCache();
     // former ignore
     cache.remove("allSheetData");
 }
 
 
 function testCachingV2() {
-    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
     cacheAllSheetData(allSheetData);
 
-    let allSheetData2 = getAllSheetDataFromCache();
+    const allSheetData2 = getAllSheetDataFromCache();
     if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
         console.log("To and From Cache on local sheetData probably worked");
     }
     //@ts-expect-error
-    let remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
+    const remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
     cacheAllSheetData(remoteSheetData);
-    let allSheetDataRemote = getAllSheetDataFromCache();
+    const allSheetDataRemote = getAllSheetDataFromCache();
     if (JSON.stringify(remoteSheetData) == JSON.stringify(allSheetDataRemote)) {
         console.log("To and From Cache on remote sheetData probably worked");
     }

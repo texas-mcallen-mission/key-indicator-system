@@ -6,7 +6,7 @@
 
 /**
  * Refreshes the data in the Contact Data sheet if it is no longer recent.
- * @param {{contact: SheetData;}} allSheetData
+ * @param allSheetData - requires a sub-object named "contact"
  */
 function refreshContacts(allSheetData) {
     console.info('TODO: add checking of contact data gen date to refreshContacts()');
@@ -14,17 +14,23 @@ function refreshContacts(allSheetData) {
 }
 
 function importContacts(allSheetData) {
-    
-    Logger.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
+
+
+    if (!Object.hasOwnProperty.call(allSheetData, "contact")) {
+        console.error("No contact sheet in allSheetData, exiting!");
+        throw "Unable to access contacts in sheetData"
+    }
+    console.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
+
 
 
 
     if (CONFIG.dataFlow.freezeContactData) {
-        Logger.log("Execution halted - dataFlow.freezeContactData is set to true");
+        console.log("Execution halted - dataFlow.freezeContactData is set to true");
         return;
     }
 
-    Logger.log("Importing Contact data from Google Contacts...");
+    console.log("Importing Contact data from Google Contacts...");
 
 
     // let effectiveEmail = Session.getEffectiveUser().getEmail();
@@ -35,41 +41,41 @@ function importContacts(allSheetData) {
 
 
     //Pull in contact data from Google Contacts
-    let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-    let contacts = group.getContacts();                     // Fetches contact list of group 
+    const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+    const contacts = group.getContacts();                     // Fetches contact list of group 
 
 
-    let data = [];
-    let values = [];
+    const data = [];
+    const values = [];
 
-    for (let contact of contacts) {
+    for (const contact of contacts) {
 
         // I basically built this as a big single function and then broke it up into a bunch of little ones.
 
         //Note Parser
-        let noteData = parseNotes(contact.getNotes());
+        const noteData = parseNotes(contact.getNotes());
 
         //Email Parser
-        let contactEmailList = contact.getEmails();
-        let emailData = emailParser(contactEmailList);
+        const contactEmailList = contact.getEmails();
+        const emailData = emailParser(contactEmailList);
 
         //Role Parser
-        let roleData = roleParser(emailData.emailLabelNames, contactEmailList);
+        const roleData = roleParser(emailData.emailLabelNames, contactEmailList);
 
         //Address Puller
-        let apartmentAddressObject = contact.getAddresses();
+        const apartmentAddressObject = contact.getAddresses();
         let apartmentAddress = "";
         if (apartmentAddressObject.length >= 1) {
             apartmentAddress = apartmentAddressObject[0].getAddress();
         }
 
         //Language Parser
-        let languageData = languageParser(noteData.hasMultipleUnits, noteData.unitString);
+        const languageData = languageParser(noteData.hasMultipleUnits, noteData.unitString);
 
 
         if (!noteData.isSeniorCouple || false) {
 
-            let contactObject =
+            const contactObject =
             {
                 'dateContactGenerated': new Date(),
                 'areaEmail': emailData.emailAddresses[0],
@@ -107,7 +113,7 @@ function importContacts(allSheetData) {
     }
 
     allSheetData.contact.setData(data);
-    Logger.log("Finished importing Contact data.");
+    console.log("Finished importing Contact data.");
 
 }
 
@@ -124,9 +130,9 @@ function importContacts(allSheetData) {
  * Returns true if Contact Data was not imported recently and needs to be refreshed.
  */
 function isContactDataOld(allSheetData) {
-    let msOffset = 86400000; //Number of milliseconds in 24 hours
-    let nowTime = new Date();
-    let genTime = allSheetData.contact.getSheet().getRange("A2").getValue();
+    const msOffset = 86400000; //Number of milliseconds in 24 hours
+    const nowTime = new Date();
+    const genTime = allSheetData.contact.getSheet().getRange("A2").getValue();
     let out;
 
     try {
@@ -164,9 +170,9 @@ function phoneParser(phoneData) {
  * Parses email data for importContacts()
  */
 function emailParser(emailList) {
-    let emailAddresses = [];
-    let emailDisplayNames = [];
-    let emailLabelName = [];
+    const emailAddresses = [];
+    const emailDisplayNames = [];
+    const emailLabelName = [];
     // this operates under the assumption that all the emails are in the same order :0
     for (let i = 0; i < emailList.length; i++) {
         emailAddresses[i] = emailList[i].getAddress();
@@ -189,15 +195,15 @@ function emailParser(emailList) {
 
 
 function testLanguageParserV2() {
-    let testStrings = {
+    const testStrings = {
         "English": "Beeville Branch",
         "Spanish": "Brownsville 2nd (Spanish) Ward",
         "Spanish,English": "Edinburg 2nd (Spanish) Ward, Edinburg 3rd Ward",
         "Sign Language": "Rio Grande Valley (Sign Language) Branch",
     };
     let successes = 0;
-    for (let test in testStrings) {
-        let result = languageParser(true, testStrings[test]).languages;
+    for (const test in testStrings) {
+        const result = languageParser(true, testStrings[test]).languages;
         if (result == test) {
             console.info("PASSED FOR ", test);
             successes += 1;
@@ -213,19 +219,19 @@ function testLanguageParserV2() {
 function languageParser(multipleUnits, unitString) {
     // the previous version of this was a crime...
     // noteData.UnitString.substring(noteData.UnitString.search(/\(\w*/))
-    let DEFAULT_LANGUAGE = "English";
-    let returnData = [];
-    let splitUnits = unitString.split(",");
-    for (let unit of splitUnits) {
+    const DEFAULT_LANGUAGE = "English";
+    const returnData = [];
+    const splitUnits = unitString.split(",");
+    for (const unit of splitUnits) {
         let langString = "";
         if (!unit.includes("(")) {
             langString = DEFAULT_LANGUAGE;
         } else {
-            let regexString = new RegExp('\(([^\)]+) \)');
-            let regexData = unit.match(/\(([^)]+)\)/);
-            let regexMatch = regexData[1];
+            const regexString = new RegExp('\(([^\)]+) \)');
+            const regexData = unit.match(/\(([^)]+)\)/);
+            const regexMatch = regexData[1];
             langString = regexMatch;
-            console.log(unitString, langString);
+            // console.log(unitString, langString);
 
         }
         if (!returnData.includes(langString)) { returnData.push(langString); }

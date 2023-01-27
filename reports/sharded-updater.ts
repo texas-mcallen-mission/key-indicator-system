@@ -38,12 +38,12 @@ function zoneShardUpdater2() {
 function getSmallestGroup(shardKeys: manyShardEntries): manyShardEntries {
     let smallest: number = Number.MAX_SAFE_INTEGER;
     let smallestSet: manyShardEntries = {};
-    for (let key in shardKeys) {
+    for (const key in shardKeys) {
         if (Object.prototype.hasOwnProperty.call(shardKeys, key)) { // codefactor.io suggestion
 
 
-            let keyValue: shardEntry = shardKeys[key];
-            let updateTime: number = keyValue.lastUpdate;
+            const keyValue: shardEntry = shardKeys[key];
+            const updateTime: number = keyValue.lastUpdate;
             if (updateTime == smallest) {
                 smallestSet[key] = keyValue;
             }
@@ -65,24 +65,24 @@ interface manyShardEntries {
 function updateShard(scope: filesystemEntry["fsScope"]) {
     // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
 
-    let scopeFunctionTargets = {
+    const scopeFunctionTargets = {
         "Zone": updateZoneReportsV5,
         "District": updateDistrictReportsV5,
         "Area": updateAreaReportsV5
     };
 
-    let shardLockArgs: shardLockV2Args = {
+    const shardLockArgs: shardLockV2Args = {
         enableConcurrentUpdates: false
     };
-    let shardLocker = new shardLockV2(scope);
+    const shardLocker = new shardLockV2(scope);
 
-    let targetShard: string | null = shardLocker.pickShardToUpdate();
+    const targetShard: string | null = shardLocker.pickShardToUpdate();
     if (targetShard == null) {
         console.info("Exiting: Nothing to Update!");
         return;
     }
     shardLocker.updateShard(targetShard, true);
-    let runner_args: meta_runner_args = {
+    const runner_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
         functionArg: targetShard,
         ignoreLockout: true,
@@ -91,7 +91,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
         preLogData: JSON.stringify(shardLocker.cacheData)
     };
 
-    meta_runner(scopeFunctionTargets[scope], runner_args);
+    meta_runner_(scopeFunctionTargets[scope], runner_args);
     shardLocker.updateShard(targetShard, false);
 
 
@@ -116,10 +116,10 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
 // }
 
 function testShardLock() {
-    let args: shardLockV2Args = {
+    const args: shardLockV2Args = {
         enableConcurrentUpdates: false
     };
-    let shardLocker = new shardLockV2("District", args);
+    const shardLocker = new shardLockV2("District", args);
     shardLocker.testShardUpdating();
 }
 
@@ -140,14 +140,14 @@ interface shardEntry {
 
 
 function createShardValues(): shardLockCache {
-    let maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards;
-    let output: shardLockCache = {
+    const maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards;
+    const output: shardLockCache = {
         "Zone": {}, "District": {}, "Area": {},
     };
-    for (let scope of ["Zone", "District", "Area"]) {
+    for (const scope of ["Zone", "District", "Area"]) {
         output[scope] = {};
         for (let i = 1; i <= maxShards; i++) {
-            let entry: shardEntry = {
+            const entry: shardEntry = {
                 active: false,
                 lastUpdate: 0
             };
@@ -164,15 +164,14 @@ function createShardValues(): shardLockCache {
  * @return {*}  {shardLockCache}
  */
 function updateCache(cacheOutput): shardLockCache {
-    let scopes = ["Zone", "District", "Area"];
-    let testScope: string = scopes[Math.floor(Math.random() * scopes.length)];
-    let testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
+    const scopes = ["Zone", "District", "Area"];
+    const testScope: string = scopes[Math.floor(Math.random() * scopes.length)];
+    const testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
 
     try {
-
-        for (let scope in cacheOutput) {
+        for (const scope in cacheOutput) {
             if (Object.prototype.hasOwnProperty.call(cacheOutput, scope)) {// codefactor.io suggestion
-                for (let shard in cacheOutput[scope]) {
+                for (const shard in cacheOutput[scope]) {
                     if (Object.prototype.hasOwnProperty.call(cacheOutput[scope], shard)) { // codefactor.io suggestion
                         cacheOutput[scope][shard].lastUpdate = + cacheOutput[scope][shard].lastUpdate;
                         cacheOutput[scope][shard].active = Boolean(cacheOutput[scope][shard].active);
@@ -190,8 +189,8 @@ function updateCache(cacheOutput): shardLockCache {
     }
 }
 function loadShardCache() {
-    let cache = CacheService.getScriptCache();
-    let cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
+    const cache = CacheService.getScriptCache();
+    const cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
         var cacheOutput = createShardValues();
     } else {
@@ -206,13 +205,13 @@ function loadShardCache() {
 
 
 function clearShardCache() {
-    let cache = CacheService.getScriptCache();
+    const cache = CacheService.getScriptCache();
     cache.remove(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
 }
 
 function setShardCache(shardCacheObject: shardLockCache) {
-    let cacheValue = JSON.stringify(shardCacheObject);
-    let cache = CacheService.getScriptCache();
+    const cacheValue = JSON.stringify(shardCacheObject);
+    const cache = CacheService.getScriptCache();
     cache.put(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key, cacheValue);
 }
 
@@ -224,12 +223,12 @@ function setShardCache(shardCacheObject: shardLockCache) {
  * @return {*}  {shardEntry}
  */
 function parseCacheLockValue(cacheVal: string | null): shardEntry {
-    let output: shardEntry = {
+    const output: shardEntry = {
         active: false,
         lastUpdate: 0,
     };
     if (cacheVal != null) { // used, until T4_R6, falsy characteristics: if null or "", we'll return the default number
-        let deString = JSON.parse(cacheVal);
+        const deString = JSON.parse(cacheVal);
         try {
             output.active = deString["active"];
             output.lastUpdate = deString["lastUpdate"];
@@ -248,7 +247,7 @@ class shardLockV2 {
     shard_prefix: "SHARDLOCK2_";
     scopes = ["Zone", "District", "Area"];
     currentScope = "";
-    concurrent_updates: boolean = false;
+    concurrent_updates = false;
 
     constructor(targetScope: filesystemEntry["fsScope"], args: shardLockV2Args = { enableConcurrentUpdates: false }) {
         this.currentScope = targetScope;
@@ -257,14 +256,14 @@ class shardLockV2 {
 
     }
     get cacheData(): shardSet {
-        let cache = CacheService.getScriptCache();
-        let shardData: shardSet = {};
+        const cache = CacheService.getScriptCache();
+        const shardData: shardSet = {};
 
         for (let i = 1; i <= this.numberOfShards; i++) {
             if (this.currentScope) {
-                let cacheKey: string = this.shard_prefix + i.toString();
-                let cacheVal: string = cache.get(cacheKey);
-                let cacheData: shardEntry = parseCacheLockValue(cacheVal);
+                const cacheKey: string = this.shard_prefix + i.toString();
+                const cacheVal: string = cache.get(cacheKey);
+                const cacheData: shardEntry = parseCacheLockValue(cacheVal);
                 shardData[i.toString()] = cacheData;
 
             } else {
@@ -276,29 +275,29 @@ class shardLockV2 {
     }
 
     updateShard(shardNumber: string, value: boolean): this {
-        let cache = CacheService.getScriptCache();
-        let cacheKey = this.shard_prefix + shardNumber;
-        let updateTime = new Date().getTime();
-        let cacheData: shardEntry = {
+        const cache = CacheService.getScriptCache();
+        const cacheKey = this.shard_prefix + shardNumber;
+        const updateTime = new Date().getTime();
+        const cacheData: shardEntry = {
             active: value,
             lastUpdate: updateTime
         };
-        let cacheValue = JSON.stringify(cacheData);
+        const cacheValue = JSON.stringify(cacheData);
         console.warn(cacheValue);
         cache.put(cacheKey, cacheValue, INTERNAL_CONFIG.fileSystem.shardManager.timeout_in_seconds );
         return this;
     }
 
     testShardUpdating() {
-        let cache_mod: shardSet = this.cacheData;
-        let targetShard: string = "2";
-        let shardPre: shardEntry = cache_mod[targetShard];
+        const cache_mod: shardSet = this.cacheData;
+        const targetShard = "2";
+        const shardPre: shardEntry = cache_mod[targetShard];
         shardPre.active = !shardPre.active;
         shardPre.lastUpdate += 200;
-        let cache_pre: shardSet = this.cacheData;
+        const cache_pre: shardSet = this.cacheData;
         this.updateShard(targetShard, shardPre.active);
 
-        let cache_post: shardSet = this.cacheData;
+        const cache_post: shardSet = this.cacheData;
         if (cache_pre[targetShard].lastUpdate == cache_post[targetShard].lastUpdate) {
             throw "🔥 Cache Update Test FAILED!";
         } else {
@@ -307,15 +306,15 @@ class shardLockV2 {
     }
 
     pickShardToUpdate(): string | null {
-        let cacheData = this.cacheData;
+        const cacheData = this.cacheData;
 
         // BASIC: Return a random number.  Fallback in case logic fails or something.
         let returnVal: string | null = null;
         // returnVal = (Math.floor(Math.random() * this.numberOfShards) + 1).toString();
 
         // Step One: Checks to see if any aren't being updated.
-        let availableShards: manyShardEntries = {};
-        let allShards: manyShardEntries = {};
+        const availableShards: manyShardEntries = {};
+        const allShards: manyShardEntries = {};
         for (let i = 1; i <= this.numberOfShards; i++) {
             if (cacheData[i.toString()].active == false) {
                 availableShards[i.toString()] = cacheData[i.toString()];
@@ -326,12 +325,12 @@ class shardLockV2 {
         // Step Two: Get the group of entries updated least recently.
         // Has a possibility of being none or multiple, depending on whether or not the cache gets cleared.
 
-        let smallestValue: number = Number.MAX_SAFE_INTEGER;
-        let smallestSet: manyShardEntries = getSmallestGroup(availableShards);
+        const smallestValue: number = Number.MAX_SAFE_INTEGER;
+        const smallestSet: manyShardEntries = getSmallestGroup(availableShards);
 
         // Step Two-1/2: If there's not zero values in the smallestSet set, update one of them randomly.
-        let smallestSetKeys: string[] = Object.keys(smallestSet);
-        let smallestSetSize: number = smallestSetKeys.length;
+        const smallestSetKeys: string[] = Object.keys(smallestSet);
+        const smallestSetSize: number = smallestSetKeys.length;
         if (smallestSetSize >= 1) {
             returnVal = smallestSetKeys[Math.floor(Math.random() * smallestSetSize)];
             return returnVal;
@@ -343,9 +342,9 @@ class shardLockV2 {
             return null;
         } else {
             // Step Four: Pick the oldest to update.
-            let smallestSet: manyShardEntries = getSmallestGroup(allShards);
-            let smallestSetKeys: string[] = Object.keys(smallestSet);
-            let smallestSetSize: number = smallestSetKeys.length;
+            const smallestSet: manyShardEntries = getSmallestGroup(allShards);
+            const smallestSetKeys: string[] = Object.keys(smallestSet);
+            const smallestSetSize: number = smallestSetKeys.length;
             if (smallestSetSize >= 1) {
                 returnVal = smallestSetKeys[Math.floor(Math.random() * smallestSetSize)];
                 return returnVal;

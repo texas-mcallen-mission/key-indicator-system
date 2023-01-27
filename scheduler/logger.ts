@@ -26,7 +26,7 @@ const logMetaKeys = {
     timeEnded: "timeEnded",
     shardID: "shardID",
     shardInstanceID: "shardInstanceID",
-    debugLogData:"debugLogData",
+    debugLogData: "debugLogData",
 };
 
 const triggerTypes = {
@@ -37,28 +37,28 @@ const triggerTypes = {
     "onOpen":"onOpen"
 };
 
-function justForTesting_(dLog: dataLogger, arg1: any) {
+function justForTesting_(dLog: dataLogger, arg1: unknown) {
     console.log("WWWWEEEE", arg1);
 }
 
 function testMetaRunnerSys() {
-    let meta_args: meta_runner_args = {trigger: triggerTypes.DEBUG }
-    meta_runner(justForTesting_,meta_args);
+    const meta_args: meta_runner_args = {trigger: triggerTypes.DEBUG }
+    meta_runner_(justForTesting_,meta_args);
 }
 
 function test_dataLogger() {
     // basically yoinked from meta_runner for debugging purposes
-    let functionArg1 = "PASSTHROUGH ARGUMENT";
+    const functionArg1 = "PASSTHROUGH ARGUMENT";
     console.log("[META_RUNNER] - Running ", "justForTesting_", " with trigger:", triggerTypes.DEBUG);
-    let dLogArgs: debugLogArgs = {
+    const dLogArgs: debugLogArgs = {
         trigger: triggerTypes.DEBUG,
-        isInline:false
+        isInline: false
     }
-    let dLog = new dataLogger("justForTesting_", dLogArgs);
+    const dLog = new dataLogger("justForTesting_", dLogArgs);
     dLog.startFunction("justForTesting_");
     try {
 
-        Logger.log(typeof functionArg1);
+        console.log(typeof functionArg1);
         justForTesting_(dLog, functionArg1);
 
     } catch (error) {
@@ -104,15 +104,19 @@ class dataLogger {
         this.logMetaData[logMetaKeys.triggerType] = args.trigger;
         this.logMetaData[logMetaKeys.timeEnded] = new Date();
         if (args.shardId != null) {
-            this.logMetaData[logMetaKeys.shardID] = args.shardId
-            if (args.scopeValue != "") { this.logMetaData[logMetaKeys.shardInstanceID] = args.scopeValue + "_" + args.shardId; }
+            this.logMetaData[logMetaKeys.shardID] = args.shardId;
+            if (args.scopeValue != "") {
+                this.logMetaData[logMetaKeys.shardInstanceID] = args.scopeValue + "_" + args.shardId;
+            }
         } else {
             this.logMetaData[logMetaKeys.shardID] = ""
         }
-        if(args.logString!=""){this.logMetaData[logMetaKeys.debugLogData] = args.logString}
+        if (args.logString != "") {
+            this.logMetaData[logMetaKeys.debugLogData] = args.logString;
+        }
         this.inline = args.isInline;
-        let targetSheetEntry = sheetDataConfig.local.debug
-        let rawSheetData = new RawSheetData(targetSheetEntry)
+        const targetSheetEntry = sheetDataConfig.local.debug
+        const rawSheetData = new RawSheetData(targetSheetEntry)
 
         this.sheetData = new SheetData(rawSheetData)
     }
@@ -130,7 +134,7 @@ class dataLogger {
             this.logData[functionName][logKeys.duration] = 0;
             // this.logData[functionName][logKeys.failures] = 0
         }
-        let cycleStartTime = new Date();
+        const cycleStartTime = new Date();
         this.logData[functionName][logKeys.executionCounter] += 1;
         this.logData[functionName][logKeys.cycleStartMillis] = cycleStartTime.getTime();
 
@@ -142,10 +146,10 @@ class dataLogger {
         if (this.logData[functionName][logKeys.cycleEndMillis] == undefined) {
             this.logData[functionName][logKeys.cycleEndMillis] = 0;
         }
-        let cycleEndDate = new Date();
+        const cycleEndDate = new Date();
         this.logData[functionName][logKeys.cycleEndMillis] = cycleEndDate.getTime();
-        let currentDuration = Math.abs(this.logData[functionName][logKeys.duration]);
-        let additionalTime = Math.abs(this.logData[functionName][logKeys.cycleEndMillis] - this.logData[functionName][logKeys.cycleStartMillis]);
+        const currentDuration = Math.abs(this.logData[functionName][logKeys.duration]);
+        const additionalTime = Math.abs(this.logData[functionName][logKeys.cycleEndMillis] - this.logData[functionName][logKeys.cycleStartMillis]);
         this.logData[functionName][logKeys.duration] = currentDuration + additionalTime;
     }
 
@@ -175,19 +179,19 @@ class dataLogger {
 
         if (debug_write_is_locked_()) {
             while (!debug_write_is_locked_()) {
-                Logger.log("waiting for other thing to save");
+                console.log("waiting for other thing to save");
             }
         }
 
-        let log_data = [];
+        const log_data = [];
 
-        let GET_META_DATA = true;
-        let INCLUDE_GITHUB_METADATA = true;
-        let REMOVE_CYCLE_TIMING_DATA = false;
+        const GET_META_DATA = true;
+        const INCLUDE_GITHUB_METADATA = true;
+        const REMOVE_CYCLE_TIMING_DATA = false;
 
-        for (let functionNameKey in this.logData) {
+        for (const functionNameKey in this.logData) {
             // let entry = [];
-            let newEntry:{} = {};
+            let newEntry: object = {};
 
             // add function name:
 
@@ -207,7 +211,7 @@ class dataLogger {
 
             if (this.logData[functionNameKey][logKeys.functionName] == this.logMetaData[logMetaKeys.baseFunction]) {
                 // Anything put in here will only be applied to the base function that ran.
-                let newDate = new Date();
+                const newDate = new Date();
                 Object.assign(this.logMetaData, { "timeEnded": newDate });
                 newEntry[logMetaKeys.timeEnded] = new Date();
             }
@@ -234,11 +238,11 @@ class dataLogger {
 
 }
 
-function addToSheet_(data: any) {
+function addToSheet_(data: kiDataEntry) {
     // let allSheetData = constructSheetData();
     // let debug = allSheetData.debug;
-    let rawSheetData = new RawSheetData(getSheetDataConfig().local.debug)
-    let debug = new SheetData(rawSheetData)
+    const rawSheetData = new RawSheetData(getSheetDataConfig().local.debug)
+    const debug = new SheetData(rawSheetData)
 
 
     debug.appendData(data);
@@ -246,23 +250,23 @@ function addToSheet_(data: any) {
 
 function prependRows_(data, sheet) {
     sheet.insertRowsBefore(2, data.length);
-    let dataRange = sheet.getRange(2, 1, data.length, data[0].length);
+    const dataRange = sheet.getRange(2, 1, data.length, data[0].length);
     dataRange.setValues(data);
 }
 
 const debug_write_lock_key = "soggyMcLoggy";
 function debug_write_lock_() {
-    let cache = CacheService.getScriptCache();
+    const cache = CacheService.getScriptCache();
     cache.put(debug_write_lock_key, "true");
 }
 
 function debug_write_unlock_() {
-    let cache = CacheService.getScriptCache();
+    const cache = CacheService.getScriptCache();
     cache.remove(debug_write_lock_key);
 }
 function debug_write_is_locked_() {
-    let cache = CacheService.getScriptCache();
-    let cacheData = cache.get(debug_write_lock_key);
+    const cache = CacheService.getScriptCache();
+    const cacheData = cache.get(debug_write_lock_key);
     if (!cacheData) {
         return false;
     } else {
@@ -272,24 +276,24 @@ function debug_write_is_locked_() {
 
 function time_a_function_classy() {
 
-    let startTime = new Date();
-    let functionName = "updateDistrictReports";
-    let dLogArgs: debugLogArgs = {
+    const startTime = new Date();
+    const functionName = "updateDistrictReports";
+    const dLogArgs: debugLogArgs = {
         trigger: triggerTypes.DEBUG,
         isInline: false
     }
     
-    let logger: dataLogger = new dataLogger(functionName,dLogArgs);
+    const logger: dataLogger = new dataLogger(functionName,dLogArgs);
 
-    logger.startFunction(functionName);
+    console.startFunction(functionName);
     try {
         updateDistrictReportsV5();
     } catch (error) {
-        logger.addFailure(functionName, error);
+        console.addFailure(functionName, error);
     }
-    logger.endFunction(functionName);
+    console.endFunction(functionName);
 
-    logger.end();
+    console.end();
 
 }
 
@@ -297,16 +301,16 @@ function time_a_function_classy() {
 function resize_data_(in_data, header) {
     // this function is not working- it SHOULD rescale the arrays in an array to have the same number of values / entries, but it's not working quite yet.
     let length = header.length;
-    let outData = [];
+    const outData = [];
     for (let i = 0; i < in_data.length; i++) {
         if (in_data[i].length > length) {
             length = in_data[i].length;
-            Logger.log("Resized array length");
+            console.log("Resized array length");
         }
     }
     console.log("Max Array Length:", length);
-    for (let entry of in_data) {
-        let outEntry = entry;
+    for (const entry of in_data) {
+        const outEntry = entry;
         outEntry.length = length;
         // outEntry.fill(empty_value, entry.length, length)
 

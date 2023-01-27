@@ -10,11 +10,11 @@ function parseNotes(inputString) {
 
     var area = notesSplit[0].replace("Area: ", "").trim();
 
-    if (CONFIG.dataFlow.log_importContacts) Logger.log('Parsing notes for Contact: ' + area);
+    if (CONFIG.dataFlow.log_importContacts) console.log('Parsing notes for Contact: ' + area);
 
     var district = notesSplit[1].replace("District: ", "").trim();
     var zone = notesSplit[2].replace("Zone: ", "").trim();
-    let isSeniorCouple = notesSplit[1].includes("Senior");
+    const isSeniorCouple = notesSplit[1].includes("Senior");
     var ecclesiasticalUnitString = notesSplit[3];
     var hasMultipleUnits = ecclesiasticalUnitString.includes("Units:"); // tests to see if there are multiple ecclesiastical units covered by a companionship.
     var unitString = "";
@@ -47,7 +47,7 @@ function parseNotes(inputString) {
         finalTags = notesSplit[5];
     }
 
-    let isSisterArea = finalTags.includes("Sister");
+    const isSisterArea = finalTags.includes("Sister");
 
     return {
         area: area,
