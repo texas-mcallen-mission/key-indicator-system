@@ -177,7 +177,7 @@ interface filesystemEntry {
     fsData: SheetData,
     fsScope: "Zone" | "District" | "Area",
     sheetData: filesystemData[]
-    existingFolders: any[]
+    existingFolders: string[] // name of zone / district / area the folder is for
     reportTemplate:string
 }
 
