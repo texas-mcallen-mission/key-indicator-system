@@ -9,6 +9,7 @@
 
 function constructSheetData(force = false) {
     if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
+
         const allSheetData = getAllSheetDataFromCache();
         if (allSheetData != null) return allSheetData;
     }

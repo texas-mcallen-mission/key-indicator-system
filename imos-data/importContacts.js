@@ -6,7 +6,7 @@
 
 /**
  * Refreshes the data in the Contact Data sheet if it is no longer recent.
- * @param {{contact: SheetData;}} allSheetData
+ * @param allSheetData - requires a sub-object named "contact"
  */
 function refreshContacts(allSheetData) {
     console.info('TODO: add checking of contact data gen date to refreshContacts()');

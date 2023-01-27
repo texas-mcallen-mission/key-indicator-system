@@ -26,4 +26,3 @@ jobs:
         PARENT_ID: ${{ secrets.BERT_INSTANCE_3_PARENT_ID }} # optional.
         # DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }} # optional.
         CONFIG_DATA: ${{ secrets.DEV_CONFIG_OPTIONS }} # optional.
-

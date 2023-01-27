@@ -7,6 +7,7 @@
         loadAreaIDs()
 */
 
+// TODO: UPDATE THIS THING TO USE TYPESCRIPT
 
 
 /**

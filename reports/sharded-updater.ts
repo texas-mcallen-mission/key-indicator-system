@@ -169,7 +169,6 @@ function updateCache(cacheOutput): shardLockCache {
     const testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
 
     try {
-
         for (const scope in cacheOutput) {
             if (Object.prototype.hasOwnProperty.call(cacheOutput, scope)) {// codefactor.io suggestion
                 for (const shard in cacheOutput[scope]) {

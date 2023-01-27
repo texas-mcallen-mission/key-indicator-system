@@ -53,8 +53,10 @@ const INTERNAL_CONFIG = {
                 "fb-ref-sum": 15,
                 isDuplicate: 16,
                 rrPercent: 17,
+                mpl: 18,
+                "rca-weekly": 19,
             },
-            requireRemote:true,
+            requireRemote: true,
             sheetId: "",
             allowWrite: true
         }
@@ -98,7 +100,6 @@ const INTERNAL_CONFIG = {
     // general
 
     general_areaNameQuestionTitle: "Area Name",
-
     general_deleteOldResponsesAgeLimit: 0, //The max age, in days, of a response before it is deleted (from the Form, not the Google Sheet). If set to 0, old responses will never be deleted.
 
     // dataFlow
@@ -126,7 +127,7 @@ const INTERNAL_CONFIG = {
         log_responsePulled: false,
         log_duplicates: false,
         // TODO PULL THIS OUT somewhere a little easier to access?
-        skipMarkingPulled: true, //Stops marking Form Responses as having been pulled into the data sheet
+        skipMarkingPulled: false, //Stops marking Form Responses as having been pulled into the data sheet
 
         skipMarkingDuplicates: false, //TODO Re-implement?
 
@@ -365,7 +366,9 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "feedback-improvement": 37,
                     "feedback-analysis":38,
                     "fb-ref-st-eng": 39,
-                    "fb-ref-st-spa":40
+                    "fb-ref-st-spa": 40,
+                    "mpl": 41,
+                    "RCA-weekly":42
                 },
             },
             data: {
@@ -449,6 +452,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     'feedback-analysis': 72,
                     'fb-ref-st-eng': 73,
                     'fb-ref-st-spa': 74,
+                    "mpl": 75,
+                    "RCA-weekly": 76
                 },
             },
             contact: {
@@ -485,7 +490,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 tabName: "DEBUG SHEET",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
-                sheetId:CONFIG.dataFlow.sheetTargets.debug,
+                sheetId: CONFIG.dataFlow.sheetTargets.debug,
                 initialColumnOrder: {
                     functionName: 0,
                     baseFunction: 1,
@@ -506,7 +511,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     errors: 16,
                     shardID: 17,
                     shardInstanceID: 18,
-                    debugLogData:19,
+                    debugLogData: 19,
 
                 },
             },

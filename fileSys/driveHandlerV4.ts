@@ -8,6 +8,8 @@ isFolderAccessible_
 getMissionOrgData
 */
 
+//TODO make this use more Typescript- specifically what do functions return?
+
 /* TOP-LEVEL FUNCTIONS:
     buildFSV4() - creates filesystems- will reuse whatever is currently stored
 

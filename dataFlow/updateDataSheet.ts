@@ -20,17 +20,22 @@
 function updateDataSheet() {
     console.log("BEGINNING UPDATE");
 
-    const allSheetData: any = constructSheetData();
-    if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) { loadAreaIDs(allSheetData); } //Force a full recalculation
+
+    let allSheetData: manySheetDatas = constructSheetData();
+    if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
+        loadAreaIDs(allSheetData);
+    } //Force a full recalculation
+
 
     //checkForErrors()?  Ex. no contact data
-
+    
     let missionData = pullFormData(allSheetData);
 
     if (missionData.length == 0) {
         console.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
         return;
     }
+    let numberOfEntries = missionData.length
     // former ignore
     refreshContacts(allSheetData);
 
@@ -41,10 +46,24 @@ function updateDataSheet() {
     missionData = mergeIntoMissionData(missionData, contacts, "contact data");
     missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
-
+    // FIRST, ADD THE DATA TO THE SHEETS
     allSheetData.data.insertData(missionData);
+    // THEN MARK THE STUFF AS HAVING BEEN PULLED
 
-    markDuplicates(allSheetData);
+    if (CONFIG.dataFlow.skipMarkingPulled) {
+        console.warn("[DEBUG] Skipping marking responses as pulled");
+    } else {
+        let column = allSheetData.form.getIndex("responsePulled")
+        let minRow = allSheetData.form.rsd.headerRow + 1
+        allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
+    }
+
+    if (CONFIG.dataflow.skipMarkingPulled) {
+        Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
+        return        
+    } else {
+        markDuplicates(allSheetData);
+    }
 
     pushErrorMessages();  //Unimplemented
 
@@ -73,10 +92,12 @@ function pullFormData(allSheetData) {
     const fSheetData = allSheetData.form;
     
     // Bugfix: the following was previously inside of the last if/else loop.
+
     const formSheet = fSheetData.getSheet();
     const markerRange = formSheet.getRange("B2:B" + formSheet.getLastRow());
     const responses = fSheetData.getData();
     const missionData = [];
+
 
     console.log("[TODO] Limit pullFormData from pulling the whole sheet - sheetData.getRecentData(maxRows) or something similar? Specify max and min rows?");
 
@@ -103,19 +124,9 @@ function pullFormData(allSheetData) {
     }
 
 
-    //Mark responses as having been pulled
-    console.info("TODO: Improve marking responses as pulled");
-    if (CONFIG.dataFlow.skipMarkingPulled) {
-        console.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
-    }
-    else {
-        console.log("During Testing: PUT A BREAKPOINT HERE!")
-        // was originally checking the sheet again, and occasionally new responses would slip in here and cause problems
-        formSheet.getRange("B2").setValue(true);
-        formSheet.getRange("B2").autoFill(markerRange, SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
-    }
 
-    console.log("Finished pulling Form Data.");
+    Logger.log("Finished pulling Form Data.");
+
     return missionData;
 }
 
@@ -129,6 +140,7 @@ function pullFormData(allSheetData) {
 
 /**
   * Pulls data from the Contact Data sheet and adds areaIDs.
+  * Honestly more of a loadContactData because it just pulls from Sheets.
   */
 function getContactData(allSheetData) {
 
@@ -181,7 +193,9 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
         const areaName = missionAreaData.areaName;
         const sourceAreaData = sourceData[missionAreaData.areaID];
 
-        if (CONFIG.dataFlow.log_dataMerge) console.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID);
+
+        if (CONFIG.dataFlow.log_dataMerge) { Logger.log("Merging area '" + areaName + "' (id '" + areaID + "') from source " + sourceID); }
+
 
         if (typeof sourceAreaData == 'undefined') //Error if can't find corresponding areaID
             throw "Found a form response for area '" + areaName + "' (id '" + areaID + "'), but couldn't find that area in source '" + sourceID + "'";
@@ -236,7 +250,7 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
 
-    function logNeither(key, areaID, areaName, sourceID:any = ".") {
+    function logNeither(key, areaID, areaName, sourceID: any = ".") {
         console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + sourceID + "'");
     }
 

@@ -36,6 +36,10 @@ function updateShards() {
         // I hate it when that happens
         for (const entry in filesystems[fs].sheetData) {
             // let Testentry: fsEntry = entry
+
+            // If there's not a seed / shard assigned to a particular entry, figure out
+            // which grouping has the smallest population and add to that
+
             const entryData = filesystems[fs].sheetData[entry]
             // console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
             if (entryData.seedId <= 0 || entryData.seedId == "" || entryData.seedId == undefined || parseInt(entryData.seedId) > NUMBER_OF_SHARDS) {
