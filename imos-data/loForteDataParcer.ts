@@ -96,28 +96,27 @@ return object1;
 
 function getNote (str: string) {
 
-var zone;
-var district;
-var unitString;
+    var zone;
+    var district;
+    var unitString;
 
+    let hasVehicle = str.includes("Car");
+    
 
-let hasVehicle = str.includes("Car");
+        let array1 = str.split("\n");
 
+        for (let i = 0; i < array1.length; i++) {
 
-    let array1 = str.split("\n");
+            if (array1[i].includes("Zone: ")) zone = stringCleanUp(array1[i], "Zone:");
+            if (array1[i].includes("District: ")) district = stringCleanUp(array1[i], "District:");
+            if (array1[i].includes("Ecclesiastical Unit: ")) unitString = stringCleanUp(array1[i], "Ecclesiastical Unit:");
 
-    for (let i = 0; i < array1.length; i++) {
+            if (hasVehicle) {
+            var vehicle;
+            if (array1[i].includes("Vehicle:")) vehicle = stringCleanUp(array1[i], "Vehicle:");
 
-        if (array1[i].includes("Zone: ")) zone = stringCleanUp(array1[i], "Zone:");
-        if (array1[i].includes("District: ")) district = stringCleanUp(array1[i], "District:");
-        if (array1[i].includes("Ecclesiastical Unit: ")) unitString = stringCleanUp(array1[i], "Ecclesiastical Unit:");
-
-        if (hasVehicle) {
-        var vehicle;
-        if (array1[i].includes("Vehicle:")) vehicle = stringCleanUp(array1[i], "Vehicle:");
-
-       }
-       
+        }
+        
     
 
     }
@@ -127,7 +126,6 @@ let hasVehicle = str.includes("Car");
         District: district,
         unitString: unitString,
         Vehicle: vehicle,
-        
     }
 
 }

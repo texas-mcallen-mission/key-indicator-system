@@ -15,7 +15,7 @@
 
 
 
-function wrapper_boi() {
+function madeSheet() {
     let configData = {
         tabName: "Contact Data LoFoort",
         headerRow: 0,
@@ -55,7 +55,6 @@ function wrapper_boi() {
         },
     };
     let loForteContacts = new SheetData(new RawSheetData(configData));
-    //let data = getContact();
     loForteContacts.setData(writeArray());
 }
 
@@ -63,15 +62,13 @@ function wrapper_boi() {
 function writeArray1(): any[] {
     let array1 = [];
     for (let contact of contacts) {
-      array1.push(getAllWhere1(contact))  
-      //array1.push(writeObject(contact));
+      array1.push(convertToContactData(contact))
     }
     return array1;
 } // end wirteArray
 
 
-// If I were you, I'd give this a function name like "convertToContactData or something like that"
-function getAllWhere1(c:GoogleAppsScript.Contacts.Contact)  {
+function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let object:contactEntry = {
         dateContactGenerated: '',
         areaEmail: '',
@@ -142,7 +139,7 @@ function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
 
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
 
-    console.log(getAllWhere1(contact));
+    console.log(convertToContactData(contact));
 
     
     return {
