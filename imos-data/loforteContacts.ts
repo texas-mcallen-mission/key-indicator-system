@@ -8,16 +8,9 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 
-
-//let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-//let contacts = group.getContacts(); // Fetches contact list of group 
-//let name3 = "";
-
-
-
-function madeSheet() {
+function makeSheet() : void {
     let configData = {
-        tabName: "Contact Data LoFoort",
+        tabName: "ContactDataLoForte",
         headerRow: 0,
         includeSoftcodedColumns: true,
         initialColumnOrder: {
@@ -58,13 +51,17 @@ function madeSheet() {
     loForteContacts.setData(writeArray());
 }
 
-// HEY LOOK HERE this needs a different type
-function writeArray1(): any[] {
-    let array1 = [];
+
+function getArrayOfContacts(): contactEntry[] {
+
+  let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+  let contacts = group.getContacts(); // Fetches contact list of group 
+
+    let arrayOfContacts:contactEntry[] = [];
     for (let contact of contacts) {
-      array1.push(convertToContactData(contact))
+      arrayOfContacts.push(convertToContactData(contact))
     }
-    return array1;
+    return arrayOfContacts;
 } // end wirteArray
 
 
@@ -89,21 +86,52 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
         languageString: '',
         isSeniorCouple: false,
         isSisterArea: false,
+        hasVehicle: false,
         vehicleMiles: '',
         vinLast8: '',
         aptAddress: ''
     }
+    let getNotes = c.getNotes()
+    let getNotesArray = getNotes.split("\n");
+
+    
+    
+  // loops through the string and gets out everything
+  for (let i = 0; i < getNotesArray.length; i++) {
+
+    switch (getNotesArray[i]) {
 
 
-  let array1 = c.getNotes().split("\n");
-  for (let i = 0; i < array1.length; i++) {
-       if (array1[i].includes("Zone: ")) object.zone = array1[i];
-       else if (array1[i].includes("District: ")) object.district = array1[i];
-       else if (array1[i].includes("Ecclesiastical Unit: ")) object.unitString = array1[i];
+      
+    }
+
+
+       if (getNotesArray[i].includes("Zone: ")) object.zone = getNotesArray[i];
+       else if (getNotesArray[i].includes("District: ")) object.district = getNotesArray[i];
+       else if (getNotesArray[i].includes("Ecclesiastical Unit: ")) object.unitString = getNotesArray[i];
+
+
+    // Vehicle stuff all right here
+       if (hasVehicleFunc(getNotes)) object.hasVehicle = true;
+
+       if (object.hasVehicle) {
+
+        if (getNotesArray[i].includes("Vehicle VIN Last 8:")) object.vinLast8 = stringCleanUp(getNotesArray[i],"Vehicle VIN Last 8:");
+
+       }
+
+
+
+
   }
 
 return object
 }
+
+function stringCleanUp (s: string, type: string) {
+  return s.replace(type, '').trim();
+}
+
 
 
 function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
@@ -130,12 +158,12 @@ function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
     let hasMultipleUnits = ifMultipleUnitStrings(contact);
     //let languageString = ""
 
-    let isSisterArea = isSisterAreaFunc(contact);
-    let isSeniorCouple = isSeniorCoupleFunc(contact);
+    //let isSisterArea = isSisterAreaFunc(contact);
+    //let isSeniorCouple = isSeniorCoupleFunc(contact);
 
-    let hasVehicle = hasVehicleFunc(contact);
-    let vehicleMiles = getMiles(hasVehicle, contact);
-    let vinLast8 = getVin(hasVehicle, contact);
+    //let hasVehicle = hasVehicleFunc(contact);
+    //let vehicleMiles = getMiles(hasVehicle, contact);
+    //let vinLast8 = getVin(hasVehicle, contact);
 
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
 
@@ -165,12 +193,12 @@ function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
         unitString: unitString,
         hasMultipleUnits: hasMultipleUnits,
 
-        isSisterArea: isSisterArea,
-        isSeniorCouple: isSeniorCouple,
+        //isSisterArea: isSisterArea,
+        //isSeniorCouple: isSeniorCouple,
 
-        vehicleMiles: vehicleMiles,
-        hasVehicle: hasVehicle,
-        vinLast8: vinLast8,
+        //vehicleMiles: vehicleMiles,
+        //hasVehicle: hasVehicle,
+        //vinLast8: vinLast8,
 
         aptAddress: aptAddress
     };
@@ -274,21 +302,16 @@ function getContact() {
     } // end forLoop
 } // end getContacts
 
-/* if I were you, I would store the notes function as a string here instead of retrieving it from the Google Contacts servers every time.*/
-function hasVehicleFunc(c) {
-    if (c.getNotes().includes("Car")) {
-        return true;
-    }
+function hasVehicleFunc(getNotesString: string) {
+    if (getNotesString.includes("Car")) return true;
 } // end hasVehicleFunc
 
-function isSisterAreaFunc(c) {
-    if (c.getNotes().includes("Junior Sister"))
-        return true;
+function isSisterAreaFunc(getNotesString: string) {
+    if (getNotesString.includes("Junior Sister")) return true;
 } // end isSisterArea
 
-function isSeniorCoupleFunc(c) {
-    if (c.getNotes().includes("Senior Couple"))
-        return true;
+function isSeniorCoupleFunc(getNotesString: string) {
+    if (getNotesString.includes("Senior Couple")) return true;
 } // end isSeniorCoupleFunc
 
 function getMiles(hasCar, c) {
