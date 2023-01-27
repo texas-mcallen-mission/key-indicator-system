@@ -48,7 +48,7 @@ function makeSheet() : void {
         },
     };
     let loForteContacts = new SheetData(new RawSheetData(configData));
-    loForteContacts.setData(writeArray());
+    loForteContacts.setData(getArrayOfContacts());
 }
 
 
@@ -218,14 +218,6 @@ function getPosition(isSolo, c, i) {
 function getWhere(c, i) {
     return c.getNotes().split("\n")[i];
 }
-// this is what i need to fix
-function getContact() {
-    for (let contact of contacts) {
-        let unitString = contact.getNotes();
-        let hasMultipleUnits = "IDK";
-        let languageString = "IDk";
-    } // end forLoop
-} // end getContacts
 
 function hasVehicleFunc(getNotesString: string) {
     if (getNotesString.includes("Car")) return true;
