@@ -99,16 +99,10 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
   // loops through the string and gets out everything
   for (let i = 0; i < getNotesArray.length; i++) {
 
-    switch (getNotesArray[i]) {
-
-
-      
-    }
-
 
        if (getNotesArray[i].includes("Zone: ")) object.zone = getNotesArray[i];
-       else if (getNotesArray[i].includes("District: ")) object.district = getNotesArray[i];
-       else if (getNotesArray[i].includes("Ecclesiastical Unit: ")) object.unitString = getNotesArray[i];
+       if (getNotesArray[i].includes("District: ")) object.district = getNotesArray[i];
+       if (getNotesArray[i].includes("Ecclesiastical Unit: ")) object.unitString = getNotesArray[i];
 
 
     // Vehicle stuff all right here
@@ -134,75 +128,6 @@ function stringCleanUp (s: string, type: string) {
 
 
 
-function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
-    let dateContactGenerated = contact.getLastUpdated();
-    let areaEmail = contact.getEmails()[0].getAddress();
-    let areaName = contact.getFamilyName();
-
-    let name1 = getName(isSolo(contact), contact, 1);
-    let position1 = getPosition(isSolo(contact), contact, 1);
-    let isTrainer1 = isTrainer(position1);
-
-    let name2 = getName(isSolo(contact),contact, 2)
-    let position2 = getPosition(isSolo(contact), contact, 2);
-    let isTrainer2 = isTrainer(position2);
-
-    let name3 = getName3(contact);
-    let position3 = getPosition3(isTreo(contact), contact, 3)
-    let isTrainer3 = isTrainer(position3);
-
-    let district = getWhere(contact, 1);
-    let zone = getWhere(contact, 2);
-
-    let unitString = getWhere(contact, 3);
-    let hasMultipleUnits = ifMultipleUnitStrings(contact);
-    //let languageString = ""
-
-    //let isSisterArea = isSisterAreaFunc(contact);
-    //let isSeniorCouple = isSeniorCoupleFunc(contact);
-
-    //let hasVehicle = hasVehicleFunc(contact);
-    //let vehicleMiles = getMiles(hasVehicle, contact);
-    //let vinLast8 = getVin(hasVehicle, contact);
-
-    let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
-
-    console.log(convertToContactData(contact));
-
-    
-    return {
-        dateContactGenerated: dateContactGenerated,
-        areaEmail: areaEmail,
-        areaName: areaName,
-
-        name1: name1,
-        position1: position1,
-        isTrainer1: isTrainer1,
-
-        name2: name2,
-        position2: position2,
-        isTrainer2: isTrainer2,
-
-        name3: name3,
-        position3: position3,
-        isTrainer3: isTrainer3,
-
-        zone: zone,
-        district: district,
-
-        unitString: unitString,
-        hasMultipleUnits: hasMultipleUnits,
-
-        //isSisterArea: isSisterArea,
-        //isSeniorCouple: isSeniorCouple,
-
-        //vehicleMiles: vehicleMiles,
-        //hasVehicle: hasVehicle,
-        //vinLast8: vinLast8,
-
-        aptAddress: aptAddress
-    };
-}
 
 function noAddress (c) {
   if (c.getAddresses().length === 0) {
@@ -323,6 +248,7 @@ function getMiles(hasCar, c) {
         } // end for
     } // end if
 } //  end function
+
 function getVin(hasCar, c) {
     if (hasCar) {
         for (let i = 1; i < 15; i++) {
@@ -334,3 +260,73 @@ function getVin(hasCar, c) {
 } //  end function
 
 //return c.getEmails()[i].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
+
+// function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
+//   let dateContactGenerated = contact.getLastUpdated();
+//   let areaEmail = contact.getEmails()[0].getAddress();
+//   let areaName = contact.getFamilyName();
+
+//   let name1 = getName(isSolo(contact), contact, 1);
+//   let position1 = getPosition(isSolo(contact), contact, 1);
+//   let isTrainer1 = isTrainer(position1);
+
+//   let name2 = getName(isSolo(contact),contact, 2)
+//   let position2 = getPosition(isSolo(contact), contact, 2);
+//   let isTrainer2 = isTrainer(position2);
+
+//   let name3 = getName3(contact);
+//   let position3 = getPosition3(isTreo(contact), contact, 3)
+//   let isTrainer3 = isTrainer(position3);
+
+//   let district = getWhere(contact, 1);
+//   let zone = getWhere(contact, 2);
+
+//   let unitString = getWhere(contact, 3);
+//   let hasMultipleUnits = ifMultipleUnitStrings(contact);
+//   //let languageString = ""
+
+//   //let isSisterArea = isSisterAreaFunc(contact);
+//   //let isSeniorCouple = isSeniorCoupleFunc(contact);
+
+//   //let hasVehicle = hasVehicleFunc(contact);
+//   //let vehicleMiles = getMiles(hasVehicle, contact);
+//   //let vinLast8 = getVin(hasVehicle, contact);
+
+//   let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
+
+//   console.log(convertToContactData(contact));
+
+  
+//   return {
+//       dateContactGenerated: dateContactGenerated,
+//       areaEmail: areaEmail,
+//       areaName: areaName,
+
+//       name1: name1,
+//       position1: position1,
+//       isTrainer1: isTrainer1,
+
+//       name2: name2,
+//       position2: position2,
+//       isTrainer2: isTrainer2,
+
+//       name3: name3,
+//       position3: position3,
+//       isTrainer3: isTrainer3,
+
+//       zone: zone,
+//       district: district,
+
+//       unitString: unitString,
+//       hasMultipleUnits: hasMultipleUnits,
+
+//       //isSisterArea: isSisterArea,
+//       //isSeniorCouple: isSeniorCouple,
+
+//       //vehicleMiles: vehicleMiles,
+//       //hasVehicle: hasVehicle,
+//       //vinLast8: vinLast8,
+
+//       aptAddress: aptAddress
+//   };
+// }

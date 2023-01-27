@@ -129,7 +129,3 @@ function getNote (str: string) {
     }
 
 }
-
-function stringCleanUp (s: string, type: string) {
-    return s.replace(type, '').trim();
-}
