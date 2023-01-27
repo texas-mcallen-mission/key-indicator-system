@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// this file is a bit of a weird one and has a lot of things that only get referenced by meta_runner_ and the scheduler functions
-
 //@ts-check
 /*
         triggers.gs

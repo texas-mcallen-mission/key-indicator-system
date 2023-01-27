@@ -1,42 +1,39 @@
-// Goal:  Build three a shard updating thing, using caching
+// Goal:  Build three a shard updating thing, using caching 
 
-// This is used with the scheduler and is a globally-used function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function areaShardUpdater1() {
     updateShard("Area");
 }
 
-// This is used with the scheduler and is a globally-used function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function districtShardUpdater1() {
     updateShard("District");
 }
 
-// This is used with the scheduler and is a globally-used function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function zoneShardUpdater1() {
     updateShard("Zone");
 }
-
-// This is used with the scheduler and is a globally-used function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function areaShardUpdater2() {
     updateShard("Area");
 }
 
-// This is used with the scheduler and is a globally-used function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function districtShardUpdater2() {
     updateShard("District");
 }
 
-// This is used with the scheduler and is a globally-used function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function zoneShardUpdater2() {
     updateShard("Zone");
 }
 
-
+// function updateShard1_Area() {
+//     let scope = "Area";
+//     let targetShard = "1";
+//     let runner_args = {
+//         trigger: triggerTypes.DEBUG,
+//         functionArg: targetShard.toString(),
+//         ignoreLockout: true,
+//         shardNumber: targetShard.toString(),
+//     };
+//     meta_runner(updateAreaReportsV5, runner_args);
+// }
 
 function getSmallestGroup(shardKeys: manyShardEntries): manyShardEntries {
     let smallest: number = Number.MAX_SAFE_INTEGER;
@@ -195,11 +192,10 @@ function updateCache(cacheOutput): shardLockCache {
 function loadShardCache() {
     const cache = CacheService.getScriptCache();
     const cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
-    let cacheOutput:shardLockCache
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
-        cacheOutput = createShardValues();
+        var cacheOutput = createShardValues();
     } else {
-        cacheOutput = updateCache(JSON.parse(cacheValues));
+        var cacheOutput: shardLockCache = updateCache(JSON.parse(cacheValues));
     }
     console.log(cacheOutput);
     return cacheOutput;

@@ -61,11 +61,9 @@ function updateFSV4() {
 
 
 function buildFSV4(allSheetData = constructSheetData()) {
-    
+    //@ts-ignore
     const orgData = getMissionOrgData(allSheetData);
-    if (!Object.prototype.hasOwnProperty.call(orgData, "contact")) {
-        throw "unable to build FS, contact data tab declaration is missing."
-    }
+
     console.log(orgData);
 
     const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
@@ -81,7 +79,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
 
         
         for (const district in orgData[zone]) {
-            
+            //@ts-ignore
             const distEntryData = createOrGetFsEntry_(filesystems.District, district, zoneEntry.folderId, "");
             const distAreaIds = []
             const distEntry = distEntryData.entry;
@@ -89,7 +87,7 @@ function buildFSV4(allSheetData = constructSheetData()) {
             
             for (const area in orgData[zone][district]) {
                 const areaData = orgData[zone][district][area];
-                
+                //@ts-ignore
                 distAreaIds.push(areaData.areaID)
                 const areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID)
                 const areaEntry = areaEntryData.entry
@@ -177,7 +175,7 @@ interface filesystemEntry {
     fsData: SheetData,
     fsScope: "Zone" | "District" | "Area",
     sheetData: filesystemData[]
-    existingFolders: GoogleAppsScript.Drive.Folder[]
+    existingFolders: any[]
     reportTemplate:string
 }
 
@@ -196,7 +194,7 @@ interface filesystemData extends kiDataEntry {
     folderId: string,
     sheetID1: string | null,
     sheetID2: string | null,
-    areaID: string, // comma-separated values.
+    areaID: string, // you have to split this into an array manually, using .split()
     folderBaseName: string,
     seedId: string | number,
 }
@@ -252,24 +250,23 @@ function verifyFSV4(allSheetData = constructSheetData()) {
     // this SHOULD be everything we need to do for the new FS verifier
 }
 
-function verifySingleFilesysV4_(filesystem: filesystemEntry) {
+function verifySingleFilesysV4_(filesystem) {
     const sheetDataObj = filesystem.fsData;
-    
-    const sheetData: filesystemData[] = convertToFilesystemData(sheetDataObj.getData());
-    const outData:filesystemData[] = [];
-    const failData: filesystemData[] = [];
+    const sheetData: { any; }[] = sheetDataObj.getData();
+    const outData = [];
+    const failData = [];
     for (const entry of sheetData) {
         let push = true;
-
+        // @ts-ignore
         if (isFolderAccessible_(entry.folder)) { push = false; }
-
+        // @ts-ignore
         if (isFolderAccessible_(entry.parentFolder)) { push = false; }
-
+        // @ts-ignore
         if (entry.sheetID1 == "" || !isFileAccessible_(entry.sheetID1)) { entry.sheetID1 = ""; }
-
+        // @ts-ignore
         if (entry.sheetID2 == "" || !isFileAccessible_(entry.sheetID2)) { entry.sheetID2 = ""; }
         if (!push) {
-
+            //@ts-ignore
             console.log("entry does not exist ", entry.folderName);
             failData.push(entry);
         }

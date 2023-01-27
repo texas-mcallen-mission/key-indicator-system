@@ -1,7 +1,7 @@
 //@ts-check
 // Code snippets either common to several modules, or frequently reused in side projects.
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore this is an external library
+
+//@ts-ignore
 const _ = lodash.load();
 
 

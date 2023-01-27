@@ -7,8 +7,7 @@
  * Updates the Google Form for the Key Indicators for Conversion Report, such as updating the list of area names. Also deletes old form responses from the Google Form (not from the Sheet) if the config is set.
  */
 function updateForm() {
-    // this sucker is global and doesn't seem to be recognized yet...
-    // eslint-disable-next-line no-undef
+
     const allSheetData = constructSheetData();
     const cSheetData = allSheetData.contact;
     const areaNames = cSheetData.getAllOfKey('areaName');
