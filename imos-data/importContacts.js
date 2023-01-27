@@ -4,6 +4,8 @@
         Main functions for importing data into the Contact Data sheet from Google Contacts.
 */
 
+/* global parseNotes, roleParser*/
+
 /**
  * Refreshes the data in the Contact Data sheet if it is no longer recent.
  * @param {{contact: SheetData;}} allSheetData
@@ -15,7 +17,10 @@ function refreshContacts(allSheetData) {
 
 function importContacts(allSheetData) {
 
-    
+    if (!Object.hasOwnProperty.call(allSheetData, "contact")) {
+        console.error("No contact sheet in allSheetData, exiting!");
+        throw "Unable to access contacts in sheetData"
+    }
     console.log('TODO: Make sure importContacts() language parser works for any combination of any languages!');
 
 
@@ -222,6 +227,8 @@ function languageParser(multipleUnits, unitString) {
         if (!unit.includes("(")) {
             langString = DEFAULT_LANGUAGE;
         } else {
+            // this is regex, not a normal string thank-you-very-much
+            // eslint-disable-next-line no-useless-escape
             const regexString = new RegExp('\(([^\)]+) \)');
             const regexData = unit.match(/\(([^)]+)\)/);
             const regexMatch = regexData[1];

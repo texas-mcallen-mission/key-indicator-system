@@ -47,30 +47,41 @@
  *      Theoretically the single-area updater could be used to update ALL of them if you set something differently...
  */
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testUpdateSingleShard() {
     updateAreaReportsV5("3");
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testUpdateOneBranch() {
     updateOneBranch("A500412899")
 }
 
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateOneBranch(areaID:string) {
     const allData = loadData()
     multiLevelUpdateSingleAreaID_(allData.fsData, allData.kiData, areaID)
 }
 
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateAreaReportsV5(shard:null|string= null) {
     const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "Area",shard)
 
 }
-
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateDistrictReportsV5(shard: null | string = null) {
     const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "District",shard)
 }
 
+// This is used with the scheduler and is a globally-used function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function updateZoneReportsV5(shard: null | string = null) {
     const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "Zone",shard)
@@ -107,15 +118,15 @@ function loadData(): { fsData: manyFilesystemEntries; kiData: kiDataClass; } {
  * @param {string} areaID
  * @return {*} 
  */
-function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: string) {
-    const output: manyFilesystemDatas = {};
+function removeFSEntriesWithoutAreaId_(fsData: filesystemData[], areaID: string): filesystemData[] {
+    const output: filesystemData[] = [];
     const shardKey = "seedId";
     for (const entry in fsData) {
         const entryData = fsData[entry];
         const areaIDs = entryData.areaID.split(",")
-        for(const areaID of areaIDs) areaID.trim()
+        for (const areaID of areaIDs) { areaID.trim(); }
         if (areaID.includes(areaID)) {
-            output[entry] = (entryData);
+            output.push(entryData);
         }
     }
     return output;
@@ -130,9 +141,9 @@ function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: stri
  */
 function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:kiDataClass,areaID: string) {
     const fsEntryMod: manyFilesystemEntries = _.cloneDeep(fsEntries)
-    for (const fsEntry in fsEntryMod) {
-        const fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
-        //@ts-ignore
+    for (const fsScopeKey in fsEntryMod) {
+        const fsEntryData: filesystemEntry = fsEntryMod[fsScopeKey]
+        
         fsEntryData.sheetData = removeFSEntriesWithoutAreaId_(fsEntryData.sheetData, areaID)
         singleLevelUpdater_(fsEntryMod, kiData, fsEntryData.fsScope)
     }
@@ -145,7 +156,7 @@ function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:
 
 function removeFSEntriesNotInShard_(fsData: filesystemData[], shardValue: string): filesystemData[] {
     const output: filesystemData[] = []
-    const shardKey = "seedId"
+    // const shardKey = "seedId"
     for (const entry of fsData) {
         if (entry.seedId.toString() == shardValue) {
             output.push(entry)
@@ -186,7 +197,8 @@ function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiData
             - note: this is entirely different from scoping / removing entries (rows) based on zone/district/area- this is simply adding calculated and/or removing keys (columns) per entry.
             - this will, however, delete entries (rows) with methods like removeDuplicates()
  */
-
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testDoDataOperations() {
     // stand-alone test
     const kiData: kiDataEntry[] = [
@@ -218,8 +230,10 @@ function testDoDataOperations() {
 
 
 function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
-    let output: filesystemData[] = []
-    for (let entry of kiData) {
+    const output: filesystemData[] = []
+    for (const entry of kiData) {
+        // 👇 may be reassigned later
+        // eslint-disable-next-line prefer-const 
         let fsDataBase: filesystemData = {
             folderName: '',
             parentFolder: '',
@@ -229,12 +243,16 @@ function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
             areaID: '',
             folderBaseName: '',
             seedId: ''
-        ,...entry}
+            , ...entry
+        }
+        output.push(fsDataBase)
     }
 
     return output
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testDoDataOperationsLive() {
     // integration-style test
     const localSheetData = constructSheetDataV2(sheetDataConfig.local);
@@ -269,7 +287,8 @@ function doDataOperations_(kiData:kiDataClass):kiDataClass {
  * STEP 4 TEST FUNCTIONS
  */
 
-
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testKeepMatchingByKey() {
     // standalone test, because this thing was having problems
     // _.deepClone(object) solved them, but these are good demos / sanity checks.
@@ -282,10 +301,12 @@ function testKeepMatchingByKey() {
         { val1: "WHEEE", areaID: "AREA_NUMBER_3", testThingy: "AREA3-ENTRY-1" },
     ];
     const kiDataa = new kiDataClass(kiData);
-    kiDataa.keepMatchingByKey("areaID", ["AREA_NUMBER_1", "AREA_NUMBER_2"]);
+    kiDataa.keepMatchingByKey(testKey, ["AREA_NUMBER_1", "AREA_NUMBER_2"]);
     console.log(kiDataa.end);
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testKeepMatchingByKey2() {
     // semi-integrated test- loads external data
     const localSheetData = constructSheetDataV2(sheetDataConfig.local);
@@ -293,10 +314,12 @@ function testKeepMatchingByKey2() {
     const testKey = "areaID";
     const kiData = localSheetData.data.getData();
     const kiDataa = new kiDataClass(kiData);
-    kiDataa.keepMatchingByKey("areaID", ["A500364080", "A6974467"]);
+    kiDataa.keepMatchingByKey(testKey, ["A500364080", "A6974467"]);
     console.log(kiDataa.end);
 }
 
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testGroupAndSendReports(): void {
     // integration test: loads external data, pushes it.
     const localSheetData = constructSheetDataV2(sheetDataConfig.local)
@@ -358,6 +381,8 @@ function groupDataAndSendReports_(fsData: filesystemData[], kiData: kiDataClass,
  *  test code for updateSingleReportV5, will put / overwrite a tab on your active spreadsheet.
  *  
  */
+// Tester function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function testSingleReportUpdater():void {
     
     const localSheetData = constructSheetDataV2(sheetDataConfig.local)
@@ -379,7 +404,7 @@ function testSingleReportUpdater():void {
  * @param {filesystemEntry["fsScope"]} scope // currently unused, but will need to exist for updating the config pages in the future.
  * @return {*}  {SheetData}
  */
-function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
+function updateSingleReportV5_(sheetID: string, kiData: kiDataEntry[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
     const reportInfo: sheetDataEntry = _.cloneDeep(CONFIG.reportCreator.reportDataEntryConfig)
     reportInfo.sheetId = sheetID

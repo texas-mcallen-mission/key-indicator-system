@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [reFactor]
+    branches: [clean-up-report-creator]
   release:
     types: [published]
   schedule:

@@ -22,7 +22,7 @@ function updateShards() {
         // let outData = []
         // creates a object to += counts on, so that values already assigned a particular shard won't be as likely to get shifted to a different shard.
         
-        const shardCounter: {} = {
+        const shardCounter: object = {
             "1":0
         }
         for (let i = 1; i <= NUMBER_OF_SHARDS; i++){
