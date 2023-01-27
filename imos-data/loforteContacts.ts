@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
@@ -58,17 +59,18 @@ function wrapper_boi() {
     loForteContacts.setData(writeArray());
 }
 
+// HEY LOOK HERE this needs a different type
 function writeArray1(): any[] {
     let array1 = [];
     for (let contact of contacts) {
-      array1.push(getAllWhere(contact))  
+      array1.push(getAllWhere1(contact))  
       //array1.push(writeObject(contact));
     }
     return array1;
 } // end wirteArray
 
 
-interface kiDataEntry {
+interface contactEntry extends kiDataEntry {
   dateContactGenerated: string,
   areaEmail: string,
   areaName: string,
@@ -103,7 +105,7 @@ interface kiDataEntry {
 }
 
 function getAllWhere1(c:GoogleAppsScript.Contacts.Contact)  {
-    let object:kiDataEntry = {
+    let object:contactEntry = {
       dateContactGenerated: "",
       areaEmail: "",
       areaName: "",
@@ -173,7 +175,7 @@ function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
 
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
 
-    console.log(getAllWhere(contact));
+    console.log(getAllWhere1(contact));
 
     
     return {

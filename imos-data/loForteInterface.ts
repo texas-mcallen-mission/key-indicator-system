@@ -1,7 +1,7 @@
 // this is just full of the interfaces
 
 
-interface kiDataEntry {
+interface contactEntry extends kiDataEntry {
     dateContactGenerated: string,
     areaEmail: string,
     areaName: string,
