@@ -11,16 +11,16 @@ function markDuplicates(allSheetData) {
  * @param {*} allSheetData 
  */
 function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
-    Logger.log("Marking duplicate responses. Pulling data...");
-    Logger.log("TODO: Don't pull the whole sheet?");
+    console.log("Marking duplicate responses. Pulling data...");
+    console.log("TODO: Don't pull the whole sheet?");
 
-    let sd = allSheetData.data;
-    let sheet = sd.getSheet();
-    let vals = sheet.getDataRange().getValues();
+    const sd = allSheetData.data;
+    const sheet = sd.getSheet();
+    const vals = sheet.getDataRange().getValues();
 
-    let mostRecentResponse = {};   //Previously checked responses. Uses rIDs as keys, and contains row numbers for marking and timestamps for comparison
-    let duplicates = [];  //Row indices that contain duplicates
-    let skippedRows = []; //Row indices that are blank
+    const mostRecentResponse = {};   //Previously checked responses. Uses rIDs as keys, and contains row numbers for marking and timestamps for comparison
+    const duplicates = [];  //Row indices that contain duplicates
+    const skippedRows = []; //Row indices that are blank
 
     let minRow; //Used for bounds on the edit range
     let maxRow = vals.length - 1;   //Used for bounds on the edit range
@@ -32,7 +32,7 @@ function markDuplicates_old(allSheetData) { //                                  
 
 
 
-    let firstPass = true; //Used to make the loop run twice (in case it's not sorted by timestamp)
+    const firstPass = true; //Used to make the loop run twice (in case it's not sorted by timestamp)
     console.info("TODO: make mark dupes loop run twice");
 
     for (let row = maxRow; row > 0; row--) {    //WARNING: this assumes header is on the top row
@@ -53,26 +53,27 @@ function markDuplicates_old(allSheetData) { //                                  
             log += '\nSkipping row';
             skippedRows.push(row);
 
-            if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
+            if (CONFIG.dataFlow.log_duplicates) console.log(log);
             continue;
         }
 
 
         minRow = row; //Update topmost row
 
-        let areaName = vals[row][sd.getIndex('areaName')];
+        const areaName = vals[row][sd.getIndex('areaName')];
         let areaID;
         try {
+            /*global getAreaID*/
             areaID = getAreaID(allSheetData, areaName);
         } catch (e) {
             console.warn("Couldn't get areaID on line " + (row + 1) + " while marking duplicates. Area '" + areaName + "' not found");
         }
 
 
-        let kiDate = vals[row][sd.getIndex('kiDate')];
-        let tstamp = vals[row][sd.getIndex('formTimestamp')];
+        const kiDate = vals[row][sd.getIndex('kiDate')];
+        const tstamp = vals[row][sd.getIndex('formTimestamp')];
 
-        let rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
+        const rID = areaID + " | " + kiDate;   //Defined such that duplicate responses should have identical response IDs
 
         log += "\nResponse ID: '" + rID + "'";
 
@@ -80,11 +81,11 @@ function markDuplicates_old(allSheetData) { //                                  
             mostRecentResponse[rID] = { "tstamp": tstamp, "row": row };
 
             log += "\nFirst ocurrence, continuing.";
-            if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
+            if (CONFIG.dataFlow.log_duplicates) console.log(log);
             continue;
         }
 
-        let prev = mostRecentResponse[rID];  //Previous ocurrence
+        const prev = mostRecentResponse[rID];  //Previous ocurrence
         log += "\nFound previous ocurrence on row index ${prev.row}, comparing...";
 
         //Handle comparing historical records (which don't have timestamps)
@@ -117,17 +118,17 @@ function markDuplicates_old(allSheetData) { //                                  
             }
         }
 
-        if (CONFIG.dataFlow.log_duplicates) Logger.log(log);
+        if (CONFIG.dataFlow.log_duplicates) console.log(log);
     }
 
-    Logger.log("Finished pulling duplicate data. Pushing to sheet...");
+    console.log("Finished pulling duplicate data. Pushing to sheet...");
 
 
-    let out = [];
+    const out = [];
 
     for (let row = minRow; row <= maxRow; row++) {
-        let isDuplicate = duplicates.includes(row);
-        let isSkipped = skippedRows.includes(row);
+        const isDuplicate = duplicates.includes(row);
+        const isSkipped = skippedRows.includes(row);
         out[row - minRow] = [];
         out[row - minRow][0] = isDuplicate ? true :
             isSkipped ? "" : false;
@@ -136,6 +137,6 @@ function markDuplicates_old(allSheetData) { //                                  
     sheet.getRange(minRow + 1, sd.getIndex('isDuplicate') + 1, out.length, 1).setValues(out);
 
 
-    Logger.log("Finished marking duplicate responses.");
+    console.log("Finished marking duplicate responses.");
 
 }

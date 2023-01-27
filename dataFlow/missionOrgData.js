@@ -16,11 +16,11 @@
 * @returns {any}
 */
 function getMissionOrgData(allSheetData) {
-    let cSheetData = allSheetData.contact;
-    let contactData = cSheetData.getData();
-    let zones = {};
+    const cSheetData = allSheetData.contact;
+    const contactData = cSheetData.getData();
+    const zones = {};
 
-    Logger.log("Calculating mission organization data...");
+    console.log("Calculating mission organization data...");
 
     /*    Format of zones object
     zones = {
@@ -35,14 +35,15 @@ function getMissionOrgData(allSheetData) {
     }
     */
 
-    for (let areaData of contactData) {
-        let area = {
+    for (const areaData of contactData) {
+        const area = {
             areaName: areaData.areaName,
             areaData: areaData,
+            /*global getAreaID*/
             areaID: getAreaID(allSheetData,areaData.areaName)
         }
-        let district = areaData.district;
-        let zone = areaData.zone;
+        const district = areaData.district;
+        const zone = areaData.zone;
 
         if (!zones[zone]) //Initialize zones[zone]
             zones[zone] = {};
@@ -64,23 +65,23 @@ function getMissionOrgData(allSheetData) {
  */
 function getMissionLeadershipData(contacts) {
 
-    Logger.log("Calculating leader data from contact data...");
+    console.log("Calculating leader data from contact data...");
 
 
     //Initialized to the empty string to guarantee a defined value
-    let apArea = {
+    const apArea = {
         ap1: "",
         ap2: "",
         ap3: ""
     };
-    let stltArea = {
+    const stltArea = {
         stlt1: "",
         stlt2: "",
         stlt3: ""
     };
     let hasStltArea = false;
 
-    let zones = {};
+    const zones = {};
 
 
 
@@ -124,14 +125,14 @@ function getMissionLeadershipData(contacts) {
 
 
 
-    for (let areaID in contacts) {
+    for (const areaID in contacts) {
 
-        let areaData = contacts[areaID];
+        const areaData = contacts[areaID];
 
-        let area = areaData.areaName;
-        let district = areaData.district;
-        let zone = areaData.zone;
-        let areaEmail = areaData.areaEmail;
+        const area = areaData.areaName;
+        const district = areaData.district;
+        const zone = areaData.zone;
+        const areaEmail = areaData.areaEmail;
 
         if (!zones[zone]) { //Initialize zones[zone], as well as its properties
             zones[zone] = {
@@ -282,21 +283,21 @@ function getMissionLeadershipData(contacts) {
  */
 function getLeadershipAreaData(contacts) {
 
-    let leaderData = getMissionLeadershipData(contacts);
+    const leaderData = getMissionLeadershipData(contacts);
 
-    let zones = leaderData.zones;
-    let apArea = leaderData.apArea;
-    let stltArea = leaderData.stltArea;
+    const zones = leaderData.zones;
+    const apArea = leaderData.apArea;
+    const stltArea = leaderData.stltArea;
 
-    let leaderAreaData = {};
+    const leaderAreaData = {};
 
-    for (let areaID in contacts) {
+    for (const areaID in contacts) {
 
-        let areaData = contacts[areaID];
+        const areaData = contacts[areaID];
 
-        let zone = areaData.zone;
-        let district = areaData.district;
-        let areaName = areaData.areaName;
+        const zone = areaData.zone;
+        const district = areaData.district;
+        const areaName = areaData.areaName;
 
         leaderAreaData[areaID] = {
             "areaName": areaName,  //Debug purposes - not actually used
@@ -326,7 +327,7 @@ function getLeadershipAreaData(contacts) {
     }
 
 
-    Logger.log("Finished calculating leadership data for each area.");
+    console.log("Finished calculating leadership data for each area.");
 
     return leaderAreaData;
 

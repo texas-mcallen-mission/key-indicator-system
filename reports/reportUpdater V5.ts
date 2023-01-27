@@ -56,23 +56,23 @@ function testUpdateOneBranch() {
 }
 
 function updateOneBranch(areaID:string) {
-    let allData = loadData()
+    const allData = loadData()
     multiLevelUpdateSingleAreaID_(allData.fsData, allData.kiData, areaID)
 }
 
 function updateAreaReportsV5(shard:null|string= null) {
-    let allData = loadData()
+    const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "Area",shard)
 
 }
 
 function updateDistrictReportsV5(shard: null | string = null) {
-    let allData = loadData()
+    const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "District",shard)
 }
 
 function updateZoneReportsV5(shard: null | string = null) {
-    let allData = loadData()
+    const allData = loadData()
     singleLevelUpdater_(allData.fsData, allData.kiData, "Zone",shard)
 }
 
@@ -85,10 +85,10 @@ function updateZoneReportsV5(shard: null | string = null) {
  * @return {{ fsData: manyFilesystemEntries; kiData: kiDataClass; }}
  */
 function loadData(): { fsData: manyFilesystemEntries; kiData: kiDataClass; } {
-    let localSheetData:manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
-    let fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData)
+    const localSheetData:manySheetDatas = constructSheetDataV2(sheetDataConfig.local)
+    const fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData)
     
-    let kiData = new kiDataClass(localSheetData.data.getData())
+    const kiData = new kiDataClass(localSheetData.data.getData())
 
     return { fsData: fsDataEntries, kiData: kiData }
 
@@ -108,12 +108,12 @@ function loadData(): { fsData: manyFilesystemEntries; kiData: kiDataClass; } {
  * @return {*} 
  */
 function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: string) {
-    let output: manyFilesystemDatas = {};
-    let shardKey = "seedId";
-    for (let entry in fsData) {
-        let entryData = fsData[entry];
-        let areaIDs = entryData.areaID.split(",")
-        for(let areaID of areaIDs) areaID.trim()
+    const output: manyFilesystemDatas = {};
+    const shardKey = "seedId";
+    for (const entry in fsData) {
+        const entryData = fsData[entry];
+        const areaIDs = entryData.areaID.split(",")
+        for(const areaID of areaIDs) areaID.trim()
         if (areaID.includes(areaID)) {
             output[entry] = (entryData);
         }
@@ -129,9 +129,9 @@ function removeFSEntriesWithoutAreaId_(fsData: manyFilesystemDatas, areaID: stri
  * @param {string} areaID
  */
 function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:kiDataClass,areaID: string) {
-    let fsEntryMod: manyFilesystemEntries = _.cloneDeep(fsEntries)
-    for (let fsEntry in fsEntryMod) {
-        let fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
+    const fsEntryMod: manyFilesystemEntries = _.cloneDeep(fsEntries)
+    for (const fsEntry in fsEntryMod) {
+        const fsEntryData: filesystemEntry = fsEntryMod[fsEntry]
         //@ts-ignore
         fsEntryData.sheetData = removeFSEntriesWithoutAreaId_(fsEntryData.sheetData, areaID)
         singleLevelUpdater_(fsEntryMod, kiData, fsEntryData.fsScope)
@@ -143,30 +143,34 @@ function multiLevelUpdateSingleAreaID_(fsEntries: manyFilesystemEntries, kiData:
  * Single Level Updater: Has a shard argument in case we want to filter out shards.
  */
 
-function removeFSEntriesNotInShard_(fsData: manyFilesystemDatas, shardValue: string): manyFilesystemDatas {
-    let output: manyFilesystemDatas = {}
-    let shardKey = "seedId"
-    
-    for (let entry in fsData) {
-        let entryData:filesystemData = fsData[entry]
-        if (entryData.seedId.toString() == shardValue) {
-            output[entry] = (entryData)
+function removeFSEntriesNotInShard_(fsData: filesystemData[], shardValue: string): filesystemData[] {
+    const output: filesystemData[] = []
+    const shardKey = "seedId"
+    for (const entry of fsData) {
+        if (entry.seedId.toString() == shardValue) {
+            output.push(entry)
         }
     }
+    // for (const entry in fsData) {
+    //     const entryData:filesystemData = fsData[entry]
+    //     if (entryData.seedId.toString() == shardValue) {
+    //         output[entry] = (entryData)
+    //     }
+    // }
     return output
 }
 
 function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiDataClass,scope:filesystemEntry["fsScope"],shard:string|null= null) {
-    let targetFSEntry = fsDataEntries[scope]
+    const targetFSEntry = fsDataEntries[scope]
     
-    //@ts-ignore
-    let fsData: manyFilesystemDatas = targetFSEntry.sheetData
+    // is of type filesystemData at runtime
+    let fsData: filesystemData[] = targetFSEntry.sheetData
     if (shard != null) {
         fsData = removeFSEntriesNotInShard_(fsData, shard)
         console.info("Running Report Updater in Shard Mode on Scope:",scope," Shard ID:",shard)
     }
 
-    let kiDataMod = doDataOperations_(kiData); // Step 3: Do Data Operations
+    const kiDataMod = doDataOperations_(kiData); // Step 3: Do Data Operations
     groupDataAndSendReports_(fsData, kiDataMod, scope) // Runs 4, which batches step 5's
 }
 
@@ -185,7 +189,7 @@ function singleLevelUpdater_(fsDataEntries:manyFilesystemEntries, kiData: kiData
 
 function testDoDataOperations() {
     // stand-alone test
-    let kiData: manyKiDataEntries = [
+    const kiData: kiDataEntry[] = [
         {
             areaName: "WORDS", areaID: "WORDS", zone: "WORDS", district: "WORDS",
             serviceHrs: "WORDS", rca: "WORDS", rc: "WORDS", "fb-role": "WORDS",
@@ -206,20 +210,39 @@ function testDoDataOperations() {
         }
         
     ]
-    let kiDataClassTester = new kiDataClass(kiData)
-    let test = doDataOperations_(kiDataClassTester)
+    const kiDataClassTester = new kiDataClass(kiData)
+    const test = doDataOperations_(kiDataClassTester)
     console.log(test)
     
 }
 
+
+function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
+    let output: filesystemData[] = []
+    for (let entry of kiData) {
+        let fsDataBase: filesystemData = {
+            folderName: '',
+            parentFolder: '',
+            folderId: '',
+            sheetID1: '',
+            sheetID2: '',
+            areaID: '',
+            folderBaseName: '',
+            seedId: ''
+        ,...entry}
+    }
+
+    return output
+}
+
 function testDoDataOperationsLive() {
     // integration-style test
-    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
-    let fsData: filesystemData[] = localSheetData.distFilesys.getData();
+    const localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const fsData: filesystemData[] = convertToFilesystemData(localSheetData.distFilesys.getData())
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
     let kiData = new kiDataClass(localSheetData.data.getData());
 
-    let scope: filesystemEntry["fsScope"] = "Area";
+    const scope: filesystemEntry["fsScope"] = "Area";
     kiData = doDataOperations_(kiData)
     groupDataAndSendReports_(fsData, kiData, scope);
 }
@@ -230,7 +253,7 @@ function testDoDataOperationsLive() {
  * @return {*}  {kiDataClass}
  */
 function doDataOperations_(kiData:kiDataClass):kiDataClass {
-    let kiDataMod: kiDataClass = _.cloneDeep(kiData)
+    const kiDataMod: kiDataClass = _.cloneDeep(kiData)
     kiDataMod.calculatePercentage("rca", "rc", CONFIG.kiData.new_key_names.retentionRate);
     kiDataMod.createSumOfKeys(CONFIG.kiData.fb_referral_keys, CONFIG.kiData.new_key_names.fb_referral_sum);
     kiDataMod.removeDuplicates().calculateCombinedName()
@@ -250,38 +273,38 @@ function doDataOperations_(kiData:kiDataClass):kiDataClass {
 function testKeepMatchingByKey() {
     // standalone test, because this thing was having problems
     // _.deepClone(object) solved them, but these are good demos / sanity checks.
-    let testKey = "areaID";
-    let kiData = [
+    const testKey = "areaID";
+    const kiData = [
         { val1: "WHEEE", areaID: "AREA_NUMBER_1", testThingy: "AREA1-ENTRY-1" },
         { val1: "WHEEE", areaID: "AREA_NUMBER_1", testThingy: "AREA1-ENTRY-2" },
         { val1: "WHEEE", areaID: "AREA_NUMBER_2", testThingy: "AREA2-ENTRY-1" },
         { val1: "WHEEE", areaID: "AREA_NUMBER_2", testThingy: "AREA2-ENTRY-2" },
         { val1: "WHEEE", areaID: "AREA_NUMBER_3", testThingy: "AREA3-ENTRY-1" },
     ];
-    let kiDataa = new kiDataClass(kiData);
+    const kiDataa = new kiDataClass(kiData);
     kiDataa.keepMatchingByKey("areaID", ["AREA_NUMBER_1", "AREA_NUMBER_2"]);
     console.log(kiDataa.end);
 }
 
 function testKeepMatchingByKey2() {
     // semi-integrated test- loads external data
-    let localSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const localSheetData = constructSheetDataV2(sheetDataConfig.local);
 
-    let testKey = "areaID";
-    let kiData = localSheetData.data.getData();
-    let kiDataa = new kiDataClass(kiData);
+    const testKey = "areaID";
+    const kiData = localSheetData.data.getData();
+    const kiDataa = new kiDataClass(kiData);
     kiDataa.keepMatchingByKey("areaID", ["A500364080", "A6974467"]);
     console.log(kiDataa.end);
 }
 
 function testGroupAndSendReports(): void {
     // integration test: loads external data, pushes it.
-    let localSheetData = constructSheetDataV2(sheetDataConfig.local)
-    let fsData:manyFilesystemDatas = localSheetData.distFilesys.getData()
+    const localSheetData = constructSheetDataV2(sheetDataConfig.local)
+    const fsData:filesystemData[] = convertToFilesystemData(localSheetData.distFilesys.getData())
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
-    let kiData = new kiDataClass(localSheetData.data.getData())
+    const kiData = new kiDataClass(localSheetData.data.getData())
 
-    let scope: filesystemEntry["fsScope"] = "Area"
+    const scope: filesystemEntry["fsScope"] = "Area"
 
     groupDataAndSendReports_(fsData, kiData, scope)
     
@@ -297,19 +320,19 @@ function testGroupAndSendReports(): void {
  * @return {*}  {manyKiDataClasses}
  */
 function groupDataAndSendReports_(fsData: filesystemData[], kiData: kiDataClass, scope: filesystemEntry["fsScope"]): manyKiDataClasses {
-    let sheetId = CONFIG.reportCreator.targetSheetId
-    let output: manyKiDataClasses = {}
+    const sheetId = CONFIG.reportCreator.targetSheetId
+    const output: manyKiDataClasses = {}
     if (Object.keys(fsData).length == 0) {
         console.error("NO fsData to update!")
-        let returnVal: manyKiDataClasses = {}
+        const returnVal: manyKiDataClasses = {}
         return returnVal
     }
-    for (let entry in fsData) {
-        let entryData = fsData[entry]
-        let kiDataCopy = _.cloneDeep(kiData)
-        let areaIdList:string[] = entryData.areaID.split(",")
+    for (const entry in fsData) {
+        const entryData = fsData[entry]
+        const kiDataCopy = _.cloneDeep(kiData)
+        const areaIdList:string[] = entryData.areaID.split(",")
         kiDataCopy.keepMatchingByKey("areaID", areaIdList)
-        let data = kiDataCopy.end
+        const data = kiDataCopy.end
         // console.info("fsData Key:", entry, entryData.folderBaseName, data[0])
         
         // output[entry] = kiDataCopy
@@ -337,12 +360,12 @@ function groupDataAndSendReports_(fsData: filesystemData[], kiData: kiDataClass,
  */
 function testSingleReportUpdater():void {
     
-    let localSheetData = constructSheetDataV2(sheetDataConfig.local)
+    const localSheetData = constructSheetDataV2(sheetDataConfig.local)
 
-    let kiData = new kiDataClass(localSheetData.data.getData()).calculateCombinedName().createSumOfKeys(CONFIG.kiData.fb_referral_keys,CONFIG.kiData.new_key_names.fb_referral_sum).keepMatchingByKey("district",["ZAPATA","Zapata"]).end
+    const kiData = new kiDataClass(localSheetData.data.getData()).calculateCombinedName().createSumOfKeys(CONFIG.kiData.fb_referral_keys,CONFIG.kiData.new_key_names.fb_referral_sum).keepMatchingByKey("district",["ZAPATA","Zapata"]).end
 
-    console.log(kiData.length)
-    let report = updateSingleReportV5_(CONFIG.dataFlow.sheetTargets.headerTest, kiData,"TESTBOI", "Area")
+    console.log(kiData.length.toString())
+    const report = updateSingleReportV5_(CONFIG.dataFlow.sheetTargets.headerTest, kiData,"TESTBOI", "Area")
     console.log(report.rsd.tabName)
 }
 
@@ -358,13 +381,13 @@ function testSingleReportUpdater():void {
  */
 function updateSingleReportV5_(sheetID: string, kiData: any[] | manyKiDataEntries, areaName:string,scope: filesystemEntry["fsScope"]):SheetData {
 
-    let reportInfo: sheetDataEntry = _.cloneDeep(CONFIG.reportCreator.reportDataEntryConfig)
+    const reportInfo: sheetDataEntry = _.cloneDeep(CONFIG.reportCreator.reportDataEntryConfig)
     reportInfo.sheetId = sheetID
-    let updateTime = new Date()
-    let preHeader = [["Report Scope:",scope,"Area Name:",areaName,"Last Updated:",updateTime]]
+    const updateTime = new Date()
+    const preHeader = [["Report Scope:",scope,"Area Name:",areaName,"Last Updated:",updateTime]]
 
-    let rawReportSheetData = new RawSheetData(reportInfo)
-    let targetReport = new SheetData(rawReportSheetData)
+    const rawReportSheetData = new RawSheetData(reportInfo)
+    const targetReport = new SheetData(rawReportSheetData)
 
     targetReport.setData(kiData)
     targetReport.directEdit(0, 0,preHeader)

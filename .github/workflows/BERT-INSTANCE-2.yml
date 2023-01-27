@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [facebook-updates]
+    branches: [reFactor]
   release:
     types: [published]
   schedule:

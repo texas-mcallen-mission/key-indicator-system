@@ -13,16 +13,16 @@
 
 function updateShards() {
     clearAllSheetDataCache()
-    let NUMBER_OF_SHARDS = CONFIG.fileSystem.shardManager.number_of_shards
-    let MAX_ALLOWABLE_SPREAD = CONFIG.fileSystem.shardManager.max_spread
-    let allSheetData = constructSheetData()
-    let filesystems = loadFilesystems_(allSheetData);
+    const NUMBER_OF_SHARDS = CONFIG.fileSystem.shardManager.number_of_shards
+    const MAX_ALLOWABLE_SPREAD = CONFIG.fileSystem.shardManager.max_spread
+    const allSheetData = constructSheetData()
+    const filesystems = loadFilesystems_(allSheetData);
 
-    for (let fs in filesystems) {
+    for (const fs in filesystems) {
         // let outData = []
         // creates a object to += counts on, so that values already assigned a particular shard won't be as likely to get shifted to a different shard.
         
-        let shardCounter: {} = {
+        const shardCounter: {} = {
             "1":0
         }
         for (let i = 1; i <= NUMBER_OF_SHARDS; i++){
@@ -34,13 +34,16 @@ function updateShards() {
             NUMBER_OF_SHARDS shall be 1-indexed- anything 
         */
         // I hate it when that happens
-        for (let entry in filesystems[fs].sheetData) {
+        for (const entry in filesystems[fs].sheetData) {
             // let Testentry: fsEntry = entry
-            let entryData = filesystems[fs].sheetData[entry]
+
             // If there's not a seed / shard assigned to a particular entry, figure out
             // which grouping has the smallest population and add to that
+
+            const entryData = filesystems[fs].sheetData[entry]
+            // console.log(entryData.folderBaseName, entryData.seedId, typeof entryData.seedId)
             if (entryData.seedId <= 0 || entryData.seedId == "" || entryData.seedId == undefined || parseInt(entryData.seedId) > NUMBER_OF_SHARDS) {
-                let shardKey = getKeyWithSmallestValue_(shardCounter)
+                const shardKey = getKeyWithSmallestValue_(shardCounter)
                 entryData.seedId = shardKey
                 shardCounter[shardKey] += 1
             } else {
@@ -57,15 +60,15 @@ function updateShards() {
             The way this is done should keep as many as possible on their original/current shard assignments
             to minimize the chance that a report continuously gets dropped through the cracks.
         */
-        for (let entry in filesystems[fs].sheetData) {
-            let entryData = filesystems[fs].sheetData[entry]
+        for (const entry in filesystems[fs].sheetData) {
+            const entryData = filesystems[fs].sheetData[entry]
 
             if (isSpreadBig_(shardCounter, MAX_ALLOWABLE_SPREAD) == false) {
                 break
             }
-            let smallestShard = getKeyWithSmallestValue_(shardCounter)
+            const smallestShard = getKeyWithSmallestValue_(shardCounter)
             if (entryData.seedId.toString() != smallestShard) {
-                let currentSeed = entryData.seedId.toString()
+                const currentSeed = entryData.seedId.toString()
                 shardCounter[currentSeed] -= 1
                 entryData.seedId = smallestShard;
                 shardCounter[smallestShard] += 1
@@ -89,8 +92,8 @@ function updateShards() {
 function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
     let minVal = 0;
     let maxVal = 0;
-    for (let key in shardCounter) {
-        let shardCount = shardCounter[key];
+    for (const key in shardCounter) {
+        const shardCount = shardCounter[key];
         if (shardCount < minVal) minVal = shardCount;
         if (shardCount > maxVal) maxVal = shardCount;
     }
@@ -103,7 +106,7 @@ function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
 function getKeyWithSmallestValue_(shardCounter) {
     let returnKey = "1"
 
-    for (let key in shardCounter) {
+    for (const key in shardCounter) {
         if (shardCounter[key] < shardCounter[returnKey]) {
             returnKey = key
         }

@@ -8,15 +8,15 @@
  */
 function updateForm() {
 
-    let allSheetData = constructSheetData();
-    let cSheetData = allSheetData.contact;
-    let areaNames = cSheetData.getAllOfKey('areaName');
+    const allSheetData = constructSheetData();
+    const cSheetData = allSheetData.contact;
+    const areaNames = cSheetData.getAllOfKey('areaName');
     areaNames.unshift("I can't find the right area name!");
 
-    let form = FormApp.openById(CONFIG.docIds_kicFormId);
+    const form = FormApp.openById(CONFIG.docIds_kicFormId);
 
     //Find Area Names question
-    let items = form.getItems(FormApp.ItemType.LIST);
+    const items = form.getItems(FormApp.ItemType.LIST);
 
     //For each item, or until the right item is found
     for (let i = 0; i < items.length && typeof areaNamesItem == 'undefined'; i++) {
@@ -34,11 +34,11 @@ function updateForm() {
 
     //Delete old form responses
     if (CONFIG.general_deleteOldResponsesAgeLimit > 0) {
-        for (let formResponse of form.getResponses()) {
-            let tstamp = formResponse.getTimestamp();
+        for (const formResponse of form.getResponses()) {
+            const tstamp = formResponse.getTimestamp();
             if (tstamp == null) continue; //Skip responses that haven't been submitted yet
 
-            let ageInDays = Math.floor(tstamp.getTime() / (1000 * 60 * 60 * 24));
+            const ageInDays = Math.floor(tstamp.getTime() / (1000 * 60 * 60 * 24));
             if (ageInDays > CONFIG.general_deleteOldResponsesAgeLimit) {
                 form.deleteResponse(formResponse.getId());
             }

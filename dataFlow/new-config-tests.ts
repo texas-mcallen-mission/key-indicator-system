@@ -27,24 +27,24 @@
 */
 
 function testStringify() {
-    let test = JSON.stringify(sheetDataConfig);
+    const test = JSON.stringify(sheetDataConfig);
     console.log(test);
 
-    let test2 = JSON.stringify(sheetDataConfig);
+    const test2 = JSON.stringify(sheetDataConfig);
     console.log(test2);
 
-    let allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
     // let allSheetDataRemote = constructSheetDataV2(sheetDataConfig.remote);
     // I think I can turn this bad boi into a cached sheetData again if I try hard enough
 
-    let testingSheet = SpreadsheetApp.getActiveSpreadsheet();
+    const testingSheet = SpreadsheetApp.getActiveSpreadsheet();
 
-    let jsonTestSheet = testingSheet.getSheetByName("JSON-testing");
+    const jsonTestSheet = testingSheet.getSheetByName("JSON-testing");
 
     if (jsonTestSheet != null) {
-        let localRange = jsonTestSheet.getRange(1, 1);
+        const localRange = jsonTestSheet.getRange(1, 1);
         localRange.setValue(JSON.stringify(allSheetData));
-        let remoteRange = jsonTestSheet.getRange(2, 1);
+        const remoteRange = jsonTestSheet.getRange(2, 1);
         remoteRange.setValue(JSON.stringify(allSheetData));
     }
 }
@@ -57,13 +57,13 @@ function testStringify() {
  * @return {*}  {manySheetDatas}
  */
 function constructSheetDataV2(target: manySheetDataEntries): manySheetDatas {
-    let allSheetData: manySheetDatas = {};
-    let keys: string[] = ["Constructed SheetData objects for:"];
-    for (let key in target) {
-        let entry: sheetDataEntry = target[key];
+    const allSheetData: manySheetDatas = {};
+    const keys: string[] = ["Constructed SheetData objects for:"];
+    for (const key in target) {
+        const entry: sheetDataEntry = target[key];
         
-        let rawSheetData = new RawSheetData(entry);
-        let sheetData = new SheetData(rawSheetData);
+        const rawSheetData = new RawSheetData(entry);
+        const sheetData = new SheetData(rawSheetData);
         keys.push(key);
         allSheetData[key] = sheetData;
     }
