@@ -108,11 +108,11 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     // Vehicle stuff all right here
        if (hasVehicleFunc(getNotes)) object.hasVehicle = true;
 
-       if (object.hasVehicle) {
+      if (object.hasVehicle) {
 
         if (getNotesArray[i].includes("Vehicle VIN Last 8:")) object.vinLast8 = stringCleanUp(getNotesArray[i],"Vehicle VIN Last 8:");
-
-       }
+        if (getNotesArray[i].includes("Vehicle Allowance/Mo:")) object.vehicleMiles = stringCleanUp(getNotesArray[i], "Vehicle Allowance/Mo:")
+      }
 
 
 
@@ -236,16 +236,6 @@ function getMiles(hasCar, c) {
         for (let i = 1; i < 15; i++) {
             if (c.getNotes().split("\n")[i].includes("Vehicle Allowance/Mo:")) {
                 return (c.getNotes().split("\n")[i].toString().split(" ")[2]) * 1;
-            } // end if
-        } // end for
-    } // end if
-} //  end function
-
-function getVin(hasCar, c) {
-    if (hasCar) {
-        for (let i = 1; i < 15; i++) {
-            if (c.getNotes().split("\n")[i].includes("Vehicle VIN Last 8: ")) {
-                return (c.getNotes().split("\n")[i].toString().split(" ")[4]);
             } // end if
         } // end for
     } // end if
