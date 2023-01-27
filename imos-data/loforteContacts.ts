@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
@@ -58,75 +59,43 @@ function wrapper_boi() {
     loForteContacts.setData(writeArray());
 }
 
+// HEY LOOK HERE this needs a different type
 function writeArray1(): any[] {
     let array1 = [];
     for (let contact of contacts) {
-      array1.push(getAllWhere(contact))  
+      array1.push(getAllWhere1(contact))  
       //array1.push(writeObject(contact));
     }
     return array1;
 } // end wirteArray
 
 
-interface kiDataEntry {
-  dateContactGenerated: string,
-  areaEmail: string,
-  areaName: string,
-
-  name1: string,
-  position1: string,
-  isTrainer1: boolean,
-
-  name2: string,
-  position2: string,
-  isTrainer2: boolean,
-
-  name3: string,
-  position3: string,
-  isTrainer3: boolean,
-
-  district: string,
-  zone: string,
-
-  unitString: string,
-  hasMultipleUnits: boolean,
-  languageString: string,
-
-  isSeniorCouple: boolean,
-  isSisterArea: boolean,
-
-  hasVehicle?: boolean,
-  vehicleMiles: string,
-  vinLast8: string,
-
-  aptAddress: string,
-}
-
+// If I were you, I'd give this a function name like "convertToContactData or something like that"
 function getAllWhere1(c:GoogleAppsScript.Contacts.Contact)  {
-    let object:kiDataEntry = {
-      dateContactGenerated: "",
-      areaEmail: "",
-      areaName: "",
-      name1: "",
-      position1: "",
-      isTrainer1: false,
-      name2: "",
-      position2: "",
-      isTrainer2: false,
-      name3: "",
-      position3: "",
-      isTrainer3: false,
-      district: "",
-      zone: "",
-      unitString: "",
-      hasMultipleUnits: false,
-      languageString: "",
-      isSeniorCouple: false,
-      isSisterArea: false,
-      vehicleMiles: "",
-      vinLast8: "",
-      aptAddress: "",
-  }
+    let object:contactEntry = {
+        dateContactGenerated: '',
+        areaEmail: '',
+        areaName: '',
+        name1: '',
+        position1: '',
+        isTrainer1: false,
+        name2: '',
+        position2: '',
+        isTrainer2: false,
+        name3: '',
+        position3: '',
+        isTrainer3: false,
+        district: '',
+        zone: '',
+        unitString: '',
+        hasMultipleUnits: false,
+        languageString: '',
+        isSeniorCouple: false,
+        isSisterArea: false,
+        vehicleMiles: '',
+        vinLast8: '',
+        aptAddress: ''
+    }
 
 
   let array1 = c.getNotes().split("\n");
@@ -173,7 +142,7 @@ function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
 
     let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
 
-    console.log(getAllWhere(contact));
+    console.log(getAllWhere1(contact));
 
     
     return {
@@ -307,6 +276,8 @@ function getContact() {
         let languageString = "IDk";
     } // end forLoop
 } // end getContacts
+
+/* if I were you, I would store the notes function as a string here instead of retrieving it from the Google Contacts servers every time.*/
 function hasVehicleFunc(c) {
     if (c.getNotes().includes("Car")) {
         return true;
