@@ -125,7 +125,8 @@ function markDuplicatesV2(dataSheet:SheetData) {
     cutoffDate.setTime(day)
     // disabled ATM because test data is old
     // dataClass.removeBeforeDate(cutoffDate)
-    dataClass.removeMatchingByKey("isDuplicate", [true,"true"])
+    // also disabled during testing because headache
+    // dataClass.removeMatchingByKey("isDuplicate", [true,"true"])
     // 
     //@ts-expect-error I'm intentionally abusing this.  Llore.
     const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
@@ -159,15 +160,16 @@ function markDuplicatesV2(dataSheet:SheetData) {
             const data = dataForWeek[areaID]
             // if there's nothing, skiiiip
             if (data.length > 1) {
-                const relevantEntries = getOldestAndNewestEntry(data, time_key)
                 for (const entry of data) {
                     markAsDuplicateEntries.push(entry[iterantKey])
                 }
+                const relevantEntries = getOldestAndNewestEntry(data, time_key)
                 correctionEntries.push(createCorrectedEntry_(relevantEntries.oldest, relevantEntries.newest, areaDataKeys))
 
             } else {
-                console.log(...data[iterantKey])
-                okEntries.push(...data[iterantKey])
+                for (const entry of data) {
+                    okEntries.push(entry[iterantKey])
+                }
             }
         }
     }
