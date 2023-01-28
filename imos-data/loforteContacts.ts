@@ -100,8 +100,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let objectNotes = getNotesArray[i].split(":");
 
       let type = objectNotes[0];
-      let word = objectNotes[1].toString();
-      let words = word.trim();
+      let words = objectNotes[1];
+      
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
@@ -111,7 +111,6 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("Vehicle")) object.hasVehicle = true;
 
       if (object.hasVehicle) {
-
         if (type.includes("Vehicle VIN Last 8")) object.vinLast8 = words;
         if (type.includes("Vehicle Allowance/Mo")) object.vehicleMiles = words;
       }
