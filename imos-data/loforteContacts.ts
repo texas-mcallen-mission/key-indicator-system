@@ -93,8 +93,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     }
     object.dateContactGenerated = c.getLastUpdated().toDateString();
 
-    object.areaEmail = c.getEmails()[0].toString();
-
+    object.areaEmail = c.getEmails()[0].getAddress();
+    
 
 
     // everything from notes
@@ -109,6 +109,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       let type = objectNotes[0];
       let words = objectNotes[1];
 
+      if (type.includes("Area")) object.areaName = words;
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
