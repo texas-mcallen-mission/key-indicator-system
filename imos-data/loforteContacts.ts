@@ -101,9 +101,12 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     //for (let i = 1; i < c.getEmails().length; i++) {
 
       let missionaryCount = c.getEmails().length;
+  
       
-      object.name1 = c.getEmails()[1].getDisplayName();
-      object.name2 = c.getEmails()[2].getDisplayName();
+      object.name1 = c.getEmails()[1].getAddress();
+      object.name2 = c.getEmails()[2].getAddress();
+
+      console.log(c.getEmails()[1]);
     
 
     //}
