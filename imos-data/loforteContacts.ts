@@ -100,7 +100,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let objectNotes = getNotesArray[i].split(":");
 
       let type = objectNotes[0];
-      let word = objectNotes[1];
+      let word = objectNotes[1].toString();
       let words = word.trim();
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
