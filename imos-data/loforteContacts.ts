@@ -96,6 +96,18 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     object.areaEmail = c.getEmails()[0].getAddress();
     
 
+    // getting names
+
+    //for (let i = 1; i < c.getEmails().length; i++) {
+
+      let missionaryCount = c.getEmails().length;
+      
+      object.name1 = c.getEmails()[1].getDisplayName();
+      object.name2 = c.getEmails()[2].getDisplayName();
+    
+
+    //}
+
 
     // everything from notes
     let getNotes = c.getNotes()
