@@ -93,6 +93,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     }
     object.dateContactGenerated = c.getLastUpdated().toDateString();
 
+    object.areaEmail = c.getEmails()[0].toString();
+
 
 
     // everything from notes
@@ -221,10 +223,6 @@ function getPosition(isSolo, c, i) {
 function getWhere(c, i) {
     return c.getNotes().split("\n")[i];
 }
-
-function hasVehicleFunc(getNotesString: string) {
-    if (getNotesString.includes("Car")) return true;
-} // end hasVehicleFunc
 
 function isSisterAreaFunc(getNotesString: string) {
     if (getNotesString.includes("Junior Sister")) return true;
