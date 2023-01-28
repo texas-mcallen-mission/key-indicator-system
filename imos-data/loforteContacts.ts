@@ -102,7 +102,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
       let missionaryCount = c.getEmails().length;
   
-      if (missionaryCount > 1) {
+      if (missionaryCount < 1) {
       object.name1 = c.getEmails()[1].getAddress();
       object.name2 = c.getEmails()[2].getAddress();
 
