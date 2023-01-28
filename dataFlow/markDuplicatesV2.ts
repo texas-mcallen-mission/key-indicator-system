@@ -35,6 +35,11 @@ interface oldestNewest_return_type {
     newest: kiDataEntry
 }
 
+function testMarkDuplicatesV2() {
+    const allSheetData = constructSheetData()
+    markDuplicatesV2(allSheetData["data"])
+}
+
 function getOldestAndNewestEntry(data:kiDataEntry[],timeKey: string): oldestNewest_return_type {
     const starter = data.pop()
     const output = {
@@ -64,11 +69,50 @@ function createCorrectedEntry_(areaDataEntry: kiDataEntry, dataEntry: kiDataEntr
             output[key] = areaDataEntry[key]
         }
     }
-    output["log"] = "CORRECTED_ENTRY" + output["log"]
+    output["log"] = "CORRECTED_ENTRY"
     return output
 
 }
 function markDuplicatesV2(dataSheet:SheetData) {
+    const areaDataKeys = [
+        "areaName",
+        "areaEmail",
+        "areaID",
+        "kiDate",
+        "name1",
+        "position1",
+        "isTrainer1",
+        "name2",
+        "position2",
+        "isTrainer2",
+        "name3",
+        "position3",
+        "isTrainer3",
+        "districtLeader",
+        "zoneLeader1",
+        "zoneLeader2",
+        "zoneLeader3",
+        "stl1",
+        "stl2",
+        "stl3",
+        "stlt1",
+        "stlt2",
+        "stlt3",
+        "assistant1",
+        "assistant2",
+        "assistant3",
+        "district",
+        "zone",
+        "unitString",
+        "hasMultipleUnits",
+        "languageString",
+        "isSeniorCouple",
+        "isSisterArea",
+        "hasVehicle",
+        "vehicleMiles",
+        "vinLast8",
+        "aptAddress"
+    ]
     const dataClass = new kiDataClass(dataSheet.getData())
     const iterantKey = "add_iterant"
     dataClass.addIterant(iterantKey)
@@ -78,9 +122,10 @@ function markDuplicatesV2(dataSheet:SheetData) {
     const cutoffDate = new Date();
     const day = cutoffDate.getTime() - (7 * 5 * 24 * 60 * 60 * 1000);
     cutoffDate.setTime(day)
-
-    dataClass.removeBeforeDate(cutoffDate)
-    
+    // disabled ATM because test data is old
+    // dataClass.removeBeforeDate(cutoffDate)
+    dataClass.removeMatchingByKey("isDuplicate", [true,"true"])
+    // 
     //@ts-expect-error I'm intentionally abusing this.  Llore.
     const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
     // data should come out of this formatted like so:
@@ -117,11 +162,12 @@ function markDuplicatesV2(dataSheet:SheetData) {
                 for (const entry of data) {
                     entriesToMark.push(entry[iterantKey])
                 }
+                correctionEntries.push(createCorrectedEntry_(relevantEntries.oldest, relevantEntries.newest, areaDataKeys))
 
             }
         }
     }
-    // mark duplicates
+    // mark duplicates- I need to figure out a better way of doing this...
     for (const duplicate of entriesToMark) {
         dataSheet.directModify(duplicate, { "isDuplicate": true })
     }
