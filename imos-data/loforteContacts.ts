@@ -91,6 +91,11 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
         vinLast8: '',
         aptAddress: ''
     }
+    object.dateContactGenerated = c.getLastUpdated().toDateString();
+
+
+
+    // everything from notes
     let getNotes = c.getNotes()
     let getNotesArray = getNotes.split("\n");
 
@@ -101,7 +106,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
       let type = objectNotes[0];
       let words = objectNotes[1];
-      
+
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
