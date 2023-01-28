@@ -39,9 +39,10 @@ function testMarkDuplicatesV2() {
     const allSheetData = constructSheetData()
     markDuplicatesV2(allSheetData["data"])
 }
+// WYLO: getOldestAndNewestEntry doesn't seem to be working properly
 
 function getOldestAndNewestEntry(data:kiDataEntry[],timeKey: string): oldestNewest_return_type {
-    const starter = data.pop()
+    const starter = data[0]
     const output = {
         oldest: starter,
         newest: starter
@@ -66,6 +67,7 @@ function createCorrectedEntry_(areaDataEntry: kiDataEntry, dataEntry: kiDataEntr
     const output: kiDataEntry = dataEntry;
     for (const key of keysToKeep) {
         if (Object.hasOwnProperty.call(areaDataEntry, key)) {
+
             output[key] = areaDataEntry[key]
         }
     }
