@@ -100,54 +100,24 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let objectNotes = getNotesArray[i].split(":");
 
       let type = objectNotes[0];
-      let words = objectNotes[1];
+      let words = objectNotes[1].trim();
+
+      if (type.includes("Zone")) object.zone = words;
+      if (type.includes("District")) object.district = words;
+      if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
+        if (object.unitString.includes(",")) object.hasMultipleUnits = true;
+
       
-      switch (type) {
+      //Vehicle stuff all right here
+      if (type.includes("Vehicle")) object.hasVehicle = true;
 
-        case ("Miles"):
-          object.vehicleMiles = words;
-          break;
+      if (object.hasVehicle) {
 
-        case ("Zone"):
-          object.zone = words;
-          break;
-        case ("Ecclesiastical Unit"):
-          object.unitString = words;
-          break;
-
+        if (type.includes("Vehicle VIN Last 8")) object.vinLast8 = words;
+        if (type.includes("Vehicle Allowance/Mo")) object.vehicleMiles = words;
       }
 
-      
-
-    
-  
     }
-
-  // loops through the string and gets out everything
-  // for (let i = 0; i < getNotesArray.length; i++) {
-
-
-    
-
-
-  //      if (getNotesArray[i].includes("Zone: ")) object.zone = getNotesArray[i];
-  //      if (getNotesArray[i].includes("District: ")) object.district = getNotesArray[i];
-  //      if (getNotesArray[i].includes("Ecclesiastical Unit: ")) object.unitString = getNotesArray[i];
-
-
-  //   // Vehicle stuff all right here
-  //      if (hasVehicleFunc(getNotes)) object.hasVehicle = true;
-
-  //     if (object.hasVehicle) {
-
-  //       if (getNotesArray[i].includes("Vehicle VIN Last 8:")) object.vinLast8 = stringCleanUp(getNotesArray[i],"Vehicle VIN Last 8:");
-  //       if (getNotesArray[i].includes("Vehicle Allowance/Mo:")) object.vehicleMiles = stringCleanUp(getNotesArray[i], "Vehicle Allowance/Mo:")
-  //     }
-
-
-
-
-  // }
 
 return object
 }
