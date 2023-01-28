@@ -70,6 +70,7 @@ function createCorrectedEntry_(areaDataEntry: kiDataEntry, dataEntry: kiDataEntr
         }
     }
     output["log"] = "CORRECTED_ENTRY"
+    output["isDuplicate"] = false
     return output
 
 }
@@ -115,7 +116,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
     ]
     const dataClass = new kiDataClass(dataSheet.getData())
     const iterantKey = "add_iterant"
-    dataClass.addIterant(iterantKey)
+    dataClass.addIterant(iterantKey,1)
     const time_key = "kiDate"
     const area_id_key = "areaID"
 
@@ -149,8 +150,8 @@ function markDuplicatesV2(dataSheet:SheetData) {
     //     }
     // }
     const correctionEntries: kiDataEntry[] = []
-    const entriesToMark : number[] = []
-    
+    const markAsDuplicateEntries : number[] = []
+    const okEntries: number[] = []
     // outer loop
     for(const date in aggData) {
         const dataForWeek = aggData[date]
@@ -160,16 +161,22 @@ function markDuplicatesV2(dataSheet:SheetData) {
             if (data.length > 1) {
                 const relevantEntries = getOldestAndNewestEntry(data, time_key)
                 for (const entry of data) {
-                    entriesToMark.push(entry[iterantKey])
+                    markAsDuplicateEntries.push(entry[iterantKey])
                 }
                 correctionEntries.push(createCorrectedEntry_(relevantEntries.oldest, relevantEntries.newest, areaDataKeys))
 
+            } else {
+                console.log(...data[iterantKey])
+                okEntries.push(...data[iterantKey])
             }
         }
     }
-    // mark duplicates- I need to figure out a better way of doing this...
-    for (const duplicate of entriesToMark) {
+    // mark duplicates- I need to figure out a better / more efficient way of doing this...
+    for (const duplicate of markAsDuplicateEntries) {
         dataSheet.directModify(duplicate, { "isDuplicate": true })
+    }
+    for (const notDuplicate of okEntries) {
+        dataSheet.directModify(notDuplicate, { "isDuplicate": false })
     }
     dataSheet.insertData(correctionEntries)
 }
