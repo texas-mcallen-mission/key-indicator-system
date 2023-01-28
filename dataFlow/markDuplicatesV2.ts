@@ -55,7 +55,7 @@ function getOldestAndNewestEntry(data:kiDataEntry[],timeKey: string): oldestNewe
         if (current_date.getTime() > comparison_date_2.getTime()) {
             output.newest = entry
         } else if (current_date.getTime() < comparison_date_1.getTime()) {
-            output.oldest = entry
+            output.newest = entry
         }
     }
 
