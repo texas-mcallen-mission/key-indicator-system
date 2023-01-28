@@ -127,7 +127,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
     // dataClass.removeBeforeDate(cutoffDate)
     // also disabled during testing because headache
     // dataClass.removeMatchingByKey("isDuplicate", [true,"true"])
-    // 
+    dataClass.removeMatchingByKey("log", ["CORRECTED_ENTRY"])
     //@ts-expect-error I'm intentionally abusing this.  Llore.
     const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
     // data should come out of this formatted like so:
