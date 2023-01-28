@@ -100,15 +100,14 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let objectNotes = getNotesArray[i].split(":");
 
       let type = objectNotes[0];
-      let words = objectNotes[1].trim();
-
+      let word = objectNotes[1];
+      let words = word.trim();
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
         if (object.unitString.includes(",")) object.hasMultipleUnits = true;
 
-      
-      //Vehicle stuff all right here
+    //Vehicle stuff all right here
       if (type.includes("Vehicle")) object.hasVehicle = true;
 
       if (object.hasVehicle) {
