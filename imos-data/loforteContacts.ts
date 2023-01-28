@@ -94,30 +94,60 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let getNotes = c.getNotes()
     let getNotesArray = getNotes.split("\n");
 
+
+    for (let i = 0; i < getNotesArray.length; i++) {
     
-    
-  // loops through the string and gets out everything
-  for (let i = 0; i < getNotesArray.length; i++) {
+    let objectNotes = getNotesArray[i].split(":");
 
+      let type = objectNotes[0];
+      let words = objectNotes[1];
+      
+      switch (type) {
 
-       if (getNotesArray[i].includes("Zone: ")) object.zone = getNotesArray[i];
-       if (getNotesArray[i].includes("District: ")) object.district = getNotesArray[i];
-       if (getNotesArray[i].includes("Ecclesiastical Unit: ")) object.unitString = getNotesArray[i];
+        case ("Miles"):
+          object.vehicleMiles = words;
+          break;
 
+        case ("Zone"):
+          object.zone = words;
+          break;
+        case ("Ecclesiastical Unit"):
+          object.unitString = words;
+          break;
 
-    // Vehicle stuff all right here
-       if (hasVehicleFunc(getNotes)) object.hasVehicle = true;
-
-      if (object.hasVehicle) {
-
-        if (getNotesArray[i].includes("Vehicle VIN Last 8:")) object.vinLast8 = stringCleanUp(getNotesArray[i],"Vehicle VIN Last 8:");
-        if (getNotesArray[i].includes("Vehicle Allowance/Mo:")) object.vehicleMiles = stringCleanUp(getNotesArray[i], "Vehicle Allowance/Mo:")
       }
 
+      
+
+    
+  
+    }
+
+  // loops through the string and gets out everything
+  // for (let i = 0; i < getNotesArray.length; i++) {
+
+
+    
+
+
+  //      if (getNotesArray[i].includes("Zone: ")) object.zone = getNotesArray[i];
+  //      if (getNotesArray[i].includes("District: ")) object.district = getNotesArray[i];
+  //      if (getNotesArray[i].includes("Ecclesiastical Unit: ")) object.unitString = getNotesArray[i];
+
+
+  //   // Vehicle stuff all right here
+  //      if (hasVehicleFunc(getNotes)) object.hasVehicle = true;
+
+  //     if (object.hasVehicle) {
+
+  //       if (getNotesArray[i].includes("Vehicle VIN Last 8:")) object.vinLast8 = stringCleanUp(getNotesArray[i],"Vehicle VIN Last 8:");
+  //       if (getNotesArray[i].includes("Vehicle Allowance/Mo:")) object.vehicleMiles = stringCleanUp(getNotesArray[i], "Vehicle Allowance/Mo:")
+  //     }
 
 
 
-  }
+
+  // }
 
 return object
 }
