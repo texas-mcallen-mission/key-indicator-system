@@ -97,20 +97,18 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     
 
     // getting names
+// function getNames () {
+//     for (let i = 1; i < c.getEmails().length; i++) {
 
-    //for (let i = 1; i < c.getEmails().length; i++) {
-
-      let missionaryCount = c.getEmails().length;
+//       let missionaryCount = c.getEmails().length;
   
-      if (missionaryCount < 1) {
-      object.name1 = c.getEmails()[1].getAddress();
-      object.name2 = c.getEmails()[2].getAddress();
+//       let name = c.getEmails()[i].getDisplayName();
+      
 
-      console.log(c.getEmails()[1]);
-  }
+//     }
+// }
 
-    //}
-
+//     object.name1 = getNames();
 
     // everything from notes
     let getNotes = c.getNotes()
