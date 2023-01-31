@@ -98,7 +98,6 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     object.name1 = c.getEmails()[1].getDisplayName();
     object.position1 = c.getEmails()[1].getLabel().toString();
 
-console.log()
     if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
     object.position2 = c.getEmails()[2].getLabel().toString();
@@ -109,7 +108,6 @@ console.log()
     object.position3 = c.getEmails()[3].getLabel().toString();
     }
 
-    // getting names
 // function getNames () {
 
 
@@ -156,7 +154,7 @@ console.log()
       }
 
           // gets tells if its a sisters or elders area
-      //if () object.isSisterArea = true;
+      if (c.getNotes().includes("Junior Sister")) object.isSisterArea = true;
 
 
     
