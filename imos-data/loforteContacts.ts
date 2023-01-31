@@ -108,21 +108,6 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     object.position3 = c.getEmails()[3].getLabel().toString();
     }
 
-// function getNames () {
-
-
-//     for (let i = 1; i < c.getEmails().length; i++) {
-
-//       let missionaryCount = c.getEmails().length;
-  
-//       let name = c.getEmails()[i].getDisplayName();
-      
-
-//     }
-// }
-
-//     object.name1 = getNames();
-
     // everything from notes
     let getNotes = c.getNotes()
     let getNotesArray = getNotes.split("\n");
@@ -140,9 +125,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("District")) object.district = words;
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
         if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
+// still this ^^     
 
-
-      
 
 
     //Vehicle stuff all right here
