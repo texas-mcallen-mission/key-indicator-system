@@ -95,9 +95,11 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
     object.areaEmail = c.getEmails()[0].getAddress();
     
-
+    object.name1 = c.getEmails()[1].getDisplayName();
     // getting names
 // function getNames () {
+
+
 //     for (let i = 1; i < c.getEmails().length; i++) {
 
 //       let missionaryCount = c.getEmails().length;
@@ -135,6 +137,11 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
         if (type.includes("Vehicle VIN Last 8")) object.vinLast8 = words;
         if (type.includes("Vehicle Allowance/Mo")) object.vehicleMiles = words;
       }
+
+
+    
+
+
 
     }
 
