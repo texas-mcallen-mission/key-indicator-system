@@ -99,7 +99,9 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
 
     //if (c.getEmails.length < 1) object.name2 = c.getEmails()[2].getDisplayName();
-    if (c.getEmails.length < 1) object.name3 = c.getEmails()[3].getDisplayName();
+    //if (c.getEmails.length < 1) object.name3 = c.getEmails()[3].getDisplayName();
+
+    console.log(c.getEmails()[1] = null)
 
     // getting names
 // function getNames () {
@@ -135,6 +137,10 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
         if (object.unitString.includes(",")) object.hasMultipleUnits = true;
 
+
+      // gets tells if its a sisters or elders area
+      if (type.includes("Sister")) object.isSisterArea = true;
+
     //Vehicle stuff all right here
       if (type.includes("Vehicle")) object.hasVehicle = true;
 
@@ -142,6 +148,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
         if (type.includes("Vehicle VIN Last 8")) object.vinLast8 = words;
         if (type.includes("Vehicle Allowance/Mo")) object.vehicleMiles = words;
       }
+
+      
 
 
     
