@@ -139,7 +139,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
-        if (object.unitString.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
+        if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
 
 
       
