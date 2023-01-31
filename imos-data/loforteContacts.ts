@@ -98,8 +98,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     object.name1 = c.getEmails()[1].getDisplayName();
 
 
-    if (c.getEmails.length > 1) object.name2 = c.getEmails()[2].getDisplayName();
-    if (c.getEmails.length > 2) object.name3 = c.getEmails()[3].getDisplayName();
+    //if (c.getEmails.length < 1) object.name2 = c.getEmails()[2].getDisplayName();
+    if (c.getEmails.length < 1) object.name3 = c.getEmails()[3].getDisplayName();
 
     // getting names
 // function getNames () {
