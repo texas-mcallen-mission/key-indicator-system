@@ -164,7 +164,8 @@ function markDuplicatesV2(dataSheet:SheetData) {
         "hasVehicle",
         "vehicleMiles",
         "vinLast8",
-        "aptAddress"
+        "aptAddress",
+        "fb-role"
     ]
     const dataClass = new kiDataClass(dataSheet.getData())
     const iterantKey = "add_iterant"
