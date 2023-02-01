@@ -9,6 +9,7 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 
 function makeSheet() : void {
+  console.time('Execution Time');
     let configData = {
         tabName: "ContactDataLoForte",
         headerRow: 0,
@@ -47,17 +48,13 @@ function makeSheet() : void {
             aptAddress: 22
         },
     };
+
     let loForteContacts = new SheetData(new RawSheetData(configData));
-
-    let romp = getArrayOfContacts();
-
-    // { firstName: 'Jean-Luc', lastName: 'Picard' }
-    Object.keys(romp).
-      filter((key) => key.includes('hasVehicle')).
-      reduce((cur, key) => { return Object.assign(cur, { [key]: romp[key] })}, {});    
-      loForteContacts.setData(romp);
+    loForteContacts.setData(getArrayOfContacts());
+ 
+console.timeEnd('Execution Time');
+   
 }
-
 
 function getArrayOfContacts(): contactEntry[] {
 
@@ -111,9 +108,9 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
     // getting names2
     if (c.getEmails().length >= 3) {
-    object.name2 = c.getEmails()[2].getDisplayName();
-    let pos2 =  c.getEmails()[1].getLabel().toString();
-      object.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
+      object.name2 = c.getEmails()[2].getDisplayName();
+      let pos2 =  c.getEmails()[1].getLabel().toString();
+        object.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
     }
     // getting names3
     if (c.getEmails().length >= 4) {
@@ -127,32 +124,32 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     let getNotesArray = getNotes.split("\n");
 
     for (let i = 0; i < getNotesArray.length; i++) {
-    
-    let objectNotes = getNotesArray[i].split(":");
+      
+      let objectNotes = getNotesArray[i].split(":");
 
-      let type = objectNotes[0];
-      let words = objectNotes[1];
+        let type = objectNotes[0];
+        let words = objectNotes[1];
 
-      if (type.includes("Area")) object.areaName = words;
-      if (type.includes("Zone")) object.zone = words;
-      if (type.includes("District")) object.district = words;
-       if (type.includes("Ecclesiastical Unit")) object.unitString = words;
-         if (type.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
+        if (type.includes("Area")) object.areaName = words;
+        if (type.includes("Zone")) object.zone = words;
+        if (type.includes("District")) object.district = words;
+        if (type.includes("Ecclesiastical Unit")) object.unitString = words;
+          if (type.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
 
 
-    //Vehicle stuff all right here
-      if (type.includes("Vehicle")) object.hasVehicle = true;
+      //Vehicle stuff all right here
+        if (type.includes("Vehicle")) object.hasVehicle = true;
 
-      if (object.hasVehicle) {
-        if (type.includes("Vehicle VIN Last 8")) object.vinLast8 = words;
-        if (type.includes("Vehicle Allowance/Mo")) object.vehicleMiles = words;
-      }
+        if (object.hasVehicle) {
+          if (type.includes("Vehicle VIN Last 8")) object.vinLast8 = words;
+          if (type.includes("Vehicle Allowance/Mo")) object.vehicleMiles = words;
+        }
 
-          // gets tells if its a sisters or elders area
-      if (c.getNotes().includes("Junior Sister")) object.isSisterArea = true;
+            // gets tells if its a sisters or elders area
+        if (c.getNotes().includes("Junior Sister")) object.isSisterArea = true;
 
-          // tells if its a senior or not
-      if (c.getNotes().includes("Senior Couple")) object.isSeniorCouple = true;
+            // tells if its a senior or not
+        if (c.getNotes().includes("Senior Couple")) object.isSeniorCouple = true;
     }
 
     // getting address of apt.
@@ -162,32 +159,6 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 return object
 }
 
-
-function noAddress (c) {
-  if (c.getAddresses().length === 0) {
-    return true;
-  } else {
-    return false; 
-  }
-}
-function getAddress (noAddress, c:GoogleAppsScript.Contacts.Contact) {
-  if (noAddress) {
-    return "No Address On Record";
-  } else {
-    return c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
-  }
-}
-
-
-
-
-
-
-function getPosition3 (isTreo, c, i) {
-  if (isTreo) {
-    return c.getEmails()[3].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
-  }
-}
 function isTrainer(position: string) {
     switch (position) {
         case "TR":
@@ -198,103 +169,3 @@ function isTrainer(position: string) {
             return false;
     } // end switch
 } // end isTrainer
-function getPosition(isSolo, c, i) {
-  if (isSolo) {
-    return ""
-  } else {
-    return c.getEmails()[i].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
-  }    
-}
-function getWhere(c, i) {
-    return c.getNotes().split("\n")[i];
-}
-
-function isSisterAreaFunc(getNotesString: string) {
-    if (getNotesString.includes("Junior Sister")) return true;
-} // end isSisterArea
-
-function isSeniorCoupleFunc(getNotesString: string) {
-    if (getNotesString.includes("Senior Couple")) return true;
-} // end isSeniorCoupleFunc
-
-function getMiles(hasCar, c) {
-    if (hasCar) {
-        for (let i = 1; i < 15; i++) {
-            if (c.getNotes().split("\n")[i].includes("Vehicle Allowance/Mo:")) {
-                return (c.getNotes().split("\n")[i].toString().split(" ")[2]) * 1;
-            } // end if
-        } // end for
-    } // end if
-} //  end function
-
-//return c.getEmails()[i].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
-
-// function writeObject(contact:GoogleAppsScript.Contacts.Contact) {
-//   let dateContactGenerated = contact.getLastUpdated();
-//   let areaEmail = contact.getEmails()[0].getAddress();
-//   let areaName = contact.getFamilyName();
-
-//   let name1 = getName(isSolo(contact), contact, 1);
-//   let position1 = getPosition(isSolo(contact), contact, 1);
-//   let isTrainer1 = isTrainer(position1);
-
-//   let name2 = getName(isSolo(contact),contact, 2)
-//   let position2 = getPosition(isSolo(contact), contact, 2);
-//   let isTrainer2 = isTrainer(position2);
-
-//   let name3 = getName3(contact);
-//   let position3 = getPosition3(isTreo(contact), contact, 3)
-//   let isTrainer3 = isTrainer(position3);
-
-//   let district = getWhere(contact, 1);
-//   let zone = getWhere(contact, 2);
-
-//   let unitString = getWhere(contact, 3);
-//   let hasMultipleUnits = ifMultipleUnitStrings(contact);
-//   //let languageString = ""
-
-//   //let isSisterArea = isSisterAreaFunc(contact);
-//   //let isSeniorCouple = isSeniorCoupleFunc(contact);
-
-//   //let hasVehicle = hasVehicleFunc(contact);
-//   //let vehicleMiles = getMiles(hasVehicle, contact);
-//   //let vinLast8 = getVin(hasVehicle, contact);
-
-//   let aptAddress = getAddress(noAddress(contact), contact) // this isnt working!!!!
-
-//   console.log(convertToContactData(contact));
-
-  
-//   return {
-//       dateContactGenerated: dateContactGenerated,
-//       areaEmail: areaEmail,
-//       areaName: areaName,
-
-//       name1: name1,
-//       position1: position1,
-//       isTrainer1: isTrainer1,
-
-//       name2: name2,
-//       position2: position2,
-//       isTrainer2: isTrainer2,
-
-//       name3: name3,
-//       position3: position3,
-//       isTrainer3: isTrainer3,
-
-//       zone: zone,
-//       district: district,
-
-//       unitString: unitString,
-//       hasMultipleUnits: hasMultipleUnits,
-
-//       //isSisterArea: isSisterArea,
-//       //isSeniorCouple: isSeniorCouple,
-
-//       //vehicleMiles: vehicleMiles,
-//       //hasVehicle: hasVehicle,
-//       //vinLast8: vinLast8,
-
-//       aptAddress: aptAddress
-//   };
-// }
