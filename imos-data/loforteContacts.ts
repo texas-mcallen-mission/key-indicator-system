@@ -48,7 +48,14 @@ function makeSheet() : void {
         },
     };
     let loForteContacts = new SheetData(new RawSheetData(configData));
-    loForteContacts.setData(getArrayOfContacts());
+
+    let romp = getArrayOfContacts();
+
+    // { firstName: 'Jean-Luc', lastName: 'Picard' }
+    Object.keys(romp).
+      filter((key) => key.includes('hasVehicle')).
+      reduce((cur, key) => { return Object.assign(cur, { [key]: romp[key] })}, {});    
+      loForteContacts.setData(romp);
 }
 
 
