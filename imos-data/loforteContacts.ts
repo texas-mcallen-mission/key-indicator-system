@@ -97,17 +97,18 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     
     object.name1 = c.getEmails()[1].getDisplayName();
     let pos1 =  c.getEmails()[1].getLabel().toString();
-    
-    object.position1 = pos1.slice(-4).replace(/[^a-z]/gi, '');
+      object.position1 = pos1.slice(-4).replace(/[^a-z]/gi, '');
 
     if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
-    object.position2 = c.getEmails()[2].getLabel().toString();
+    let pos2 =  c.getEmails()[1].getLabel().toString();
+      object.position2 = pos2.slice(-4).replace(/[^a-z]/gi, '');
     }
 
     if (c.getEmails().length >= 4) {
     object.name3 = c.getEmails()[3].getDisplayName();
-    object.position3 = c.getEmails()[3].getLabel().toString();
+    let pos3 =  c.getEmails()[1].getLabel().toString();
+      object.position3 = pos3.slice(-4).replace(/[^a-z]/gi, '');
     }
 
     // everything from notes
