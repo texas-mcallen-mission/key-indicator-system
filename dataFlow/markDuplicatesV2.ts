@@ -101,7 +101,7 @@ function testCreateCorrectedEntry() {
         ki1: 321
     }
     let pass = true
-    for (const key in output) {
+    for (const key in areaData) {
         if (comparison[key] != output[key]) {
             pass = false
         }
