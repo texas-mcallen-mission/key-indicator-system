@@ -100,7 +100,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     object.name1 = c.getEmails()[1].getDisplayName();
     let pos1 =  c.getEmails()[1].getLabel().toString();
       object.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
-
+      object.isTrainer1 = isTrainer(object.position1);
 
     // getting names2
     if (c.getEmails().length >= 3) {
@@ -231,7 +231,7 @@ function getName3(c) {
     } // end if
 } // end getName 3
 
-function isTrainer(position) {
+function isTrainer(position: string) {
     switch (position) {
         case "TR":
         case "DT":
