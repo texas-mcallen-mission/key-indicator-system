@@ -130,7 +130,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
        if (type.includes("Ecclesiastical Unit")) object.unitString = words;
-         if (object.unitString.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
+         if (type.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
 
 
     //Vehicle stuff all right here
