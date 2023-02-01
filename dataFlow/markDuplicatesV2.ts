@@ -18,6 +18,8 @@
 
 */
 
+import { create } from 'lodash';
+
 //import { entries } from 'lodash';
 
 // Step Uno:  Load Data
@@ -80,8 +82,39 @@ function getOldestAndNewestEntry(data:kiDataEntry[],timeKey: string): oldestNewe
     return output
 }
 
+function testCreateCorrectedEntry() {
+    const areaData = {
+        area: "WORD",
+        isSister: false,
+        ki1: 123,
+    }
+    const kiData = {
+        area: "WORDLE",
+        isSister: true,
+        ki1: 321
+    }
+    const keysToKeep = ["area", "isSister"]
+    const output = createCorrectedEntry_(areaData,kiData,keysToKeep)
+    const comparison = {
+        area: "WORD",
+        isSister: false,
+        ki1: 321
+    }
+    let pass = true
+    for (const key in output) {
+        if (comparison[key] != output[key]) {
+            pass = false
+        }
+    }
+    if (pass) {
+        console.log("✅✔✅ PASS ✅✔✅")
+    } else {
+        console.log("❌⛔❌ FAIL ❌⛔❌")
+    }
+}
+
 function createCorrectedEntry_(areaDataEntry: kiDataEntry, dataEntry: kiDataEntry, keysToKeep: string[]) {
-    const output: kiDataEntry = dataEntry;
+    const output: kiDataEntry = copyObjectNoRecursion_(dataEntry);
     for (const key of keysToKeep) {
         if (Object.hasOwnProperty.call(areaDataEntry, key)) {
 
