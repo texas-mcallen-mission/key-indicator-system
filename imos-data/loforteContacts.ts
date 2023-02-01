@@ -149,7 +149,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     }
 
     // getting address of apt.
-    if (c.getAddresses().length === 0) object.aptAddress = c.getAddresses()[0].getAddress().toString();
+    if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString();
 
 return object
 }
