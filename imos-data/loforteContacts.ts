@@ -149,7 +149,8 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     }
 
     // getting address of apt.
-    if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString();
+    if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
+      // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
 return object
 }
@@ -170,60 +171,16 @@ function getAddress (noAddress, c:GoogleAppsScript.Contacts.Contact) {
   }
 }
 
-function ifMultipleUnitStrings(c) {
-  if (c.getNotes().split("\n")[3].includes(",")) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
-function howManyMissionarys(c) {
-  switch (c.getEmail().length) {
-        case "2":
-          return 0;
-        case "3":
-          return 1;
-        case "4":
-          return 2;
-    } // end switch
-}
 
-function isSolo(c) {
-  if (c.getEmails().length === 2) {
-    return true; 
-  } else {
-    return false;
-  }
-}
-function isTreo(c) {
-    if (c.getEmails().length >= 4) {
-       return true;
-    } else {
-      return false;
-    }
-} // end isTreo
 
-function getName(isSolo, c, i) {
-  //console.log(c.getEmails()[i].getLabel())
-  if (isSolo) {
-    return c.getEmails()[1].getLabel().toString().split(" ").slice(0, -1).join(" ");
-  } else {
-    return c.getEmails()[i].getLabel().toString().split(" ").slice(0, -1).join(" "); // i = 1 for first person
-  }
-} // end getName
+
 
 function getPosition3 (isTreo, c, i) {
   if (isTreo) {
     return c.getEmails()[3].getLabel().toString().split(" ").slice(-1).join(" ").split("(")[1].split(")")[0]; // i = 1 for first person
   }
 }
-function getName3(c) {
-    if (isTreo(c)) {
-        return getName(isSolo(c), c, 3);
-    } // end if
-} // end getName 3
-
 function isTrainer(position: string) {
     switch (position) {
         case "TR":
