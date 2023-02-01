@@ -1,12 +1,4 @@
 /* eslint-disable prefer-const */
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
-// Compiled using undefined undefined (TypeScript 4.9.4)
 
 function makeSheet() : void {
 
@@ -126,8 +118,6 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
     for (let i = 0; i < getNotesArray.length; i++) {
       
-
-
       let objectNotes = getNotesArray[i].split(":");
 
 
