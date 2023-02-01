@@ -96,7 +96,10 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     object.areaEmail = c.getEmails()[0].getAddress();
     
     object.name1 = c.getEmails()[1].getDisplayName();
-    object.position1 = c.getEmails()[1].getLabel().toString().replace(/[^a-z]/gi, '');
+    let pos1 =  c.getEmails()[1].getLabel().toString();
+    
+    object.position1 = pos1.slice(-1);
+// .replace(/[^a-z]/gi, '')
 
     if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
