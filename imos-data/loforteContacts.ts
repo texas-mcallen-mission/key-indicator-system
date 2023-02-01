@@ -8,7 +8,7 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 
-function makeSheet() : void {\
+function makeSheet() : void {
 
 console.time('Execution Time');
     let configData = {
@@ -129,7 +129,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       let objectNotes = getNotesArray[i].split(":");
 
         let type = objectNotes[0];
-        let words = objectNotes[1];
+        let words = objectNotes[1].toString().trim();
 
         if (type.includes("Area")) object.areaName = words;
         if (type.includes("Zone")) object.zone = words;
