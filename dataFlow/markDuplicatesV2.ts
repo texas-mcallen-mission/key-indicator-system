@@ -137,6 +137,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
     const iterantKey = "add_iterant"
     dataClass.addIterant(iterantKey,1)
     const time_key = "kiDate"
+    const timestamp_key = "formTimestamp"
     const area_id_key = "areaID"
 
     const cutoffDate = new Date();
@@ -182,7 +183,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
                 for (const entry of data) {
                     markAsDuplicateEntries.push(entry[iterantKey])
                 }
-                const relevantEntries = getOldestAndNewestEntry(data, time_key)
+                const relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
                 correctionEntries.push(createCorrectedEntry_(relevantEntries.oldest, relevantEntries.newest, areaDataKeys))
 
             } else {
