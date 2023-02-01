@@ -129,9 +129,9 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("Area")) object.areaName = words;
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
-//       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
-//         if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
-// // still this ^^     
+       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
+         if (object.unitString.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
+ // still this ^^     
 
 
 
@@ -148,9 +148,9 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     }
 
 
-    if (c.getNotes().includes("Ecclesiastical Unit: ")) object.unitString = c.getNotes();
-        if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
-// still this ^^     
+//     if (c.getNotes().includes("Ecclesiastical Unit: ")) object.unitString = c.getNotes();
+//         if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
+// // still this ^^     
 
 return object
 }
