@@ -217,7 +217,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
                     markAsDuplicateEntries.push(entry[iterantKey])
                 }
                 const relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
-                correctionEntries.push(createCorrectedEntry_(relevantEntries.oldest, relevantEntries.newest, areaDataKeys))
+                correctionEntries.push(createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys))
 
             } else {
                 for (const entry of data) {
