@@ -143,6 +143,7 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
           // gets tells if its a sisters or elders area
       if (c.getNotes().includes("Junior Sister")) object.isSisterArea = true;
+      if (c.getNotes().includes("Senior Couple")) object.isSeniorCouple = true;
     }
 
 return object
