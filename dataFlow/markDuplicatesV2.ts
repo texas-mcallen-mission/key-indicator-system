@@ -34,6 +34,23 @@ interface oldestNewest_return_type {
     oldest: kiDataEntry,
     newest: kiDataEntry
 }
+function copyObjectNoRecursion_(inObject: object) {
+    const output = {}
+    for (const key in inObject) {
+        output[key] = inObject[key]
+    }
+    return output
+    
+}
+
+// function copyObjectWithRecursion_(inObject: object): object {
+//     const output = {}
+//     for (const key in inObject) {
+//         if()
+//     }
+
+//     return output
+// }
 
 function testMarkDuplicatesV2() {
     const allSheetData = constructSheetData()
@@ -42,10 +59,10 @@ function testMarkDuplicatesV2() {
 // WYLO: getOldestAndNewestEntry doesn't seem to be working properly
 
 function getOldestAndNewestEntry(data:kiDataEntry[],timeKey: string): oldestNewest_return_type {
-    const starter = data[0]
+    const starter = copyObjectNoRecursion_(data[0])
     const output = {
-        oldest: starter,
-        newest: starter
+        oldest: copyObjectNoRecursion_(starter),
+        newest: copyObjectNoRecursion_(starter)
     };
     
     for (const entry of data) {
