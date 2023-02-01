@@ -102,13 +102,13 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
     let pos2 =  c.getEmails()[1].getLabel().toString();
-      object.position2 = pos2.slice(-4).replace(/[^a-z]/gi, '');
+      object.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
     }
 
     if (c.getEmails().length >= 4) {
       object.name3 = c.getEmails()[3].getDisplayName();
       let pos3 =  c.getEmails()[1].getLabel().toString();
-        object.position3 = pos3.slice(-4).replace(/[^a-z]/gi, '');
+        object.position3 = pos3.slice(-5).replace(/[^a-z0-9]/gi, '');
     }
 
     // everything from notes
