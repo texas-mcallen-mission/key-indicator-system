@@ -8,8 +8,9 @@
 // Compiled using undefined undefined (TypeScript 4.9.4)
 // Compiled using undefined undefined (TypeScript 4.9.4)
 
-function makeSheet() : void {
-  console.time('Execution Time');
+function makeSheet() : void {\
+
+console.time('Execution Time');
     let configData = {
         tabName: "ContactDataLoForte",
         headerRow: 0,
