@@ -143,8 +143,13 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
 
           // gets tells if its a sisters or elders area
       if (c.getNotes().includes("Junior Sister")) object.isSisterArea = true;
+
+          // tells if its a senior or not
       if (c.getNotes().includes("Senior Couple")) object.isSeniorCouple = true;
     }
+
+    // getting address of apt.
+    if (c.getAddresses().length === 0) object.aptAddress = c.getAddresses()[0].getAddress().toString();
 
 return object
 }
