@@ -91,20 +91,24 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
         vinLast8: '',
         aptAddress: ''
     }
-    object.dateContactGenerated = c.getLastUpdated().toDateString();
 
-    object.areaEmail = c.getEmails()[0].getAddress();
+    object.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
+
+    object.areaEmail = c.getEmails()[0].getAddress(); // getting areaEmail
     
+    // getting names1
     object.name1 = c.getEmails()[1].getDisplayName();
     let pos1 =  c.getEmails()[1].getLabel().toString();
-      object.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters
+      object.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
 
+
+    // getting names2
     if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
     let pos2 =  c.getEmails()[1].getLabel().toString();
       object.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
     }
-
+    // getting names3
     if (c.getEmails().length >= 4) {
       object.name3 = c.getEmails()[3].getDisplayName();
       let pos3 =  c.getEmails()[1].getLabel().toString();
@@ -114,7 +118,6 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
     // everything from notes
     let getNotes = c.getNotes()
     let getNotesArray = getNotes.split("\n");
-
 
     for (let i = 0; i < getNotesArray.length; i++) {
     
@@ -126,9 +129,9 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
       if (type.includes("Area")) object.areaName = words;
       if (type.includes("Zone")) object.zone = words;
       if (type.includes("District")) object.district = words;
-      if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
-        if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
-// still this ^^     
+//       if (type.includes("Ecclesiastical Unit: ")) object.unitString = words;
+//         if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
+// // still this ^^     
 
 
 
@@ -143,6 +146,11 @@ function convertToContactData(c:GoogleAppsScript.Contacts.Contact)  {
           // gets tells if its a sisters or elders area
       if (c.getNotes().includes("Junior Sister")) object.isSisterArea = true;
     }
+
+
+    if (c.getNotes().includes("Ecclesiastical Unit: ")) object.unitString = c.getNotes();
+        if (getNotes.includes(",")) object.hasMultipleUnits = true; // i really need to fix this!!! i dont know why but they arent on the same line or something!!
+// still this ^^     
 
 return object
 }
