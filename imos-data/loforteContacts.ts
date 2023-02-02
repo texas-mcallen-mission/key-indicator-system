@@ -51,8 +51,8 @@ console.timeEnd('Execution Time');
 
 function getArrayOfContacts(): contactEntry[] {
 
-  let group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-  let contacts = group.getContacts(); // Fetches contact list of group 
+  const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+  const contacts = group.getContacts(); // Fetches contact list of group 
 
     let arrayOfContacts:contactEntry[] = [];
     for (let contact of contacts) {
@@ -165,21 +165,5 @@ function isTrainer(position: string) {
     } // end switch
 } // end isTrainer
 
-// function oldData() {
 
-//   const allSheetData = constructSheetData();
-//   const contactSheet = allSheetData["contact"]
 
-//   let kiData = contactSheet.getData()
-//   const dataClass = new kiDataClass(kiData)
-//   const areaIDs = dataClass.getDataFromKey("areaID")
-
-//   const areaIDs2 = dataClass.getDataFromKey("areaID")
-//   areaIDs2.pop()
-//   for (let area of areaIDs) {
-//       if (!areaIDs2.includes(area)) {
-//           console.log(area)
-//       }
-//   }
-
-// }
