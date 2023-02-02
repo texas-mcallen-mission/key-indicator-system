@@ -158,6 +158,7 @@ function isTrainer(position: string) {
         case "TR":
         case "DT":
         case "ZLT":
+        case "STLT":
             return true;
         default:
             return false;
