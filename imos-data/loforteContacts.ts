@@ -51,8 +51,9 @@ console.timeEnd('Execution Time');
 
 function getArrayOfContacts(): contactEntry[] {
 
+  //Pull in contact data from Google Contacts
   const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
-  const contacts = group.getContacts(); // Fetches contact list of group 
+  const contacts = group.getContacts();                     // Fetches contact list of group 
 
     let arrayOfContacts:contactEntry[] = [];
     for (let contact of contacts) {
