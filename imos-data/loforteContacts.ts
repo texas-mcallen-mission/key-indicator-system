@@ -167,7 +167,7 @@ function isTrainer(position: string) {
 function oldData() {
 
 
-  const allSheetData = makeSheet();
+  const allSheetData = constructSheetData();
   const contactSheet = allSheetData["contact"]
 
   let kiData = contactSheet.getData()
