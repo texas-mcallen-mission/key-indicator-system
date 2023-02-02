@@ -165,21 +165,21 @@ function isTrainer(position: string) {
     } // end switch
 } // end isTrainer
 
-function oldData() {
+// function oldData() {
 
-  const allSheetData = constructSheetData();
-  const contactSheet = allSheetData["contact"]
+//   const allSheetData = constructSheetData();
+//   const contactSheet = allSheetData["contact"]
 
-  let kiData = contactSheet.getData()
-  const dataClass = new kiDataClass(kiData)
-  const areaIDs = dataClass.getDataFromKey("areaID")
+//   let kiData = contactSheet.getData()
+//   const dataClass = new kiDataClass(kiData)
+//   const areaIDs = dataClass.getDataFromKey("areaID")
 
-  const areaIDs2 = dataClass.getDataFromKey("areaID")
-  areaIDs2.pop()
-  for (let area of areaIDs) {
-      if (!areaIDs2.includes(area)) {
-          console.log(area)
-      }
-  }
+//   const areaIDs2 = dataClass.getDataFromKey("areaID")
+//   areaIDs2.pop()
+//   for (let area of areaIDs) {
+//       if (!areaIDs2.includes(area)) {
+//           console.log(area)
+//       }
+//   }
 
-}
+// }
