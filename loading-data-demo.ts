@@ -8,10 +8,11 @@ function kiDataLoaderDemoThingy() {
             ki2: 2,
             ki3: 3,
             "pulled?": 4,
+            "extraKey":5,
         },
         includeSoftcodedColumns: false,
     };
-    
+
     const rawSheet = new RawSheetData(kicConfig)
     const kiDataSheet = new SheetData(rawSheet)
 
@@ -28,6 +29,15 @@ function kiDataLoaderDemoThingy() {
         extraDataArray.push(data)
     }
     kiDataSheet.insertData(extraDataArray)
-    console.log(startingData.length,kiDataSheet.getData().length)
+    console.log(String(startingData.length), kiDataSheet.getData().length)
+    
+    const dataClass = new kiDataClass(kiDataSheet.getData())
+    dataClass.addIterant("positionKey",1)
+    const areas = dataClass.getDataFromKey("areaID")
+    const targetArea = "A6929"
+    if (areas.includes(targetArea)) {
+        let position = areas.indexOf(targetArea)
+        kiDataSheet.directModify(position, {"pulled?":true,"extraKey":"CHICKEN NUGGET"})
+    }
     
 }
