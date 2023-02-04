@@ -37,7 +37,11 @@ function kiDataLoaderDemoThingy() {
     const targetArea = "A6929"
     if (areas.includes(targetArea)) {
         let position = areas.indexOf(targetArea)
-        kiDataSheet.directModify(position, {"pulled?":true,"extraKey":"CHICKEN NUGGET"})
+        kiDataSheet.directModify(position+1, {"pulled?":true,"extraKey":"CHICKEN NUGGET"})
+        dataClass.data = kiDataSheet.getData();
+
     }
-    
+    const preLength = dataClass.data.length
+    dataClass.removeSmaller("ki1", 5);
+    console.log(String(preLength),dataClass.data.length);
 }
