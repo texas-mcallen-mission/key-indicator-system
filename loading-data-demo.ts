@@ -18,7 +18,7 @@ function kiDataLoaderDemoThingy() {
     const extraDataArray:kiDataEntry[] = []
     for (let i = 0; i < 15; i++){
         const data = {
-            areaID: "",
+            areaID: "A"+Math.floor(Math.random() * 10000),
             ki1: Math.floor(Math.random() * 4),
             ki2: Math.floor(Math.random() * 2),
             ki3: Math.floor(Math.random() * 7),
