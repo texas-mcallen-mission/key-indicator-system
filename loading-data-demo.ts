@@ -11,6 +11,7 @@ function kiDataLoaderDemoThingy() {
         },
         includeSoftcodedColumns: false,
     };
+    
     const rawSheet = new RawSheetData(kicConfig)
     const kiDataSheet = new SheetData(rawSheet)
 
