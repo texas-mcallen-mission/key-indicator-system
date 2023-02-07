@@ -20,15 +20,15 @@ function runIt() {
         },
         includeSoftcodedColumns: false
     };
+    const test = sheetDataConfig.local.data
 
-    const rawSheet = new RawSheetData(kicConfig);
+    const rawSheet = new RawSheetData(test);
     const kiDataSheet = new SheetData(rawSheet);
-
-    const allSheetData = kiDataSheet.getData();
 
     const dataClass = new kiDataClass(kiDataSheet.getData())
 
     kiDataSheet.setData(dataClass.data);
+
 
     
 
