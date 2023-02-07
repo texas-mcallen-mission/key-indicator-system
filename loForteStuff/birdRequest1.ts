@@ -21,13 +21,13 @@ function runIt() {
         includeSoftcodedColumns: false
     };
     
-    // const rawSheet = ;
     const formDataSheet = new SheetData(new RawSheetData(sheetDataConfig.local.form));
     
     const birdDataSheet = new SheetData(new RawSheetData(kicConfig));
     const pajaroNumbers = formDataSheet.getData();
 
     birdDataSheet.setData(pajaroNumbers);
+
 
 
 }
