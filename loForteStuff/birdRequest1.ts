@@ -20,21 +20,14 @@ function runIt() {
         },
         includeSoftcodedColumns: false
     };
-    const test = sheetDataConfig.local.data
-
-    const rawSheet = new RawSheetData(test);
-    const kiDataSheet = new SheetData(rawSheet);
-
-    const dataClass = new kiDataClass(kiDataSheet.getData())
-
-    kiDataSheet.setData(dataClass.data);
-
-
     
-
-    //const kiDataSheet2 = allSheetData["data"]
-    //const kiDataAll = new kiDataClass(kiDataSheet2.getData())
-
-    //kiDataSheet.insertData(kiDataSheet2);
+    // const rawSheet = ;
+    const formDataSheet = new SheetData(new RawSheetData(sheetDataConfig.local.form));
     
+    const birdDataSheet = new SheetData(new RawSheetData(kicConfig));
+    const pajaroNumbers = formDataSheet.getData();
+
+    birdDataSheet.setData(pajaroNumbers);
+
+
 }
