@@ -21,13 +21,18 @@ function runIt() {
         includeSoftcodedColumns: false
     };
 
-    const blankSheet = new RawSheetData(kicConfig)
-    const kiDataSheet = new SheetData(blankSheet)
+    const rawSheet = new RawSheetData(kicConfig);
+    const kiDataSheet = new SheetData(rawSheet);
 
-    const allSheetData = constructSheetData()
-    const kiDataSheet2 = allSheetData["data"]
-    const kiDataAll = new kiDataClass(kiDataSheet2.getData())
+    const allSheetData = kiDataSheet.getData();
 
-    kiDataSheet.insertData(kiDataSheet2);
+    
+
+    
+
+    //const kiDataSheet2 = allSheetData["data"]
+    //const kiDataAll = new kiDataClass(kiDataSheet2.getData())
+
+    //kiDataSheet.insertData(kiDataSheet2);
     
 }
