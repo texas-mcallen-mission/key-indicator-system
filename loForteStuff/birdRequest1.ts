@@ -26,7 +26,9 @@ function runIt() {
 
     const allSheetData = kiDataSheet.getData();
 
-    
+    const dataClass = new kiDataClass(kiDataSheet.getData())
+
+    kiDataSheet.setData(dataClass.data);
 
     
 
