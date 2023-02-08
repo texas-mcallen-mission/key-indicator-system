@@ -23,7 +23,7 @@ function runIt() {
     
     const formDataSheet = new SheetData(new RawSheetData(sheetDataConfig.local.form));
     
-    const birdDataSheet = new SheetData(new RawSheetData(kicConfig));
+    const birdDataSheet = new SheetData(new RawSheetData(sheetDataConfig.local.form));
     const pajaroNumbers = formDataSheet.getData();
 
     birdDataSheet.setData(pajaroNumbers);
