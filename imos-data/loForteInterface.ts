@@ -34,3 +34,21 @@ interface contactEntry extends kiDataEntry {
   
     aptAddress: string,
   }
+
+  interface formsDataSheetLoForte extends kiDataEntry {
+  
+        areaName: string,
+        responsePulled: boolean,
+        isDuplicate: boolean,
+        formTimestamp: string,
+        submissionEmail: string,
+        kiDate: string,
+        np: number,
+        sa: number,
+        bd: number,
+        bc: number,
+        rca: number,
+        rc: number,
+        serviceHrs: number,
+        cki: number,
+    }
