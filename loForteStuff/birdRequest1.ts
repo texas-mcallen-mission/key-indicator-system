@@ -33,8 +33,8 @@ function runIt() {
 
     const date1 = SpreadsheetApp.getActiveSpreadsheet().getDataRange().getValues();
     const date2 = SpreadsheetApp.getActiveSpreadsheet().getActiveCell().getValue();
-
-    isDate(date, date1[1][1], date2)
+        console.log(date1[1][1]);
+    //isDate(date, date1[1][1], date2)
 
 }
 
