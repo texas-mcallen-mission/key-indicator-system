@@ -29,19 +29,39 @@ function runIt() {
 
     birdDataSheet.setData(pajaroNumbers);
 
-    //const date = birdDataSheet.kiDate;
-
-    const date1 = SpreadsheetApp.getActiveSpreadsheet().getDataRange().getValues();
-    const date2 = SpreadsheetApp.getActiveSpreadsheet().getActiveCell().getValue();
-        console.log(date1[1][1]);
-    //isDate(date, date1[1][1], date2)
+    isDate("1/20/2022")
 
 }
 
-function isDate(date : string, date1: string, date2: string) : boolean {
 
-    if(date1 <= date && date <= date2) return true
+function isDate(dateCheck: string): boolean {
+    
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const cell = ss.getDataRange();
+    const cellValue = cell.getValues();
+
+    //const date = SpreadsheetApp.getActiveSpreadsheet().getDataRange().getValues();
+    //console.log(date[0][0]);
+    const date1 = cellValue[1][0].toString();
+    const date2 = cellValue[1][1].toString();
+    const date = "1/20/2024"
+
+    if(dateCheck1(date1, date2, dateCheck)) {
+        return true;
+    }
+    return false;
+
+}
 
 
+function dateCheck1(from: string, to: string, check: string): boolean {
 
+    const fDate = Date.parse(from);
+    const lDate = Date.parse(to);
+    const cDate = Date.parse(check);
+
+    if ((cDate <= lDate && cDate >= fDate)) {
+        return true;
+    }
+    return false;
 }
