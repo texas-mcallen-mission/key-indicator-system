@@ -17,24 +17,54 @@ function runIt() {
             rc: 11,
             serviceHrs: 12,
             cki: 13,
-            "dateBoundries": 14,
+            dateBoundries: 14,
         },
         includeSoftcodedColumns: false
     };
+
+    const object: kiDataEntry = {
+        areaName: '',
+        responsePulled: '',
+        isDuplicate: false,
+        formTimestamp: '',
+        submissionEmail: '',
+        kiDate: '',
+
+        np: '',
+        sa: '',
+        bd: '',
+        bc: '',
+        rca: '',
+        rc: '',
+        
+        serviceHrs: '',
+        cki: '',
+    }
+
+    object.dateBoundries = isDate1();
+
 
     const formDataSheet = new SheetData(new RawSheetData(sheetDataConfig.local.form));
 
     const birdDataSheet = new SheetData(new RawSheetData(kicConfig));
     const pajaroNumbers = formDataSheet.getData();
 
+
     birdDataSheet.setData(pajaroNumbers);
 
-    isDate("1/20/2022")
+    const birdData = {
+        ...object,
+        ...birdDataSheet,
+    }
+
+
+
+
 
 }
 
 
-function isDate(dateCheck: string): boolean {
+function isDate1(): boolean {
     
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const cell = ss.getDataRange();
@@ -44,12 +74,13 @@ function isDate(dateCheck: string): boolean {
     //console.log(date[0][0]);
     const date1 = cellValue[1][0].toString();
     const date2 = cellValue[1][1].toString();
-    const date = "1/20/2024"
+    const kicDate = "1/20/2024"
 
-    if(dateCheck1(date1, date2, dateCheck)) {
+    if(dateCheck1(date1, date2, kicDate)) {
         return true;
+    } else {
+        return false;
     }
-    return false;
 
 }
 

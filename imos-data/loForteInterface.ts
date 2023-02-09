@@ -43,12 +43,14 @@ interface contactEntry extends kiDataEntry {
         formTimestamp: string,
         submissionEmail: string,
         kiDate: string,
+
         np: number,
         sa: number,
         bd: number,
         bc: number,
         rca: number,
         rc: number,
+        
         serviceHrs: number,
         cki: number,
     }
