@@ -29,7 +29,7 @@ function runIt() {
 
     birdDataSheet.setData(pajaroNumbers);
 
-    const date = birdDataSheet.kiDate;
+    //const date = birdDataSheet.kiDate;
 
     const date1 = SpreadsheetApp.getActiveSpreadsheet().getDataRange().getValues();
     const date2 = SpreadsheetApp.getActiveSpreadsheet().getActiveCell().getValue();
@@ -43,5 +43,5 @@ function isDate(date : string, date1: string, date2: string) : boolean {
     if(date1 <= date && date <= date2) return true
 
 
-    
+
 }
