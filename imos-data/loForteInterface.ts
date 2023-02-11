@@ -33,6 +33,7 @@ interface contactEntry extends kiDataEntry {
     vinLast8: string,
   
     aptAddress: string,
+    areaId: string,
   }
 
   interface formsDataSheetLoForte extends kiDataEntry {

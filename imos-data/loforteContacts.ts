@@ -49,7 +49,8 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
     hasVehicle: false,
     vehicleMiles: '',
     vinLast8: '',
-    aptAddress: ''
+    aptAddress: '',
+    areaId: '',
   }
 
   object.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
@@ -112,6 +113,8 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
   // getting address of apt.
   if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
+
+  object.areaId = object.areaEmail.replace("@missionary.org", "")
 
   return object
 }
