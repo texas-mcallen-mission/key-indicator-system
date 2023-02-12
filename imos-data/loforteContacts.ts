@@ -50,7 +50,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
     vehicleMiles: '',
     vinLast8: '',
     aptAddress: '',
-    areaId: '',
+    "areaId": '',
   }
 
   object.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
