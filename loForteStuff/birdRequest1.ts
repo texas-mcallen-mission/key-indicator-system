@@ -44,3 +44,4 @@ function isDate(date : string, date1: string, date2: string) : boolean {
 
 }
 // I musta called a thousand tiiiiiimes
+// what the heck
