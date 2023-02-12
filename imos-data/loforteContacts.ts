@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 
 function makeSheet(): void {
 
@@ -17,8 +16,8 @@ function getArrayOfContacts(): contactEntry[] {
   const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
   const contacts = group.getContacts(); // Fetches contact list of group 
 
-  let arrayOfContacts: contactEntry[] = [];
-  for (let contact of contacts) {
+  const arrayOfContacts: contactEntry[] = [];
+  for (const contact of contacts) {
     arrayOfContacts.push(convertToContactData(contact))
   }
   return arrayOfContacts;
@@ -26,7 +25,7 @@ function getArrayOfContacts(): contactEntry[] {
 
 
 function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
-  let object: contactEntry = {
+  const object: contactEntry = {
     dateContactGenerated: '',
     areaEmail: '',
     areaName: '',
@@ -59,34 +58,35 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
 
   // getting names1
   object.name1 = c.getEmails()[1].getDisplayName();
-  let pos1 = c.getEmails()[1].getLabel().toString();
+  const pos1 = c.getEmails()[1].getLabel().toString();
   object.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
   object.isTrainer1 = isTrainer(object.position1);
 
   // getting names2
   if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
-    let pos2 = c.getEmails()[2].getLabel().toString();
+    const pos2 = c.getEmails()[2].getLabel().toString();
     object.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
   }
   // getting names3
   if (c.getEmails().length >= 4) {
     object.name3 = c.getEmails()[3].getDisplayName();
-    let pos3 = c.getEmails()[3].getLabel().toString();
+    const pos3 = c.getEmails()[3].getLabel().toString();
     object.position3 = pos3.slice(-5).replace(/[^a-z0-9]/gi, '');
   }
 
   // everything from notes
-  let getNotes = c.getNotes().toString().replaceAll(": ", ":");
-  let getNotesArray = getNotes.split("\n");
+  const getNotes = c.getNotes().toString().replaceAll(": ", ":");
+  const getNotesArray = getNotes.split("\n");
 
   for (let i = 0; i < getNotesArray.length; i++) {
 
-    let objectNotes = getNotesArray[i].split(":");
+
+    const objectNotes = getNotesArray[i].split(":");
 
 
-    let type = objectNotes[0];
-    let words = objectNotes[1];
+    const type = objectNotes[0];
+    const words = objectNotes[1];
 
     if (type.includes("Area")) object.areaName = words;
     if (type.includes("Zone")) object.zone = words;
@@ -114,9 +114,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
   if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
-  const areaId = object.areaEmail.replace("@missionary.org", "")
-
-  object.areaId = areaId;
+  object.areaId = object.areaEmail.replace("@missionary.org", "");
 
   return object
 }
