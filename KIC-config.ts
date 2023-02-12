@@ -484,6 +484,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     vehicleMiles: 20,
                     vinLast8: 21,
                     aptAddress: 22,
+                    areaId: 23,
                 },
             },
             debug: {

@@ -53,3 +53,6 @@ interface contactEntry extends kiDataEntry {
         serviceHrs: number,
         cki: number,
     }
+
+
+    
