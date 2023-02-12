@@ -50,7 +50,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
     vehicleMiles: '',
     vinLast8: '',
     aptAddress: '',
-    "areaId": '',
+    areaId: '',
   }
 
   object.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
@@ -114,7 +114,9 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
   if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
-  object.areaId = object.areaEmail.replace("@missionary.org", "")
+  const areaId = object.areaEmail.replace("@missionary.org", "")
+
+  object.areaId = areaId;
 
   return object
 }
