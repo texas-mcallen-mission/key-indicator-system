@@ -6,6 +6,8 @@ function makeSheet(): void {
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
 
+  console.log(getAreaID())
+
   console.timeEnd('Execution Time');
 
 }
@@ -117,6 +119,21 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
   object.areaId = object.areaEmail.replace("@missionary.org", "");
 
   return object
+}
+// not right i need to put in the array of them all but UGHHHH
+
+function getAreas(contact: contactEntry) {
+
+  const getAllAreaIds = [];
+
+  for (let i = 1; contact.areaId = ""; i++){
+    
+    getAllAreaIds.push(contact.areaId)
+  }
+
+  return getAllAreaIds;
+  
+
 }
 
 function isTrainer(position: string) {
