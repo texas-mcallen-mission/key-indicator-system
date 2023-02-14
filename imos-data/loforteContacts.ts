@@ -1,4 +1,3 @@
-
 function makeSheet(): void {
 
   console.time('Execution Time');
@@ -7,18 +6,18 @@ function makeSheet(): void {
   oldContacts.getData();
 
   console.log(getAreas(oldContacts));
-  
+
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
 
- console.log(getAreas(loForteContacts));
- 
+  console.log(getAreas(loForteContacts));
+
 
   console.timeEnd('Execution Time');
 
 }
 
-function getAreas(array : SheetData) {
+function getAreas(array: SheetData) {
 
   return array.getAllOfKey("areaId")
 
@@ -32,7 +31,7 @@ function getArrayOfContacts(): contactEntry[] {
   const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
   const contacts = group.getContacts(); // Fetches contact list of group 
 
-  
+
 
   const arrayOfContacts: contactEntry[] = [];
   for (const contact of contacts) {
