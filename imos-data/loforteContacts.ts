@@ -118,7 +118,11 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
   if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
-  object.areaId = object.areaEmail.replace("@missionary.org", "");
+
+
+  const areaIdNotDone = object.areaEmail.replace("@missionary.org", "");
+
+  object.areaId = "A" + areaIdNotDone;
 
   return object
 }
@@ -135,7 +139,7 @@ function getAreas() {
 
     const areaEmail = contact.getEmails()[0].getAddress().toString();
     const areaIdPerContact = areaEmail.replace("@missionary.org", "");
-    getAllAreaIds.push(areaIdPerContact);
+    getAllAreaIds.push("A" + areaIdPerContact);
 
   }
 
