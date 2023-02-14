@@ -131,11 +131,11 @@ function getAreas() {
 
   for (const contact of contacts) {
 
-    getAllAreaIds.push(contact.getEmails()[0].getAddress().toString().replace("@missionary.org", ""));
-    //getAllAreaIds.push(contact.getEmails()[0].toString().replace("@missionary.org", ""));
+    const areaEmail = contact.getEmails()[0].getAddress().toString();
+    const areaIdperContact = areaEmail.replace("@missionary.org", "");
+    getAllAreaIds.push(areaIdperContact);
 
   }
-
 
   return getAllAreaIds;
 
