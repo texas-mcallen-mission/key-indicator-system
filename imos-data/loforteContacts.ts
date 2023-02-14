@@ -5,7 +5,8 @@ function makeSheet(): void {
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   oldContacts.getData();
-  console.log(oldContacts.getData());
+  const showMeTheGoodStuff = oldContacts.getAllOfKey("areaId")
+  console.log(showMeTheGoodStuff);
   
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
