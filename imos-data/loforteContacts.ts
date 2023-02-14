@@ -6,20 +6,25 @@ function makeSheet(): void {
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   oldContacts.getData();
 
-  console.log(getAreas(oldContacts.getValues()));
-
-  const showMeTheGoodStuff = oldContacts.getAllOfKey("areaId")
-  console.log(showMeTheGoodStuff);
+  console.log(getAreas(oldContacts));
   
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
 
-  console.log(getAreas(loForteContacts.getValues()));
+ console.log(getAreas(loForteContacts));
  
 
   console.timeEnd('Execution Time');
 
 }
+
+function getAreas(array : SheetData) {
+
+  return array.getAllOfKey("areaId")
+
+}
+
+
 
 function getArrayOfContacts(): contactEntry[] {
 
@@ -137,20 +142,6 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
   return object
 }
 // not right i need to put in the array of them all but UGHHHH
-
-function getAreas(array : contactEntry[]) {
-
-  const getAllAreaIds = [];
-
-  for (let i = 0; i < array.length; i++) {
-
-    getAllAreaIds.push(array[i].areaId);
-
-  }
-
-  return getAllAreaIds;
-
-}
 
 
 function isTrainer(position: string) {
