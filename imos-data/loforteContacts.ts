@@ -5,8 +5,8 @@ function makeSheet(): void {
   
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
-
-  console.log(getAreaID())
+ 
+  console.log(getAreas());
 
   console.timeEnd('Execution Time');
 
@@ -122,17 +122,21 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
 }
 // not right i need to put in the array of them all but UGHHHH
 
-function getAreas(contact: contactEntry) {
+function getAreas() {
+
+  const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
+  const contacts = group.getContacts(); // Fetches contact list of group
 
   const getAllAreaIds = [];
 
-  for (let i = 1; contact.areaId = ""; i++){
-    
-    getAllAreaIds.push(contact.areaId)
+  for (const contact of contacts) {
+
+    getAllAreaIds.push(contact.getEmails()[0].toString().replace("@missionary.org", ""));
+
   }
 
+
   return getAllAreaIds;
-  
 
 }
 
