@@ -2,6 +2,10 @@
 function makeSheet(): void {
 
   console.time('Execution Time');
+
+  const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
+  oldContacts.getData();
+  console.log(oldContacts.getData());
   
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
@@ -54,6 +58,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
     vinLast8: '',
     aptAddress: '',
     areaId: '',
+
   }
 
   object.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
@@ -146,6 +151,7 @@ function getAreas() {
   return getAllAreaIds;
 
 }
+
 
 function isTrainer(position: string) {
   switch (position) {
