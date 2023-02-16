@@ -12,10 +12,7 @@ function makeSheet(): void {
 
 
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
-  closedAreasSheet.setData(getAreas(loForteContacts));
-
-  console.log(getAreas(loForteContacts));
-
+  closedAreasSheet.setData(getAreas(oldContacts));
 
   console.timeEnd('Execution Time');
 
@@ -34,8 +31,6 @@ function getArrayOfContacts(): contactEntry[] {
   //Pull in contact data from Google Contacts
   const group = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
   const contacts = group.getContacts(); // Fetches contact list of group 
-
-
 
   const arrayOfContacts: contactEntry[] = [];
   for (const contact of contacts) {
