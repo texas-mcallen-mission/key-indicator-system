@@ -10,6 +10,10 @@ function makeSheet(): void {
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
 
+
+  const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
+  closedAreasSheet.setData(getAreas(loForteContacts));
+
   console.log(getAreas(loForteContacts));
 
 

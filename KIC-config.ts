@@ -371,6 +371,18 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "RCA-weekly":42
                 },
             },
+            closedAreas: {
+                tabName: "Closed Areas",
+                headerRow: 0,
+                includeSoftcodedColumns: true,
+                keyNamesToIgnore: ["responsePulled", "submissionEmail"],
+                initialColumnOrder: {
+                    areaName: 0,
+                    areaEmail: 1,
+                    formTimestamp: 2,
+                
+                },
+            },
             data: {
                 tabName: "Data",
                 headerRow: 0,
