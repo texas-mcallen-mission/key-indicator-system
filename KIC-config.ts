@@ -380,7 +380,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     areaName: 0,
                     areaEmail: 1,
                     formTimestamp: 2,
-                
+                    areaId: 3,
                 },
             },
             data: {
