@@ -54,5 +54,13 @@ interface contactEntry extends kiDataEntry {
         cki: number,
     }
 
+  interface closedAreas extends kiDataEntry {
+
+    areaName: "",
+    areaEmail: "",
+    formTimestamp: "",
+    areaId: "",
+
+  }
 
     
