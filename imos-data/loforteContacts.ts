@@ -4,6 +4,7 @@ function makeSheet(): void {
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   oldContacts.getData();
+  const oldContactsFr = oldContacts.getData();
 
   console.log(getAreas(oldContacts));
 
@@ -12,13 +13,13 @@ function makeSheet(): void {
 
 
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
-  closedAreasSheet.setData(getAreas(oldContacts));
+  closedAreasSheet.setData(getAreas(oldContactsFr));
 
   console.timeEnd('Execution Time');
 
 }
 
-function getAreas(array: SheetData) {
+function getAreas(array: kiDataEntry) {
 
   return array.getAllOfKey("areaId")
 
