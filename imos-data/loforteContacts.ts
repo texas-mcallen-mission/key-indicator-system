@@ -14,8 +14,8 @@ function makeSheet(): void {
 
 
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
-  closedAreasSheet.setData(oldContacts.getAllOfKey("areaId"));
-
+  //closedAreasSheet.setData(oldContacts.getAllOfKey("areaId"));
+  closedAreasSheet.insertData(oldContacts.getAllOfIndex("areaId"));
   console.timeEnd('Execution Time');
 
 }
