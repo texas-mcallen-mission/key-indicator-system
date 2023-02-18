@@ -10,7 +10,8 @@ function makeSheet(): void {
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
     loForteContacts.setData(getArrayOfContacts());
-      oldContacts.insertData({"areaId" : "A1984"})
+      //oldContacts.insertValues({"areaId" : "A1984"})
+    console.log(loForteContacts);
 
   const newContactsArray = loForteContacts.getAllOfKey("areaId");
 
