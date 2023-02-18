@@ -3,7 +3,7 @@ function makeSheet(): void {
   console.time('Execution Time');
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
-
+  oldContacts.getData();
 
  
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
