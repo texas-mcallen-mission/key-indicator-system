@@ -3,7 +3,9 @@ function makeSheet(): void {
   console.time('Execution Time');
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
- // console.log(oldContacts.getData());
+
+
+ 
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
   closedAreasSheet.setData(oldContacts.getData());
 
@@ -11,24 +13,19 @@ function makeSheet(): void {
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
 
+  const newContactsArray = loForteContacts.getAllOfKey("areaId")
+  const newNewArray = [];
 
- 
-  //closedAreasSheet.setData(oldContacts.getAllOfKey("areaId"));
-
- 
-
-
-  //closedAreasSheet.insertData();
-
+  const oldContactsArray = oldContacts.getAllOfKey("areaId")
+  for (let i = 0; i < newContactsArray.length; i++) {
+    if (oldContactsArray.includes(oldContactsArray[i])) {
+      newNewArray.push(oldContactsArray[i]);
+    }
+  }
+  console.log(newNewArray);
+  
 
   console.timeEnd('Execution Time');
-
-}
-
-function getAreas(array: closedAreas) {
-
-
-  return array.getAllOfKey("areaId")
 
 }
 
