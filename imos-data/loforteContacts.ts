@@ -5,6 +5,11 @@ function makeSheet(): void {
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   oldContacts.getData();
 
+  const areaId = oldContacts.getAllOfIndex("areaId")
+  for (let i = 0; i < areaId.length; i++) {
+    console.log(areaId);
+  }
+
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
@@ -13,10 +18,7 @@ function makeSheet(): void {
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
   //closedAreasSheet.setData(oldContacts.getAllOfKey("areaId"));
 
-  const areaId = oldContacts.getAllOfIndex("areaId")
-  for (let i = 0; i < areaId.length; i++) {
-    console.log(areaId[i]);
-  }
+ 
 
 
   //closedAreasSheet.insertData();
