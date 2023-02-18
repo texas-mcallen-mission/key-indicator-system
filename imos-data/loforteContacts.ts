@@ -3,12 +3,7 @@ function makeSheet(): void {
   console.time('Execution Time');
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
-  oldContacts.getData();
-
-  const areaId = oldContacts.getAllOfIndex("areaId")
-  for (let i = 0; i < areaId.length; i++) {
-    console.log(areaId);
-  }
+  console.log(oldContacts.getData());
 
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
