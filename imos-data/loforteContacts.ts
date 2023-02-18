@@ -3,14 +3,16 @@ function makeSheet(): void {
   console.time('Execution Time');
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
-  console.log(oldContacts.getData());
+ // console.log(oldContacts.getData());
+  const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
+  closedAreasSheet.setData(oldContacts.getData());
 
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
   loForteContacts.setData(getArrayOfContacts());
 
 
-  const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas))
+ 
   //closedAreasSheet.setData(oldContacts.getAllOfKey("areaId"));
 
  
