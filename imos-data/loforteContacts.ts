@@ -18,7 +18,7 @@ function makeSheet(): void {
 
   const oldContactsArray = oldContacts.getAllOfKey("areaId")
   for (let i = 0; i < newContactsArray.length; i++) {
-    if (oldContactsArray.includes(oldContactsArray[i])) {
+    if (!oldContactsArray.includes(oldContactsArray[i])) {
       newNewArray.push(oldContactsArray[i]);
     }
   }
