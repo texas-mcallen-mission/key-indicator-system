@@ -2,10 +2,6 @@ function makeSheet(): void {
 
   console.time('Execution Time');
 
-  const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
-    oldContacts.getSheet();
-    const oldContactsArray = oldContacts.getAllOfKey("areaId");
-  
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
     //closedAreasSheet.setData(oldContacts.getData());
 
@@ -18,10 +14,10 @@ function makeSheet(): void {
   
   const newNewArray = [];
 
-  
+  const oldAreas = getOldAreas();
   for (let i = 0; i < newContactsArray.length; i++) {
-    if (!oldContactsArray.includes(oldContactsArray[i])) {
-      newNewArray.push(oldContactsArray[i]);
+    if (!oldAreas.includes(oldAreas[i])) {
+      newNewArray.push(oldAreas[i]);
     }
   }
   console.log(newNewArray);
@@ -32,19 +28,18 @@ function makeSheet(): void {
 }
 
 
-  function getOldAreas() {
-    const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
-    const [headers, ...data] = activeSheet.getRange("B1:B").getValues();
+function getOldAreas() {
+  const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
+  const [headers, ...data] = activeSheet.getRange("B1:B").getValues();
 
-    const getOldAreas = data.map(row => {
-      return row.reduce((acc, value, i) => {
-    const key = headers[i];
-      if (key === '') return acc;
-        return { ...acc, [key]: value };
-    }, {});
-  });
-  console.log(getOldAreas);
-
+  const getOldAreas = data.map(row => {
+    return row.reduce((acc, value, i) => {
+  const key = headers[i];
+    if (key === '') return acc;
+      return { ...acc, [key]: value };
+  }, {});
+});
+return getOldAreas;
 }
 
 
