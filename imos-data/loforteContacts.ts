@@ -4,7 +4,10 @@ function makeSheet(): void {
   const oldAreas = getOldAreas();
   const oldNewAreas = [];
   for (let i = 0; i < oldAreas.length; i++) {
-    oldNewAreas.push(oldAreas[i].keys("areaEmail"));
+    oldNewAreas.push(oldAreas[i].keys("areaEmail")); // <---- not an object fix this
+    
+
+
   }
 
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
