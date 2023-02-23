@@ -1,12 +1,9 @@
 function makeSheet(): void {
 
   console.time('Execution Time');
-  const oldAreas = getOldAreas();
+  const oldAreas = getOldData();
   const oldNewAreas = [];
-  for (let i = 0; i < oldAreas.length; i++) {
-    oldNewAreas.push(oldAreas[i].keys("areaEmail")); // <---- not an object fix this
-  }
-
+  
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
     //closedAreasSheet.setData(oldContacts.getData());
 
@@ -20,7 +17,7 @@ function makeSheet(): void {
 
   
   for (let i = 0; i < newContactsArray.length; i++) {
-    if (!oldNewAreas.includes(oldNewAreas[i])) {
+    if (!oldAreas.includes(oldNewAreas[i])) {
       newNewArray.push(oldNewAreas[i]);
     }
   }
@@ -34,33 +31,15 @@ function makeSheet(): void {
 
 }
 
-function getOldDataNew() {
+function getOldData() {
   const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
   const array = [];
-  for (let i = 0; i < 1000; i++) {
-    const cell = activeSheet.getActiveCell().getCell(i,0).getValue();
-      array.push(cell);
-  }
-  console.log(array);
+    for (let i = 2; !activeSheet.getRange(i,2).isBlank(); i++) {
+        const cell = activeSheet.getRange(i,2).getValue();
+        array.push(cell);
+    }
   return array;
 }
-
-
-function getOldAreas() {
-  const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
-  const [headers, ...data] = activeSheet.getRange("B1:B").getValues();
-
-  const getOldAreas = data.map(row => {
-    return row.reduce((acc, value, i) => {
-  const key = headers[i];
-    if (key === '') return acc;
-      return { ...acc, [key]: value };
-  }, {});
-});
-return getOldAreas;
-}
-
-
 
 function getArrayOfContacts(): contactEntry[] {
 
@@ -144,7 +123,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
     if (type.includes("Area")) object.areaName = words;
     if (type.includes("Zone")) object.zone = words;
     if (type.includes("District")) object.district = words;
-    if (type.includes("Ecclesiastical Unit")) object.unitString = words.replaceAll(" ","");
+    if (type.includes("Ecclesiastical Unit")) object.unitString = words.replaceAll(" ",""); // cant do this need to fix
     if (type.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
 
 
