@@ -12,7 +12,7 @@ function makeSheet(): void {
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
     loForteContacts.setData(getArrayOfContacts());
-    console.log(loForteContacts);
+    //console.log(loForteContacts);
 
   const newContactsArray = loForteContacts.getAllOfKey("areaId");
 
@@ -32,6 +32,17 @@ function makeSheet(): void {
   
   console.timeEnd('Execution Time');
 
+}
+
+function getOldDataNew() {
+  const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
+  const array = [];
+  for (let i = 0; i < 1000; i++) {
+    const cell = activeSheet.getActiveCell().getCell(i,0).getValue();
+      array.push(cell);
+  }
+  console.log(array);
+  return array;
 }
 
 
