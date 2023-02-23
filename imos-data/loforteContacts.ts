@@ -3,6 +3,7 @@ function makeSheet(): void {
   console.time('Execution Time');
 
   const oldContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
+    oldContacts.getSheet();
     const oldContactsArray = oldContacts.getAllOfKey("areaId");
   
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
@@ -10,7 +11,6 @@ function makeSheet(): void {
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
     loForteContacts.setData(getArrayOfContacts());
-      //oldContacts.insertValues({"areaId" : "A1984"})
     console.log(loForteContacts);
 
   const newContactsArray = loForteContacts.getAllOfKey("areaId");
@@ -110,7 +110,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
 
 
     const type = objectNotes[0];
-    const words = objectNotes[1];
+    const words = objectNotes[1].trim();
 
     if (type.includes("Area")) object.areaName = words;
     if (type.includes("Zone")) object.zone = words;
