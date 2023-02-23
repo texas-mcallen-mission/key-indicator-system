@@ -31,11 +31,19 @@ function makeSheet(): void {
 
 }
 
-function getOldAreas() {
 
-  const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
-  const activeRange = activeSheet.getRange("A2:X");
-  console.log(activeRange);
+  function getOldAreas() {
+    const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
+    const [headers, ...data] = activeSheet.getRange("B1:B").getValues();
+
+    const getOldAreas = data.map(row => {
+      return row.reduce((acc, value, i) => {
+    const key = headers[i];
+      if (key === '') return acc;
+        return { ...acc, [key]: value };
+    }, {});
+  });
+  console.log(getOldAreas);
 
 }
 
