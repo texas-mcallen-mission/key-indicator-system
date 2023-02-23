@@ -5,9 +5,6 @@ function makeSheet(): void {
   const oldNewAreas = [];
   for (let i = 0; i < oldAreas.length; i++) {
     oldNewAreas.push(oldAreas[i].keys("areaEmail")); // <---- not an object fix this
-    
-
-
   }
 
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
@@ -29,8 +26,10 @@ function makeSheet(): void {
   }
   console.log(newNewArray[0]);
   closedAreasSheet.setData(newNewArray);
-  
 
+  console.log(newContactsArray);
+  console.log(oldNewAreas);
+  
   console.timeEnd('Execution Time');
 
 }
