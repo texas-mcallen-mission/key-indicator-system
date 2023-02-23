@@ -33,8 +33,9 @@ function makeSheet(): void {
 
 function getOldAreas() {
 
-  const activeSheet = SpreadsheetApp.getActiveSpreadsheet();
-  console.log(activeSheet);
+  const activeSheet = SpreadsheetApp.getActive().getSheetByName("Contact Data");
+  const activeRange = activeSheet.getRange("A2:X");
+  console.log(activeRange);
 
 }
 
