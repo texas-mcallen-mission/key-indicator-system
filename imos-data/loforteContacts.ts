@@ -13,17 +13,17 @@ function makeSheet(): void {
   const newNewArray = [];
 
   
-  for (let i = 0; i < newContactsArray.length; i++) {
-    if (!newContactsArray.includes(oldAreas[i])) {
-      newNewArray.push(oldAreas[i]);
-    }
-  }
-  console.log(newNewArray[0]);
+                      for (let i = 0; i < newContactsArray.length; i++) {
+                        if (!newContactsArray.includes(oldAreas[i])) {
+                          newNewArray.push(oldAreas[i]);
+                        }
+                      }
+
   closedAreasSheet.setData(newNewArray);
 
   console.log(newContactsArray);
   console.log(oldAreas);
-  console.log(newNewArray);
+  console.log(newNewArray); // <--- still not comparing propperly but yeah
   
   console.timeEnd('Execution Time');
 
