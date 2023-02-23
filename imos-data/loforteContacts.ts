@@ -31,6 +31,13 @@ function makeSheet(): void {
 
 }
 
+function getOldAreas() {
+
+  const activeSheet = SpreadsheetApp.getActiveSpreadsheet();
+  console.log(activeSheet);
+
+}
+
 
 
 function getArrayOfContacts(): contactEntry[] {
@@ -115,7 +122,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact) {
     if (type.includes("Area")) object.areaName = words;
     if (type.includes("Zone")) object.zone = words;
     if (type.includes("District")) object.district = words;
-    if (type.includes("Ecclesiastical Unit")) object.unitString = words;
+    if (type.includes("Ecclesiastical Unit")) object.unitString = words.replaceAll(" ","");
     if (type.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
 
 
