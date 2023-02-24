@@ -11,11 +11,10 @@ function makeSheet(): void {
   const newContactsArray = loForteContacts.getAllOfKey("areaEmail");
 
   const newArraay = compareAreas(oldAreas,newContactsArray);
-  //closedAreasSheet.setData(newNewArray);
+  closedAreasSheet.setData(newArraay);
 
   console.log(newContactsArray);
   console.log(oldAreas);
-  console.log(newArraay); // <--- still not comparing propperly but yeah
   
   console.timeEnd('Execution Time');
 
@@ -35,7 +34,7 @@ function compareAreas(oldAreas,newAreas) {
 
   const arrayOfAreas = [];
 
-  for(let i = 0; i < newAreas.length; i++) {
+  for(let i = 0; i < oldAreas.length; i++) {
     if(!newAreas.includes (oldAreas[i])) {
       arrayOfAreas.push(oldAreas[i]);
     }
