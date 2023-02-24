@@ -10,8 +10,7 @@ function makeSheet(): void {
     
   const newContactsArray = loForteContacts.getAllOfKey("areaEmail");
 
-  const newArraay = compareAreas(oldAreas,newContactsArray);
-  closedAreasSheet.setData(newArraay);
+  closedAreasSheet.setData(convertToOldAreaData(oldAreas,newContactsArray));
 
   console.log(newContactsArray);
   console.log(oldAreas);
@@ -30,10 +29,7 @@ function getOldData() {
   return array;
 }
 
-function compareAreas(oldAreas,newAreas): closedAreas[] {
-
-  
-
+function compareAreas(oldAreas,newAreas) : closedAreas {
   const object: closedAreas = {
 
     areaName: "",
@@ -43,22 +39,23 @@ function compareAreas(oldAreas,newAreas): closedAreas[] {
 
   }
 
-  const arrayOfAreas = [];
-
   for(let i = 0; i < oldAreas.length; i++) {
     if(!newAreas.includes (oldAreas[i])) {
-      object.aareaId = "A" + oldAreas[i].toString().replaceAll("@missionary.org","");
+      object.areaId = "A" + oldAreas[i].toString().replaceAll("@missionary.org","");
       object.areaEmail = oldAreas[i];
-
-      arrayOfAreas.push(object)
     }
   }
-
-  return arrayOfAreas;
-
+  return object
 }
 
-function convertToOldAreaData() {
+function convertToOldAreaData(oldAreas,newAreas): closedAreas[] {
+  const arrayOfAreas: closedAreas[] = [];
+
+  for(let i = 0; i < oldAreas.length; i++) {
+    arrayOfAreas.push(compareAreas(oldAreas,newAreas));
+  }
+  
+  return arrayOfAreas;
   
 }
 
