@@ -39,12 +39,15 @@ function compareAreas(oldAreas,newAreas) : closedAreas {
 
   }
 
-  for(let i = 0; i < oldAreas.length; i++) {
-    if(!newAreas.includes (oldAreas[i])) {
-      object.areaId = "A" + oldAreas[i].toString().replaceAll("@missionary.org","");
-      object.areaEmail = oldAreas[i];
-    }
-  }
+  // for(let i = 0; i < oldAreas.length; i++) {
+  //   if(!newAreas.includes (oldAreas)) {
+  //     object.areaId = "A" + oldAreas[i].toString().replaceAll("@missionary.org","");
+  //     object.areaEmail = oldAreas[i];
+  //   }
+  // }
+
+  let difference = oldAreas.filter(x => !newAreas.includes(x));
+    object.areaEmail = difference;
   return object
 }
 
