@@ -30,17 +30,36 @@ function getOldData() {
   return array;
 }
 
-function compareAreas(oldAreas,newAreas) {
+function compareAreas(oldAreas,newAreas): closedAreas[] {
+
+  
+
+  const object: closedAreas = {
+
+    areaName: "",
+    areaEmail: "",
+    formTimestamp: "",
+    areaId: "",
+
+  }
 
   const arrayOfAreas = [];
 
   for(let i = 0; i < oldAreas.length; i++) {
     if(!newAreas.includes (oldAreas[i])) {
-      arrayOfAreas.push(oldAreas[i]);
+      object.aareaId = "A" + oldAreas[i].toString().replaceAll("@missionary.org","");
+      object.areaEmail = oldAreas[i];
+
+      arrayOfAreas.push(object)
     }
   }
+
   return arrayOfAreas;
 
+}
+
+function convertToOldAreaData() {
+  
 }
 
 function getArrayOfContacts(): contactEntry[] {
