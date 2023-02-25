@@ -1,20 +1,33 @@
 function makeSheet(): void {
 
   console.time('Execution Time');
-  const oldAreas = getOldData();
   
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
 
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
-    loForteContacts.setData(getArrayOfContacts());
-    
-  const newContactsArray = loForteContacts.getAllOfKey("areaEmail");
-
-  closedAreasSheet.appendData(compareAreas(oldAreas,newContactsArray));
-
-  //console.log(newContactsArray);
-  //console.log(oldAreas);
   
+
+  
+  const ogClass = new kiDataClass(loForteContacts.getData())
+ 
+  
+  
+  const newContactsArray = loForteContacts.getAllOfKey("areaEmail");
+  const goodOldData : kiDataEntry = loForteContacts.getData();
+    const allData = goodOldData.getAllOfKey("areaEmail")
+  const newContactData :contactEntry[] = getArrayOfContacts()
+  loForteContacts.setData(newContactData);
+
+  const newContactClass = new kiDataClass(newContactData);
+
+  const newAreaIds = newContactClass.getDataFromKey("areaId");
+  ogClass.removeMatchingByKey("areaId",newAreaIds);
+  ogClass.bulkAppendObject({"deletionDate":convertToSheetDate_(new Date())})
+  const leftovers : kiDataEntry[] = ogClass.end
+  if(leftovers.length >0){
+    closedAreasSheet.appendData(leftovers);
+  }
+
   console.timeEnd('Execution Time');
 
 }
@@ -38,15 +51,16 @@ function resetObject() : closedAreas {
     } 
 }
 
-function compareAreas(oldAreas,newAreas) : closedAreas[] {
-  
-
+function compareAreas(oldData : kiDataEntry,newAreas) : closedAreas[] {
+  const oldAreas = oldData.getAllOfKey("areaEmail")
   const arrayOfObjects : closedAreas[] = [];
-  let differenceArray = oldAreas.filter(oldArea => !newAreas.includes(oldArea));
+  let differenceArray = oldData.filter(oldData.getKey() => !newAreas.includes(areaId));
+
+
   let object = resetObject();
   for (let i = 0; i < differenceArray.length; i++) {
     object.areaEmail = differenceArray[i];
-    object.areaId = differenceArray[i].replaceAll("A" + "@missionary.org","");
+    object.areaId = 
     arrayOfObjects.push(object);
     object = resetObject();
   }
@@ -55,16 +69,7 @@ return arrayOfObjects;
 
 }
 
-// function convertToOldAreaData(oldAreas,newAreas): closedAreas[] {
-//   const arrayOfAreas: closedAreas[] = [];
 
-//   for(let i = 0; i < oldAreas.length; i++) {
-//     arrayOfAreas.push(compareAreas(oldAreas,newAreas));
-//   }
-  
-//   return arrayOfAreas;
-  
-// }
 
 function getArrayOfContacts(): contactEntry[] {
 
