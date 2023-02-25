@@ -377,10 +377,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 includeSoftcodedColumns: true,
                 keyNamesToIgnore: ["responsePulled", "submissionEmail"],
                 initialColumnOrder: {
-                    areaName: 0,
-                    areaEmail: 1,
-                    formTimestamp: 2,
-                    areaId: 3,
+                    deletionDate: 0,
+                    areaId: 1,
                 },
             },
             data: {
