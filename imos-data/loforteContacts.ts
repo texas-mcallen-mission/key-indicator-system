@@ -39,15 +39,14 @@ function resetObject() : closedAreas {
 }
 
 function compareAreas(oldAreas,newAreas) : closedAreas[] {
-  let object = resetObject();
+  
 
   const arrayOfObjects : closedAreas[] = [];
-  let difference = oldAreas.filter(oldArea => !newAreas.includes(oldArea));
-      
-  console.log(difference);
-
-  for (let i = 0; i < difference.length; i++) {
-    object.areaEmail = difference[i];
+  let differenceArray = oldAreas.filter(oldArea => !newAreas.includes(oldArea));
+  let object = resetObject();
+  for (let i = 0; i < differenceArray.length; i++) {
+    object.areaEmail = differenceArray[i];
+    object.areaId = differenceArray[i].replaceAll("A" + "@missionary.org","");
     arrayOfObjects.push(object);
     object = resetObject();
   }
