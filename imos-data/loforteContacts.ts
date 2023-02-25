@@ -29,15 +29,17 @@ function getOldData() {
   return array;
 }
 
+function resetObject() : closedAreas {
+  return {
+      areaName: "",
+      areaEmail: "",
+      formTimestamp: "",
+      areaId: "",
+    } 
+}
+
 function compareAreas(oldAreas,newAreas) : closedAreas[] {
-  const object: closedAreas = {
-
-    areaName: "",
-    areaEmail: "",
-    formTimestamp: "",
-    areaId: "",
-
-  }
+  let object = resetObject();
 
   const arrayOfObjects : closedAreas[] = [];
   let difference = oldAreas.filter(oldArea => !newAreas.includes(oldArea));
@@ -47,7 +49,7 @@ function compareAreas(oldAreas,newAreas) : closedAreas[] {
   for (let i = 0; i < difference.length; i++) {
     object.areaEmail = difference[i];
     arrayOfObjects.push(object);
-    for (var member in object) delete object[member];
+    object = resetObject();
   }
 
 return arrayOfObjects;
