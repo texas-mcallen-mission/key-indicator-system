@@ -10,10 +10,10 @@ function makeSheet(): void {
     
   const newContactsArray = loForteContacts.getAllOfKey("areaEmail");
 
-  closedAreasSheet.setData(convertToOldAreaData(oldAreas,newContactsArray));
+  closedAreasSheet.appendData(compareAreas(oldAreas,newContactsArray));
 
-  console.log(newContactsArray);
-  console.log(oldAreas);
+  //console.log(newContactsArray);
+  //console.log(oldAreas);
   
   console.timeEnd('Execution Time');
 
@@ -29,7 +29,7 @@ function getOldData() {
   return array;
 }
 
-function compareAreas(oldAreas,newAreas) : closedAreas {
+function compareAreas(oldAreas,newAreas) : closedAreas[] {
   const object: closedAreas = {
 
     areaName: "",
@@ -39,28 +39,31 @@ function compareAreas(oldAreas,newAreas) : closedAreas {
 
   }
 
-  // for(let i = 0; i < oldAreas.length; i++) {
-  //   if(!newAreas.includes (oldAreas)) {
-  //     object.areaId = "A" + oldAreas[i].toString().replaceAll("@missionary.org","");
-  //     object.areaEmail = oldAreas[i];
-  //   }
-  // }
+  const arrayOfObjects : closedAreas[] = [];
+  let difference = oldAreas.filter(oldArea => !newAreas.includes(oldArea));
+      
+  console.log(difference);
 
-  let difference = oldAreas.filter(x => !newAreas.includes(x));
-    object.areaEmail = difference;
-  return object
-}
-
-function convertToOldAreaData(oldAreas,newAreas): closedAreas[] {
-  const arrayOfAreas: closedAreas[] = [];
-
-  for(let i = 0; i < oldAreas.length; i++) {
-    arrayOfAreas.push(compareAreas(oldAreas,newAreas));
+  for (let i = 0; i < difference.length; i++) {
+    object.areaEmail = difference[i];
+    arrayOfObjects.push(object);
+    for (var member in object) delete object[member];
   }
-  
-  return arrayOfAreas;
-  
+
+return arrayOfObjects;
+
 }
+
+// function convertToOldAreaData(oldAreas,newAreas): closedAreas[] {
+//   const arrayOfAreas: closedAreas[] = [];
+
+//   for(let i = 0; i < oldAreas.length; i++) {
+//     arrayOfAreas.push(compareAreas(oldAreas,newAreas));
+//   }
+  
+//   return arrayOfAreas;
+  
+// }
 
 function getArrayOfContacts(): contactEntry[] {
 
