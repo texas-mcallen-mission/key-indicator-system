@@ -11,7 +11,7 @@ function makeSheet(): void {
 
   const newContactClass = new kiDataClass(newContactData);
 
-  const newAreaIds = newContactClass.getDataFromKey("areaId");
+  const newAreaIds : string[] = newContactClass.getDataFromKey("areaId");
   ogClass.removeMatchingByKey("areaId", newAreaIds);
   ogClass.bulkAppendObject({
     "deletionDate": convertToSheetDate_(new Date())
