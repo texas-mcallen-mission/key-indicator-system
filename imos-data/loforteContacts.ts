@@ -93,33 +93,33 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
 
   // getting names1
   cDataObject.name1 = c.getEmails()[1].getDisplayName();
-  const pos1 : string = c.getEmails()[1].getLabel().toString();
+  const pos1: string = c.getEmails()[1].getLabel().toString();
   cDataObject.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
   cDataObject.isTrainer1 = isTrainer(cDataObject.position1);
 
   // getting names2
   if (c.getEmails().length >= 3) {
     cDataObject.name2 = c.getEmails()[2].getDisplayName();
-    const pos2 : string = c.getEmails()[2].getLabel().toString();
+    const pos2: string = c.getEmails()[2].getLabel().toString();
     cDataObject.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
   }
   // getting names3
   if (c.getEmails().length >= 4) {
     cDataObject.name3 = c.getEmails()[3].getDisplayName();
-    const pos3 : string = c.getEmails()[3].getLabel().toString();
+    const pos3: string = c.getEmails()[3].getLabel().toString();
     cDataObject.position3 = pos3.slice(-5).replace(/[^a-z0-9]/gi, '');
   }
 
   // everything from notes
-  const getNotes : string = c.getNotes().toString().replaceAll(": ", ":");
-  const getNotesArray : string[] = getNotes.split("\n");
+  const getNotes: string = c.getNotes().toString().replaceAll(": ", ":");
+  const getNotesArray: string[] = getNotes.split("\n");
 
   for (let i: number = 0; i < getNotesArray.length; i++) {
 
-    const objectNotes : string[] = getNotesArray[i].split(":");
+    const objectNotes: string[] = getNotesArray[i].split(":");
 
-    const type : string = objectNotes[0];
-    const words : string = objectNotes[1];
+    const type: string = objectNotes[0];
+    const words: string = objectNotes[1];
 
     if (type.includes("Area")) cDataObject.areaName = words;
     if (type.includes("Zone")) cDataObject.zone = words;
@@ -147,21 +147,20 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
   // gets the area id's
-  const areaIdNotDone : string = cDataObject.areaEmail.replace("@missionary.org", "");
-    cDataObject.areaId = "A" + areaIdNotDone;
+  const areaIdNotDone: string = cDataObject.areaEmail.replace("@missionary.org", "");
+  cDataObject.areaId = "A" + areaIdNotDone;
 
   // gets phone number
-  const numbers : string[] = [];
-  for (let i : number = 0; c.getPhones().length; i++) {
-    numbers.push(c.getPhones()[i].getPhoneNumber())
+  const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
+  const phoneNumbers = []
+  for(let entry of phones){
+    phoneNumbers.push(entry.getPhoneNumber())
   }
-  const numberString : string = numbers.join(", ")
-  cDataObject.phoneNumber = numberString;
   
-  return cDataObject
+ cDataObject.phoneNumber = phoneNumbers.join(", ")
 }
 
-function isTrainer(position: string) : boolean {
+function isTrainer(position: string): boolean {
   switch (position) {
     case "TR":
     case "DT":
