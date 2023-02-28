@@ -5,12 +5,14 @@ function makeSheet(): void {
   const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
 
+  // gets old data and new data
   const ogClass = new kiDataClass(loForteContacts.getData())
-  const newContactData: contactEntry[] = getArrayOfContacts()
-  loForteContacts.setData(newContactData);
+  const newContactData: contactEntry[] = getArrayOfContacts();
+  loForteContacts.setData(newContactData); // sets the new data
 
   const newContactClass = new kiDataClass(newContactData);
 
+  // pulls all of the closed areas
   const newAreaIds: string[] = newContactClass.getDataFromKey("areaId");
   ogClass.removeMatchingByKey("areaId", newAreaIds);
   ogClass.bulkAppendObject({
@@ -18,6 +20,7 @@ function makeSheet(): void {
   })
   const leftovers: kiDataEntry[] = ogClass.end
 
+  // if nothing changes dont push it
   if (leftovers.length > 0) {
     closedAreasSheet.appendData(leftovers);
   }
@@ -25,7 +28,10 @@ function makeSheet(): void {
   console.timeEnd('Execution Time');
 
 }
-
+/*
+pretty much just loops all of the contacts and pulls all of the data
+if there are less than 5 contacts... (Thank you Elder Perez) it will throw an error
+*/
 function getArrayOfContacts(): contactEntry[] {
 
   //Pull in contact data from Google Contacts
@@ -48,6 +54,10 @@ function getArrayOfContacts(): contactEntry[] {
 } // end wirteArray
 
 
+/*
+Gets all of the data from the contact and retruns it as an object with the contactEntry interface.
+
+*/
 function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntry {
   const object: contactEntry = {
     dateContactGenerated: '',
@@ -83,42 +93,39 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
 
   // getting names1
   object.name1 = c.getEmails()[1].getDisplayName();
-  const pos1 = c.getEmails()[1].getLabel().toString();
+  const pos1 : string = c.getEmails()[1].getLabel().toString();
   object.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
   object.isTrainer1 = isTrainer(object.position1);
 
   // getting names2
   if (c.getEmails().length >= 3) {
     object.name2 = c.getEmails()[2].getDisplayName();
-    const pos2 = c.getEmails()[2].getLabel().toString();
+    const pos2 : string = c.getEmails()[2].getLabel().toString();
     object.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
   }
   // getting names3
   if (c.getEmails().length >= 4) {
     object.name3 = c.getEmails()[3].getDisplayName();
-    const pos3 = c.getEmails()[3].getLabel().toString();
+    const pos3 : string = c.getEmails()[3].getLabel().toString();
     object.position3 = pos3.slice(-5).replace(/[^a-z0-9]/gi, '');
   }
 
   // everything from notes
-  const getNotes = c.getNotes().toString().replaceAll(": ", ":");
-  const getNotesArray = getNotes.split("\n");
+  const getNotes : string = c.getNotes().toString().replaceAll(": ", ":");
+  const getNotesArray : string[] = getNotes.split("\n");
 
-  for (let i = 0; i < getNotesArray.length; i++) {
+  for (let i: number = 0; i < getNotesArray.length; i++) {
 
+    const objectNotes : string[] = getNotesArray[i].split(":");
 
-    const objectNotes = getNotesArray[i].split(":");
-
-
-    const type = objectNotes[0];
-    const words = objectNotes[1];
+    const type : string = objectNotes[0];
+    const words : string = objectNotes[1];
 
     if (type.includes("Area")) object.areaName = words;
     if (type.includes("Zone")) object.zone = words;
     if (type.includes("District")) object.district = words;
-    if (type.includes("Ecclesiastical Unit")) object.unitString = words.replaceAll(" ", ""); // cant do this need to fix
+    if (type.includes("Ecclesiastical Unit")) object.unitString = words.trim();
     if (type.includes("Ecclesiastical Units")) object.hasMultipleUnits = true;
-
 
     //Vehicle stuff all right here
     if (type.includes("Vehicle")) object.hasVehicle = true;
@@ -139,18 +146,14 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   if (c.getAddresses().length != 0) object.aptAddress = c.getAddresses()[0].getAddress().toString().replace("\n", " ").replace("\n", " ");
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
-
-
-  const areaIdNotDone = object.areaEmail.replace("@missionary.org", "");
+  const areaIdNotDone : string = object.areaEmail.replace("@missionary.org", "");
 
   object.areaId = "A" + areaIdNotDone;
 
   return object
 }
-// not right i need to put in the array of them all but UGHHHH
 
-
-function isTrainer(position: string) {
+function isTrainer(position: string) : boolean {
   switch (position) {
     case "TR":
     case "DT":
