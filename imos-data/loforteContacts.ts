@@ -151,7 +151,13 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     cDataObject.areaId = "A" + areaIdNotDone;
 
   // gets phone number
-  cDataObject.phoneNumber = c.getPhones().join(", ");
+  const numbers : string[] = [];
+  for (let i : number = 0; c.getPhones().length; i++) {
+    numbers.push(c.getPhones()[i].getPhoneNumber())
+  }
+  const numberString : string = numbers.join(", ")
+  cDataObject.phoneNumber = numberString;
+  
   return cDataObject
 }
 
