@@ -11,7 +11,7 @@ function makeSheet(): void {
 
   const newContactClass = new kiDataClass(newContactData);
 
-  const newAreaIds : string[] = newContactClass.getDataFromKey("areaId");
+  const newAreaIds: string[] = newContactClass.getDataFromKey("areaId");
   ogClass.removeMatchingByKey("areaId", newAreaIds);
   ogClass.bulkAppendObject({
     "deletionDate": convertToSheetDate_(new Date())
@@ -32,11 +32,19 @@ function getArrayOfContacts(): contactEntry[] {
   const group: GoogleAppsScript.Contacts.ContactGroup = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
   const contacts: GoogleAppsScript.Contacts.Contact[] = group.getContacts(); // Fetches contact list of group 
 
-  const arrayOfContacts: contactEntry[] = [];
-  for (const contact of contacts) {
-    arrayOfContacts.push(convertToContactData(contact))
+
+  if (contacts.length <= 5) {
+    console.error("Contacts Probably got deleted!!!!")
+    throw "Oh Boy The Contacts Se fue!";
+  } else {
+
+    const arrayOfContacts: contactEntry[] = [];
+    for (const contact of contacts) {
+      arrayOfContacts.push(convertToContactData(contact))
+    }
+    return arrayOfContacts;
+
   }
-  return arrayOfContacts;
 } // end wirteArray
 
 
