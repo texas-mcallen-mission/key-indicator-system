@@ -152,12 +152,11 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
 
   // gets phone number
   const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
-  const phoneNumbers = []
-  for(let entry of phones){
+  const phoneNumbers : string[] = []
+  for (let entry of phones) {
     phoneNumbers.push(entry.getPhoneNumber())
   }
-  
- cDataObject.phoneNumber = phoneNumbers.join(", ")
+  cDataObject.phoneNumber = phoneNumbers.join(", ")
 }
 
 function isTrainer(position: string): boolean {
