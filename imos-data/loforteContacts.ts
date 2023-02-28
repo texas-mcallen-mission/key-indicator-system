@@ -6,31 +6,37 @@ function makeSheet(): void {
   const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
 
   // gets old data and new data
-  const ogClass = new kiDataClass(loForteContacts.getData())
+  const ogDataClass = new kiDataClass(loForteContacts.getData())
   const newContactData: contactEntry[] = getArrayOfContacts();
+
+  
+  // if there are less than 5 contacts... (Thank you Elder Perez) it will throw an error
+  if (newContactData.length <= 5) {
+    console.error("Contacts Probably got deleted!!!!")
+    throw "Oh Boy The Contacts Se fue!";
+  }
   loForteContacts.setData(newContactData); // sets the new data
 
   const newContactClass = new kiDataClass(newContactData);
 
   // pulls all of the closed areas
   const newAreaIds: string[] = newContactClass.getDataFromKey("areaId");
-  ogClass.removeMatchingByKey("areaId", newAreaIds);
-  ogClass.bulkAppendObject({
+  ogDataClass.removeMatchingByKey("areaId", newAreaIds);
+  ogDataClass.bulkAppendObject({
     "deletionDate": convertToSheetDate_(new Date())
   })
-  const leftovers: kiDataEntry[] = ogClass.end
+  const leftovers: kiDataEntry[] = ogDataClass.end
 
   // if nothing changes dont push it
   if (leftovers.length > 0) {
     closedAreasSheet.appendData(leftovers);
-  }
+  } 
 
   console.timeEnd('Execution Time');
 
 }
 /*
 pretty much just loops all of the contacts and pulls all of the data
-if there are less than 5 contacts... (Thank you Elder Perez) it will throw an error
 */
 function getArrayOfContacts(): contactEntry[] {
 
@@ -38,19 +44,12 @@ function getArrayOfContacts(): contactEntry[] {
   const group: GoogleAppsScript.Contacts.ContactGroup = ContactsApp.getContactGroup('IMOS Roster'); // Fetches group by groupname 
   const contacts: GoogleAppsScript.Contacts.Contact[] = group.getContacts(); // Fetches contact list of group 
 
-
-  if (contacts.length <= 5) {
-    console.error("Contacts Probably got deleted!!!!")
-    throw "Oh Boy The Contacts Se fue!";
-  } else {
-
     const arrayOfContacts: contactEntry[] = [];
     for (const contact of contacts) {
       arrayOfContacts.push(convertToContactData(contact))
     }
     return arrayOfContacts;
 
-  }
 } // end wirteArray
 
 
@@ -147,8 +146,8 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
   // gets the area id's
-  const areaIdNotDone: string = cDataObject.areaEmail.replace("@missionary.org", "");
-  cDataObject.areaId = "A" + areaIdNotDone;
+  const areaId : string = "A" + cDataObject.areaEmail.replace("@missionary.org", "");
+  cDataObject.areaId = areaId;
 
   // gets phone number
   const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
