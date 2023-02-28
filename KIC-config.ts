@@ -495,6 +495,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     vinLast8: 21,
                     aptAddress: 22,
                     areaId: 23,
+                    phoneNumber: 24,
                 },
             },
             debug: {

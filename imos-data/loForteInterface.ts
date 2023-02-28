@@ -34,6 +34,7 @@ interface contactEntry extends kiDataEntry {
   
     aptAddress: string,
     areaId: string,
+    phoneNumber: string,
   }
 
   interface formsDataSheetLoForte extends kiDataEntry {
