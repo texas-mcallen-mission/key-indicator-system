@@ -114,7 +114,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   const getNotes: string = c.getNotes().toString().replaceAll(": ", ":");
   const getNotesArray: string[] = getNotes.split("\n");
 
-  for (let i: number = 0; i < getNotesArray.length; i++) {
+  for (let i = 0; i < getNotesArray.length; i++) {
 
     const objectNotes: string[] = getNotesArray[i].split(":");
 
@@ -157,6 +157,8 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     phoneNumbers.push(entry.getPhoneNumber())
   }
   cDataObject.phoneNumber = phoneNumbers.join(", ")
+
+  return cDataObject;
 }
 
 function isTrainer(position: string): boolean {
