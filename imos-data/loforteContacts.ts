@@ -91,14 +91,13 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   outObj["areaEmail"] = c.getEmails()[0].getAddress();
   outObj["areaName"] = c.getEmails()[0].getDisplayName();
 
-  for (let i = 0; i < c.getEmails().length; i++) {
-    let pos = i + 1;
+  for (let i = 1; i < c.getEmails().length; i++) {
     const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
     
-    outObj["name" + pos] = entry.getDisplayName();
+    outObj["name" + i] = entry.getDisplayName();
     const label = entry.getLabel().toString();
-    outObj["position" + pos] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
-    outObj["isTrainer" + pos] = isTrainer(outObj["position" + pos]);
+    outObj["position" + i] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
+    outObj["isTrainer" + i] = isTrainer(outObj["position" + i]);
   }
 
   console.log (outObj)
