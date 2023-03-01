@@ -239,17 +239,36 @@ function markDuplicatesV2(dataSheet:SheetData) {
                     // row assignment.  Because it's possible to change the name we
                     // can't hardcode the iterant key value and therefore have to
                     // resort to not making this be part of the variable declaration.
-                    
+
                     dupeMarker[itkey] = entry[itkey]
-                    markAsDuplicateEntries.push(dupeMarker)
+                    
+                    // was having problems with the previous corrected entries getting marked as duplicate.
+                    // I think this fixes that.
+                    // let markAsDuplicate = true
+                    if (newestCorrectedEntry == null || newestCorrectedEntry[itkey] != entry[itkey]) {
+                        markAsDuplicateEntries.push(dupeMarker)
+                    }
+                    
                 }
                 const relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
                 // check to see if the newest corrected entry already has that information or not
                 const correctedEntry = createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys, timestamp_key)
+
+                const correctionDupeMarker: kiDataEntry = {
+                    isDuplicate:true
+                }
+                // adds iterant key from newest corrective entry in case it needs to be marked as duplicate
+                if (newestCorrectedEntry != null) {
+                    correctionDupeMarker[itkey] = newestCorrectedEntry[itkey];
+                }
+
                 if (newestCorrectedEntry == null) {
                     correctionEntries.push(correctedEntry)
+                    // markAsDuplicateEntries.push(correctionDupeMarker)
                 } else if (relevantEntries.newest[timestamp_key] > newestCorrectedEntry[timestamp_key]){
                     correctionEntries.push(correctedEntry)
+                    markAsDuplicateEntries.push(correctionDupeMarker)
+                    
                 } else {
                     console.log("Skipped adding correction because it was up to date")
                 }
