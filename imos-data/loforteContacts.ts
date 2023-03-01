@@ -88,16 +88,17 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
 
   cDataObject.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
   const outObj = {}
-  for (let i = 0; i < c.getEmails().length; i++) {
-    
-    const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
-    outObj["areaEmail"] = entry.getAddress();
+  outObj["areaEmail"] = c.getEmails()[0].getAddress();
+  outObj["areaName"] = c.getEmails()[0].getDisplayName();
 
-    //let pos = i + 1;
-    outObj["name" + i] = entry.getDisplayName();
+  for (let i = 0; i < c.getEmails().length; i++) {
+    let pos = i + 1;
+    const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
+    
+    outObj["name" + pos] = entry.getDisplayName();
     const label = entry.getLabel().toString();
-    outObj["position" + i] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
-    outObj["position" + i] = isTrainer(outObj["position" + i]);
+    outObj["position" + pos] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
+    outObj["isTrainer" + pos] = isTrainer(outObj["position" + pos]);
   }
 
   console.log (outObj)
