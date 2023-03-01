@@ -496,6 +496,9 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     aptAddress: 22,
                     areaId: 23,
                     phoneNumber: 24,
+                    missionaryEmail1: 25,
+                    missionaryEmail2: 26,
+                    missionaryEmail3: 27,
                 },
             },
             debug: {
