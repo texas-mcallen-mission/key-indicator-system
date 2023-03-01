@@ -86,8 +86,10 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     aptAddress: '',
     areaId: '',
     phoneNumber: '',
+    missionaryEmail1: '',
+    missionaryEmail2: '',
+    missionaryEmail3: '',
   }
-  // gets 
 
   let allEmails = c.getEmails();
 
@@ -95,19 +97,15 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   let areaEmail = allEmails.shift()
   cDataObject["areaEmail"] = areaEmail.getAddress();
   cDataObject["areaName"] = areaEmail.getDisplayName();
-
-  // for(const email of allEmails){
-
-  // }
-
+  // loops through each email and sets the name, position and, isTrainer
   for (let i = 0; i < allEmails.length; i++) {
-    // const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
     const entry = allEmails[i]
-    const epos = i + 1
+    const epos = i + 1; // Position
     cDataObject["name" + epos] = entry.getDisplayName();
     const label = entry.getLabel().toString();
     cDataObject["position" + epos] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
     cDataObject["isTrainer" + epos] = isTrainer(cDataObject["position" + epos]);
+    cDataObject["missionaryEmail" + epos] = entry.getAddress().toString();
   }
 
   cDataObject.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
