@@ -59,22 +59,7 @@ Gets all of the data from the contact and retruns it as an object with the conta
 */
 function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntry {
 
-  const outObj = {
-  }
-  outObj["areaEmail"] = c.getEmails()[0].getAddress();
-  outObj["areaName"] = c.getEmails()[0].getDisplayName();
-
-  for (let i = 1; i < c.getEmails().length; i++) {
-    const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
-    
-    outObj["name" + i] = entry.getDisplayName();
-    const label = entry.getLabel().toString();
-    outObj["position" + i] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
-    outObj["isTrainer" + i] = isTrainer(outObj["position" + i]);
-  }
-
-  //console.log (outObj)
-  
+  // declares cDataObject as a contactEntry
   const cDataObject: contactEntry = {
     dateContactGenerated: '',
     areaEmail: '',
@@ -101,7 +86,28 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     aptAddress: '',
     areaId: '',
     phoneNumber: '',
-    ...outObj
+  }
+  // gets 
+
+  let allEmails = c.getEmails();
+
+  // Array.shift() returns the top entry in an array and removes it.
+  let areaEmail = allEmails.shift()
+  cDataObject["areaEmail"] = areaEmail.getAddress();
+  cDataObject["areaName"] = areaEmail.getDisplayName();
+
+  // for(const email of allEmails){
+
+  // }
+
+  for (let i = 0; i < allEmails.length; i++) {
+    // const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
+    const entry = allEmails[i]
+    const epos = i + 1
+    cDataObject["name" + epos] = entry.getDisplayName();
+    const label = entry.getLabel().toString();
+    cDataObject["position" + epos] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
+    cDataObject["isTrainer" + epos] = isTrainer(cDataObject["position" + epos]);
   }
 
   cDataObject.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
@@ -151,13 +157,11 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
 
   // gets phone number
   const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
-  const phoneNumbers : string[] = []
+  const phoneNumbers : string[] = [];
   for (let entry of phones) {
-    phoneNumbers.push(entry.getPhoneNumber())
+    phoneNumbers.push(entry.getPhoneNumber());
   }
-  cDataObject.phoneNumber = phoneNumbers.join(", ")
-
-  console.log(cDataObject);
+  cDataObject.phoneNumber = phoneNumbers.join(", ");
 
   return cDataObject;
 }
