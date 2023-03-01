@@ -271,6 +271,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
                     
                 } else {
                     console.log("Skipped adding correction because it was up to date")
+                    okEntries.push(correctionDupeMarker)
                 }
 
             } else {
