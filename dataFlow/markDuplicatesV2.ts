@@ -229,7 +229,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
                 // check to see if data has corrected entries in it.
                 // If so, check and see if the most recent * not * corrected entry is the same as it was.
 
-                const correctedEntry = getNewestCorrectedEntry_(data)
+                const newestCorrectedEntry = getNewestCorrectedEntry_(data)
 
                 for (const entry of data) {
                     
@@ -245,8 +245,13 @@ function markDuplicatesV2(dataSheet:SheetData) {
                 }
                 const relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
                 // check to see if the newest corrected entry already has that information or not
-                if (correctedEntry != null && correctedEntry[timestamp_key] < relevantEntries.newest[timestamp_key]) {
-                    correctionEntries.push(createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys,timestamp_key))
+                const correctedEntry = createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys, timestamp_key)
+                if (newestCorrectedEntry == null) {
+                    correctionEntries.push(correctedEntry)
+                } else if (relevantEntries.newest[timestamp_key] > newestCorrectedEntry[timestamp_key]){
+                    correctionEntries.push(correctedEntry)
+                } else {
+                    console.log("Skipped adding correction because it was up to date")
                 }
 
             } else {
