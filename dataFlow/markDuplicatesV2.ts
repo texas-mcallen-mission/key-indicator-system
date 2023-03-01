@@ -264,5 +264,5 @@ function markDuplicatesV2(dataSheet:SheetData) {
     // for (const notDuplicate of okEntries) {
     //     dataSheet.directModify(notDuplicate, { "isDuplicate": false })
     // }
-    dataSheet.insertData(correctionEntries)
+    dataSheet.appendData(correctionEntries)
 }
