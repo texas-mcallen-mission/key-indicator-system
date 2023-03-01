@@ -58,6 +58,23 @@ Gets all of the data from the contact and retruns it as an object with the conta
 
 */
 function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntry {
+
+  const outObj = {
+  }
+  outObj["areaEmail"] = c.getEmails()[0].getAddress();
+  outObj["areaName"] = c.getEmails()[0].getDisplayName();
+
+  for (let i = 1; i < c.getEmails().length; i++) {
+    const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
+    
+    outObj["name" + i] = entry.getDisplayName();
+    const label = entry.getLabel().toString();
+    outObj["position" + i] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
+    outObj["isTrainer" + i] = isTrainer(outObj["position" + i]);
+  }
+
+  //console.log (outObj)
+  
   const cDataObject: contactEntry = {
     dateContactGenerated: '',
     areaEmail: '',
@@ -84,44 +101,13 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     aptAddress: '',
     areaId: '',
     phoneNumber: '',
+    ...outObj
   }
 
   cDataObject.dateContactGenerated = c.getLastUpdated().toDateString(); // date last updates
-  const outObj = {}
-  outObj["areaEmail"] = c.getEmails()[0].getAddress();
-  outObj["areaName"] = c.getEmails()[0].getDisplayName();
-
-  for (let i = 1; i < c.getEmails().length; i++) {
-    const entry : GoogleAppsScript.Contacts.EmailField = c.getEmails()[i];
-    
-    outObj["name" + i] = entry.getDisplayName();
-    const label = entry.getLabel().toString();
-    outObj["position" + i] = label.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
-    outObj["isTrainer" + i] = isTrainer(outObj["position" + i]);
-  }
-
-  console.log (outObj)
-
+  
   cDataObject.areaEmail = c.getEmails()[0].getAddress(); // getting areaEmail
 
-  // getting names1
-  cDataObject.name1 = c.getEmails()[1].getDisplayName();
-  const pos1: string = c.getEmails()[1].getLabel().toString();
-  cDataObject.position1 = pos1.slice(-5).replace(/[^a-z0-9]/gi, ''); // .replace(/[^a-z]/gi, '') makes only letters and numbers
-  cDataObject.isTrainer1 = isTrainer(cDataObject.position1);
-
-  // getting names2
-  if (c.getEmails().length >= 3) {
-    cDataObject.name2 = c.getEmails()[2].getDisplayName();
-    const pos2: string = c.getEmails()[2].getLabel().toString();
-    cDataObject.position2 = pos2.slice(-5).replace(/[^a-z0-9]/gi, '');
-  }
-  // getting names3
-  if (c.getEmails().length >= 4) {
-    cDataObject.name3 = c.getEmails()[3].getDisplayName();
-    const pos3: string = c.getEmails()[3].getLabel().toString();
-    cDataObject.position3 = pos3.slice(-5).replace(/[^a-z0-9]/gi, '');
-  }
 
   // everything from notes
   const getNotes: string = c.getNotes().toString().replaceAll(": ", ":");
@@ -170,6 +156,8 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     phoneNumbers.push(entry.getPhoneNumber())
   }
   cDataObject.phoneNumber = phoneNumbers.join(", ")
+
+  console.log(cDataObject);
 
   return cDataObject;
 }
