@@ -105,15 +105,52 @@ function testCreateCorrectedEntry() {
     }
 }
 
-function createCorrectedEntry_(areaDataEntry: kiDataEntry, dataEntry: kiDataEntry, keysToKeep: string[]) {
-    const output: kiDataEntry = copyObjectNoRecursion_(dataEntry);
-    for (const key of keysToKeep) {
-        if (Object.hasOwnProperty.call(areaDataEntry, key)) {
+function getNewestCorrectedEntry_(data: kiDataEntry[]): kiDataEntry | null{
+    let output = null
+    const logKey = "log"
+    const logTimeKey = "newestTime"
 
-            output[key] = areaDataEntry[key]
+    const correctedEntries: kiDataEntry[] = []
+    for (const entry of data) {
+        if (Object.prototype.hasOwnProperty.call(entry, logKey)) {
+            // check to see if there's any corrected entries
+            if (String(entry[logKey]).includes("CORRECTED_ENTRY")) {
+                // if this is the  first that passes the corrected entry check, set output equal to it
+                if (output == null) {
+                    output = entry
+                } else {
+                    // loads up the status log section of the data, and parses it for the latest timestamp inside.
+                    const outputLogData = JSON.parse(output[logKey])
+                    const testLogData = JSON.parse(entry[logKey])
+                    if (Object.hasOwn(outputLogData, logTimeKey) && Object.hasOwn(testLogData, logTimeKey)) {
+                        // so if we *can* make a comparison, do things... otherwise we just kinda yolo it.
+                        if (outputLogData[logTimeKey] < entry[logTimeKey]) {
+                            output = entry
+                        }
+                    }
+                }
+            }
         }
     }
-    output["log"] = "CORRECTED_ENTRY"
+    
+
+    return output
+}
+
+function createCorrectedEntry_(newData: kiDataEntry, areaData: kiDataEntry, keysToKeep: string[],timestamp_key:string) {
+    const output: kiDataEntry = copyObjectNoRecursion_(areaData);
+    for (const key of keysToKeep) {
+        if (Object.hasOwnProperty.call(newData, key)) {
+
+            output[key] = newData[key]
+        }
+    }
+    const logData = {
+        log: "CORRECTED_ENTRY",
+        newestTime:-1
+    }
+    logData.newestTime = new Date(newData[timestamp_key]).getTime()
+    output["log"] = JSON.stringify(logData)
     output["isDuplicate"] = false
     return output
 
@@ -173,32 +210,15 @@ function markDuplicatesV2(dataSheet:SheetData) {
     // dataClass.removeBeforeDate(cutoffDate)
     // also disabled during testing because headache
     // dataClass.removeMatchingByKey("isDuplicate", [true,"true"])
-    dataClass.removeMatchingByKey("log", ["CORRECTED_ENTRY"])
+    // this is from the previous attempt to clean up corrected entries.  Using something a little smarter now.
+    // dataClass.removeMatchingByKey("log", ["CORRECTED_ENTRY"])
     //@ts-expect-error I'm intentionally abusing this.  Llore.
     const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
-    // data should come out of this formatted like so:
-    /* "Sun, Jan 23":{
-        "A123456": [
-            {kiDataEntry1},...{kiDataEntryN}
-        ],
-        "A231": [
-            {kiDataEntry1}
-        ]
-    }
-    */
-    // const aggDataDemo:two_key_grouper = {
-    //     "Sun, Jan 23": {
-    //         "A123456": [
-    //             dataClass.data[0] ,  dataClass.data[1]
-    //         ],
-    //         "A231": [
-    //             dataClass.data[3]
-    //         ]
-    //     }
-    // }
+    
     const correctionEntries: kiDataEntry[] = []
-    const markAsDuplicateEntries : number[] = []
+    const markAsDuplicateEntries : kiDataEntry[] = []
     const okEntries: number[] = []
+    const itkey = dataSheet.iterantKey
     // outer loop
     for(const date in aggData) {
         const dataForWeek = aggData[date]
@@ -206,11 +226,28 @@ function markDuplicatesV2(dataSheet:SheetData) {
             const data = dataForWeek[areaID]
             // if there's nothing, skiiiip
             if (data.length > 1) {
+                // check to see if data has corrected entries in it.
+                // If so, check and see if the most recent * not * corrected entry is the same as it was.
+
+                const correctedEntry = getNewestCorrectedEntry_(data)
+
                 for (const entry of data) {
-                    markAsDuplicateEntries.push(entry[iterantKey])
+                    
+                    const dupeMarker: kiDataEntry = {
+                        isDuplicate:true
+                    }
+                    // row assignment.  Because it's possible to change the name we
+                    // can't hardcode the iterant key value and therefore have to
+                    // resort to not making this be part of the variable declaration.
+                    
+                    dupeMarker[itkey] = entry[itkey]
+                    markAsDuplicateEntries.push(dupeMarker)
                 }
                 const relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
-                correctionEntries.push(createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys))
+                // check to see if the newest corrected entry already has that information or not
+                if (correctedEntry != null && correctedEntry[timestamp_key] < relevantEntries.newest[timestamp_key]) {
+                    correctionEntries.push(createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys,timestamp_key))
+                }
 
             } else {
                 for (const entry of data) {
@@ -220,11 +257,12 @@ function markDuplicatesV2(dataSheet:SheetData) {
         }
     }
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
-    for (const duplicate of markAsDuplicateEntries) {
-        dataSheet.directModify(duplicate, { "isDuplicate": true })
-    }
-    for (const notDuplicate of okEntries) {
-        dataSheet.directModify(notDuplicate, { "isDuplicate": false })
-    }
+    dataSheet.updateRows(markAsDuplicateEntries)
+    // for (const duplicate of markAsDuplicateEntries) {
+    //     dataSheet.directModify(duplicate, { "isDuplicate": true })
+    // }
+    // for (const notDuplicate of okEntries) {
+    //     dataSheet.directModify(notDuplicate, { "isDuplicate": false })
+    // }
     dataSheet.insertData(correctionEntries)
 }
