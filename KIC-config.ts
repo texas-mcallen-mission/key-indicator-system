@@ -375,6 +375,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 tabName: "Data",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
+                use_iterant:true,
                 keyNamesToIgnore: ["responsePulled", "submissionEmail"],
                 initialColumnOrder: {
                     areaName: 0,
