@@ -281,6 +281,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
             }
         }
     }
+    // WYLO 2023-03-01: okentries needs to get updated to use the new kiDataEntry format stuff as well.
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
     dataSheet.updateRows(markAsDuplicateEntries)
     // for (const duplicate of markAsDuplicateEntries) {
