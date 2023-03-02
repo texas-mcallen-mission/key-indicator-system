@@ -1,6 +1,5 @@
 // this is just full of the interfaces
 
-
 interface contactEntry extends kiDataEntry {
     dateContactGenerated: string,
     areaEmail: string,
@@ -75,5 +74,3 @@ interface contactEntry extends kiDataEntry {
     hasMultipleUnits: boolean,
 
   }
-
-    
