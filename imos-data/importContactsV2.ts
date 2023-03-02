@@ -1,3 +1,6 @@
+//@ts-check
+// Written by Elder Lo Forte
+
 function importContactsV2(): void {
 
   console.time('Execution Time');
