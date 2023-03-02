@@ -53,6 +53,8 @@ function getArrayOfContacts(): contactEntry[] {
 } // end wirteArray
 
 
+
+
 /*
 Gets all of the data from the contact and retruns it as an object with the contactEntry interface.
 
@@ -116,6 +118,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   // everything from notes
   const getNotes: string = c.getNotes().toString().replaceAll(": ", ":");
   const getNotesArray: string[] = getNotes.split("\n");
+
 
   /*
   every contact has a note section
@@ -181,3 +184,4 @@ function isTrainer(position: string): boolean {
       return false;
   } // end switch
 } // end isTrainer
+

@@ -191,10 +191,11 @@ function updateCache(cacheOutput): shardLockCache {
 function loadShardCache() {
     const cache = CacheService.getScriptCache();
     const cacheValues = cache.get(INTERNAL_CONFIG.fileSystem.shardManager.shard_cache_base_key);
+    let cacheOutput: shardLockCache
     if (cacheValues == null || cacheValues == "" || typeof cacheValues == undefined) {
-        var cacheOutput = createShardValues();
+        cacheOutput = createShardValues();
     } else {
-        var cacheOutput: shardLockCache = updateCache(JSON.parse(cacheValues));
+        cacheOutput = updateCache(JSON.parse(cacheValues));
     }
     console.log(cacheOutput);
     return cacheOutput;

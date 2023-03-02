@@ -2,7 +2,7 @@
 
 interface meta_runner_args {
     trigger: string,
-    functionArg?: any,
+    functionArg?: string|number|boolean|object|null,
     ignoreLockout?: boolean,
     shardNumber?: string | null,
     
@@ -12,6 +12,8 @@ interface meta_runner_args {
 }
 
 // This makes using the dLog 
+// to explain this eslint-disable:  This is supposed to call functions.  It's on purpose.
+// eslint-disable-next-line @typescript-eslint/ban-types
 function meta_runner_(functionName:Function,args: meta_runner_args) {
     let logString = "[META_RUNNER] - Running " + functionName.name + " with trigger:" + args.trigger
     if(args.shardNumber != null) {logString += " RUNNING ON SHARD: "+args.shardNumber}
