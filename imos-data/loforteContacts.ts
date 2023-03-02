@@ -24,7 +24,6 @@ function makeSheet(): void {
   ogDataClass.removeMatchingByKey("areaId", newAreaIds);
   ogDataClass.bulkAppendObject({
     "deletionDate": convertToSheetDate_(new Date())
-    
   })
   const leftovers: kiDataEntry[] = ogDataClass.end
 

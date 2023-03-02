@@ -64,6 +64,8 @@ interface contactEntry extends kiDataEntry {
 
     deletionDate: string,
     areaId: string,
+    areaEmail: string,
+    areaName: string,
 
   }
 
