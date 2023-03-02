@@ -52,7 +52,7 @@ function importContacts_TimeBasedTrigger() {
         trigger: triggerTypes.timeBased,
         functionArg:allSheetData
     };
-    meta_runner_(importContacts, meta_args)
+    meta_runner_(importContactsV2, meta_args)
     }
 
 function updateForm_TimeBasedTrigger() {

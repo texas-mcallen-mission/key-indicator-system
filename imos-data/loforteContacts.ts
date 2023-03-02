@@ -1,4 +1,4 @@
-function makeSheet(): void {
+function importContactsV2(): void {
 
   console.time('Execution Time');
 
