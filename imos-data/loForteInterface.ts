@@ -71,6 +71,8 @@ interface contactEntry extends kiDataEntry {
     isSeniorCouple: boolean,
     isSisterArea: boolean,
     hasVehicle: boolean,
+    unitString: string,
+    hasMultipleUnits: boolean,
 
   }
 

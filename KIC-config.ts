@@ -386,6 +386,8 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     isSeniorCouple: 6,
                     isSisterArea: 7,
                     hasVehicle: 8,
+                    unitString: 9,
+                    hasMultipleUnits: 10,
                 },
             },
             data: {
