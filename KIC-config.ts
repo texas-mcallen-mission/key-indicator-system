@@ -379,6 +379,9 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 initialColumnOrder: {
                     deletionDate: 0,
                     areaId: 1,
+                    areaEmail: 2,
+                    areaName: 3,
+                    
                 },
             },
             data: {
