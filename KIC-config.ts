@@ -371,6 +371,25 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "RCA-weekly":42
                 },
             },
+            closedAreas: {
+                tabName: "Closed Areas",
+                headerRow: 0,
+                includeSoftcodedColumns: true,
+                keyNamesToIgnore: ["responsePulled", "submissionEmail"],
+                initialColumnOrder: {
+                    deletionDate: 0,
+                    areaId: 1,
+                    areaEmail: 2,
+                    areaName: 3,
+                    district: 4,
+                    zone: 5,
+                    isSeniorCouple: 6,
+                    isSisterArea: 7,
+                    hasVehicle: 8,
+                    unitString: 9,
+                    hasMultipleUnits: 10,
+                },
+            },
             data: {
                 tabName: "Data",
                 headerRow: 0,
@@ -484,6 +503,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     vehicleMiles: 20,
                     vinLast8: 21,
                     aptAddress: 22,
+                    areaId: 23,
+                    phoneNumber: 24,
+                    missionaryEmail1: 25,
+                    missionaryEmail2: 26,
+                    missionaryEmail3: 27,
                 },
             },
             debug: {

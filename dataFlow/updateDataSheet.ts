@@ -21,7 +21,9 @@ function updateDataSheet() {
     console.log("BEGINNING UPDATE");
 
 
+
     const allSheetData: manySheetDatas = constructSheetData();
+
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
         loadAreaIDs(allSheetData);
     } //Force a full recalculation
@@ -35,8 +37,10 @@ function updateDataSheet() {
         console.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
         return;
     }
+
     const numberOfEntries = missionData.length
     // former ignore
+    // makeSheet();
     refreshContacts(allSheetData);
 
     const contacts = getContactData(allSheetData);
@@ -53,6 +57,7 @@ function updateDataSheet() {
     if (CONFIG.dataFlow.skipMarkingPulled) {
         console.warn("[DEBUG] Skipping marking responses as pulled");
     } else {
+
         const column = allSheetData.form.getIndex("responsePulled")
         const minRow = allSheetData.form.rsd.headerRow + 1
         allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
@@ -250,7 +255,9 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
 
+
     function logNeither(key, areaID, areaName, sourceID = ".") {
+
         console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + sourceID + "'");
     }
 
