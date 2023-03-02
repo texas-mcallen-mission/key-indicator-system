@@ -14,7 +14,19 @@
                     }
                 }
             }
-        }
+		},
+		"vscode": {
+			"extensions": [
+				"DavidAnson.vscode-markdownlint",
+				"aaron-bond.better-comments",
+				"Gruntfuggly.todo-tree",
+				"bierner.markdown-preview-github-styles",
+				"oouo-diogo-perdigao.docthis",
+				"bierner.github-markdown-preview",
+				"dbaeumer.vscode-eslint",
+				"oderwat.indent-rainbow"
+			]
+		}
     },
-    "postCreateCommand": "git submodule update --init"
+    "postCreateCommand": "./.devcontainer/postCreateCommand.sh"
 }

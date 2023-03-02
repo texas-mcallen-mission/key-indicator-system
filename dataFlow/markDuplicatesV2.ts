@@ -197,8 +197,8 @@ function markDuplicatesV2(dataSheet:SheetData) {
         "fb-role"
     ]
     const dataClass = new kiDataClass(dataSheet.getData())
-    const iterantKey = "add_iterant"
-    dataClass.addIterant(iterantKey,1)
+    // const iterantKey = "add_iterant"
+    // dataClass.addIterant(iterantKey,1)
     const time_key = "kiDate"
     const timestamp_key = "formTimestamp"
     const area_id_key = "areaID"

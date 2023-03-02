@@ -6,11 +6,7 @@
         "gruntfuggly.todo-tree",
         "bierner.markdown-preview-github-styles",
         "bierner.github-markdown-preview",
-        "eamodio.gitlens",
         "oouo-diogo-perdigao.docthis",
-
-        "christian-kohler.npm-intellisense",
-        "eg2.vscode-npm-script",
-        "HookyQR.beautify"
+        "christian-kohler.npm-intellisense"
     ]
 }
