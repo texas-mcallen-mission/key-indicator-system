@@ -117,6 +117,11 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   const getNotes: string = c.getNotes().toString().replaceAll(": ", ":");
   const getNotesArray: string[] = getNotes.split("\n");
 
+  /*
+  every contact has a note section
+  this gets the notes and splits it by new line
+  Then it splits it all by ":" then it looks up the data and sets it based on all of that...
+  */
   for (let i = 0; i < getNotesArray.length; i++) {
 
     const objectNotes: string[] = getNotesArray[i].split(":");
@@ -164,6 +169,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   return cDataObject;
 }
 
+// put in the position and tells me if its a trainer or not... that is all
 function isTrainer(position: string): boolean {
   switch (position) {
     case "TR":

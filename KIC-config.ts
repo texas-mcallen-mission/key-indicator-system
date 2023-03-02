@@ -381,7 +381,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     areaId: 1,
                     areaEmail: 2,
                     areaName: 3,
-                    
+                    district: 4,
+                    zone: 5,
+                    isSeniorCouple: 6,
+                    isSisterArea: 7,
+                    hasVehicle: 8,
                 },
             },
             data: {

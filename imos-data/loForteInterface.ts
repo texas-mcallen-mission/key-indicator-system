@@ -66,6 +66,11 @@ interface contactEntry extends kiDataEntry {
     areaId: string,
     areaEmail: string,
     areaName: string,
+    district: string,
+    zone: string,
+    isSeniorCouple: boolean,
+    isSisterArea: boolean,
+    hasVehicle: boolean,
 
   }
 
