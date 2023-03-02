@@ -96,10 +96,10 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     missionaryEmail3: '',
   }
 
-  let allEmails = c.getEmails();
+  const allEmails = c.getEmails();
 
   // Array.shift() returns the top entry in an array and removes it.
-  let areaEmail = allEmails.shift()
+  const areaEmail = allEmails.shift()
   cDataObject["areaEmail"] = areaEmail.getAddress();
   cDataObject["areaName"] = areaEmail.getDisplayName();
   // loops through each email and sets the name, position and, isTrainer
