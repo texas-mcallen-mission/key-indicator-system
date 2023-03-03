@@ -13,7 +13,7 @@ function constructSheetData(force = false) {
         const allSheetData = getAllSheetDataFromCache();
         if (allSheetData != null) return allSheetData;
     }
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const allSheetData = constructSheetDataV2(sheetDataConfig);
     const preKey = allSheetData.data.getKeys();
     // syncDataFlowCols_(allSheetData.form, allSheetData.data);
     console.warn("HEYO Syncing keys *should* be happening...")
@@ -36,7 +36,7 @@ function clearAllSheetDataCache() {
 
 
 function testCachingV2() {
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const allSheetData = constructSheetDataV2(sheetDataConfig);
     cacheAllSheetData(allSheetData);
 
     const allSheetData2 = getAllSheetDataFromCache();

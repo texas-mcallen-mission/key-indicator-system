@@ -115,7 +115,7 @@ class dataLogger {
             this.logMetaData[logMetaKeys.debugLogData] = args.logString;
         }
         this.inline = args.isInline;
-        const targetSheetEntry = sheetDataConfig.local.debug
+        const targetSheetEntry = sheetDataConfig.debug;
         const rawSheetData = new RawSheetData(targetSheetEntry)
 
         this.sheetData = new SheetData(rawSheetData)
@@ -241,8 +241,8 @@ class dataLogger {
 function addToSheet_(data: kiDataEntry) {
     // let allSheetData = constructSheetData();
     // let debug = allSheetData.debug;
-    const rawSheetData = new RawSheetData(getSheetDataConfig().local.debug)
-    const debug = new SheetData(rawSheetData)
+    const rawSheetData = new RawSheetData(getSheetDataConfig().debug);
+    const debug = new SheetData(rawSheetData);
 
 
     debug.appendData(data);
