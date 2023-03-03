@@ -71,6 +71,8 @@ function buildFSV4(allSheetData = constructSheetData()) {
     const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
 
     const reportBaseFolderId = getOrCreateReportFolder();
+
+    const closedAreas = new SheetData(new RawSheetData(sheetDataConfig.closedAreas)); // dont really know from here 
     
     for (const zone in orgData) {
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
