@@ -588,9 +588,6 @@ function getSheetDataConfig(): manySheetDataEntries {
                 },
             },
         
-
-
-
     };
     return sheetDataConfig;
 }

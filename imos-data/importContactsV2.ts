@@ -5,8 +5,10 @@ function importContactsV2(): void {
 
   console.time('Execution Time');
 
-  const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.closedAreas));
-  const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.contact));
+  const allSheetData : manySheetDatas= constructSheetDataV3(["closedAreas", "contact"])
+
+  const closedAreasSheet : SheetData = allSheetData.closedAreas;
+  const loForteContacts: SheetData = allSheetData.contact;
 
   // gets old data and new data
   const ogDataClass = new kiDataClass(loForteContacts.getData())

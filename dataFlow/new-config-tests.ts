@@ -32,8 +32,7 @@ function testStringify() {
 
     const test2 = JSON.stringify(sheetDataConfig);
     console.log(test2);
-
-    const allSheetData = constructSheetDataV2(sheetDataConfig);
+    const allSheetData: manySheetDatas = constructSheetDataV3();
     // let allSheetDataRemote = constructSheetDataV2(sheetDataConfig.remote);
     // I think I can turn this bad boi into a cached sheetData again if I try hard enough
 
@@ -72,6 +71,24 @@ function constructSheetDataV2(target: manySheetDataEntries): manySheetDatas {
 
     return allSheetData;
 }
+
+function constructSheetDataV3(target: string[] | void) : manySheetDatas {
+    const allSheetData: manySheetDatas = {};
+    let targetSheets:string[] = []
+    if (!target) {
+        targetSheets = Object.keys(sheetDataConfig)
+    } else {
+        targetSheets = [...target]
+    }
+
+    for (const entry of targetSheets) {
+        allSheetData[entry] = new SheetData(new RawSheetData(sheetDataConfig[entry]))
+    }
+
+    return allSheetData;
+}
+
+
 
 // {local:sheetDataEntry,remote:sheetDataEntry}
 
