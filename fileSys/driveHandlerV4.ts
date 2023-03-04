@@ -53,7 +53,7 @@ class fsEntry {
 }
 
 function updateFSV4() {
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local)
+    const allSheetData = constructSheetDataV2(sheetDataConfig)
     verifyFSV4(allSheetData)
     clearAllSheetDataCache()
     buildFSV4()

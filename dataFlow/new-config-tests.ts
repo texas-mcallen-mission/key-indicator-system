@@ -33,7 +33,7 @@ function testStringify() {
     const test2 = JSON.stringify(sheetDataConfig);
     console.log(test2);
 
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    const allSheetData = constructSheetDataV2(sheetDataConfig);
     // let allSheetDataRemote = constructSheetDataV2(sheetDataConfig.remote);
     // I think I can turn this bad boi into a cached sheetData again if I try hard enough
 

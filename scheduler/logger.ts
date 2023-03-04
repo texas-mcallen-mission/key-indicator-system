@@ -115,9 +115,8 @@ class dataLogger {
             this.logMetaData[logMetaKeys.debugLogData] = args.logString;
         }
         this.inline = args.isInline;
-        const targetSheetEntry = sheetDataConfig.local.debug
+        const targetSheetEntry = sheetDataConfig.debug
         const rawSheetData = new RawSheetData(targetSheetEntry)
-
         this.sheetData = new SheetData(rawSheetData)
     }
 

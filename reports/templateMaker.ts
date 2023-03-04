@@ -13,7 +13,7 @@
  *
  */
 function createMissingReports() {
-    const localSheetData: manySheetDatas = constructSheetDataV2(sheetDataConfig.local);
+    const localSheetData: manySheetDatas = constructSheetDataV2(sheetDataConfig);
     const fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData);
     const reportTemplates = {
         "Zone": CONFIG.reportCreator.docIDs.zoneTemplate,
