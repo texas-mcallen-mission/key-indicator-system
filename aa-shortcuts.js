@@ -3,7 +3,7 @@
 
 
 function run_importContacts() {
-    const allSheetData = constructSheetData();
+    const allSheetData = constructSheetDataV3();
     importContacts(allSheetData);
 }
 
@@ -17,7 +17,7 @@ function run_shareFileSys() {
 }
 
 function run_markDuplicates() {
-    const allSheetData = constructSheetData();
+    const allSheetData = constructSheetDataV3();
     markDuplicates(allSheetData);
 }
 
@@ -48,7 +48,7 @@ function clearCache() {
 }
 
 function run_constructSheetData() {
-    const allSheetData = constructSheetData();
+    const allSheetData = constructSheetDataV3();
     for (const key in allSheetData) {
         console.log(key)
     }

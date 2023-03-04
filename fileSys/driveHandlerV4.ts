@@ -53,7 +53,7 @@ class fsEntry {
 }
 
 function updateFSV4() {
-    const allSheetData = constructSheetDataV2(sheetDataConfig)
+    const allSheetData: manySheetDatas = constructSheetDataV3();
     verifyFSV4(allSheetData)
     clearAllSheetDataCache()
     buildFSV4()
@@ -62,7 +62,7 @@ function updateFSV4() {
 
 
 
-function buildFSV4(allSheetData = constructSheetData()) {
+function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3()) : void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData);
 
@@ -242,7 +242,7 @@ function loadFilesystems_(allSheetData):manyFilesystemEntries {
     return filesystems;
 }
 
-function verifyFSV4(allSheetData = constructSheetData()) {
+function verifyFSV4(allSheetData = constructSheetDataV3()) {
     const filesystems = loadFilesystems_(allSheetData);
 
     for (const filesystem in filesystems) {
