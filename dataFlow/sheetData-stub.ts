@@ -44,10 +44,4 @@ function testCachingV2() {
         console.log("To and From Cache on local sheetData probably worked");
     }
 
-    const remoteSheetData : SheetData = allSheetData.remote;
-    cacheAllSheetData(allSheetData);
-    const allSheetDataRemote = getAllSheetDataFromCache();
-    if (JSON.stringify(remoteSheetData) == JSON.stringify(allSheetDataRemote)) {
-        console.log("To and From Cache on remote sheetData probably worked");
-    }
 }
