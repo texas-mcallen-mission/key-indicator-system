@@ -60,18 +60,23 @@ function updateFSV4() {
     updateShards()
 }
 
+interface closedData {
+    [index: string]: closedDistrictData;
+}
 
+interface closedDistrictData {
+    [index: string]: kiDataEntry[];
+}
 
-function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zone","district","area","contact","closedAreas"])) : void {
+function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys","contact","closedAreas"])) : void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
-    const closedAreasSheet: SheetData = allSheetData.closedAreas;
+    const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData())
 
-    const arrayOfClosedAreas : string[] = closedAreasSheet.getAllOfKey("areaId");
+    const zones = Object.prototype.hasOwnProperty.call(closedAreasClass, "zone");
 
+    console.log(zones);
 
-
-    console.log(orgData);
 
     const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
 
@@ -130,9 +135,6 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
         seedId: -1
     }
 
-    // romp romp romp
-
-    
     let createdNew = false;
     if (filesystem.existingFolders.includes(folderNameString)) {
 
