@@ -53,7 +53,7 @@ class fsEntry {
 }
 
 function updateFSV4() {
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local)
+    const allSheetData: manySheetDatas = constructSheetDataV3();
     verifyFSV4(allSheetData)
     clearAllSheetDataCache()
     buildFSV4()
@@ -62,9 +62,9 @@ function updateFSV4() {
 
 
 
-function buildFSV4(allSheetData = constructSheetData()) {
+function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zone","district","area","contact"])) : void {
     //@ts-ignore
-    const orgData = getMissionOrgData(allSheetData);
+    const orgData = getMissionOrgData(allSheetData.contact);
 
     console.log(orgData);
 
@@ -208,24 +208,24 @@ interface filesystemData extends kiDataEntry {
  * @param {*} allSheetData
  * @return {manyFilesystemEntries}  wheeee
  */
-function loadFilesystems_(allSheetData):manyFilesystemEntries {
+function loadFilesystems_(allSheetData: manySheetDatas):manyFilesystemEntries {
     const filesystems:manyFilesystemEntries = {
         Zone: {
-            fsData: allSheetData.zoneFilesys,
+            fsData: allSheetData.zone,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
             existingFolders: [],
             reportTemplate:CONFIG.reportCreator.docIDs.zoneTemplate
         },
         District: {
-            fsData: allSheetData.distFilesys,
+            fsData: allSheetData.district,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
             existingFolders: [],
             reportTemplate: CONFIG.reportCreator.docIDs.distTemplate
         },
         Area: {
-            fsData: allSheetData.areaFilesys,
+            fsData: allSheetData.area,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
             existingFolders: [],
@@ -242,7 +242,7 @@ function loadFilesystems_(allSheetData):manyFilesystemEntries {
     return filesystems;
 }
 
-function verifyFSV4(allSheetData = constructSheetData()) {
+function verifyFSV4(allSheetData = constructSheetDataV3()) {
     const filesystems = loadFilesystems_(allSheetData);
 
     for (const filesystem in filesystems) {

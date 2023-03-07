@@ -47,10 +47,10 @@ function importContacts_TimeBasedTrigger() {
         return;
     }
 
-    const allSheetData = constructSheetData();
+    const allSheetData : manySheetDatas = constructSheetDataV3(["closedAreas","contact"]);
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.timeBased,
-        functionArg:allSheetData
+        functionArg: allSheetData
     };
     meta_runner_(importContactsV2, meta_args)
 
@@ -247,7 +247,7 @@ function importContacts_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.importContacts is set to false");
         return;
     }
-    const allSheetData = constructSheetData();
+    const allSheetData : manySheetDatas = constructSheetDataV3();
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu,
         functionArg:allSheetData,
@@ -261,7 +261,7 @@ function markDuplicates_MenuTrigger_() {
         console.log("[TRIGGER] Execution canceled: CONFIG parameter triggers.menu.markDuplicates is set to false");
         return;
     }
-    const allSheetData = constructSheetData();
+    const allSheetData = constructSheetDataV3();
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu,
         functionArg:allSheetData

@@ -7,25 +7,25 @@
 //  * @param {Boolean} force - If true, skips checking the cache and forces a recalculation. Default value is false.
 //  */
 
-function constructSheetData(force = false) {
-    if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
+// function constructSheetData(force = false) {
+//     if (CONFIG.dataFlow.allSheetData_cacheEnabled && !force) {
 
-        const allSheetData = getAllSheetDataFromCache();
-        if (allSheetData != null) return allSheetData;
-    }
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
-    const preKey = allSheetData.data.getKeys();
-    // syncDataFlowCols_(allSheetData.form, allSheetData.data);
-    console.warn("HEYO Syncing keys *should* be happening...")
-    allSheetData.data.addKeys(allSheetData.form)
-    const postKey = allSheetData.data.getKeys();
-    console.log(preKey);
-    console.log(postKey);
-    return allSheetData;
-}
+//         const allSheetData : manySheetDatas = getAllSheetDataFromCache();
+//         if (allSheetData != null) return allSheetData;
+//     }
+//     const allSheetData: manySheetDatas = constructSheetDataV3(["data","form"]);
+//     const preKey = allSheetData.data.getKeys();
+//     // syncDataFlowCols_(allSheetData.form, allSheetData.data);
+//     console.warn("HEYO Syncing keys *should* be happening...")
+//     allSheetData.data.addKeys(allSheetData.form)
+//     const postKey = allSheetData.data.getKeys();
+//     console.log(preKey);
+//     console.log(postKey);
+//     return allSheetData;
+// }
 
 function testConstructor() {
-    const test = constructSheetData();
+    const test : manySheetDatas = constructSheetDataV3();
 }
 
 function clearAllSheetDataCache() {
@@ -36,18 +36,12 @@ function clearAllSheetDataCache() {
 
 
 function testCachingV2() {
-    const allSheetData = constructSheetDataV2(sheetDataConfig.local);
+    let allSheetData : manySheetDatas = constructSheetDataV3();
     cacheAllSheetData(allSheetData);
 
-    const allSheetData2 = getAllSheetDataFromCache();
+    const allSheetData2 : manySheetDatas = getAllSheetDataFromCache();
     if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
         console.log("To and From Cache on local sheetData probably worked");
     }
-    //@ts-expect-error
-    const remoteSheetData = constructSheetDataV2(sheetDataConfig.remote);
-    cacheAllSheetData(remoteSheetData);
-    const allSheetDataRemote = getAllSheetDataFromCache();
-    if (JSON.stringify(remoteSheetData) == JSON.stringify(allSheetDataRemote)) {
-        console.log("To and From Cache on remote sheetData probably worked");
-    }
+
 }

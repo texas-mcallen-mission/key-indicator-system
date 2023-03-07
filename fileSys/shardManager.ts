@@ -15,7 +15,7 @@ function updateShards() {
     clearAllSheetDataCache()
     const NUMBER_OF_SHARDS = CONFIG.fileSystem.shardManager.number_of_shards
     const MAX_ALLOWABLE_SPREAD = CONFIG.fileSystem.shardManager.max_spread
-    const allSheetData = constructSheetData()
+    const allSheetData = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys"])
     const filesystems = loadFilesystems_(allSheetData);
 
     for (const fs in filesystems) {
