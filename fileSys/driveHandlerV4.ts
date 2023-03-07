@@ -72,8 +72,15 @@ function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFi
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
     const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData())
+    //@ts-ignore its just dumb
+    const groupedClosedAreas:closedData = closedAreasClass.groupDataByMultipleKeys(["zone","district"])
+    const zones = Object.keys(closedAreasClass)
+    for (const zone of zones) {
+        if (Object.hasOwn(closedAreasClass, zone)) {
+            const idek = ""
+        }
+    }
 
-    const zones = Object.prototype.hasOwnProperty.call(closedAreasClass, "zone");
 
     console.log(zones);
 
@@ -83,11 +90,13 @@ function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFi
     const reportBaseFolderId = getOrCreateReportFolder();
     
     for (const zone in orgData) {
+
+        
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
         const zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId,"" )
         const zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry)
-        const zoneAreaIds = []
+        const zoneAreaIds = [];
 
         // add it here
         for (const district in orgData[zone]) {
