@@ -62,9 +62,14 @@ function updateFSV4() {
 
 
 
-function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zone","district","area","contact"])) : void {
+function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zone","district","area","contact","closedAreas"])) : void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
+    const closedAreasSheet: SheetData = allSheetData.closedAreas;
+
+    const arrayOfClosedAreas : string[] = closedAreasSheet.getAllOfKey("areaId");
+
+
 
     console.log(orgData);
 
