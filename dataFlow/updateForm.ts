@@ -8,8 +8,7 @@
  */
 function updateForm() {
 
-    const allSheetData = constructSheetData();
-    const cSheetData = allSheetData.contact;
+    const cSheetData: SheetData = constructSheetDataV3(["contact"]).contact;
     const areaNames = cSheetData.getAllOfKey('areaName');
     areaNames.unshift("I can't find the right area name!");
 

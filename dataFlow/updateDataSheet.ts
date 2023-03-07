@@ -22,16 +22,20 @@ function updateDataSheet() {
 
 
 
-    const allSheetData: manySheetDatas = constructSheetData();
+    const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "form"]);
+    
+    const cDataSheet: SheetData = allSheetData.contact;
+    const fDataSheet: SheetData = allSheetData.form;
+    
 
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
-        loadAreaIDs(allSheetData);
+        loadAreaIDs(cDataSheet);
     } //Force a full recalculation
 
 
     //checkForErrors()?  Ex. no contact data
     
-    let missionData = pullFormData(allSheetData);
+    let missionData = pullFormData(fDataSheet, cDataSheet);
 
     if (missionData.length == 0) {
         console.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
@@ -43,7 +47,7 @@ function updateDataSheet() {
     // makeSheet();
     refreshContacts(allSheetData);
 
-    const contacts = getContactData(allSheetData);
+    const contacts = getContactData(cDataSheet);
 
     const leaders = getLeadershipAreaData(contacts);
 
@@ -89,13 +93,8 @@ function updateDataSheet() {
 /**
   * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
   */
-function pullFormData(allSheetData) {
+function pullFormData(fSheetData:SheetData, cSheetData:SheetData) {
     console.log("Pulling Form Data...");
-
-
-    
-    const fSheetData = allSheetData.form;
-    
     // Bugfix: the following was previously inside of the last if/else loop.
 
     const formSheet = fSheetData.getSheet();
@@ -113,7 +112,7 @@ function pullFormData(allSheetData) {
 
         if (CONFIG.dataFlow.log_responsePulled) console.log("Pulling response for area: '" + response.areaName + "'");
 
-        response.areaID = getAreaID(allSheetData, response.areaName);
+        response.areaID = getAreaID(cSheetData, response.areaName);
 
         response.log =
         {
@@ -147,15 +146,15 @@ function pullFormData(allSheetData) {
   * Pulls data from the Contact Data sheet and adds areaIDs.
   * Honestly more of a loadContactData because it just pulls from Sheets.
   */
-function getContactData(allSheetData) {
+function getContactData(cSheetData: SheetData) {
 
     console.log("Getting data from Contact Data sheet...");
 
-    const cSheetData = allSheetData.contact;
+    //const cSheetData = allSheetData.contact;
     const contactData = cSheetData.getData();
     const contacts = {}; //contactData, keyed by areaID
     for (const contact of contactData) {
-        contact.areaID = getAreaID(allSheetData, contact.areaName);
+        contact.areaID = getAreaID(cSheetData, contact.areaName);
         if ((typeof contact.log) == 'undefined')
             contact.log = {};
         contact.log.addedContactData = true;

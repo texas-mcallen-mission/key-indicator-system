@@ -16,14 +16,14 @@
  * @param {string} areaName 
  * @returns {string} The areaID string.
  */
-function getAreaID(allSheetData, areaName) {
+function getAreaID(cSheetData:SheetData, areaName) {
     // this is because 
     // eslint-disable-next-line no-undef
     const cache = CacheService.getDocumentCache();
     const areaIDs_JSONString = cache.get(CONFIG.dataFlow.areaId_cacheKey);
 
     const areaIDs = areaIDs_JSONString == null
-        ? loadAreaIDs(allSheetData)
+        ? loadAreaIDs(cSheetData)
         : JSON.parse(areaIDs_JSONString);
 
     if (typeof areaIDs[areaName] == 'undefined')
@@ -37,13 +37,11 @@ function getAreaID(allSheetData, areaName) {
 /**
  * @param {*} allSheetData
  */
-function loadAreaIDs(allSheetData) {
+function loadAreaIDs(cSheetData:SheetData) {
 
     console.log('Loading areaIDs');
     console.time('Time loading areaIDs');
 
-    // let allSheetData = constructSheetData();
-    const cSheetData = allSheetData.contact;
     const data = cSheetData.getData();
     const areaIDs = {};
 
@@ -81,6 +79,6 @@ function loadAreaIDs(allSheetData) {
 
 /*global constructSheetData*/
 function runLoadAreaIDs() {
-    const allSheetData = constructSheetData();
-    loadAreaIDs(allSheetData);
+    const cSheetData: SheetData = constructSheetDataV3(["contact"]).contact;
+    loadAreaIDs(cSheetData);
 }

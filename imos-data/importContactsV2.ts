@@ -1,15 +1,17 @@
 //@ts-check
 // Written by Elder Lo Forte
 
-function importContactsV2(): void {
+function importContactsV2(allSheetData: manySheetDatas): void {
 
   console.time('Execution Time');
 
-  const closedAreasSheet = new SheetData(new RawSheetData(sheetDataConfig.local.closedAreas));
-  const loForteContacts = new SheetData(new RawSheetData(sheetDataConfig.local.contact));
+  //const allSheetData : manySheetDatas= constructSheetDataV3(["closedAreas", "contact"])
+
+  const closedAreasSheet : SheetData = allSheetData.closedAreas;
+  const contactDataSheet: SheetData = allSheetData.contact;
 
   // gets old data and new data
-  const ogDataClass = new kiDataClass(loForteContacts.getData())
+  const ogDataClass = new kiDataClass(contactDataSheet.getData())
   const newContactData: contactEntry[] = getArrayOfContacts();
 
   
@@ -18,7 +20,7 @@ function importContactsV2(): void {
     console.error("Contacts Probably got deleted!!!!")
     throw "Oh Boy The Contacts Se fue!";
   }
-  loForteContacts.setData(newContactData); // sets the new data
+  contactDataSheet.setData(newContactData); // sets the new data
 
   const newContactClass = new kiDataClass(newContactData);
 
