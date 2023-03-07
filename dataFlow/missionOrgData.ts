@@ -12,11 +12,11 @@
 
 /**
 * Returns an object containing mission organization data, including zones, districts in each zone, and areas in each district.
-* @param {{ contact: any; }} allSheetData
+* @param {{ contact: any; }} 
 * @returns {any}
 */
-function getMissionOrgData(allSheetData) {
-    const cSheetData = allSheetData.contact;
+function getMissionOrgData(cSheetData: SheetData) {
+    //const cSheetData = allSheetData.contact;
     const contactData = cSheetData.getData();
     const zones = {};
 

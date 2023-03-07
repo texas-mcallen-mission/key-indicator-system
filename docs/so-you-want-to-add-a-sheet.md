@@ -75,7 +75,7 @@ You need to make your naming consistent across all three places, as constructShe
 Provided you've added your stuff correctly, you should be able to access the values stored in your sheet in array-of-object form by running the following:
 
 ```js
-let allSheetData = constructSheetData()
+let allSheetData = constructSheetDataV3()
 let <NAME>Sheet = allSheetData.<NAME>
 let data = <NAME>Sheet.getValues()
 console.log(data)

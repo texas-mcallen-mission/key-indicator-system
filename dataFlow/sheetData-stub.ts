@@ -36,21 +36,16 @@ function clearAllSheetDataCache() {
 
 
 function testCachingV2() {
-    let allSheetData3 : manySheetDatas = constructSheetDataV3(["remote"]);
-    cacheAllSheetData(allSheetData3);
+    let allSheetData : manySheetDatas = constructSheetDataV3();
+    cacheAllSheetData(allSheetData);
 
     const allSheetData2 : manySheetDatas = getAllSheetDataFromCache();
-    if (JSON.stringify(allSheetData3) == JSON.stringify(allSheetData2)) {
+    if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
         console.log("To and From Cache on local sheetData probably worked");
     }
-    //@ts-expect-error
 
-    const allSheetData : manySheetDatas = constructSheetDataV3("remote");
-
-
-
-    const remoteSheetData : SheetData = allSheetData3.remote;
-    cacheAllSheetData(allSheetData3);
+    const remoteSheetData : SheetData = allSheetData.remote;
+    cacheAllSheetData(allSheetData);
     const allSheetDataRemote = getAllSheetDataFromCache();
     if (JSON.stringify(remoteSheetData) == JSON.stringify(allSheetDataRemote)) {
         console.log("To and From Cache on remote sheetData probably worked");
