@@ -129,6 +129,10 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
         folderBaseName: '',
         seedId: -1
     }
+
+    // romp romp romp
+
+    
     let createdNew = false;
     if (filesystem.existingFolders.includes(folderNameString)) {
 
