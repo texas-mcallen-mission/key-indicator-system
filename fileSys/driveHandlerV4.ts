@@ -67,13 +67,14 @@ interface closedData {
 interface closedDistrictData {
     [index: string]: kiDataEntry[];
 }
-
+// closedData = {[index][index]kiDataEntry[]}
 function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys","contact","closedAreas"])) : void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
     const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData())
     //@ts-ignore its just dumb
-    const groupedClosedAreas:closedData = closedAreasClass.groupDataByMultipleKeys(["zone","district"])
+    const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"])
+    console.log(groupedClosedAreas);
     const zones = Object.keys(closedAreasClass)
     for (const zone of zones) {
         if (Object.hasOwn(closedAreasClass, zone)) {
