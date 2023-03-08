@@ -278,7 +278,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
     
     const correctionEntries: kiDataEntry[] = []
     const markAsDuplicateEntries : kiDataEntry[] = []
-    const okEntries: number[] = []
+    const okEntries: kiDataEntry[] = []
     const itkey = dataSheet.iterantKey
     // outer loop
     for(const date in aggData) {
@@ -337,13 +337,14 @@ function markDuplicatesV2(dataSheet:SheetData) {
 
             } else {
                 for (const entry of data) {
-                    okEntries.push(entry[iterantKey])
+                    okEntries.push(entry)
                 }
             }
         }
     }
     // WYLO 2023-03-01: okentries needs to get updated to use the new kiDataEntry format stuff as well.
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
+    dataSheet.appendData(correctionEntries)
     dataSheet.updateRows(markAsDuplicateEntries)
     // for (const duplicate of markAsDuplicateEntries) {
     //     dataSheet.directModify(duplicate, { "isDuplicate": true })
@@ -351,5 +352,4 @@ function markDuplicatesV2(dataSheet:SheetData) {
     // for (const notDuplicate of okEntries) {
     //     dataSheet.directModify(notDuplicate, { "isDuplicate": false })
     // }
-    dataSheet.appendData(correctionEntries)
 }
