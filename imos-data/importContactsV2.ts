@@ -11,7 +11,7 @@ function importContactsV2(allSheetData: manySheetDatas): void {
   const contactDataSheet: SheetData = allSheetData.contact;
 
   // gets old data and new data
-  const ogDataClass = new kiDataClass(contactDataSheet.getData())
+  const ogDataClass = new kiDataClass(contactDataSheet.getData());
   const newContactData: contactEntry[] = getArrayOfContacts();
 
   
@@ -40,6 +40,33 @@ function importContactsV2(allSheetData: manySheetDatas): void {
   console.timeEnd('Execution Time');
 
 }
+
+function testAllClosedAreas() {
+  const allSheetData = constructSheetDataV3();
+  getAllClosedAreas(allSheetData);
+}
+
+function getAllClosedAreas(allSheetData) {
+  importContactsV2(allSheetData);
+
+  const newData = allSheetData.contact.getData();
+
+  const ogData = new kiDataClass(allSheetData.data);
+  ogData.removeMatchingByKey("areaId", newData);
+
+  const groupedData : keyedKiDataEntries = ogData.groupByKey("areaId");
+
+  const closedMostRecent = [];
+
+  for (const entry of groupedData["areaId"][1]) { // this is not right yet but its getting closer
+    console.log("idek");
+  }
+
+
+}
+
+
+
 /*
 pretty much just loops all of the contacts and pulls all of the data
 */
