@@ -23,7 +23,7 @@ getMissionOrgData
 */
 
 class fsEntry {
-    rawData:filesystemData = {
+    rawData: filesystemData = {
         folderName: '',
         parentFolder: '',
         folderId: '',
@@ -47,17 +47,17 @@ class fsEntry {
         };
 
     }
-    get data():filesystemData {
+    get data(): filesystemData {
         return this.rawData;
     }
 }
 
 function updateFSV4() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
-    verifyFSV4(allSheetData)
-    clearAllSheetDataCache()
-    buildFSV4()
-    updateShards()
+    verifyFSV4(allSheetData);
+    clearAllSheetDataCache();
+    buildFSV4();
+    updateShards();
 }
 
 interface closedData {
@@ -68,17 +68,17 @@ interface closedDistrictData {
     [index: string]: kiDataEntry[];
 }
 // closedData = {[index][index]kiDataEntry[]}
-function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys","contact","closedAreas"])) : void {
+function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys", "contact", "closedAreas"])): void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
-    const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData())
+    const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData());
     //@ts-ignore its just dumb
-    const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"])
+    const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"]);
     console.log(groupedClosedAreas);
-    const zones = Object.keys(closedAreasClass)
+    const zones = Object.keys(closedAreasClass);
     for (const zone of zones) {
         if (Object.hasOwn(closedAreasClass, zone)) {
-            const idek = ""
+            const idek = "";
         }
     }
 
@@ -86,53 +86,47 @@ function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFi
     //console.log(zones);
 
 
-    const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
+    const filesystems: manyFilesystemEntries = loadFilesystems_(allSheetData);
 
     const reportBaseFolderId = getOrCreateReportFolder();
-    
+
     for (const zone in orgData) {
 
-        
-
-        
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
-        const zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId,"" )
-        const zoneEntry = zoneEntryData.entry
-        if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry)
+        const zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId, "");
+        const zoneEntry = zoneEntryData.entry;
+        if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry);
         const zoneAreaIds = [];
 
-        if (Object.hasOwn(closedAreasClass, zone)) {
-            const zoneNames = closedAreasClass.getDataFromKey("zone");
-            for (const name of zoneNames) {
-                if (name == zone) zoneAreaIds.push(groupedClosedAreas[name].areaId); // i need to push the area ID here but how to get it phhh no say.
-            }
-        }
-
-        console.log(zoneAreaIds);
-
-        // add it here
         for (const district in orgData[zone]) {
             //@ts-ignore
             const distEntryData = createOrGetFsEntry_(filesystems.District, district, zoneEntry.folderId, "");
-            const distAreaIds = []
+            const distAreaIds = [];
             const distEntry = distEntryData.entry;
-            if (distEntryData.isNew) filesystems.District.sheetData.push(distEntry)
-            
+            if (distEntryData.isNew) filesystems.District.sheetData.push(distEntry);
+
             for (const area in orgData[zone][district]) {
                 const areaData = orgData[zone][district][area];
                 //@ts-ignore
-                distAreaIds.push(areaData.areaID)
-                const areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID)
-                const areaEntry = areaEntryData.entry
-                if(areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry)
+                distAreaIds.push(areaData.areaID);
+                const areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID);
+                const areaEntry = areaEntryData.entry;
+                if (areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry);
             }
 
-            distEntry.areaID = distAreaIds.join()
-            zoneAreaIds.push(...distAreaIds)
+            if (Object.hasOwn(groupedClosedAreas, zone)) {
+                if (Object.hasOwn(groupedClosedAreas[zone], district)) {
+                    for (let entry of groupedClosedAreas[zone][district]) {
+                        distAreaIds.push(entry["areaId"]);
+                    }
+                }
+            }
+
+            distEntry.areaID = distAreaIds.join();
+            zoneAreaIds.push(...distAreaIds);
         }
 
-        zoneEntry.areaID = zoneAreaIds.join()
-
+        zoneEntry.areaID = zoneAreaIds.join();
 
     }
 
@@ -144,7 +138,7 @@ function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFi
     //
 }
 
-function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderId: string, areaId: string): { entry: filesystemData, isNew: boolean } {
+function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderId: string, areaId: string): { entry: filesystemData, isNew: boolean; } {
     let outEntry: filesystemData = {
         folderName: '',
         parentFolder: '',
@@ -154,7 +148,7 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
         areaID: '',
         folderBaseName: '',
         seedId: -1
-    }
+    };
 
     let createdNew = false;
     if (filesystem.existingFolders.includes(folderNameString)) {
@@ -170,8 +164,8 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
             folderString += " " + filesystem.fsScope;
         }
         console.log("creating FSentry for ", folderNameString);
-        const folderId = createNewFolderV4_(parentFolderId, folderString)
-        const preEntry = new fsEntry(folderString, parentFolderId,folderId,"", "", areaId, folderNameString).data
+        const folderId = createNewFolderV4_(parentFolderId, folderString);
+        const preEntry = new fsEntry(folderString, parentFolderId, folderId, "", "", areaId, folderNameString).data;
         // filesystem.sheetData.push(outEntry);
         outEntry = preEntry;
         createdNew = true;
@@ -208,13 +202,13 @@ type manyFilesystemEntries = {
 interface filesystemEntry {
     fsData: SheetData,
     fsScope: "Zone" | "District" | "Area",
-    sheetData: filesystemData[]
-    existingFolders: string[] // name of zone / district / area the folder is for
-    reportTemplate:string
+    sheetData: filesystemData[];
+    existingFolders: string[]; // name of zone / district / area the folder is for
+    reportTemplate: string;
 }
 
 interface manyFilesystemDatas {
-    [index:string]:filesystemData,
+    [index: string]: filesystemData,
 }
 
 /**
@@ -240,24 +234,24 @@ interface filesystemData extends kiDataEntry {
  * @param {*} allSheetData
  * @return {manyFilesystemEntries}  wheeee
  */
-function loadFilesystems_(allSheetData: manySheetDatas):manyFilesystemEntries {
-    const filesystems:manyFilesystemEntries = {
+function loadFilesystems_(allSheetData: manySheetDatas): manyFilesystemEntries {
+    const filesystems: manyFilesystemEntries = {
         Zone: {
-            fsData: allSheetData.zone,
+            fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
             existingFolders: [],
-            reportTemplate:CONFIG.reportCreator.docIDs.zoneTemplate
+            reportTemplate: CONFIG.reportCreator.docIDs.zoneTemplate
         },
         District: {
-            fsData: allSheetData.district,
+            fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
             existingFolders: [],
             reportTemplate: CONFIG.reportCreator.docIDs.distTemplate
         },
         Area: {
-            fsData: allSheetData.area,
+            fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
             existingFolders: [],
@@ -266,7 +260,7 @@ function loadFilesystems_(allSheetData: manySheetDatas):manyFilesystemEntries {
     };
     for (const fs in filesystems) {
         const fsInter = filesystems[fs].fsData;
-        filesystems[fs].sheetData.push(...fsInter.getData())
+        filesystems[fs].sheetData.push(...fsInter.getData());
         filesystems[fs].existingFolders = buildIncludesArray_(filesystems[fs].sheetData, "folderBaseName");
 
     }
