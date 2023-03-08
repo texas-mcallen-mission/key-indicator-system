@@ -74,6 +74,58 @@ function getOldestAndNewestEntry(data:kiDataEntry[],timeKey: string): oldestNewe
     return output
 }
 
+function createDumbEntry() {
+    function randNum() {
+        return Math.floor(Math.random()*5)
+    }
+    const dumbEntry: kiDataEntry = {
+        areaName: "Mercedes C",
+        // responsePulled: 1,
+        // isDuplicate: 2,
+        formTimestamp: new Date().toString(),
+        submissionEmail: "DEBUGDATA",
+        kiDate: new Date().toString(),
+        np: randNum(),
+        sa: randNum(),
+        bd: randNum(),
+        bc: randNum(),
+        rca: randNum(),
+        rc: randNum(),
+        serviceHrs: randNum(),
+        cki: randNum(),
+        "bap-self-ref": randNum(),
+        "bap-street": randNum(),
+        "bap-ward-activity-or-event": randNum(),
+        "bap-ref-recent-convert": randNum(),
+        "bap-ref-part-member": randNum(),
+        "bap-ref-other-member": randNum(),
+        "bap-ref-teaching-pool": randNum(),
+        "bap-ref-other-non-member": randNum(),
+        "bap-fb-mission": randNum(),
+        "bap-fb-personal": randNum(),
+        "bap-family-history": randNum(),
+        "bap-taught-prev": randNum(),
+        "fb-role": 26,
+        "fb-ref-rgv-eng": randNum(),
+        "fb-ref-rgv-spa": randNum(),
+        "fb-ref-laredo-eng": randNum(),
+        "fb-ref-laredo-spa": randNum(),
+        "fb-ref-ysa": randNum(),
+        "fb-ref-asl": randNum(),
+        "fb-ref-service": randNum(),
+        "fb-ref-corpus": randNum(),
+        "fb-ref-personal": randNum(),
+        "feedback-general": "DEBUG DATA", // had to hardcode these because I added more questions afterwards.
+        "feedback-improvement": "DEBUG DATA",
+        "feedback-analysis": "DEBUG DATA!",
+        "fb-ref-st-eng": randNum(),
+        "fb-ref-st-spa": randNum(),
+        "mpl": randNum(),
+        "RCA-weekly": randNum()
+    };
+    constructSheetDataV3(["form"]).form.appendData(dumbEntry)
+}
+
 function testCreateCorrectedEntry() {
     const areaData = {
         area: "WORD",
