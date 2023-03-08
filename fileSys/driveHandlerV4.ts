@@ -54,10 +54,12 @@ class fsEntry {
 
 function updateFSV4() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
+
     verifyFSV4(allSheetData);
     clearAllSheetDataCache();
     buildFSV4();
     updateShards();
+    
 }
 
 interface closedData {
@@ -67,7 +69,7 @@ interface closedData {
 interface closedDistrictData {
     [index: string]: kiDataEntry[];
 }
-// closedData = {[index][index]kiDataEntry[]}
+
 function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys", "contact", "closedAreas"])): void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
@@ -77,6 +79,7 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
     const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"]);
    
     const filesystems: manyFilesystemEntries = loadFilesystems_(allSheetData);
+
     const reportBaseFolderId = getOrCreateReportFolder();
 
     for (const zone in orgData) {
@@ -223,24 +226,26 @@ interface filesystemData extends kiDataEntry {
  * @param {*} allSheetData
  * @return {manyFilesystemEntries}  wheeee
  */
+
 function loadFilesystems_(allSheetData: manySheetDatas): manyFilesystemEntries {
     const filesystems: manyFilesystemEntries = {
+
         Zone: {
-            fsData: allSheetData.zoneFilesys,
+            fsData: allSheetData.zone,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
             existingFolders: [],
             reportTemplate: CONFIG.reportCreator.docIDs.zoneTemplate
         },
         District: {
-            fsData: allSheetData.distFilesys,
+            fsData: allSheetData.district,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
             existingFolders: [],
             reportTemplate: CONFIG.reportCreator.docIDs.distTemplate
         },
         Area: {
-            fsData: allSheetData.areaFilesys,
+            fsData: allSheetData.area,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
             existingFolders: [],

@@ -1,13 +1,6 @@
 //@ts-check
 // Written by Elder Lo Forte
 
-function test_importContactsV2() : void {
-
-  const allSheetData: manySheetDatas = constructSheetDataV3(["closedAreas", "contact"]);
-  importContactsV2(allSheetData);
-
-}
-
 function importContactsV2(allSheetData: manySheetDatas): void {
 
   console.time('Execution Time');
