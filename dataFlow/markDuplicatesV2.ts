@@ -82,9 +82,9 @@ function createDumbEntry() {
         areaName: "Mercedes C",
         // responsePulled: 1,
         // isDuplicate: 2,
-        formTimestamp: new Date().toString(),
+        formTimestamp: convertToSheetDate_(new Date().toString()),
         submissionEmail: "DEBUGDATA",
-        kiDate: new Date().toString(),
+        kiDate: convertToSheetDate_(new Date().toString()),
         np: randNum(),
         sa: randNum(),
         bd: randNum(),
@@ -131,8 +131,8 @@ function createDumbEntry() {
         entry["areaName"] = areaNames[i % areaNames.length]
         entries.push(entry)
     }
-    const granulify = new kiDataClass(entries).addGranulatedTime("kiDate", "kiDate", timeGranularities.day).end
-    constructSheetDataV3(["form"]).form.appendData(granulify)
+    // const granulify = new kiDataClass(entries).addGranulatedTime("kiDate", "kiDate", timeGranularities.day).end
+    constructSheetDataV3(["form"]).form.appendData(entries)
 }
 
 function testCreateCorrectedEntry() {
