@@ -3,7 +3,7 @@ name: BERT-INSTANCE-3
 on:
   workflow_dispatch:
   push:
-    branches: [loForte]
+    branches: [weewoo]
   release:
     types: [published]
   schedule:

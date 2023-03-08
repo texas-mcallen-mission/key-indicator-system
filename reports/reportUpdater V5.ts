@@ -85,7 +85,9 @@ function updateZoneReportsV5(shard: null | string = null) {
  * @return {{ fsData: manyFilesystemEntries; kiData: kiDataClass; }}
  */
 function loadData(): { fsData: manyFilesystemEntries; kiData: kiDataClass; } {
-    const localSheetData:manySheetDatas = constructSheetDataV3(["data"])
+
+    const localSheetData: manySheetDatas = constructSheetDataV3(["data", "zoneFilesys", "distFilesys", "areaFilesys"])
+
     const fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData)
     
     const kiData = new kiDataClass(localSheetData.data.getData())
