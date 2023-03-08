@@ -26,7 +26,9 @@ function updateDataSheet() {
     
     const cDataSheet: SheetData = allSheetData.contact;
     const fDataSheet: SheetData = allSheetData.form;
-    
+
+    // patching to use better marking method
+    const iterantKey = allSheetData.fDataSheet.iterantKey
 
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
         loadAreaIDs(cDataSheet);
@@ -42,7 +44,7 @@ function updateDataSheet() {
         return;
     }
 
-    const numberOfEntries = missionData.length
+    // const numberOfEntries = missionData.length
     // former ignore
     // makeSheet();
     refreshContacts(allSheetData);
@@ -55,23 +57,35 @@ function updateDataSheet() {
     missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
     // FIRST, ADD THE DATA TO THE SHEETS
-    allSheetData.data.insertData(missionData);
+    allSheetData.data.appendData(missionData);
+    
     // THEN MARK THE STUFF AS HAVING BEEN PULLED
+
+    // make the partial modify set
+    const markPulledSet:kiDataEntry[] = []
+    for (const entry of missionData) {
+        const markerData: kiDataEntry = { isPulled: true }
+        // this associates every row entry from the data with the partial modify subset
+        markerData[iterantKey] = entry[iterantKey]
+        markPulledSet.push(markerData)
+    }
 
     if (CONFIG.dataFlow.skipMarkingPulled) {
         console.warn("[DEBUG] Skipping marking responses as pulled");
     } else {
-
-        const column = allSheetData.form.getIndex("responsePulled")
-        const minRow = allSheetData.form.rsd.headerRow + 1
-        allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
+        // then push that set to the form response sheet
+        allSheetData.form.updateRows(markPulledSet)
+        // compared to the old version, this is a *lot* easier to read.
+        // const column = allSheetData.form.getIndex("responsePulled")
+        // const minRow = allSheetData.form.rsd.headerRow + 1
+        // allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
     }
 
     if (CONFIG.dataflow.skipMarkingPulled) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
         return        
     } else {
-        markDuplicates(allSheetData);
+        markDuplicatesV2(allSheetData.data);
     }
 
     pushErrorMessages();  //Unimplemented
