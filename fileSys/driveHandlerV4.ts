@@ -75,27 +75,15 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
     const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData());
     //@ts-ignore its just dumb
     const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"]);
-    console.log(groupedClosedAreas);
-    const zones = Object.keys(closedAreasClass);
-    for (const zone of zones) {
-        if (Object.hasOwn(closedAreasClass, zone)) {
-            const idek = "";
-        }
-    }
-
-
-    //console.log(zones);
-
-
+   
     const filesystems: manyFilesystemEntries = loadFilesystems_(allSheetData);
-
     const reportBaseFolderId = getOrCreateReportFolder();
 
     for (const zone in orgData) {
 
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
         const zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId, "");
-        const zoneEntry = zoneEntryData.entry;
+        const zoneEntry : filesystemData = zoneEntryData.entry;
         if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry);
         const zoneAreaIds = [];
         // I thought this was fix?
@@ -112,13 +100,13 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
                 //@ts-ignore
                 distAreaIds.push(areaData.areaID);
                 const areaEntryData = createOrGetFsEntry_(filesystems.Area, areaData.areaName, distEntry.folderId, areaData.areaID);
-                const areaEntry = areaEntryData.entry;
+                const areaEntry : filesystemData = areaEntryData.entry;
                 if (areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry);
             }
             // for closed areas: since we don't want to make reports directly for them, we can do sneaky boi stuff like only push those area ids to the district and zone reports.
             if (Object.hasOwn(groupedClosedAreas, zone)) {
                 if (Object.hasOwn(groupedClosedAreas[zone], district)) {
-                    for (let entry of groupedClosedAreas[zone][district]) {
+                    for (const entry of groupedClosedAreas[zone][district]) {
                         distAreaIds.push(entry["areaId"]);
                     }
                 }
@@ -137,8 +125,6 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
     for (const filesystem in filesystems) {
         filesystems[filesystem].fsData.setData(filesystems[filesystem].sheetData);
     }
-    // filesystems.zone.fsData.setData(filesystems.zone.sheetData)
-    //
 }
 
 function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderId: string, areaId: string): { entry: filesystemData, isNew: boolean; } {
