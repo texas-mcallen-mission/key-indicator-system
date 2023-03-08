@@ -86,7 +86,8 @@ function testCreateCorrectedEntry() {
         ki1: 321
     }
     const keysToKeep = ["area", "isSister"]
-    const output = createCorrectedEntry_(areaData,kiData,keysToKeep)
+    const correctionDate = convertToSheetDate_(new Date())
+    const output = createCorrectedEntry_(areaData,kiData,keysToKeep,correctionDate)
     const comparison = {
         area: "WORD",
         isSister: false,
