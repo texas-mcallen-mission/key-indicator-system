@@ -98,6 +98,7 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
         const zoneEntry = zoneEntryData.entry;
         if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry);
         const zoneAreaIds = [];
+        // I thought this was fix?
 
         for (const district in orgData[zone]) {
             //@ts-ignore
