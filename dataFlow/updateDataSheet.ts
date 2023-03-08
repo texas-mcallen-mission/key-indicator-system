@@ -64,7 +64,7 @@ function updateDataSheet() {
     // make the partial modify set
     const markPulledSet:kiDataEntry[] = []
     for (const entry of missionData) {
-        const markerData: kiDataEntry = { isPulled: true }
+        const markerData: kiDataEntry = { responsePulled: true }
         // this associates every row entry from the data with the partial modify subset
         markerData[iterantKey] = entry[iterantKey]
         markPulledSet.push(markerData)
@@ -81,7 +81,7 @@ function updateDataSheet() {
         // allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
     }
 
-    if (CONFIG.dataflow.skipMarkingPulled) {
+    if (CONFIG.dataFlow.skipMarkingPulled) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
         return        
     } else {
