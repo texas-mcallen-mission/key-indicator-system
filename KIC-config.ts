@@ -325,6 +325,7 @@ function getSheetDataConfig(): manySheetDataEntries {
                 tabName: "Form Responses",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
+                use_iterant:true,
                 initialColumnOrder: {
                     areaName: 0,
                     responsePulled: 1,
