@@ -131,7 +131,8 @@ function createDumbEntry() {
         entry["areaName"] = areaNames[i % areaNames.length]
         entries.push(entry)
     }
-    constructSheetDataV3(["form"]).form.appendData(entries)
+    const granulify = new kiDataClass(entries).addGranulatedTime("kiDate", "kiDate", timeGranularities.day).end
+    constructSheetDataV3(["form"]).form.appendData(granulify)
 }
 
 function testCreateCorrectedEntry() {
