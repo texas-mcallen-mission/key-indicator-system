@@ -22,7 +22,7 @@ function updateDataSheet() {
 
 
 
-    const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "form"]);
+    const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "form","data"]);
     
     const cDataSheet: SheetData = allSheetData.contact;
     const fDataSheet: SheetData = allSheetData.form;
