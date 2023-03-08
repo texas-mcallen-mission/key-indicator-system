@@ -28,7 +28,7 @@ function updateDataSheet() {
     const fDataSheet: SheetData = allSheetData.form;
 
     // patching to use better marking method
-    const iterantKey = allSheetData.fDataSheet.iterantKey
+    const iterantKey = fDataSheet.iterantKey
 
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
         loadAreaIDs(cDataSheet);
