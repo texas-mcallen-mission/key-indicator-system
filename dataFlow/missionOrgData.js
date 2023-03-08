@@ -10,13 +10,13 @@
 
 
 
-/**
-* Returns an object containing mission organization data, including zones, districts in each zone, and areas in each district.
-* @param {{ contact: any; }} allSheetData
-* @returns {any}
-*/
-function getMissionOrgData(allSheetData) {
-    const cSheetData = allSheetData.contact;
+// /**
+// * Returns an object containing mission organization data, including zones, districts in each zone, and areas in each district.
+// * @param {{ contact: SheetData; }}
+// * @returns {any}
+// */
+function getMissionOrgData(cSheetData) {
+    //const cSheetData = allSheetData.contact;
     const contactData = cSheetData.getData();
     const zones = {};
 
@@ -40,7 +40,7 @@ function getMissionOrgData(allSheetData) {
             areaName: areaData.areaName,
             areaData: areaData,
             /*global getAreaID*/
-            areaID: getAreaID(allSheetData,areaData.areaName)
+            areaID: getAreaID(cSheetData,areaData.areaName)
         }
         const district = areaData.district;
         const zone = areaData.zone;

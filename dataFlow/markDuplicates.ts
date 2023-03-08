@@ -1,7 +1,7 @@
 /**
   * Flags duplicate responses in the Data sheet.
   */
-function markDuplicates(allSheetData) {
+function markDuplicates(allSheetData : manySheetDatas) {
     console.warn("TODO: markDuplicates() v2 not yet implemented");
     markDuplicates_old(allSheetData);
 }
@@ -10,7 +10,7 @@ function markDuplicates(allSheetData) {
  * Flags duplicate responses in the Data sheet. Old version to be replaced.
  * @param {*} allSheetData 
  */
-function markDuplicates_old(allSheetData) { //                                  TODO: Don't pull the whole sheet?
+function markDuplicates_old(allSheetData) { //  "data",                                  TODO: Don't pull the whole sheet?
     console.log("Marking duplicate responses. Pulling data...");
     console.log("TODO: Don't pull the whole sheet?");
 

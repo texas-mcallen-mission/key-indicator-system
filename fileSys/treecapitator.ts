@@ -5,7 +5,7 @@
 
 
 function pruneFS() {
-    const allSheetData = constructSheetData()
+    const allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys"]);
 
     const fsData = getFilesystemDocsAndFolders_(allSheetData);
 
@@ -36,7 +36,7 @@ function pruneFS() {
 
 
 function testGetFilesystemData() {
-    const allSheetData = constructSheetData()
+    const allSheetData:manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys"]);
     const fsData = getFilesystemDocsAndFolders_(allSheetData)
 
     for (const key in fsData) {

@@ -309,18 +309,18 @@ const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA
 
 
 
-const sheetDataConfig: { local: manySheetDataEntries} = getSheetDataConfig();
+const sheetDataConfig: manySheetDataEntries = getSheetDataConfig();
 /**
  * this exists because of some weird problems I was having with the GAS environment not loading the CONFIG thing properly.
  *
  * @return {{ local: manySheetDataEntries, remote: manySheetDataEntries; }}
  */
-function getSheetDataConfig(): { local: manySheetDataEntries } {
+function getSheetDataConfig(): manySheetDataEntries {
     // const CONFIG = _.merge(INTERNAL_CONFIG, GITHUB_SECRET_DATA, OVERRIDE_SECRET_DATA);
     // this is stuck inside of a function for no other reason than that I was having some problems with it being static and referencing the CONFIG before that was declared.
 
-    const sheetDataConfig: { local: manySheetDataEntries } = {
-        local: {
+    const sheetDataConfig: manySheetDataEntries = {
+        
             form: {
                 tabName: "Form Responses",
                 headerRow: 0,
@@ -369,6 +369,25 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     "fb-ref-st-spa": 40,
                     "mpl": 41,
                     "RCA-weekly":42
+                },
+            },
+            closedAreas: {
+                tabName: "Closed Areas",
+                headerRow: 0,
+                includeSoftcodedColumns: true,
+                keyNamesToIgnore: ["responsePulled", "submissionEmail"],
+                initialColumnOrder: {
+                    deletionDate: 0,
+                    areaId: 1,
+                    areaEmail: 2,
+                    areaName: 3,
+                    district: 4,
+                    zone: 5,
+                    isSeniorCouple: 6,
+                    isSisterArea: 7,
+                    hasVehicle: 8,
+                    unitString: 9,
+                    hasMultipleUnits: 10,
                 },
             },
             data: {
@@ -485,6 +504,11 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     vehicleMiles: 20,
                     vinLast8: 21,
                     aptAddress: 22,
+                    areaId: 23,
+                    phoneNumber: 24,
+                    missionaryEmail1: 25,
+                    missionaryEmail2: 26,
+                    missionaryEmail3: 27,
                 },
             },
             debug: {
@@ -564,10 +588,7 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                     seedId: 7,
                 },
             },
-        }
-
-
-
+        
     };
     return sheetDataConfig;
 }
