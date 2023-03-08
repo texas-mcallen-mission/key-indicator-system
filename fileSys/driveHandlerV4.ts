@@ -71,6 +71,7 @@ interface closedDistrictData {
 function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys", "contact", "closedAreas"])): void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
+    // Added later when we decided to add closed areas to the zone and district reports.
     const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData());
     //@ts-ignore its just dumb
     const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"]);
@@ -104,7 +105,7 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
             const distAreaIds = [];
             const distEntry = distEntryData.entry;
             if (distEntryData.isNew) filesystems.District.sheetData.push(distEntry);
-
+            // for areas that still exist
             for (const area in orgData[zone][district]) {
                 const areaData = orgData[zone][district][area];
                 //@ts-ignore
@@ -113,7 +114,7 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
                 const areaEntry = areaEntryData.entry;
                 if (areaEntryData.isNew) filesystems.Area.sheetData.push(areaEntry);
             }
-
+            // for closed areas: since we don't want to make reports directly for them, we can do sneaky boi stuff like only push those area ids to the district and zone reports.
             if (Object.hasOwn(groupedClosedAreas, zone)) {
                 if (Object.hasOwn(groupedClosedAreas[zone], district)) {
                     for (let entry of groupedClosedAreas[zone][district]) {
@@ -121,6 +122,7 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
                     }
                 }
             }
+
 
             distEntry.areaID = distAreaIds.join();
             zoneAreaIds.push(...distAreaIds);
