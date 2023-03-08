@@ -47,7 +47,7 @@ function copyObjectNoRecursion_(inObject: object) {
 
 
 function testMarkDuplicatesV2() {
-    const allSheetData = constructSheetData()
+    const allSheetData = constructSheetDataV3(["data"])
     markDuplicatesV2(allSheetData["data"])
 }
 // WYLO: getOldestAndNewestEntry doesn't seem to be working properly
@@ -123,7 +123,15 @@ function createDumbEntry() {
         "mpl": randNum(),
         "RCA-weekly": randNum()
     };
-    constructSheetDataV3(["form"]).form.appendData(dumbEntry)
+
+    const areaNames = ['Mission 3A',"Sharyland B","Mercedes C"]
+    const entries:kiDataEntry[] = []
+    for (let i = 0; i < 5; i++){
+        const entry = { ...dumbEntry }
+        entry["areaName"] = areaNames[i % areaNames.length]
+        entries.push(entry)
+    }
+    constructSheetDataV3(["form"]).form.appendData(entries)
 }
 
 function testCreateCorrectedEntry() {
