@@ -169,7 +169,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   // gets phone number
   const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
   const phoneNumbers : string[] = [];
-  for (const entry of phones) {
+  for (let entry of phones) {
     phoneNumbers.push(entry.getPhoneNumber());
   }
   cDataObject.phoneNumber = phoneNumbers.join(", ");
