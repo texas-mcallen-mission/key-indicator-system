@@ -83,7 +83,7 @@ function createDumbEntry() {
         // responsePulled: 1,
         // isDuplicate: 2,
         formTimestamp: convertToSheetDate_(new Date().toString()),
-        submissionEmail: "DEBUGDATA",
+        submissionEmail: "DEBUGDATA@LOL",
         kiDate: convertToSheetDate_(new Date().toString()),
         np: randNum(),
         sa: randNum(),
