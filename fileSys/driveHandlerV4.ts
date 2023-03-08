@@ -83,7 +83,7 @@ function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFi
     }
 
 
-    console.log(zones);
+    //console.log(zones);
 
 
     const filesystems:manyFilesystemEntries = loadFilesystems_(allSheetData);
@@ -93,11 +93,22 @@ function buildFSV4(allSheetData : manySheetDatas = constructSheetDataV3(["zoneFi
     for (const zone in orgData) {
 
         
+
+        
         // this big if/else should get moved to its own function because it's going to get reused on all three levels
         const zoneEntryData = createOrGetFsEntry_(filesystems.Zone, zone, reportBaseFolderId,"" )
         const zoneEntry = zoneEntryData.entry
         if (zoneEntryData.isNew) filesystems.Zone.sheetData.push(zoneEntry)
         const zoneAreaIds = [];
+
+        if (Object.hasOwn(closedAreasClass, zone)) {
+            const zoneNames = closedAreasClass.getDataFromKey("zone");
+            for (const name of zoneNames) {
+                if (name == zone) zoneAreaIds.push(groupedClosedAreas[name].areaId); // i need to push the area ID here but how to get it phhh no say.
+            }
+        }
+
+        console.log(zoneAreaIds);
 
         // add it here
         for (const district in orgData[zone]) {
