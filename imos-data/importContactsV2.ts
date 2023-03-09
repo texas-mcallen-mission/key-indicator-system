@@ -50,15 +50,17 @@ function getAllClosedAreas(allSheetData) {
   importContactsV2(allSheetData);
 
   const newData = allSheetData.contact.getData();
-
   const ogData = new kiDataClass(allSheetData.data.getData());
-  ogData.removeMatchingByKey("areaId", newData);
 
-  const groupedData : keyedKiDataEntries = ogData.groupByKey("areaId");
+  ogData.removeMatchingByKey("areaID", newData);
+
+  const groupedData = ogData.groupByKey("areaID");
+
+  //console.log(groupedData);
 
   const closedMostRecent = [];
 
-  for (const entry of groupedData["areaId"][0]) { // this is not right yet but its getting closer
+  for (const entry in groupedData) { // this is not right yet but its getting closer
     console.log(entry);
   }
 
