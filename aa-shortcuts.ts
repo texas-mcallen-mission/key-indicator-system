@@ -17,8 +17,13 @@ function run_shareFileSys() {
 }
 
 function run_markDuplicates() {
-    const allSheetData = constructSheetDataV3();
-    markDuplicates(allSheetData);
+    const allSheetData = constructSheetDataV3(["data"]);
+    markDuplicatesV2(allSheetData);
+}
+
+function run_markAllDuplicates() {
+    const allSheetData = constructSheetDataV3(["data"]);
+    markDuplicatesV2(allSheetData,-1)
 }
 
 function run_reportTester() {
