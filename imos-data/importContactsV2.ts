@@ -60,11 +60,11 @@ function getAllClosedAreas(allSheetData) {
 
     const closedMostRecent = [];
 
-
+    let date = new Date();
     for (const entry in groupedData) { // this is not right yet but its getting closer
         for (const thing in groupedData[entry]) {
-            const date1 : number = new Date(groupedData[entry][thing].kiDate).getMilliseconds();
-            console.log("What" + date1);
+            date = groupedData[entry][thing].kiDate
+            console.log("What" + date);
         }
     }
 
