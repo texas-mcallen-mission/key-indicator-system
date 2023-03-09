@@ -217,7 +217,14 @@ function createCorrectedEntry_(newData: kiDataEntry, areaData: kiDataEntry, keys
     return output
 
 }
-function markDuplicatesV2(dataSheet:SheetData) {
+
+
+/**
+ * @description
+ * @param {SheetData} dataSheet
+ * @param {number} [weeksToMark=7] Number of weeks: if set to -1 will do all of them.
+ */
+function markDuplicatesV2(dataSheet:SheetData,weeksToMark=7) {
     const areaDataKeys = [
         "areaName",
         "areaEmail",
@@ -266,14 +273,16 @@ function markDuplicatesV2(dataSheet:SheetData) {
     const area_id_key = "areaID"
 
     const cutoffDate = new Date();
-    const day = cutoffDate.getTime() - (7 * 5 * 24 * 60 * 60 * 1000);
+    const day = cutoffDate.getTime() - ( ((weeksToMark * 7) + 1) * 24 * 60 * 60 * 1000);
     cutoffDate.setTime(day)
     // disabled ATM because test data is old
-    // dataClass.removeBeforeDate(cutoffDate)
-    // also disabled during testing because headache
-    // dataClass.removeMatchingByKey("isDuplicate", [true,"true"])
-    // this is from the previous attempt to clean up corrected entries.  Using something a little smarter now.
-    // dataClass.removeMatchingByKey("log", ["CORRECTED_ENTRY"])
+    if (weeksToMark != -1) {
+        dataClass.removeBeforeDate(cutoffDate)
+    }
+    if (weeksToMark == 0) {
+        console.error("Marking zero day's worth of duplicates.")
+    }
+    
     //@ts-expect-error I'm intentionally abusing this.  Llore.
     const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
     
