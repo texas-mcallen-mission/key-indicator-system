@@ -21,25 +21,39 @@ function updateDataSheet() {
     console.log("BEGINNING UPDATE");
 
 
-    const allSheetData: manySheetDatas = constructSheetData();
-    if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
-        loadAreaIDs(allSheetData);
-    } //Force a full recalculation
+    // build the sheet data- we need contact data for mission org information
+    const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "form","data"]);
+    
+    const cDataSheet: SheetData = allSheetData.contact;
+    const fDataSheet: SheetData = allSheetData.form;
 
+
+    // sync dataflow columns, to allow new questions to automatically get pushed through to the data
+    console.log("Syncing Columns From Form Responses To Data")
+    allSheetData.data.addKeys(fDataSheet)
+
+    // patching to use better marking method
+    const iterantKey = fDataSheet.iterantKey
+
+    if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
+        loadAreaIDs(cDataSheet);
+    } //Force a full recalculation
 
     //checkForErrors()?  Ex. no contact data
     
-    let missionData = pullFormData(allSheetData);
+    let missionData = pullFormData(fDataSheet, cDataSheet);
 
     if (missionData.length == 0) {
         console.log("UPDATE COMPLETED - NO NEW FORM RESPONSES FOUND");
         return;
     }
-    const numberOfEntries = missionData.length
+
+    // const numberOfEntries = missionData.length
     // former ignore
+    // makeSheet();
     refreshContacts(allSheetData);
 
-    const contacts = getContactData(allSheetData);
+    const contacts = getContactData(cDataSheet);
 
     const leaders = getLeadershipAreaData(contacts);
 
@@ -47,22 +61,35 @@ function updateDataSheet() {
     missionData = mergeIntoMissionData(missionData, leaders, "leadership data");
 
     // FIRST, ADD THE DATA TO THE SHEETS
-    allSheetData.data.insertData(missionData);
+    allSheetData.data.appendData(missionData);
+    
     // THEN MARK THE STUFF AS HAVING BEEN PULLED
+
+    // make the partial modify set
+    const markPulledSet:kiDataEntry[] = []
+    for (const entry of missionData) {
+        const markerData: kiDataEntry = { responsePulled: true }
+        // this associates every row entry from the data with the partial modify subset
+        markerData[iterantKey] = entry[iterantKey]
+        markPulledSet.push(markerData)
+    }
 
     if (CONFIG.dataFlow.skipMarkingPulled) {
         console.warn("[DEBUG] Skipping marking responses as pulled");
     } else {
-        const column = allSheetData.form.getIndex("responsePulled")
-        const minRow = allSheetData.form.rsd.headerRow + 1
-        allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
+        // then push that set to the form response sheet
+        allSheetData.form.updateRows(markPulledSet)
+        // compared to the old version, this is a *lot* easier to read.
+        // const column = allSheetData.form.getIndex("responsePulled")
+        // const minRow = allSheetData.form.rsd.headerRow + 1
+        // allSheetData.form.rsd.sheet.getRange(minRow, column,numberOfEntries,1)
     }
 
-    if (CONFIG.dataflow.skipMarkingPulled) {
+    if (CONFIG.dataFlow.skipMarkingPulled) {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
         return        
     } else {
-        markDuplicates(allSheetData);
+        markDuplicatesV2(allSheetData.data);
     }
 
     pushErrorMessages();  //Unimplemented
@@ -84,13 +111,8 @@ function updateDataSheet() {
 /**
   * Pulls data from the Form Response sheet and adds areaIDs. Hard-codes column order for the initial columns, and pulls later columns automatically, using the values in the header row as keys.
   */
-function pullFormData(allSheetData) {
+function pullFormData(fSheetData:SheetData, cSheetData:SheetData) {
     console.log("Pulling Form Data...");
-
-
-    
-    const fSheetData = allSheetData.form;
-    
     // Bugfix: the following was previously inside of the last if/else loop.
 
     const formSheet = fSheetData.getSheet();
@@ -108,7 +130,7 @@ function pullFormData(allSheetData) {
 
         if (CONFIG.dataFlow.log_responsePulled) console.log("Pulling response for area: '" + response.areaName + "'");
 
-        response.areaID = getAreaID(allSheetData, response.areaName);
+        response.areaID = getAreaID(cSheetData, response.areaName);
 
         response.log =
         {
@@ -142,15 +164,15 @@ function pullFormData(allSheetData) {
   * Pulls data from the Contact Data sheet and adds areaIDs.
   * Honestly more of a loadContactData because it just pulls from Sheets.
   */
-function getContactData(allSheetData) {
+function getContactData(cSheetData: SheetData) {
 
     console.log("Getting data from Contact Data sheet...");
 
-    const cSheetData = allSheetData.contact;
+    //const cSheetData = allSheetData.contact;
     const contactData = cSheetData.getData();
     const contacts = {}; //contactData, keyed by areaID
     for (const contact of contactData) {
-        contact.areaID = getAreaID(allSheetData, contact.areaName);
+        contact.areaID = getAreaID(cSheetData, contact.areaName);
         if ((typeof contact.log) == 'undefined')
             contact.log = {};
         contact.log.addedContactData = true;
@@ -250,7 +272,9 @@ function mergeIntoMissionData(missionData, sourceData, sourceID) {
 
 
 
+
     function logNeither(key, areaID, areaName, sourceID = ".") {
+
         console.warn("Warning: couldn't find key '" + key + "' for area '" + areaName + "' (id '" + areaID + "') in either mission data or source '" + sourceID + "'");
     }
 

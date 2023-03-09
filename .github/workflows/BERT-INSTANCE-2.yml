@@ -3,7 +3,7 @@ name: BERT-INSTANCE-2
 on:
   workflow_dispatch:
   push:
-    branches: [drivehandler-cleaning]
+    branches: [markDuplicates-Rewrite]
   release:
     types: [published]
   schedule:

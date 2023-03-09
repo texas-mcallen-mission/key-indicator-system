@@ -38,7 +38,7 @@ Version 3 was an extension of V2 built over the summer of 2021, implemented prim
 
 Some months later, in the winter of 2021-22, Elder Gerlek and Elder Joseph Robertson began a collaborative effort to rebuild the entire system from the ground up. Using Google Sheets in combination with other applications within the Google Suite, including Google Contacts, Google Forms and Data Studio, the system could be made far more powerful, flexible, expandable, and robust.
 
-This is version 4, a complete rewrite of the entire system. Updates and improvements include:
+This is version 5, a complete rewrite of the entire system. Updates and improvements include:
 /**
  * Using Google Forms to input data, allowing more powerful data validation
  * Automatic handling of additional Key Indicators

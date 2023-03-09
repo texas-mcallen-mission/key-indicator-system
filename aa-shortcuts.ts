@@ -3,7 +3,7 @@
 
 
 function run_importContacts() {
-    const allSheetData = constructSheetData();
+    const allSheetData = constructSheetDataV3();
     importContacts(allSheetData);
 }
 
@@ -17,8 +17,13 @@ function run_shareFileSys() {
 }
 
 function run_markDuplicates() {
-    const allSheetData = constructSheetData();
-    markDuplicates(allSheetData);
+    const allSheetData = constructSheetDataV3(["data"]);
+    markDuplicatesV2(allSheetData);
+}
+
+function run_markAllDuplicates() {
+    const allSheetData = constructSheetDataV3(["data"]);
+    markDuplicatesV2(allSheetData,-1)
 }
 
 function run_reportTester() {
@@ -48,7 +53,7 @@ function clearCache() {
 }
 
 function run_constructSheetData() {
-    const allSheetData = constructSheetData();
+    const allSheetData = constructSheetDataV3();
     for (const key in allSheetData) {
         console.log(key)
     }
