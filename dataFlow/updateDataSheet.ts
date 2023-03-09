@@ -29,6 +29,7 @@ function updateDataSheet() {
 
 
     // sync dataflow columns, to allow new questions to automatically get pushed through to the data
+    console.log("Syncing Columns From Form Responses To Data")
     allSheetData.data.addKeys(fDataSheet)
 
     // patching to use better marking method
