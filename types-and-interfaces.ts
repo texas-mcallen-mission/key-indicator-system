@@ -32,7 +32,7 @@ interface contactEntry extends kiDataEntry {
     vinLast8: string,
   
     aptAddress: string,
-    areaId: string,
+    areaID: string,
     phoneNumber: string,
 
     missionaryEmail1: string,

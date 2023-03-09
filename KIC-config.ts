@@ -503,7 +503,7 @@ function getSheetDataConfig(): manySheetDataEntries {
                     vehicleMiles: 20,
                     vinLast8: 21,
                     aptAddress: 22,
-                    areaId: 23,
+                    areaID: 23,
                     phoneNumber: 24,
                     missionaryEmail1: 25,
                     missionaryEmail2: 26,

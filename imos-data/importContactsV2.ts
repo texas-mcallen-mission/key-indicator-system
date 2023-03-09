@@ -51,7 +51,7 @@ function getAllClosedAreas(allSheetData) {
 
   const newData = allSheetData.contact.getData();
 
-  const ogData = new kiDataClass(allSheetData.data);
+  const ogData = new kiDataClass(allSheetData.data.getData());
   ogData.removeMatchingByKey("areaId", newData);
 
   const groupedData : keyedKiDataEntries = ogData.groupByKey("areaId");
@@ -118,7 +118,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     vehicleMiles: '',
     vinLast8: '',
     aptAddress: '',
-    areaId: '',
+    areaID: '',
     phoneNumber: '',
     missionaryEmail1: '',
     missionaryEmail2: '',
@@ -190,8 +190,8 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
   // .replace("\n", " ").replace("\n", " ") makes it get rid of new lines and one line
 
   // gets the area id's
-  const areaId : string = "A" + cDataObject.areaEmail.replace("@missionary.org", "");
-  cDataObject.areaId = areaId;
+  const areaID : string = "A" + cDataObject.areaEmail.replace("@missionary.org", "");
+  cDataObject.areaID = areaID;
 
   // gets phone number
   const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
