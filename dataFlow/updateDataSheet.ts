@@ -21,11 +21,15 @@ function updateDataSheet() {
     console.log("BEGINNING UPDATE");
 
 
-
+    // build the sheet data- we need contact data for mission org information
     const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "form","data"]);
     
     const cDataSheet: SheetData = allSheetData.contact;
     const fDataSheet: SheetData = allSheetData.form;
+
+
+    // sync dataflow columns, to allow new questions to automatically get pushed through to the data
+    allSheetData.data.addKeys(fDataSheet)
 
     // patching to use better marking method
     const iterantKey = fDataSheet.iterantKey
@@ -33,7 +37,6 @@ function updateDataSheet() {
     if (CONFIG.dataFlow.forceAreaIdReloadOnUpdateDataSheet) {
         loadAreaIDs(cDataSheet);
     } //Force a full recalculation
-
 
     //checkForErrors()?  Ex. no contact data
     
