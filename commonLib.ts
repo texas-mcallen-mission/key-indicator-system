@@ -39,88 +39,88 @@ function getOrCreateReportFolder() {
 // var MERGED_OBJECT = _.merge(OBJ1, OBJ2,OBJ3)
 
 
-function sendDataToDisplayV3_(header, finalData, sheet, args = {sortColumn:1,ascending:true}) {
-    // TODO: *maybe* merge sendDataToDisplay & sendReportToDisplay into one function with a final pre-defined object argument for extra settings, ie start row & column, whether or not to clear out the whole sheet first, etc. 
-    const preDate = new Date
-    // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
-    sheet.clearContents();
-    sheet.appendRow(header);
-    console.log(finalData.length);
-    if (CONFIG.commonLib.log_display_info) { console.log("adding Header"); }
-    console.log(header);
-    sheet.getRange(1, 1, 1, header.length).setValues([header]);
-    if (CONFIG.commonLib.log_display_info) { console.log("added header, adding data"); }
-    if (finalData.length == 0 || typeof finalData == null) {
-        console.log("no data, skipping");
-        return;
-    } else {
-        sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData);
-        if (CONFIG.commonLib.log_display_info) { console.log("Data added, sorting"); }
-        sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: args.sortColumn, ascending: args.ascending }]);
-        // console.log("data added")
-    }
-    const postDate = new Date
-    if (CONFIG.commonLib.log_time_taken) {
-        console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
-    }
-}
+// function sendDataToDisplayV3_(header, finalData, sheet, args = {sortColumn:1,ascending:true}) {
+//     // TODO: *maybe* merge sendDataToDisplay & sendReportToDisplay into one function with a final pre-defined object argument for extra settings, ie start row & column, whether or not to clear out the whole sheet first, etc. 
+//     const preDate = new Date
+//     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
+//     sheet.clearContents();
+//     sheet.appendRow(header);
+//     console.log(finalData.length);
+//     if (CONFIG.commonLib.log_display_info) { console.log("adding Header"); }
+//     console.log(header);
+//     sheet.getRange(1, 1, 1, header.length).setValues([header]);
+//     if (CONFIG.commonLib.log_display_info) { console.log("added header, adding data"); }
+//     if (finalData.length == 0 || typeof finalData == null) {
+//         console.log("no data, skipping");
+//         return;
+//     } else {
+//         sheet.getRange(2, 1, finalData.length, finalData[0].length).setValues(finalData);
+//         if (CONFIG.commonLib.log_display_info) { console.log("Data added, sorting"); }
+//         sheet.getRange(2, 1, finalData.length, header.length).sort([{ column: args.sortColumn, ascending: args.ascending }]);
+//         // console.log("data added")
+//     }
+//     const postDate = new Date
+//     if (CONFIG.commonLib.log_time_taken) {
+//         console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
+//     }
+// }
 
-function sendReportToDisplayV3_(header, finalData, sheet) {
-    const preDate = new Date
-    // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
-    sheet.clearContents();
-    // sheet.appendRow(header);
-    // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { console.log(finalData.length); }
-    if (CONFIG.commonLib.log_display_info) { console.log("adding Header"); }
-    sheet.getRange(2, 1, 1, header.length).setValues([header]);
-    if (CONFIG.commonLib.log_display_info) {console.log("added header, adding data");}
-        if (finalData == null) {
-            if (CONFIG.commonLib.log_display_info_extended) { console.log("no data, skipping"); }
-        return;
-    }
-    const prepredate = new Date
-    sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData);
-    if (CONFIG.commonLib.log_display_info) {
-        console.log("data added, sorting");
-    }
-    sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
-    const postDate = new Date
-    if (CONFIG.commonLib.log_time_taken) {
-        console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
-    }
-    // going to run this one more time without a flush to see what happens when this changes.
-    // SpreadsheetApp.flush()
-    // console.log("data added")
-}
+// function sendReportToDisplayV3_(header, finalData, sheet) {
+//     const preDate = new Date
+//     // responsible for actually displaying the data.  Clears first to get rid of anything that might be left over.
+//     sheet.clearContents();
+//     // sheet.appendRow(header);
+//     // if (CONFIG.LOG_OLD_sendReportToDisplayV3_) { console.log(finalData.length); }
+//     if (CONFIG.commonLib.log_display_info) { console.log("adding Header"); }
+//     sheet.getRange(2, 1, 1, header.length).setValues([header]);
+//     if (CONFIG.commonLib.log_display_info) {console.log("added header, adding data");}
+//         if (finalData == null) {
+//             if (CONFIG.commonLib.log_display_info_extended) { console.log("no data, skipping"); }
+//         return;
+//     }
+//     const prepredate = new Date
+//     sheet.getRange(3, 1, finalData.length, finalData[0].length).setValues(finalData);
+//     if (CONFIG.commonLib.log_display_info) {
+//         console.log("data added, sorting");
+//     }
+//     sheet.getRange(3, 1, finalData.length, header.length).sort([{ column: 1, ascending: true }]);
+//     const postDate = new Date
+//     if (CONFIG.commonLib.log_time_taken) {
+//         console.log("Total duration of report display: ", postDate.getTime() - preDate.getTime());
+//     }
+//     // going to run this one more time without a flush to see what happens when this changes.
+//     // SpreadsheetApp.flush()
+//     // console.log("data added")
+// }
 
-function getReportOrSetUpFromOtherSource_(sheetName, targetSpreadsheet, headerData = []) {
-    const ss = targetSpreadsheet;
-    let outHeader = [];
+// function getReportOrSetUpFromOtherSource_(sheetName, targetSpreadsheet, headerData = []) {
+//     const ss = targetSpreadsheet;
+//     let outHeader = [];
     
-    let data =[]
-    // Checks to see if the sheet exists or not.
-    let sheet = ss.getSheetByName(sheetName);
-    if (!sheet) {
-        sheet = ss.insertSheet(sheetName);
-        sheet.appendRow(headerData);
-        outHeader = headerData; // Creating Header
-    } else {
-        const outData = sheet.getDataRange().getValues();
-        outHeader = outData[0];
-        if (outData.length > 1) {
-            outHeader = outData.shift()
-            data = outData
-        }
-    }
+//     let data =[]
+//     // Checks to see if the sheet exists or not.
+//     let sheet = ss.getSheetByName(sheetName);
+//     if (!sheet) {
+//         sheet = ss.insertSheet(sheetName);
+//         sheet.appendRow(headerData);
+//         outHeader = headerData; // Creating Header
+//     } else {
+//         const outData = sheet.getDataRange().getValues();
+//         outHeader = outData[0];
+//         if (outData.length > 1) {
+//             outHeader = outData.shift()
+//             data = outData
+//         }
+//     }
 
     
 
-    return {
-        sheet: sheet,
-        headerData: outHeader,
-        data:data
-    };
-}
+//     return {
+//         sheet: sheet,
+//         headerData: outHeader,
+//         data:data
+//     };
+// }
 
 const accessibleFolderCache = {
     good: [],
@@ -212,58 +212,58 @@ function isFileAccessible_(fileID: string):boolean {
     return output;
 }
 
-function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
-    // TODO No longer referenced.
-    //currently just for zones, but we'll change that once I know this thing actually works.
-    const checkPosition = tagColumn; // for zones
-    const tagList = getUniqueFromPosition_(referenceData, checkPosition);
-    // console.log(tagList)
-    const splitData = {};//[tagList.length]
-    // set up splitData
-    for (const tag of tagList) {
-        splitData[tag] = [];
-    }
-    for (const data of referenceData) {
-        const refTag = data[checkPosition];
-        // console.log(refTag)
-        if (tagList.includes(refTag) == true && (data[dupeColumn] == false || dupeColumn == null /*typeof dupeColumn == "undefined" (ONLY IF THAT DOESN'T WORK)*/)) {
-            const currentTag = tagList[tagList.indexOf(refTag)];
-            // console.log(currentTag)
-            // console.log(tagList.indexOf(refTag))
-            splitData[currentTag].push(data);
-        }
-    }
-    return { data: splitData, tagArray: tagList };
-}
+// function splitDataByTagEliminateDupes_(referenceData, tagColumn, dupeColumn) {
+//     // TODO No longer referenced.
+//     //currently just for zones, but we'll change that once I know this thing actually works.
+//     const checkPosition = tagColumn; // for zones
+//     const tagList = getUniqueFromPosition_(referenceData, checkPosition);
+//     // console.log(tagList)
+//     const splitData = {};//[tagList.length]
+//     // set up splitData
+//     for (const tag of tagList) {
+//         splitData[tag] = [];
+//     }
+//     for (const data of referenceData) {
+//         const refTag = data[checkPosition];
+//         // console.log(refTag)
+//         if (tagList.includes(refTag) == true && (data[dupeColumn] == false || dupeColumn == null /*typeof dupeColumn == "undefined" (ONLY IF THAT DOESN'T WORK)*/)) {
+//             const currentTag = tagList[tagList.indexOf(refTag)];
+//             // console.log(currentTag)
+//             // console.log(tagList.indexOf(refTag))
+//             splitData[currentTag].push(data);
+//         }
+//     }
+//     return { data: splitData, tagArray: tagList };
+// }
 
-function splitDataByTag_(referenceData, tagColumn) {
-    // TODO No longer referenced.
-    //currently just for zones, but we'll change that once I know this thing actually works.
-    const checkPosition = tagColumn; // for zones
-    const tagList = getUniqueFromPosition_(referenceData, checkPosition);
-    // console.log(tagList)
-    const splitData = {};//[tagList.length]
-    // set up splitData
-    for (const tag of tagList) {
-        splitData[tag] = [];
-    }
-    for (const data of referenceData) {
-        const refTag = data[checkPosition];
-        // console.log(refTag)
-        if (tagList.includes(refTag) == true) {
-            const currentTag = tagList[tagList.indexOf(refTag)];
-            splitData[currentTag].push(data);
-        }
-    }
-    return { data: splitData, tagArray: tagList };
-}
-function getUniqueFromPosition_(gimmeDatArray, position) {
-    // this does the same thing as above, but keeps me from needing to iterate through everything twice.
-    const uniqueDataFromPosition = [];
-    for (let i = 0; i < gimmeDatArray.length; i++) {
-        if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
-            uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
-        }
-    }
-    return uniqueDataFromPosition;
-}
+// function splitDataByTag_(referenceData, tagColumn) {
+//     // TODO No longer referenced.
+//     //currently just for zones, but we'll change that once I know this thing actually works.
+//     const checkPosition = tagColumn; // for zones
+//     const tagList = getUniqueFromPosition_(referenceData, checkPosition);
+//     // console.log(tagList)
+//     const splitData = {};//[tagList.length]
+//     // set up splitData
+//     for (const tag of tagList) {
+//         splitData[tag] = [];
+//     }
+//     for (const data of referenceData) {
+//         const refTag = data[checkPosition];
+//         // console.log(refTag)
+//         if (tagList.includes(refTag) == true) {
+//             const currentTag = tagList[tagList.indexOf(refTag)];
+//             splitData[currentTag].push(data);
+//         }
+//     }
+//     return { data: splitData, tagArray: tagList };
+// // }
+// function getUniqueFromPosition_(gimmeDatArray, position) {
+//     // this does the same thing as above, but keeps me from needing to iterate through everything twice.
+//     const uniqueDataFromPosition = [];
+//     for (let i = 0; i < gimmeDatArray.length; i++) {
+//         if (uniqueDataFromPosition.includes(gimmeDatArray[i][position]) == false) {
+//             uniqueDataFromPosition.push(gimmeDatArray[i][position]); // if it's a match, then we do the thing, otherwise no.
+//         }
+//     }
+//     return uniqueDataFromPosition;
+// }
