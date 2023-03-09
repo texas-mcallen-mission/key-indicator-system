@@ -58,8 +58,8 @@ function getAllClosedAreas(allSheetData) {
 
   const closedMostRecent = [];
 
-  for (const entry of groupedData["areaId"][1]) { // this is not right yet but its getting closer
-    console.log("idek");
+  for (const entry of groupedData["areaId"][0]) { // this is not right yet but its getting closer
+    console.log(entry);
   }
 
 
