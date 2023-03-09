@@ -54,14 +54,14 @@ function getAllClosedAreas(allSheetData) {
 
   ogData.removeMatchingByKey("areaID", newData);
 
-  const groupedData = ogData.groupByKey("areaID");
+  const groupedData : keyedKiDataEntries = ogData.groupByKey("areaID");
 
   //console.log(groupedData);
 
   const closedMostRecent = [];
 
   for (const entry in groupedData) { // this is not right yet but its getting closer
-    console.log(entry);
+    console.log(entry[""]);
   }
 
 
