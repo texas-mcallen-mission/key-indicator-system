@@ -332,7 +332,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
                     markAsDuplicateEntries.push(correctionDupeMarker)
                     
                 } else {
-                    console.log("Skipped adding correction because it was up to date")
+                    // console.log("Skipped adding correction because it was up to date")
                     okEntries.push(correctionDupeMarker)
                 }
 
@@ -347,6 +347,7 @@ function markDuplicatesV2(dataSheet:SheetData) {
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
     dataSheet.appendData(correctionEntries)
     dataSheet.updateRows(markAsDuplicateEntries)
+    console.log("Skipped adding ",String(okEntries.length),"entries that were already up to date!")
     // for (const duplicate of markAsDuplicateEntries) {
     //     dataSheet.directModify(duplicate, { "isDuplicate": true })
     // }
