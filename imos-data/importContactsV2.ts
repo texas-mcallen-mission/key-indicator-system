@@ -65,6 +65,7 @@ function getAllClosedAreas(allSheetData) {
         }
     console.log(closedMostRecent);
 }
+// litterl
 
 function getOldestKiEntryByDateKey_(kiData: kiDataEntry[],dateKey:string): kiDataEntry {
     // const thingArray : number[] = [];
