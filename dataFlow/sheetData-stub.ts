@@ -34,14 +34,23 @@ function clearAllSheetDataCache() {
     cache.remove("allSheetData");
 }
 
+function timeFunction_(time: Date): number{
+    const endTime = new Date()
+    return endTime.getTime()-time.getTime()
+}
 
 function testCachingV2() {
-    let allSheetData : manySheetDatas = constructSheetDataV3();
-    cacheAllSheetData(allSheetData);
+    clearAllSheetDataCache()
+    // using constructSheetData now caches on the backend
+    // the first call will cache it
+    const startTime = new Date()
+    let allSheetData: manySheetDatas = constructSheetDataV3();
+    const noCacheTime = timeFunction_(startTime)
 
-    const allSheetData2 : manySheetDatas = getAllSheetDataFromCache();
-    if (JSON.stringify(allSheetData) == JSON.stringify(allSheetData2)) {
-        console.log("To and From Cache on local sheetData probably worked");
-    }
+    const start2 = new Date()
+    
+    allSheetData = constructSheetDataV3()
+    const cachedTime = timeFunction_(start2)
 
+    console.log("uncached duration, ms:",noCacheTime,"cached duration, ms:",cachedTime)
 }
