@@ -88,20 +88,54 @@ function constructSheetDataV3(target: string[] | void) : manySheetDatas {
     }
 
     for (const entry of targetSheets) {
-        allSheetData[entry] = new SheetData(new RawSheetData(sheetDataConfig[entry]))
+        const cacheData: void | SheetData = getSingleSheetDataFromCache(entry)
+        if (cacheData) {
+            allSheetData[entry] = cacheData
+        } else {
+            allSheetData[entry] = new SheetData(new RawSheetData(sheetDataConfig[entry]))
+        }
     }
-
+    cacheSheetDataEntries(allSheetData)
     return allSheetData;
 }
 
+const sdCacheString = "SHEETCACHE_"
 
+/**
+ * @description stores sheetData entries in the AppsScript cache for faster performance.
+ * @param {manySheetDatas} anySheetData
+ */
+function cacheSheetDataEntries(anySheetData: manySheetDatas) {
+    const cache = CacheService.getScriptCache()
+    // first: update cache for given entries
+    for (const key in anySheetData) {
+        const cacheKey = sdCacheString + key
+        const cacheDataObj = anySheetData[key].getConfigForCache()
+        const cacheData = JSON.stringify(cacheDataObj)
+        cache.put(cacheKey,cacheData)
 
-// {local:sheetDataEntry,remote:sheetDataEntry}
+    }
 
+}
 
-// function lol() {
-//     let obj: { any:any } = {}
-//     return obj
-// }
+/**
+ * @description loads a sheetData entry from cache, if it exists, otherwise return void.
+Returning void allows you to test 
+ * @param {string} target
+ * @return {*}  {(SheetData|void)}
+ */
+function getSingleSheetDataFromCache(target: string):SheetData|void {
+    const cache = CacheService.getScriptCache()
+    const cacheKey = sdCacheString + target
+    const cacheData = cache.get(cacheKey)
+    if (cacheData) {
+        const dataEntry: sheetDataEntry = JSON.parse(cacheData)
+        return new SheetData(new RawSheetData(dataEntry))
+    } else {
+        console.warn("sheetDataCache cache miss!")
+        return
+    }
+}
+
 
 
