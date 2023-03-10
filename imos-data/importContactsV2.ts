@@ -25,8 +25,8 @@ function importContactsV2(allSheetData: manySheetDatas): void {
     const newContactClass = new kiDataClass(newContactData);
 
     // pulls all of the closed areas
-    const newAreaIds: string[] = newContactClass.getDataFromKey("areaId");
-    ogDataClass.removeMatchingByKey("areaId", newAreaIds);
+    const newAreaIDs: string[] = newContactClass.getDataFromKey("areaID");
+    ogDataClass.removeMatchingByKey("areaID", newAreaIDs);
     ogDataClass.bulkAppendObject({
         "deletionDate": convertToSheetDate_(new Date())
     })
@@ -63,12 +63,13 @@ function getAllClosedAreas(allSheetData) {
 
     //console.log(groupedData);
 
-    const closedMostRecent = [];
+    const closedMostRecent : kiDataEntry[] = [];
 
-        for (const entry in groupedData) { // this is not right yet but its getting closer
-            closedMostRecent.push(getOldestKiEntryByDateKey_(groupedData[entry], "kiDate"));
+    for (const entry in groupedData) { // this is not right yet but its getting closer
+        const mostRecent: kiDataEntry = getOldestKiEntryByDateKey_(groupedData[entry], "kiDate")
+        mostRecent.deletionDate = mostRecent.kiDate;
+            closedMostRecent.push(mostRecent);
         }
-    console.log(closedMostRecent);
     allSheetData.closedAreas.appendData(closedMostRecent);
 }
 
@@ -86,7 +87,7 @@ function getOldestKiEntryByDateKey_(kiData: kiDataEntry[],dateKey:string): kiDat
         const testDate: Date = new Date(testVal[dateKey])
 
         if (comparisonDate.getTime() < testDate.getTime()) {
-            testVal = thing
+            testVal = thing;
         }
     
     }

@@ -378,7 +378,7 @@ function getSheetDataConfig(): manySheetDataEntries {
                 keyNamesToIgnore: ["responsePulled", "submissionEmail"],
                 initialColumnOrder: {
                     deletionDate: 0,
-                    areaId: 1,
+                    areaID: 1,
                     areaEmail: 2,
                     areaName: 3,
                     district: 4,
