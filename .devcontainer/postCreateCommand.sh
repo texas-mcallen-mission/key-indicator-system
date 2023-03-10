@@ -1,2 +1,2 @@
-git submodule install --update
+git submodule update --init
 npm install

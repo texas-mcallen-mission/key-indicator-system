@@ -1,9 +1,12 @@
 // Compiled using undefined undefined (TypeScript 4.6.3)
 // # Treecapitator:  Prunes fs tree- if a folder is not in folder data or a document not in the tree, it's gonna get whacked.
 
+// This was written before we knew about types and stuff- some very basic attempts have been made to make it at least a little easier to understand.
 
-
-
+/**
+ * @description removes folders and files that don't have entries in the filesystem sheets.  Makes it possible to drop the sheet and rebuild automatically and handle cleanup.
+ * @global
+ */
 function pruneFS() {
     const allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys"]);
 
@@ -34,7 +37,9 @@ function pruneFS() {
 }
 
 
-
+/**
+ * @description tester function, written while testing this.
+ */
 function testGetFilesystemData() {
     const allSheetData:manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys"]);
     const fsData = getFilesystemDocsAndFolders_(allSheetData)
@@ -46,8 +51,12 @@ function testGetFilesystemData() {
     }
 }
 
-
-function getFilesystemDocsAndFolders_(allSheetData) {
+/**
+ * @description Gets the list of files and folders that *should* be there.
+ * @param {manySheetDatas} allSheetData
+ * @return {*}  {{files:string[],folders:string[]}}
+ */
+function getFilesystemDocsAndFolders_(allSheetData:manySheetDatas):{files:string[],folders:string[]} {
 
     const filesystems = {
         zoneFS: allSheetData.zoneFilesys,
@@ -72,8 +81,8 @@ function getFilesystemDocsAndFolders_(allSheetData) {
 
 function getSingleFilesysData(filesys) {
     const fsData = filesys.getData()
-    const folderIDs = [];
-    const sheetIDs = [];
+    const folderIDs:string[] = [];
+    const sheetIDs:string[] = [];
     for (const entry of fsData) {
         if (entry.folderId != "") folderIDs.push(entry.folderId);
         if (entry.parentFolder != "") folderIDs.push(entry.parentFolder)
@@ -98,6 +107,11 @@ function testGetAllFoldersAndFiles() {
 
 }
 
+/**
+ * @description This function is not recursive and stops after three levels.  Could become recursive in the future, I just didn't know how to do that at the time.
+ * @param {*} baseFolderID
+ * @return {*} 
+ */
 function getAllFoldersAndFiles_(baseFolderID) {
     // currently this only goes three levels deep.  It's fairly easy to go further down, though- just add another subfolder loop or convert it to a while thingy or something like that
     const basefolder = DriveApp.getFolderById(baseFolderID);
