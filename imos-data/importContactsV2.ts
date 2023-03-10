@@ -64,7 +64,9 @@ function getAllClosedAreas(allSheetData) {
     for (const entry in groupedData) { // this is not right yet but its getting closer
         for (const thing in groupedData[entry]) {
             date = groupedData[entry][thing].kiDate
-            console.log("What" + date);
+            const date1 = new Date(date);
+            date1.getDate();
+            console.log("What" + date1);
         }
     }
 
