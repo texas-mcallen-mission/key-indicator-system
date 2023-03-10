@@ -24,15 +24,15 @@
 //     return allSheetData;
 // }
 
-function testConstructor() {
-    const test : manySheetDatas = constructSheetDataV3();
-}
+// function testConstructor() {
+//     const test : manySheetDatas = constructSheetDataV3();
+// }
 
-function clearAllSheetDataCache() {
-    const cache = CacheService.getDocumentCache();
-    // former ignore
-    cache.remove("allSheetData");
-}
+// function clearAllSheetDataCache() {
+//     const cache = CacheService.getDocumentCache();
+//     // former ignore
+//     cache.remove("allSheetData");
+// }
 
 function timeFunction_(time: Date): number{
     const endTime = new Date()
@@ -40,7 +40,8 @@ function timeFunction_(time: Date): number{
 }
 
 function testCachingV2() {
-    clearAllSheetDataCache()
+    deleteSheetDatasFromCache()
+    // clearAllSheetDataCache()
     // using constructSheetData now caches on the backend
     // the first call will cache it
     const startTime = new Date()

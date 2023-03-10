@@ -162,6 +162,7 @@ function deleteSheetDatasFromCache() {
     for (let key of keys) {
         key = sdCacheString + key
     }
+    console.log("Removed",keys,"from cache")
     cache.removeAll(keys)
 }
 
