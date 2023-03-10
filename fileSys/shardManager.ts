@@ -11,6 +11,14 @@
 //     seedId: string,
 // }
 
+interface shardCountObj {
+    [index:string]:number
+}
+
+/**
+ * @description Recalculates shard groupings for zone, district, and area filesystem entries, which we then use to break up the report updater stuff to go significantly faster than we could before.
+ * @global
+ */
 function updateShards() {
     clearAllSheetDataCache()
     const NUMBER_OF_SHARDS = CONFIG.fileSystem.shardManager.number_of_shards
@@ -23,7 +31,7 @@ function updateShards() {
         // creates a object to += counts on, so that values already assigned a particular shard won't be as likely to get shifted to a different shard.
         
 
-        const shardCounter: object = {
+        const shardCounter: shardCountObj = {
             "1":0
         }
         for (let i = 1; i <= NUMBER_OF_SHARDS; i++){
@@ -90,7 +98,13 @@ function updateShards() {
 
 }
 
-function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
+/**
+ * @description internal function that calculates whether or not to reassign something or not.
+ * @param {*} shardCounter
+ * @param {*} MAX_ALLOWABLE_SPREAD
+ * @return {*} 
+ */
+function isSpreadBig_(shardCounter:shardCountObj,MAX_ALLOWABLE_SPREAD:number): boolean {
     let minVal = 0;
     let maxVal = 0;
     for (const key in shardCounter) {
@@ -104,7 +118,13 @@ function isSpreadBig_(shardCounter,MAX_ALLOWABLE_SPREAD) {
         return false
     }
 }
-function getKeyWithSmallestValue_(shardCounter) {
+
+/**
+ * @description Finds shard with the smallest number of entries.  Defaults to 1
+ * @param {*} shardCounter
+ * @return {*} 
+ */
+function getKeyWithSmallestValue_(shardCounter: shardCountObj): string {
     let returnKey = "1"
 
     for (const key in shardCounter) {

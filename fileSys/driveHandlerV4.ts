@@ -22,6 +22,11 @@ getMissionOrgData
 
 */
 
+
+/**
+ * @description convenient way to organize data for the filesystem manager.  Written as I was learning about interfaces, could probably be replaced with an interface in the future.
+ * @class fsEntry
+ */
 class fsEntry {
     rawData: filesystemData = {
         folderName: '',
@@ -51,7 +56,10 @@ class fsEntry {
         return this.rawData;
     }
 }
-
+/**
+ * @description Verifies filesystem integrity, and then adds any missing zone/district/area folders to the filesystem.
+ * @global
+ */
 function updateFSV4() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
     verifyFSV4(allSheetData)
@@ -68,6 +76,10 @@ interface closedDistrictData {
     [index: string]: kiDataEntry[];
 }
 
+/**
+ * @description Creates missing zone/district/area folders in nesting structure.  Includes closed areas in the zone and district area id lists, which makes the history of zones a little more accurate.
+ * @param {manySheetDatas} [allSheetData=constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys", "contact", "closedAreas"])]
+ */
 function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys", "contact", "closedAreas"])): void {
     //@ts-ignore
     const orgData = getMissionOrgData(allSheetData.contact);
@@ -75,7 +87,7 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
     const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData());
     //@ts-ignore its just dumb
     const groupedClosedAreas: closedData = closedAreasClass.groupDataByMultipleKeys(["zone", "district"]);
-   
+    
     const filesystems: manyFilesystemEntries = loadFilesystems_(allSheetData);
 
     const reportBaseFolderId = getOrCreateReportFolder();
@@ -128,6 +140,14 @@ function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFil
     }
 }
 
+/**
+ * @description If folder or file doesn't exist, create it and return a data object.  Now that we know how to do CRUD stuff properly, this might need a rewrite.
+ * @param {*} filesystem
+ * @param {string} folderNameString
+ * @param {string} parentFolderId
+ * @param {string} areaId
+ * @return {*}  {{ entry: filesystemData, isNew: boolean; }}
+ */
 function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderId: string, areaId: string): { entry: filesystemData, isNew: boolean; } {
     let outEntry: filesystemData = {
         folderName: '',
@@ -166,8 +186,13 @@ function createOrGetFsEntry_(filesystem, folderNameString: string, parentFolderI
         isNew: createdNew
     };
 }
-
-function createNewFolderV4_(parentFolderId, name) {
+/**
+ * @description Makes a folder inside of a parent folder, returns the id string of new folder.
+ * @param {string} parentFolderId
+ * @param {string} name
+ * @return {*}  {string}
+ */
+function createNewFolderV4_(parentFolderId: string, name: string): string {
     // creates new folder in parent folder, and then returns that folder's ID.
     // TODO: Potentially implement a caching thing with a global object to speed up second and third occurences of creating the same folderObject?
     console.log(parentFolderId);
@@ -176,6 +201,13 @@ function createNewFolderV4_(parentFolderId, name) {
     const newFolderID = newFolder.getId();
     return newFolderID;
 }
+
+/**
+ * @description Creates list of keys given an ID.  TBH this should probably be reimplemented by a kiDataClass
+ * @param {*} fsData
+ * @param {*} key
+ * @return {*} 
+ */
 function buildIncludesArray_(fsData, key) {
     const outData = [];
     for (const entry of fsData) {
@@ -217,6 +249,7 @@ interface filesystemData extends kiDataEntry {
     seedId: string | number,
 }
 
+
 /**
  * Loads filesystems with everything you need to get stuff going.  Used by DriveHandler & reportCreator
  * Keys: "Zone","District","Area"
@@ -224,7 +257,6 @@ interface filesystemData extends kiDataEntry {
  * @param {*} allSheetData
  * @return {manyFilesystemEntries}  wheeee
  */
-
 function loadFilesystems_(allSheetData: manySheetDatas): manyFilesystemEntries {
     const filesystems: manyFilesystemEntries = {
 
@@ -260,6 +292,11 @@ function loadFilesystems_(allSheetData: manySheetDatas): manyFilesystemEntries {
     return filesystems;
 }
 
+/**
+ * @description Makes sure that the folders stored in Sheets actually exist, otherwise delete them.
+ * @param {*} [allSheetData=constructSheetDataV3()]
+ * @global
+ */
 function verifyFSV4(allSheetData = constructSheetDataV3()) {
     const filesystems = loadFilesystems_(allSheetData);
 
@@ -270,6 +307,10 @@ function verifyFSV4(allSheetData = constructSheetDataV3()) {
     // this SHOULD be everything we need to do for the new FS verifier
 }
 
+/**
+ * @description verifyFSV4 reusable bit, verifies a single page / scope of report pages.
+ * @param {*} filesystem
+ */
 function verifySingleFilesysV4_(filesystem) {
     const sheetDataObj = filesystem.fsData;
     const sheetData: { any; }[] = sheetDataObj.getData();
