@@ -119,8 +119,8 @@ const INTERNAL_CONFIG = {
         // allSheetData_cacheKey: "puppies and flowers", //ID to use when storing allSheetData in the cache
 
         missionOrgData_cacheEnabled: false, //[unimplemented] Cache missionOrgData, the object returned by getMissionOrgData()
-
-        maxRowToMarkDuplicates: 500, //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
+        // no longer needed post-rewrite
+        // maxRowToMarkDuplicates: 500, //If set to -1, the full sheet will be checked (which takes a long time!). If set to 0, duplicates will not be marked.
 
         log_importContacts: false,
         log_dataMerge: false,
@@ -325,6 +325,7 @@ function getSheetDataConfig(): manySheetDataEntries {
                 tabName: "Form Responses",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
+                use_iterant:true,
                 initialColumnOrder: {
                     areaName: 0,
                     responsePulled: 1,
@@ -394,6 +395,7 @@ function getSheetDataConfig(): manySheetDataEntries {
                 tabName: "Data",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
+                use_iterant:true,
                 keyNamesToIgnore: ["responsePulled", "submissionEmail"],
                 initialColumnOrder: {
                     areaName: 0,

@@ -54,12 +54,10 @@ class fsEntry {
 
 function updateFSV4() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
-
-    verifyFSV4(allSheetData);
-    clearAllSheetDataCache();
-    buildFSV4();
-    updateShards();
-    
+    verifyFSV4(allSheetData)
+    clearAllSheetDataCache()
+    buildFSV4()
+    updateShards()
 }
 
 interface closedData {
@@ -231,21 +229,21 @@ function loadFilesystems_(allSheetData: manySheetDatas): manyFilesystemEntries {
     const filesystems: manyFilesystemEntries = {
 
         Zone: {
-            fsData: allSheetData.zone,
+            fsData: allSheetData.zoneFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.zone,
             sheetData: [],
             existingFolders: [],
             reportTemplate: CONFIG.reportCreator.docIDs.zoneTemplate
         },
         District: {
-            fsData: allSheetData.district,
+            fsData: allSheetData.distFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.dist,
             sheetData: [],
             existingFolders: [],
             reportTemplate: CONFIG.reportCreator.docIDs.distTemplate
         },
         Area: {
-            fsData: allSheetData.area,
+            fsData: allSheetData.areaFilesys,
             fsScope: CONFIG.fileSystem.reportLevel.area,
             sheetData: [],
             existingFolders: [],
