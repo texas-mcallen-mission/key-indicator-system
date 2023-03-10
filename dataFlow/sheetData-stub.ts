@@ -47,7 +47,7 @@ function testCachingV2() {
     const startTime = new Date()
     const allSheetData: manySheetDatas = constructSheetDataV3();
     const noCacheTime = timeFunction_(startTime)
-    console.log(noCacheTime)
+    console.log(String(noCacheTime))
     const start2 = new Date()
     
     const allSheetData2 = constructSheetDataV3()
