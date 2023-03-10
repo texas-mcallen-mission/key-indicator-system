@@ -163,7 +163,7 @@ function deleteSheetDatasFromCache() {
     for (const key of keys) {
         cacheKeys.push(sdCacheString + key)
     }
-    console.log("Removed",keys,"from cache")
+    console.log("Removed",cacheKeys,"from cache")
     cache.removeAll(keys)
 }
 

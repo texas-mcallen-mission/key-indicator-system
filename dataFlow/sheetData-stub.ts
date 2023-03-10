@@ -45,12 +45,12 @@ function testCachingV2() {
     // using constructSheetData now caches on the backend
     // the first call will cache it
     const startTime = new Date()
-    let allSheetData: manySheetDatas = constructSheetDataV3();
+    const allSheetData: manySheetDatas = constructSheetDataV3();
     const noCacheTime = timeFunction_(startTime)
-
+    console.log(noCacheTime)
     const start2 = new Date()
     
-    allSheetData = constructSheetDataV3()
+    const allSheetData2 = constructSheetDataV3()
     const cachedTime = timeFunction_(start2)
 
     console.log("uncached duration, ms:",noCacheTime,"cached duration, ms:",cachedTime)
