@@ -159,8 +159,9 @@ function getSingleSheetDataFromCache_(target: string):SheetData|void {
 function deleteSheetDatasFromCache() {
     const cache = CacheService.getScriptCache()
     const keys = Object.keys(sheetDataConfig)
-    for (let key of keys) {
-        key = sdCacheString + key
+    const cacheKeys = []
+    for (const key of keys) {
+        cacheKeys.push(sdCacheString + key)
     }
     console.log("Removed",keys,"from cache")
     cache.removeAll(keys)
