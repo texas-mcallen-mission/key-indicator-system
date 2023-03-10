@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
 
-    branches: [question-updates]
+    branches: [fix-caching]
   release:
     types: [published]
   schedule:
