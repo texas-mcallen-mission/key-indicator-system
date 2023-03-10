@@ -60,20 +60,39 @@ function getAllClosedAreas(allSheetData) {
 
     const closedMostRecent = [];
 
-    for (const entry in groupedData) { // this is not right yet but its getting closer
-        for (const thing in groupedData[entry]) {
-            const unParsedDate : string = groupedData[entry][thing].kiDate;
-            const parsedDate: number = Date.parse(unParsedDate);
-
-
-            console.log("" + parsedDate);
-            //Date.parse(date);
-            //console.log(date);
+        for (const entry in groupedData) { // this is not right yet but its getting closer
+            const thingArray: number[] = [];
+            for (const thing in groupedData[entry]) {
+                const unParsedDate = groupedData[entry][thing].kiDate;
+                const parsedDate = Date.parse(unParsedDate);
+                groupedData[entry][thing].kiDate = parsedDate;
+                console.log("" + parsedDate);
+                
+                thingArray.push(parsedDate);
+            }
+            if (groupedData[entry].kiDate != Math.max.apply(thingArray)) delete groupedData.kiDate;
+            
         }
-    }
-
-
+    console.log(groupedData);
 }
+
+// function compareArrayOfDates(groupedData: kiDataEntry[]): kiDataEntry[] {
+//     const thingArray : number[] = [];
+//     for (const thing in groupedData) {
+//         const unParsedDate: string = groupedData[thing].kiDate;
+//         const parsedDate: number = Date.parse(unParsedDate);
+
+//         thingArray.push(parsedDate);
+        
+//         if (groupedData[thing] != Math.max.apply(thingArray)
+//         //Date.parse(date);
+//         //console.log(date);
+//     }
+    
+
+//     //return biggestNumber 
+    
+// }
 
 /*
 pretty much just loops all of the contacts and pulls all of the data
