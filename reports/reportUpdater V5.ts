@@ -240,7 +240,6 @@ function convertToFilesystemData(kiData:kiDataEntry[]):filesystemData[] {
 function testDoDataOperationsLive() {
     // integration-style test
     const localSheetData: manySheetDatas = constructSheetDataV3(["distFilesys", "data"]);
-    const localSheetData: manySheetDatas = constructSheetDataV3(["distFilesys", "data"]);
     const fsData: filesystemData[] = convertToFilesystemData(localSheetData.distFilesys.getData())
     // let targetFSData: manyFilesystemDatas = { entry1: fsData[1], entry2: fsData[2] }
     let kiData = new kiDataClass(localSheetData.data.getData());
@@ -292,7 +291,6 @@ function testKeepMatchingByKey() {
 function testKeepMatchingByKey2() {
     // semi-integrated test- loads external data
     const localSheetData: manySheetDatas = constructSheetDataV3(["data"]);
-    const localSheetData: manySheetDatas = constructSheetDataV3(["data"]);
 
     const testKey = "areaID";
     const kiData = localSheetData.data.getData();
@@ -302,8 +300,6 @@ function testKeepMatchingByKey2() {
 }
 
 function testGroupAndSendReports(): void {
-    // integration test: loads external data, pushes it
-    const localSheetData: manySheetDatas = constructSheetDataV3(["distFilesys","data"]);
     // integration test: loads external data, pushes it
     const localSheetData: manySheetDatas = constructSheetDataV3(["distFilesys","data"]);
     const fsData:filesystemData[] = convertToFilesystemData(localSheetData.distFilesys.getData())
@@ -366,7 +362,6 @@ function groupDataAndSendReports_(fsData: filesystemData[], kiData: kiDataClass,
  */
 function testSingleReportUpdater():void {
     
-    const localSheetData: manySheetDatas = constructSheetDataV3(["data"]);
     const localSheetData: manySheetDatas = constructSheetDataV3(["data"]);
 
     const kiData = new kiDataClass(localSheetData.data.getData()).calculateCombinedName().createSumOfKeys(CONFIG.kiData.fb_referral_keys,CONFIG.kiData.new_key_names.fb_referral_sum).keepMatchingByKey("district",["ZAPATA","Zapata"]).end
