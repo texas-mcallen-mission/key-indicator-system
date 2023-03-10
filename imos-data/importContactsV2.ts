@@ -17,7 +17,7 @@ function importContactsV2(allSheetData: manySheetDatas): void {
 
     // if there are less than 5 contacts... (Thank you Elder Perez) it will throw an error
     if (newContactData.length <= 5) {
-        console.error("Contacts Probably got deleted!!!!")
+        console.error("Contacts Probably got deleted!!!!");
         throw "Oh Boy The Contacts Se fue!";
     }
     contactDataSheet.setData(newContactData); // sets the new data
@@ -29,8 +29,8 @@ function importContactsV2(allSheetData: manySheetDatas): void {
     ogDataClass.removeMatchingByKey("areaID", newAreaIDs);
     ogDataClass.bulkAppendObject({
         "deletionDate": convertToSheetDate_(new Date())
-    })
-    const leftovers: kiDataEntry[] = ogDataClass.end
+    });
+    const leftovers: kiDataEntry[] = ogDataClass.end;
 
     // if nothing changes dont push it
     if (leftovers.length > 0) {
@@ -42,7 +42,7 @@ function importContactsV2(allSheetData: manySheetDatas): void {
 }
 
 function testAllClosedAreas() {
-    const allSheetData : manySheetDatas = constructSheetDataV3(["closedAreas", "contact","data"]);
+    const allSheetData: manySheetDatas = constructSheetDataV3(["closedAreas", "contact", "data"]);
     getAllClosedAreas(allSheetData);
 }
 /**
@@ -51,31 +51,28 @@ function testAllClosedAreas() {
  * @param {*} allSheetData
  */
 function getAllClosedAreas(allSheetData) {
-    importContactsV2(allSheetData);
+    importContactsV2(allSheetData); // updates contact information
 
-    const newData = new kiDataClass(allSheetData.contact.getData()).getDataFromKey("areaID");
+    // gets all of the data
+    const newContactData = new kiDataClass(allSheetData.contact.getData()).getDataFromKey("areaID");
+    const ogClosedData = new kiDataClass(allSheetData.closedAreas.getData()).getDataFromKey("areaID");
+    const kiData = new kiDataClass(allSheetData.data.getData());
 
-    const ogData = new kiDataClass(allSheetData.closedAreas.getData()).getDataFromKey("areaID");
-    const ogkiSheet = new kiDataClass(allSheetData.data.getData());
-    
-    ogkiSheet.removeMatchingByKey("areaID", newData);
-    ogkiSheet.removeMatchingByKey("areaID", ogData);
-    
-    const groupedData: keyedKiDataEntries = ogkiSheet.groupByKey("areaID");
+    // removes douplicate areaID's
+    kiData.removeMatchingByKey("areaID", newContactData);
+    kiData.removeMatchingByKey("areaID", ogClosedData);
 
-    const closedMostRecent : kiDataEntry[] = [];
+    const groupedData: keyedKiDataEntries = kiData.groupByKey("areaID"); // groups it all
 
-    for (const entry in groupedData) { // this is not right yet but its getting closer
-        const mostRecent: kiDataEntry = getOldestKiEntryByDateKey_(groupedData[entry], "kiDate")
+    const closedMostRecent: kiDataEntry[] = [];
+    for (const entry in groupedData) { // loops through the groupedData and gets the newest kiDataEntry
+        const mostRecent: kiDataEntry = getMostRecentKiEntryByDateKey_(groupedData[entry], "kiDate");
         mostRecent.deletionDate = mostRecent.kiDate;
-            closedMostRecent.push(mostRecent);
-        }
+        closedMostRecent.push(mostRecent);
+    }
+
     allSheetData.closedAreas.appendData(closedMostRecent);
-
-    // add non duplicating stuff
 }
-
-
 
 /**
  * gets the most recent kiDataEntry given an array and a key
@@ -84,16 +81,16 @@ function getAllClosedAreas(allSheetData) {
  * @param {string} dateKey
  * @return {*}  {kiDataEntry}
  */
-function getOldestKiEntryByDateKey_(kiData: kiDataEntry[],dateKey:string): kiDataEntry {
+function getMostRecentKiEntryByDateKey_(kiData: kiDataEntry[], dateKey: string): kiDataEntry {
     let testVal: kiDataEntry = kiData[0];
-    for (const thing of kiData) {
-        const comparisonDate: Date = new Date(thing[dateKey])
-        const testDate: Date = new Date(testVal[dateKey])
+    for (const entry of kiData) {
+        const comparisonDate: Date = new Date(entry[dateKey]);
+        const testDate: Date = new Date(testVal[dateKey]);
 
         if (comparisonDate.getTime() < testDate.getTime()) {
-            testVal = thing;
+            testVal = entry;
         }
-    
+
     }
     return testVal;
 
@@ -110,7 +107,7 @@ function getArrayOfContacts(): contactEntry[] {
 
     const arrayOfContacts: contactEntry[] = [];
     for (const contact of contacts) {
-        arrayOfContacts.push(convertToContactData(contact))
+        arrayOfContacts.push(convertToContactData(contact));
     }
     return arrayOfContacts;
 
@@ -155,17 +152,17 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
         missionaryEmail1: '',
         missionaryEmail2: '',
         missionaryEmail3: '',
-    }
+    };
 
     const allEmails = c.getEmails();
 
     // Array.shift() returns the top entry in an array and removes it.
-    const areaEmail = allEmails.shift()
+    const areaEmail = allEmails.shift();
     cDataObject["areaEmail"] = areaEmail.getAddress();
     cDataObject["areaName"] = areaEmail.getDisplayName();
     // loops through each email and sets the name, position and, isTrainer
     for (let i = 0; i < allEmails.length; i++) {
-        const entry = allEmails[i]
+        const entry = allEmails[i];
         const epos = i + 1; // Position
         cDataObject["name" + epos] = entry.getDisplayName();
         const label = entry.getLabel().toString();
@@ -226,7 +223,7 @@ function convertToContactData(c: GoogleAppsScript.Contacts.Contact): contactEntr
     cDataObject.areaID = areaID;
 
     // gets phone number
-    const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones()
+    const phones: GoogleAppsScript.Contacts.PhoneField[] = c.getPhones();
     const phoneNumbers: string[] = [];
     for (const entry of phones) {
         phoneNumbers.push(entry.getPhoneNumber());
