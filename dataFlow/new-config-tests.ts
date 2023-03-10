@@ -88,7 +88,7 @@ function constructSheetDataV3(target: string[] | void) : manySheetDatas {
     }
 
     for (const entry of targetSheets) {
-        const cacheData: void | SheetData = getSingleSheetDataFromCache(entry)
+        const cacheData: void | SheetData = getSingleSheetDataFromCache_(entry)
         if (cacheData) {
             allSheetData[entry] = cacheData
         } else {
@@ -105,15 +105,34 @@ const sdCacheString = "SHEETCACHE_"
  * @description stores sheetData entries in the AppsScript cache for faster performance.
  * @param {manySheetDatas} anySheetData
  */
-function cacheSheetDataEntries(anySheetData: manySheetDatas) {
+function cacheSheetDataEntries(anySheetData: manySheetDatas,timeoutInMinutes=15) {
     const cache = CacheService.getScriptCache()
+    const timeout = timeoutInMinutes * 60 
     // first: update cache for given entries
     for (const key in anySheetData) {
         const cacheKey = sdCacheString + key
         const cacheDataObj = anySheetData[key].getConfigForCache()
-        const cacheData = JSON.stringify(cacheDataObj)
-        cache.put(cacheKey,cacheData)
+        if (!isSheetAlreadyCached_(cacheKey)) {
+            const cacheData = JSON.stringify(cacheDataObj)
+            cache.put(cacheKey,cacheData,timeout)
+        } else {
+            console.log("skipped caching to enforce caching timeout")
+        }
 
+    }
+
+}
+
+function isSheetAlreadyCached_(target: string): boolean{
+    // let returnVal = false
+    
+    const cache = CacheService.getScriptCache()
+    const cacheKey = sdCacheString + target
+    const cacheData = cache.get(cacheKey)
+    if (cacheData) {
+        return true
+    } else {
+        return false
     }
 
 }
@@ -124,7 +143,7 @@ Returning void allows you to test
  * @param {string} target
  * @return {*}  {(SheetData|void)}
  */
-function getSingleSheetDataFromCache(target: string):SheetData|void {
+function getSingleSheetDataFromCache_(target: string):SheetData|void {
     const cache = CacheService.getScriptCache()
     const cacheKey = sdCacheString + target
     const cacheData = cache.get(cacheKey)
