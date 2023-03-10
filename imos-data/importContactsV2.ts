@@ -42,7 +42,7 @@ function importContactsV2(allSheetData: manySheetDatas): void {
 }
 
 function testAllClosedAreas() {
-    const allSheetData : manySheetDatas = constructSheetDataV3(["closedAreas", "contact"]);
+    const allSheetData : manySheetDatas = constructSheetDataV3(["closedAreas", "contact","data"]);
     getAllClosedAreas(allSheetData);
 }
 /**
@@ -53,17 +53,15 @@ function testAllClosedAreas() {
 function getAllClosedAreas(allSheetData) {
     importContactsV2(allSheetData);
 
-    const newData = allSheetData.contact.getData();
+    const newData = new kiDataClass(allSheetData.contact.getData()).getDataFromKey("areaID");
+
+    const ogData = new kiDataClass(allSheetData.closedAreas.getData()).getDataFromKey("areaID");
     const ogkiSheet = new kiDataClass(allSheetData.data.getData());
-    const ogData = allSheetData.closedAreas.getData();
-    
-    ogkiSheet.removeMatchingByKey("areaID", ogData)
     
     ogkiSheet.removeMatchingByKey("areaID", newData);
-
+    ogkiSheet.removeMatchingByKey("areaID", ogData);
+    
     const groupedData: keyedKiDataEntries = ogkiSheet.groupByKey("areaID");
-
-    //console.log(groupedData);
 
     const closedMostRecent : kiDataEntry[] = [];
 
@@ -76,6 +74,8 @@ function getAllClosedAreas(allSheetData) {
 
     // add non duplicating stuff
 }
+
+
 
 /**
  * gets the most recent kiDataEntry given an array and a key
