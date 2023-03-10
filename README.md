@@ -1,6 +1,5 @@
 # key-indicator-system
 
-
 ## What Is This?
 
 Tech Jargon: Serverless semi-autonomous push-based tracking system for key indicators for conversion and other mission statistics.
