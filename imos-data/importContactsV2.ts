@@ -45,12 +45,17 @@ function testAllClosedAreas() {
     const allSheetData = constructSheetDataV3();
     getAllClosedAreas(allSheetData);
 }
-
+/**
+ * one time thing you give it allSheetData and it gets all the closed areas... and appends it to Closed Area Sheet
+ *
+ * @param {*} allSheetData
+ */
 function getAllClosedAreas(allSheetData) {
     importContactsV2(allSheetData);
 
     const newData = allSheetData.contact.getData();
     const ogData = new kiDataClass(allSheetData.data.getData());
+    
 
     ogData.removeMatchingByKey("areaID", newData);
 
@@ -64,12 +69,18 @@ function getAllClosedAreas(allSheetData) {
             closedMostRecent.push(getOldestKiEntryByDateKey_(groupedData[entry], "kiDate"));
         }
     console.log(closedMostRecent);
+    allSheetData.closedAreas.appendData(closedMostRecent);
 }
-// litterl
 
+/**
+ * gets the most recent kiDataEntry given an array and a key
+ *
+ * @param {kiDataEntry[]} kiData
+ * @param {string} dateKey
+ * @return {*}  {kiDataEntry}
+ */
 function getOldestKiEntryByDateKey_(kiData: kiDataEntry[],dateKey:string): kiDataEntry {
-    // const thingArray : number[] = [];
-    let testVal:kiDataEntry
+    let testVal: kiDataEntry = kiData[0];
     for (const thing of kiData) {
         const comparisonDate: Date = new Date(thing[dateKey])
         const testDate: Date = new Date(testVal[dateKey])
@@ -77,12 +88,10 @@ function getOldestKiEntryByDateKey_(kiData: kiDataEntry[],dateKey:string): kiDat
         if (comparisonDate.getTime() < testDate.getTime()) {
             testVal = thing
         }
-        
+    
     }
-    
-
     return testVal;
-    
+
 }
 
 /*
