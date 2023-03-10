@@ -24,35 +24,52 @@ function constructSheetDataV3(target: string[] | void) : manySheetDatas {
         if (cacheData) {
             allSheetData[entry] = cacheData
         } else {
-            allSheetData[entry] = new SheetData(new RawSheetData(sheetDataConfig[entry]))
+            const sheetData = new SheetData(new RawSheetData(sheetDataConfig[entry]))
+            allSheetData[entry] = sheetData
+            cacheSingleSheetDataEntry_(sheetData,entry)
         }
     }
-    cacheSheetDataEntries_(allSheetData)
+    // cacheSheetDataEntries_(allSheetData)
     return allSheetData;
 }
 
 const sdCacheString = "SHEETCACHE_"
 
+// /**
+//  * @description stores sheetData entries in the AppsScript cache for faster performance.
+//  * @param {manySheetDatas} anySheetData
+//  */
+// function cacheSheetDataEntries_(anySheetData: manySheetDatas,timeoutInMinutes=15) {
+//     const cache = CacheService.getScriptCache()
+//     const timeout = timeoutInMinutes * 60
+//     // first: update cache for given entries
+//     for (const key in anySheetData) {
+//         const cacheKey = sdCacheString + key
+//         const cacheDataObj = anySheetData[key].getConfigForCache()
+//         if (!isSheetAlreadyCached_(cacheKey)) {
+//             const cacheData = JSON.stringify(cacheDataObj)
+//             cache.put(cacheKey,cacheData,timeout)
+//         } else {
+//             console.log("skipped caching to enforce caching timeout")
+//         }
+
+//     }
+
+// }
+
 /**
- * @description stores sheetData entries in the AppsScript cache for faster performance.
- * @param {manySheetDatas} anySheetData
+ * @description stores a sheetData entry in the AppsScript cache for faster performance.
+ * @param {SheetData} sheetData
+ * @param {string} name
+ * @param {number} [timeoutInMinutes=15]
  */
-function cacheSheetDataEntries_(anySheetData: manySheetDatas,timeoutInMinutes=15) {
+function cacheSingleSheetDataEntry_(sheetData: SheetData, name: string, timeoutInMinutes = 15) {
     const cache = CacheService.getScriptCache()
-    const timeout = timeoutInMinutes * 60 
-    // first: update cache for given entries
-    for (const key in anySheetData) {
-        const cacheKey = sdCacheString + key
-        const cacheDataObj = anySheetData[key].getConfigForCache()
-        if (!isSheetAlreadyCached_(cacheKey)) {
-            const cacheData = JSON.stringify(cacheDataObj)
-            cache.put(cacheKey,cacheData,timeout)
-        } else {
-            console.log("skipped caching to enforce caching timeout")
-        }
-
-    }
-
+    const timeout = timeoutInMinutes * 60
+    
+    const cacheKey = sdCacheString + name
+    const cacheDataObj = JSON.stringify(sheetData.getConfigForCache())
+    cache.put(cacheKey,cacheDataObj,timeout)
 }
 
 function isSheetAlreadyCached_(target: string): boolean{
@@ -105,8 +122,11 @@ function deleteSheetDatasFromCache() {
 }
 
 
-
-function testAllSheetData(allSheetData: manySheetDatas) {
+/**
+ * @description basic function to test if allSheetData caching worked
+ * @param {manySheetDatas} allSheetData
+ */
+function testAllSheetData_(allSheetData: manySheetDatas) {
     for (const key in allSheetData) {
         const sheetData = allSheetData[key]
         sheetData.getData()
@@ -133,11 +153,11 @@ function testCachingV2() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
     const noCacheTime = timeFunction_(startTime);
     console.log(String(noCacheTime));
-    testAllSheetData(allSheetData)
+    testAllSheetData_(allSheetData)
     const start2 = new Date();
 
     const allSheetData2 = constructSheetDataV3();
     const cachedTime = timeFunction_(start2);
-    testAllSheetData(allSheetData2)
+    testAllSheetData_(allSheetData2)
     console.log("uncached duration, ms:", noCacheTime, "cached duration, ms:", cachedTime);
 }
