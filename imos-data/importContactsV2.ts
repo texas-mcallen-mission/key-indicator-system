@@ -42,7 +42,7 @@ function importContactsV2(allSheetData: manySheetDatas): void {
 }
 
 function testAllClosedAreas() {
-    const allSheetData = constructSheetDataV3();
+    const allSheetData : manySheetDatas = constructSheetDataV3(["closedAreas", "contact"]);
     getAllClosedAreas(allSheetData);
 }
 /**
