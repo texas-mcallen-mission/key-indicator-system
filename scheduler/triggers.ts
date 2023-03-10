@@ -252,7 +252,7 @@ function importContacts_MenuTrigger_() {
         trigger: triggerTypes.menu,
         functionArg:allSheetData,
     };
-    meta_runner_(importContacts, meta_args)
+    meta_runner_(importContactsV2, meta_args)
 }
 
 function markDuplicates_MenuTrigger_() {
@@ -266,7 +266,7 @@ function markDuplicates_MenuTrigger_() {
         trigger: triggerTypes.menu,
         functionArg:allSheetData
     };
-    meta_runner_(markDuplicates, meta_args)
+    meta_runner_(markDuplicatesV2, meta_args)
 }
 
 
