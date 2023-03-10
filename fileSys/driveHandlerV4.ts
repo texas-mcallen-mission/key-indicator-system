@@ -261,7 +261,6 @@ function loadFilesystems_(allSheetData: manySheetDatas): manyFilesystemEntries {
 }
 
 function verifyFSV4(allSheetData = constructSheetDataV3()) {
-function verifyFSV4(allSheetData = constructSheetDataV3()) {
     const filesystems = loadFilesystems_(allSheetData);
 
     for (const filesystem in filesystems) {
