@@ -56,7 +56,6 @@ function getAllClosedAreas(allSheetData) {
     const newData = allSheetData.contact.getData();
     const ogData = new kiDataClass(allSheetData.data.getData());
     
-
     ogData.removeMatchingByKey("areaID", newData);
 
     const groupedData: keyedKiDataEntries = ogData.groupByKey("areaID");
@@ -71,6 +70,8 @@ function getAllClosedAreas(allSheetData) {
             closedMostRecent.push(mostRecent);
         }
     allSheetData.closedAreas.appendData(closedMostRecent);
+
+    // add non duplicating stuff
 }
 
 /**
