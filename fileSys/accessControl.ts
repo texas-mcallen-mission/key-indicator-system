@@ -3,13 +3,13 @@
         Functions managing file sharing and read/write access
 */
 
+
+// written by @than2000
+
 /**
  * Shares folders in the file structure with the appropriate area emails.
  * Pulls contact data from the Contacts sheet and file structure data from the Filesys sheets.
  */
-
-// written by @than2000
-
 function shareFileSystem() {
     
     console.warn("Warning: tried to share file system. Don't run unless connected to a file system that you're okay with sharing to the whole mission.")
@@ -278,7 +278,7 @@ function shareFileSystem() {
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipient - The email address of the user to add.
  */
-function silentShare(fileId, recipient) {
+function silentShare(fileId, recipientEmail:string) {
     try {
         const file = DriveApp.getFileById(fileId);
 
@@ -286,7 +286,7 @@ function silentShare(fileId, recipient) {
             {
                 'role': 'writer',
                 'type': 'user',
-                'value': recipient
+                'value': recipientEmail
             },
             file.getId(),
             {
@@ -298,16 +298,16 @@ function silentShare(fileId, recipient) {
     }
 }
 
-/*
+/**
  * Adds all of the given users to the list of editors for the file or folder without sending them notification emails.
  * @param {string} fileId - The file or folder ID.
  * @param {string} recipients - An array of email address of the users to add.
  */
-function silentShareToGroup(fileId, recipients) {
+function silentShareToGroup(fileId, recipientEmails:string[]) {
     if (CONFIG.fileSystem.log_fileShare)
-        console.log("Sharing file/folder '" + fileId.getName() + "' with " + recipients);
+        console.log("Sharing file/folder '" + fileId.getName() + "' with " + recipientEmails);
     
-    for (const recipient of recipients) {
+    for (const recipient of recipientEmails) {
         silentShare(fileId, recipient);
     }
 }
@@ -319,7 +319,7 @@ function silentShareToGroup(fileId, recipients) {
 
 function testSharing() {
     const fileId = '1cH0FYX_JC9I-BYAbzWu9_D19Dr3ft0UMnZbXq6eIHe8';
-    const editor = 'nathaniel.gerlek@gmail.com';
+    const editor = 'texas.mcallen@missionary.org';
 
     silentShare(fileId, editor);
 
