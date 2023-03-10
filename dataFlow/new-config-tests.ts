@@ -156,5 +156,12 @@ function getSingleSheetDataFromCache_(target: string):SheetData|void {
     }
 }
 
-
+function deleteSheetDatasFromCache() {
+    const cache = CacheService.getScriptCache()
+    const keys = Object.keys(sheetDataConfig)
+    for (let key of keys) {
+        key = sdCacheString + key
+    }
+    cache.removeAll(keys)
+}
 
