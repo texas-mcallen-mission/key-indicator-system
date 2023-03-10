@@ -61,38 +61,28 @@ function getAllClosedAreas(allSheetData) {
     const closedMostRecent = [];
 
         for (const entry in groupedData) { // this is not right yet but its getting closer
-            const thingArray: number[] = [];
-            for (const thing in groupedData[entry]) {
-                const unParsedDate = groupedData[entry][thing].kiDate;
-                const parsedDate = Date.parse(unParsedDate);
-                groupedData[entry][thing].kiDate = parsedDate;
-                console.log("" + parsedDate);
-                
-                thingArray.push(parsedDate);
-            }
-            if (groupedData[entry].kiDate != Math.max.apply(thingArray)) delete groupedData.kiDate;
-            
+            closedMostRecent.push(getOldestKiEntryByDateKey_(groupedData[entry], "kiDate"));
         }
-    console.log(groupedData);
+    console.log(closedMostRecent);
 }
 
-// function compareArrayOfDates(groupedData: kiDataEntry[]): kiDataEntry[] {
-//     const thingArray : number[] = [];
-//     for (const thing in groupedData) {
-//         const unParsedDate: string = groupedData[thing].kiDate;
-//         const parsedDate: number = Date.parse(unParsedDate);
+function getOldestKiEntryByDateKey_(kiData: kiDataEntry[],dateKey:string): kiDataEntry {
+    // const thingArray : number[] = [];
+    let testVal:kiDataEntry
+    for (const thing of kiData) {
+        const comparisonDate: Date = new Date(thing[dateKey])
+        const testDate: Date = new Date(testVal[dateKey])
 
-//         thingArray.push(parsedDate);
+        if (comparisonDate.getTime() < testDate.getTime()) {
+            testVal = thing
+        }
         
-//         if (groupedData[thing] != Math.max.apply(thingArray)
-//         //Date.parse(date);
-//         //console.log(date);
-//     }
+    }
     
 
-//     //return biggestNumber 
+    return testVal;
     
-// }
+}
 
 /*
 pretty much just loops all of the contacts and pulls all of the data
