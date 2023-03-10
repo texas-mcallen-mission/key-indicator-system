@@ -106,7 +106,14 @@ function deleteSheetDatasFromCache() {
 
 
 
-
+function testAllSheetData(allSheetData: manySheetDatas) {
+    for (const key in allSheetData) {
+        const sheetData = allSheetData[key]
+        sheetData.getData()
+        sheetData.getAllOfIndex(1)
+        sheetData.getTabName()
+    }
+}
 
 function testCachingV2() {
     /**
@@ -126,10 +133,11 @@ function testCachingV2() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
     const noCacheTime = timeFunction_(startTime);
     console.log(String(noCacheTime));
+    testAllSheetData(allSheetData)
     const start2 = new Date();
 
     const allSheetData2 = constructSheetDataV3();
     const cachedTime = timeFunction_(start2);
-
+    testAllSheetData(allSheetData2)
     console.log("uncached duration, ms:", noCacheTime, "cached duration, ms:", cachedTime);
 }
