@@ -54,11 +54,14 @@ function getAllClosedAreas(allSheetData) {
     importContactsV2(allSheetData);
 
     const newData = allSheetData.contact.getData();
-    const ogData = new kiDataClass(allSheetData.data.getData());
+    const ogkiSheet = new kiDataClass(allSheetData.data.getData());
+    const ogData = allSheetData.closedAreas.getData();
     
-    ogData.removeMatchingByKey("areaID", newData);
+    ogkiSheet.removeMatchingByKey("areaID", ogData)
+    
+    ogkiSheet.removeMatchingByKey("areaID", newData);
 
-    const groupedData: keyedKiDataEntries = ogData.groupByKey("areaID");
+    const groupedData: keyedKiDataEntries = ogkiSheet.groupByKey("areaID");
 
     //console.log(groupedData);
 
