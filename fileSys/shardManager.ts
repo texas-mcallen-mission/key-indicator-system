@@ -20,7 +20,7 @@ interface shardCountObj {
  * @global
  */
 function updateShards() {
-    clearAllSheetDataCache()
+    // clearAllSheetDataCache() got rid of this deleted file
     const NUMBER_OF_SHARDS = CONFIG.fileSystem.shardManager.number_of_shards
     const MAX_ALLOWABLE_SPREAD = CONFIG.fileSystem.shardManager.max_spread
     const allSheetData = constructSheetDataV3(["zoneFilesys","distFilesys","areaFilesys"])
