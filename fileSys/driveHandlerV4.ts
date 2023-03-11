@@ -63,7 +63,7 @@ class fsEntry {
 function updateFSV4() {
     const allSheetData: manySheetDatas = constructSheetDataV3();
     verifyFSV4(allSheetData)
-    clearAllSheetDataCache()
+    //clearAllSheetDataCache()  got rid of this
     buildFSV4()
     updateShards()
 }
