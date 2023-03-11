@@ -4,7 +4,7 @@
 
 function run_importContacts() {
     const allSheetData = constructSheetDataV3();
-    importContacts(allSheetData);
+    importContactsV2(allSheetData);
 }
 
 function run_updateDataSheet() {
