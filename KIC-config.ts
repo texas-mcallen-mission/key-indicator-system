@@ -472,7 +472,6 @@ function getSheetDataConfig(): { local: manySheetDataEntries } {
                 tabName: "DEBUG SHEET",
                 headerRow: 0,
                 includeSoftcodedColumns: true,
-                sheetId:CONFIG.sheetTargets.debug,
                 initialColumnOrder: {
                     functionName: 0,
                     baseFunction: 1,
