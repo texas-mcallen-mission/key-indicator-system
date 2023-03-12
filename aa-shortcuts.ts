@@ -63,3 +63,10 @@ function setUpTriggers() {
     updateTimeBasedTriggers()
     updateSpreadsheetTriggers()
 }
+
+function createMenuOnOpen() {
+    const ui = SpreadsheetApp.getUi();
+    // Or DocumentApp or FormApp.
+    ui.createMenu('kiDataMenu')
+        .addItem('importContacts', "run_importContacts")
+}
