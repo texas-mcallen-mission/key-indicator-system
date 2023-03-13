@@ -335,7 +335,7 @@ function markDuplicatesV2_(dataSheet: SheetData, weeksToMark = 7) {
     dataSheet.appendData(correctionEntries);
     // dataSheet.updateRows(markAsDuplicateEntries)
     const dupeEntries: kiDataEntry[] = [];
-    for (const entry of dupeEntries) {
+    for (const entry of markAsDuplicateEntries) {
         const output: kiDataEntry = {
             isDuplicate: true
         };
