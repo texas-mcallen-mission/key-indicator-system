@@ -69,7 +69,7 @@ function updateDataSheetV2() {
 
     // we may have forgotten to also add the area data back in, my bad!  Here goes that:
     formDataClass.leftJoin(contactData,"areaName")
-
+    // mark stuff as not duplicate for starters, because otherwise the data won't show up in anything.
     formDataClass.bulkAppendObject({ isDuplicate: false })
 
     // before we go dumping data in, we have to go figure out which rows we need to mark as pulled.
