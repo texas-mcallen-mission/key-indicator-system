@@ -360,7 +360,7 @@ function markDuplicatesV2_(dataSheet:SheetData,weeksToMark=7) {
     // Mark known good entries as not duplicate.
     const goodEntries:kiDataEntry[] = []
     for (const entry of okEntries) {
-        let output: kiDataEntry = {
+        const output: kiDataEntry = {
             isDuplicate:false
         }
         output[itkey] = entry[itkey]

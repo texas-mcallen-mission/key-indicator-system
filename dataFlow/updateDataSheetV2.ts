@@ -33,9 +33,9 @@ function updateDataSheetV2() {
     }
     // store the iterant key: this is how we only mark particular rows as being pulled
     // further down
-    let itKey = formSheet.iterantKey
+    const itKey = formSheet.iterantKey
     // now we load up the form response data itself
-    let formDataClass = new kiDataClass(formSheet.getData())
+    const formDataClass = new kiDataClass(formSheet.getData())
 
     // if there's nothing in there, then we'll exit.  Great performance!
     if (formDataClass.data.length === 0) {
@@ -72,11 +72,11 @@ function updateDataSheetV2() {
 
     // before we go dumping data in, we have to go figure out which rows we need to mark as pulled.
     // I don't have a better way of doing this yet, so you have to see a for loop.  Womp womp.
-    let markAsPulled:kiDataEntry[] = []
+    const markAsPulled:kiDataEntry[] = []
     // basically make a second kiDataEntry that has the same position value as the entry
     // and then set ``responsePulled`` to true
-    for (let entry of formDataClass.data) {
-        let output = {
+    for (const entry of formDataClass.data) {
+        const output = {
             "responsePulled":true
         }
         output[itKey] = entry[itKey]
