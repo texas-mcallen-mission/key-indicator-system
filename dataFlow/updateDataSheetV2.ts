@@ -56,10 +56,10 @@ function updateDataSheetV2() {
     */
    
    // load up contact data, calculate leadership data
-    const contactData = convertKiDataToContactEntries_(contactSheet.getData())
+    const contactData: contactEntry[] = convertKiDataToContactEntries_(contactSheet.getData())
     const missionOrgData = getMissionOrgDataV2_(contactData)
-    const leadershipDataRaw = getMissionLeadershipDataV2_(missionOrgData)
-    const leadershipDataTable = collapseLeadershipDataIntoTable_(leadershipDataRaw, contactData)
+    const leadershipDataRaw: missionLeadershipData = getMissionLeadershipDataV2_(missionOrgData)
+    const leadershipDataTable:leaderData[] = collapseLeadershipDataIntoTable_(leadershipDataRaw, contactData)
     // then, we join.
     // I did a *lot* of work to get this down to four lines of code. Yay abstractions!
     // The stuff this relies on is in ``dataFlow/missionOrgDataV2.ts``
@@ -69,7 +69,7 @@ function updateDataSheetV2() {
 
     // we may have forgotten to also add the area data back in, my bad!  Here goes that:
     formDataClass.leftJoin(contactData,"areaName")
-
+    // mark stuff as not duplicate for starters, because otherwise the data won't show up in anything.
     formDataClass.bulkAppendObject({ isDuplicate: false })
 
     // before we go dumping data in, we have to go figure out which rows we need to mark as pulled.
