@@ -6,7 +6,7 @@
 /**
  * @description wrapper function for the new data flow.
  */
-function updateDataSheetV2_wrapper() {
+function updateDataSheetV2() {
     /*
     Notes: this requires the newer add_iterant CRUD capable boogie stuff we wrote.
     If you haven't enabled it yet on the form and data sheets, you'll need to for

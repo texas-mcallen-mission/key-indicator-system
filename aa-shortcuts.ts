@@ -8,7 +8,7 @@ function run_importContacts() {
 }
 
 function run_updateDataSheet() {
-    updateDataSheet();
+    updateDataSheetV2();
 }
 
 
