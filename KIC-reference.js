@@ -3,7 +3,7 @@
         Object data structures, property names
 */
 
-
+// TBH with types, we don't need this thingy anymore.
 
 
 
