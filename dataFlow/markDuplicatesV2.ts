@@ -224,7 +224,7 @@ function createCorrectedEntry_(newData: kiDataEntry, areaData: kiDataEntry, keys
  * @param {SheetData} dataSheet
  * @param {number} [weeksToMark=7] Number of weeks: if set to -1 will do all of them.
  */
-function markDuplicatesV2_(dataSheet:SheetData,weeksToMark=7) {
+function markDuplicatesV2_(dataSheet: SheetData, weeksToMark = 7) {
     const areaDataKeys = [
         "areaName",
         "areaEmail",
@@ -264,91 +264,96 @@ function markDuplicatesV2_(dataSheet:SheetData,weeksToMark=7) {
         "vinLast8",
         "aptAddress",
         "fb-role"
-    ]
-    const dataClass = new kiDataClass(dataSheet.getData())
+    ];
+    const dataClass = new kiDataClass(dataSheet.getData());
     // const iterantKey = "add_iterant"
     // dataClass.addIterant(iterantKey,1)
-    const time_key = "kiDate"
-    const timestamp_key = "formTimestamp"
-    const area_id_key = "areaID"
+    const time_key = "kiDate";
+    const timestamp_key = "formTimestamp";
+    const area_id_key = "areaID";
 
     const cutoffDate = new Date();
-    const day = cutoffDate.getTime() - ( ((weeksToMark * 7) + 1) * 24 * 60 * 60 * 1000);
-    cutoffDate.setTime(day)
+    const day = cutoffDate.getTime() - (((weeksToMark * 7) + 1) * 24 * 60 * 60 * 1000);
+    cutoffDate.setTime(day);
     // disabled ATM because test data is old
     if (weeksToMark != -1) {
-        dataClass.removeBeforeDate(cutoffDate)
+        dataClass.removeBeforeDate(cutoffDate);
     }
     if (weeksToMark == 0) {
-        console.error("Marking zero day's worth of duplicates.")
+        console.error("Marking zero day's worth of duplicates.");
     }
     // remove entries that don't have area id's
-    dataClass.popMissing("areaID")
+    dataClass.popMissing("areaID");
     //@ts-expect-error I'm intentionally abusing this.  Llore.
-    const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
+    const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key]);
     
-    const correctionEntries: kiDataEntry[] = []
-    const markAsDuplicateEntries : kiDataEntry[] = []
-    const okEntries: kiDataEntry[] = []
-    const itkey = dataSheet.iterantKey
+    const correctionEntries: kiDataEntry[] = [];
+    const markAsDuplicateEntries: kiDataEntry[] = [];
+    const okEntries: kiDataEntry[] = [];
+    const itkey = dataSheet.iterantKey;
     
     // outer loop
-    for(const date in aggData) {
-        const dataForWeek = aggData[date]
+    for (const date in aggData) {
+        const dataForWeek = aggData[date];
         for (const areaID in dataForWeek) {
-            const data = dataForWeek[areaID]
+            const data = dataForWeek[areaID];
             // if there's nothing, skiiiip
-            let skip = false
+            let skip = false;
             if (data.length <= 1) {
                 // skip to next in the for loop
-                continue
+                continue;
             }
-            let dataModClass = new kiDataClass(data)
-            let correctedEntries = dataModClass.popStringIncludes("log", "CORRECTED_ENTRY")
-            let relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
+            let dataModClass = new kiDataClass(data);
+            let correctedEntries = dataModClass.popStringIncludes("log", "CORRECTED_ENTRY");
+            let relevantEntries = getOldestAndNewestEntry(data, timestamp_key);
             // first check to see if there are corrected entries
             // and then if there are any, whether or not we're up to date.
             if (correctedEntries.length > 0) {
-                let latestCorrectiveEntry = getNewestCorrectedEntry_(correctedEntries)
+                let latestCorrectiveEntry = getNewestCorrectedEntry_(correctedEntries);
                 // Corrected entries store some JSON data in the log that we have to use here:
                 let logData = JSON.parse(latestCorrectiveEntry["log"]);
 
-                const logTimeKey = "newestTime"
+                const logTimeKey = "newestTime";
 
                 // skip if we've already made a corrected entry and it's up to date.
                 if (logData[logTimeKey] >= relevantEntries.newest.formTimestamp) {
-                    continue
+                    continue;
                 } else {
-                    markAsDuplicateEntries.push(...correctedEntries)
+                    markAsDuplicateEntries.push(...correctedEntries);
                 }
             }
 
             // at this point, the only way we're here is if there's stuff that hasn't been updated.
-            const correctedEntry = createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys, timestamp_key)
-            markAsDuplicateEntries.push(...dataModClass.end)
+            const correctedEntry = createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys, timestamp_key);
+            markAsDuplicateEntries.push(...dataModClass.end);
+            correctionEntries.push(correctedEntry);
 
-
-
-
-
-            // check for 
+        }
     }
     // WYLO 2023-03-01: okentries needs to get updated to use the new kiDataEntry format stuff as well.
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
-    dataSheet.appendData(correctionEntries)
-    dataSheet.updateRows(markAsDuplicateEntries)
-    
+    dataSheet.appendData(correctionEntries);
+    // dataSheet.updateRows(markAsDuplicateEntries)
+    const dupeEntries: kiDataEntry[] = [];
+    for (const entry of dupeEntries) {
+        const output: kiDataEntry = {
+            isDuplicate: true
+        };
+        output[itkey] = entry[itkey];
+        dupeEntries.push(output);
+    }
+    dataSheet.updateRows(dupeEntries);
     // Mark known good entries as not duplicate.
-    const goodEntries:kiDataEntry[] = []
+    const goodEntries: kiDataEntry[] = [];
     for (const entry of okEntries) {
         const output: kiDataEntry = {
-            isDuplicate:false
-        }
-        output[itkey] = entry[itkey]
-        goodEntries.push(output)
+            isDuplicate: false
+        };
+        output[itkey] = entry[itkey];
+        goodEntries.push(output);
     }
-    dataSheet.updateRows(goodEntries)
-    console.log("Skipped adding ",String(okEntries.length),"entries that were already up to date!")
+    dataSheet.updateRows(goodEntries);
+    console.log("Skipped adding ", String(okEntries.length), "entries that were already up to date!");
     // for (const duplicate of markAsDuplicateEntries) {
     //     dataSheet.directModify(duplicate, { "isDuplicate": true })
     // }
