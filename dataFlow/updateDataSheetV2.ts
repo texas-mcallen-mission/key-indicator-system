@@ -22,14 +22,17 @@ function updateDataSheetV2_wrapper() {
     /* this version will not be importing contacts at runtime, and trusting
     that those are reasonably up to date. */
 
-    // step zero: copy any soft-coded columns from forms into data
-    // but only if the form response & data sheets allows them, otherwise it's a waste of time
+    /*step zero: copy any soft-coded columns from forms into data, but only if the 
+    form response & data sheets allows them, otherwise it's a waste of time.
+    */
     if (formSheet.rsd.includeSoftcodedColumns === true && dataSheet.rsd.includeSoftcodedColumns === true) {
         dataSheet.addKeys(formSheet)
     } else {
         console.warn("softcoded columns disabled, no new columns will be added.")
     }
-
+    // store the iterant key: this is how we only mark particular rows as being pulled
+    // further down
+    let itKey = formSheet.iterantKey
     // now we load up the form response data itself
     let formDataClass = new kiDataClass(formSheet.getData())
 
@@ -46,13 +49,41 @@ function updateDataSheetV2_wrapper() {
         return
     }
     
-    /*okay, now that we know for sure we have data to do things with
-    we're going to go link the area names to zones, districts, and areas
-    This is how we get away with only asking for an area name and get
-    a bunch more area information back out on the other side.
+    /*okay, now that we know for sure we have data to do things with-
+    we'll calculate the leadership data, turn it into a nice table, and then
+    join it into the form response data to get out our final entry format
     */
-    
-    let test = getMissionOrgDataV2(contactSheet)
+   
+   // load up contact data, calculate leadership data
+    const contactData = convertKiDataToContactEntries_(contactSheet.getData())
+    const missionOrgData = getMissionOrgDataV2_(contactData)
+    const leadershipDataRaw = getMissionLeadershipDataV2_(missionOrgData)
+    const leadershipDataTable = collapseLeadershipDataIntoTable_(leadershipDataRaw, contactData)
+
+    // then, we join.
+    // I did a *lot* of work to get this down to four lines of code. Yay abstractions!
+    formDataClass.leftJoin(leadershipDataTable, "areaID")
+
+    formDataClass.bulkAppendObject({ isDuplicate: false })
+
+    // before we go dumping data in, we have to go figure out which rows we need to mark as pulled.
+    // I don't have a better way of doing this yet, so you have to see a for loop.  Womp womp.
+    let markAsPulled:kiDataEntry[] = []
+    // basically make a second kiDataEntry that has the same position value as the entry
+    // and then set ``responsePulled`` to true
+    for (let entry of formDataClass.data) {
+        let output = {
+            "responsePulled":true
+        }
+        output[itKey] = entry[itKey]
+    }
+    // stick new data at the bottom.
+    dataSheet.appendData(formDataClass.end)
+    // Goes through and for every remaining entry, mark them as pulled.
+    formSheet.updateRows(markAsPulled)
+    console.log("Completed Updates!")
+
+
 
     
 }

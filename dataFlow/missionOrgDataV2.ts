@@ -9,7 +9,8 @@ interface zoneOrgData {
 
 type districtOrgData = contactEntry[]
 
-function convertKiDataToContactEntry(kiData: kiDataEntry[]): contactEntry[] {
+
+function convertKiDataToContactEntries_(kiData: kiDataEntry[]): contactEntry[] {
     let output: contactEntry[] = []
     
     for (const entry of kiData) {
@@ -50,8 +51,8 @@ function convertKiDataToContactEntry(kiData: kiDataEntry[]): contactEntry[] {
     return output
 }
 
-function getMissionOrgDataV2(cSheetData: SheetData):missionOrgData {    
-    const contactData: contactEntry[] = convertKiDataToContactEntry(cSheetData.getData())
+function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {    
+    // const contactData: contactEntry[] = convertKiDataToContactEntries_(cSheetData.getData())
     /* After doing a ton of work, I realized that I already did all the heavy 
     lifting for this chunk of rewrite in ``sheetCore/dataManipulator.ts``
     */
@@ -70,8 +71,9 @@ function getMissionOrgDataV2(cSheetData: SheetData):missionOrgData {
 
 function testOrgDatas() {
     let cSheet = constructSheetDataV3(["contact"]).contact
+    let contactData = convertKiDataToContactEntries_(cSheet.getData())
     let oldOrgData = getMissionOrgData(cSheet)
-    let newOrgData = getMissionOrgDataV2(cSheet)
+    let newOrgData = getMissionOrgDataV2_(contactData)
     console.log("Check This in the Debugger!")
 }
 
@@ -134,8 +136,7 @@ interface manyContactEntries {
 }
 
 
-function getMissionLeadershipDataV2(cSheetData: SheetData) {
-    const missionData:missionOrgData = getMissionOrgDataV2(cSheetData)
+function getMissionLeadershipDataV2_(missionData:missionOrgData) {
     /* look man, I think I hate this thing as much as you do, but there's basically
     no other way that we've figured out to figure out who your district leader is
     without a *nasty* lookup search thing.
@@ -321,7 +322,42 @@ interface leaderData extends kiDataEntry {
 // WYLO: turning the missionLeadershipData thing into a contact-type table I can join by areaID
 // that way I can use the kiDataClass to merge in data and not have to think about it EVER AGAIN
 
-
-function collapseLeadershipDataIntoTable_(leadershipData: missionLeadershipData) {
-    
+/**
+ * @description I wanted to be able to use a join instead of all the previous crap, so I made something else do the work for me.
+ *  TBH this could maybe potentially be cached or something in the future.  At the moment, it's just in-memory.
+ * @param {missionLeadershipData} leadershipData
+ * @param {contactEntry[]} contactData
+ * @return {*}  {leaderData[]}
+ */
+function collapseLeadershipDataIntoTable_(leadershipData: missionLeadershipData,contactData:contactEntry[]):leaderData[] {
+    function fixUndef(obj):string {
+        if (typeof obj == 'undefined') {
+            return ""
+        } else {
+            return obj
+        }
+    }
+    let output: leaderData[] = []
+    for (const contact of contactData) {
+        let zone = contact.zone
+        let district = contact.district
+        let leaderDataEntry: leaderData = {
+            areaID: contact.areaID,
+            districtLeader: fixUndef(leadershipData.zones[zone].districts[district].dlArea.dl),
+            zoneLeader1: fixUndef(leadershipData.zones[zone].zlArea.zl1),
+            zoneLeader2: fixUndef(leadershipData.zones[zone].zlArea.zl2),
+            zoneLeader3: fixUndef(leadershipData.zones[zone].zlArea.zl3),
+            stl1: fixUndef(leadershipData.zones[zone].stlArea.stl1),
+            stl2: fixUndef(leadershipData.zones[zone].stlArea.stl2),
+            stl3: fixUndef(leadershipData.zones[zone].stlArea.stl3),
+            assistant1: fixUndef(leadershipData.apArea.ap1),
+            assistant2: fixUndef(leadershipData.apArea.ap2),
+            assistant3: fixUndef(leadershipData.apArea.ap3),
+            stlt1: fixUndef(leadershipData.stltArea.stlt1),
+            stlt2: fixUndef(leadershipData.stltArea.stlt2),
+            stlt3: fixUndef(leadershipData.stltArea.stlt3)
+        }
+        output.push(leaderDataEntry)
+    }
+    return output
 }
