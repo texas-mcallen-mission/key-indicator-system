@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
 
-    branches: [hotfix-off-by-two]
+    branches: [hotfix-sheetCore-somewhere]
   release:
     types: [published]
   schedule:
