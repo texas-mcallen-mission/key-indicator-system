@@ -19,7 +19,7 @@ function dataGenerator(entries: number):kiDataEntry[] {
     
     for (let i = 0; i < entries; i++){
         let entry: kiDataEntry = {
-            areaId: "A" + String(Math.floor(Math.random() * 10000)),
+            areaId: "A" + String(Math.floor(Math.random() * 10000)) + "_" + String(i),
             randomNumber:Math.floor(Math.random()*10)
         }
         output.push(entry)
