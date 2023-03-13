@@ -83,7 +83,9 @@ function updateDataSheetV2_wrapper() {
     // stick new data at the bottom.
     dataSheet.appendData(formDataClass.end)
     // Goes through and for every remaining entry, mark them as pulled.
-    formSheet.updateRows(markAsPulled)
+    if (CONFIG.dataFlow.skipMarkingPulled != true) {
+        formSheet.updateRows(markAsPulled)
+    }
     console.log("Completed Updates!")
 
 
