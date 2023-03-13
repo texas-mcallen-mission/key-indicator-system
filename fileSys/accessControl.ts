@@ -19,7 +19,7 @@ function shareFileSystem() {
 
     const cSheetData: SheetData = allSheetData.contact;
     const contacts = getContactData(cSheetData);
-    const missionOrgData = getMissionLeadershipData(contacts);
+    const missionOrgData = getMissionLeadershipDataV2_(contacts);
 
     //List of emails with full access
     const officeEmails = [];

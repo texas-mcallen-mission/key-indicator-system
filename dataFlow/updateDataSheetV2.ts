@@ -12,7 +12,7 @@ function updateDataSheetV2() {
     If you haven't enabled it yet on the form and data sheets, you'll need to for
     this to get very far.
      */
-
+    console.log("Importing Data from Form")
     const allSheetData = constructSheetDataV3(["contact", "form", "data"])
     
     const formSheet = allSheetData.form
@@ -38,14 +38,14 @@ function updateDataSheetV2() {
 
     // if there's nothing in there, then we'll exit.  Great performance!
     if (formDataClass.data.length === 0) {
-        console.error("No data in Form Response Sheet!")
+        console.warn("No data in Form Response Sheet!")
         return
     }
     // remove things that have already been pulled
     formDataClass.removeMatchingByKey("responsePulled", [true])
     // if there's nothing new left, we'll also exit.  Speeeeeed
     if (formDataClass.data.length === 0) {
-        console.error("No new form responses to pull, exiting!")
+        console.warn("No new form responses to pull, exiting!")
         return
     }
     
@@ -62,6 +62,7 @@ function updateDataSheetV2() {
 
     // then, we join.
     // I did a *lot* of work to get this down to four lines of code. Yay abstractions!
+    // The stuff this relies on is in ``dataFlow/missionOrgDataV2.ts``
     // At first, I thought areaID would work, and then I realized we ask for area name
     // not area email.  Ooooops
     formDataClass.leftJoin(leadershipDataTable, "areaName")
@@ -88,9 +89,6 @@ function updateDataSheetV2() {
     }
     console.log("Completed Updates!")
 
-
-
-    
 }
 
 

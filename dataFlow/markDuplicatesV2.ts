@@ -356,6 +356,17 @@ function markDuplicatesV2(dataSheet:SheetData,weeksToMark=7) {
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
     dataSheet.appendData(correctionEntries)
     dataSheet.updateRows(markAsDuplicateEntries)
+    
+    // Mark known good entries as not duplicate.
+    const goodEntries:kiDataEntry[] = []
+    for (const entry of okEntries) {
+        let output: kiDataEntry = {
+            isDuplicate:false
+        }
+        output[itkey] = entry[itkey]
+        goodEntries.push(output)
+    }
+    dataSheet.updateRows(goodEntries)
     console.log("Skipped adding ",String(okEntries.length),"entries that were already up to date!")
     // for (const duplicate of markAsDuplicateEntries) {
     //     dataSheet.directModify(duplicate, { "isDuplicate": true })

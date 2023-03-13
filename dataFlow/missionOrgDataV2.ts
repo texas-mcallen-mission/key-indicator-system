@@ -51,6 +51,11 @@ function convertKiDataToContactEntries_(kiData: kiDataEntry[]): contactEntry[] {
     return output
 }
 
+/**
+ * @description Given contact data, returns a missionOrgData object.
+ * @param {contactEntry[]} contactData
+ * @return {missionOrgData} {missionOrgData}
+ */
 function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {    
     // const contactData: contactEntry[] = convertKiDataToContactEntries_(cSheetData.getData())
     /* After doing a ton of work, I realized that I already did all the heavy 
@@ -68,7 +73,9 @@ function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {
     let output: missionOrgData = contactDataClass.groupDataByMultipleKeys(["zone", "district"])//, "area"])
     return output
 }
-
+/**
+ * @description I used this while checking my work between the two.
+ */
 function testOrgDatas() {
     let cSheet = constructSheetDataV3(["contact"]).contact
     let contactData = convertKiDataToContactEntries_(cSheet.getData())
@@ -81,13 +88,19 @@ interface missionLeadershipData {
     apArea: {
         ap1: string,
         ap2: string,
-        ap3: string;
+        ap3: string,
+        areaID: string,
+        areaName: string,
+        areaEmail: string,
     },
     hasStltArea:boolean,
     stltArea: {
         stlt1: string,
         stlt2: string,
         stlt3: string,
+        areaID: string,
+        areaName: string,
+        areaEmail: string,
     };
     zones: manyZoneLeadershipDatas;
 }
@@ -103,7 +116,7 @@ interface zoneLeadershipData {
         zl3: string,
         areaID: string,
         areaName: string,
-        areaEmail: string;
+        areaEmail: string,
     },
     hasStlArea:boolean,
     stlArea: {
@@ -112,7 +125,7 @@ interface zoneLeadershipData {
         stl3: string,
         areaID: string,
         areaName: string,
-        areaEmail: string;
+        areaEmail: string,
     },
     districts: manyDistrictLeadershipDatas;
 }
@@ -135,7 +148,14 @@ interface manyContactEntries {
     [index: string]: contactEntry;
 }
 
-
+/**
+ * @description Given a missionOrgData object, figure out who serves where and stuff.
+ *  I undestand that this function is nasty big, at this point, I dunno what to do 
+ *  about it other than make it harder to undestand by heavily breaking it up.
+ *  llore, codefactor
+ * @param {missionOrgData} missionData
+ * @return {*} 
+ */
 function getMissionLeadershipDataV2_(missionData:missionOrgData) {
     /* look man, I think I hate this thing as much as you do, but there's basically
     no other way that we've figured out to figure out who your district leader is
@@ -147,13 +167,19 @@ function getMissionLeadershipDataV2_(missionData:missionOrgData) {
         apArea: {
             ap1: '',
             ap2: '',
-            ap3: ''
+            ap3: '',
+            areaID: '',
+            areaName: '',
+            areaEmail: ''
         },
         hasStltArea:false,
         stltArea: {
             stlt1: '',
             stlt2: '',
-            stlt3: ''
+            stlt3: '',
+            areaID: '',
+            areaName: '',
+            areaEmail: '',
         },
         zones: {}
     }
@@ -325,6 +351,7 @@ interface leaderData extends kiDataEntry {
 /**
  * @description I wanted to be able to use a join instead of all the previous crap, so I made something else do the work for me.
  *  TBH this could maybe potentially be cached or something in the future.  At the moment, it's just in-memory.
+ *  Can be join keyed by either ``areaID`` or ``areaName``  
  * @param {missionLeadershipData} leadershipData
  * @param {contactEntry[]} contactData
  * @return {*}  {leaderData[]}

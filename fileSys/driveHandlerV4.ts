@@ -82,7 +82,7 @@ interface closedDistrictData {
  */
 function buildFSV4(allSheetData: manySheetDatas = constructSheetDataV3(["zoneFilesys", "distFilesys", "areaFilesys", "contact", "closedAreas"])): void {
     //@ts-ignore
-    const orgData = getMissionOrgData(allSheetData.contact);
+    const orgData = getMissionOrgDataV2_(allSheetData.contact);
     // Added later when we decided to add closed areas to the zone and district reports.
     const closedAreasClass = new kiDataClass(allSheetData.closedAreas.getData());
     //@ts-ignore its just dumb
