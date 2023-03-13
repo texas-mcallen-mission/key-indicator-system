@@ -48,7 +48,7 @@ function copyObjectNoRecursion_(inObject: object) {
 
 function testMarkDuplicatesV2() {
     const allSheetData = constructSheetDataV3(["data"])
-    markDuplicatesV2(allSheetData["data"])
+    markDuplicatesV2_(allSheetData["data"])
 }
 // WYLO: getOldestAndNewestEntry doesn't seem to be working properly
 
@@ -224,7 +224,7 @@ function createCorrectedEntry_(newData: kiDataEntry, areaData: kiDataEntry, keys
  * @param {SheetData} dataSheet
  * @param {number} [weeksToMark=7] Number of weeks: if set to -1 will do all of them.
  */
-function markDuplicatesV2(dataSheet:SheetData,weeksToMark=7) {
+function markDuplicatesV2_(dataSheet:SheetData,weeksToMark=7) {
     const areaDataKeys = [
         "areaName",
         "areaEmail",
@@ -356,6 +356,17 @@ function markDuplicatesV2(dataSheet:SheetData,weeksToMark=7) {
     // mark duplicates- I need to figure out a better / more efficient way of doing this...
     dataSheet.appendData(correctionEntries)
     dataSheet.updateRows(markAsDuplicateEntries)
+    
+    // Mark known good entries as not duplicate.
+    const goodEntries:kiDataEntry[] = []
+    for (const entry of okEntries) {
+        const output: kiDataEntry = {
+            isDuplicate:false
+        }
+        output[itkey] = entry[itkey]
+        goodEntries.push(output)
+    }
+    dataSheet.updateRows(goodEntries)
     console.log("Skipped adding ",String(okEntries.length),"entries that were already up to date!")
     // for (const duplicate of markAsDuplicateEntries) {
     //     dataSheet.directModify(duplicate, { "isDuplicate": true })

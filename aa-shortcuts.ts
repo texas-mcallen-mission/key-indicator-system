@@ -8,9 +8,13 @@ function run_importContacts() {
 }
 
 function run_updateDataSheet() {
-    updateDataSheet();
+    updateDataSheetV2();
 }
 
+function run_fullUpdate() {
+    updateDataSheetV2()
+    markDuplicatesV2_(constructSheetDataV3(["data"]).data)
+}
 
 function run_shareFileSys() {
     shareFileSystem();
@@ -18,12 +22,12 @@ function run_shareFileSys() {
 
 function run_markDuplicates() {
     const allSheetData = constructSheetDataV3(["data"]);
-    markDuplicatesV2(allSheetData);
+    markDuplicatesV2_(allSheetData.data);
 }
 
 function run_markAllDuplicates() {
     const allSheetData = constructSheetDataV3(["data"]);
-    markDuplicatesV2(allSheetData,-1)
+    markDuplicatesV2_(allSheetData.data,-1)
 }
 
 function run_reportTester() {

@@ -35,7 +35,7 @@ function updateDataSheet_TimeBasedTrigger() {
     const meta_args: meta_runner_args = {
         trigger:triggerTypes.timeBased
     }
-    meta_runner_(updateDataSheet,meta_args)
+    meta_runner_(updateDataSheetV2,meta_args)
     }
 
 function importContacts_TimeBasedTrigger() {
@@ -189,7 +189,7 @@ function updateDataSheet_MenuTrigger_() {
     const meta_args: meta_runner_args = {
         trigger: triggerTypes.menu
     };
-    meta_runner_(updateDataSheet, meta_args)
+    meta_runner_(updateDataSheetV2, meta_args)
 
 }
 
@@ -266,7 +266,7 @@ function markDuplicates_MenuTrigger_() {
         trigger: triggerTypes.menu,
         functionArg:allSheetData
     };
-    meta_runner_(markDuplicatesV2, meta_args)
+    meta_runner_(markDuplicatesV2_, meta_args)
 }
 
 
