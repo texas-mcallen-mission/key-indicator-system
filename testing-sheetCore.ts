@@ -14,7 +14,7 @@ let sheet1Config: sheetDataEntry = {
     includeSoftcodedColumns: true
 };
 
-function dataGenerator(entries: number):kiDataEntry[] {
+function dataGenerator_(entries: number):kiDataEntry[] {
     let output: kiDataEntry[] = []
     
     for (let i = 0; i < entries; i++){
@@ -29,7 +29,7 @@ function dataGenerator(entries: number):kiDataEntry[] {
 }
 
 function refreshTestData_(sheetClass:SheetData) {
-    sheetClass.setData(dataGenerator(6000))
+    sheetClass.setData(dataGenerator_(6000))
 }
 
 function testEditAll_(sheetClass:SheetData) {
