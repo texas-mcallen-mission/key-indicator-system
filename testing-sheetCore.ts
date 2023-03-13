@@ -38,6 +38,6 @@ function testEditBottom() {
 
     dataClass.bulkAppendObject({word:"whee"})
     
-    sheetClass.updateROws(dataClass.end)
+    sheetClass.updateRows(dataClass.end)
 
 }
