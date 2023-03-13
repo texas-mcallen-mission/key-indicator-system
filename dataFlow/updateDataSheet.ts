@@ -51,7 +51,7 @@ function updateDataSheet() {
     // const numberOfEntries = missionData.length
     // former ignore
     // makeSheet();
-    refreshContacts(allSheetData);
+    importContactsV2(allSheetData);
 
     const contacts = getContactData(cDataSheet);
 
