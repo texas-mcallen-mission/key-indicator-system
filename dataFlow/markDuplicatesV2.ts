@@ -316,7 +316,9 @@ function markDuplicatesV2_(dataSheet: SheetData, weeksToMark = 7) {
                 const logTimeKey = "newestTime";
 
                 // skip if we've already made a corrected entry and it's up to date.
-                if (logData[logTimeKey] >= relevantEntries.newest.formTimestamp) {
+                const newTime = new Date(relevantEntries.newest.formTimestamp).getTime()
+                const corrTime = new Date(logData[logTimeKey]).getTime()
+                if (corrTime >= newTime) {
                     continue;
                 } else {
                     markAsDuplicateEntries.push(...correctedEntries);
