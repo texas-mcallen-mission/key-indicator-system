@@ -18,7 +18,7 @@ function shareFileSystem() {
     const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "zoneFilesys", "distFilesys","areaFilesys"])
 
     const cSheetData: SheetData = allSheetData.contact;
-    let contactData = convertKiDataToContactEntries_(cSheetData.getData())
+    const contactData:contactEntry[] = convertKiDataToContactEntries_(cSheetData.getData())
     // const contacts = getContactData(cSheetData);
     const missionOrgData = getMissionOrgDataV2_(contactData)
     const missionLeadershipData = getMissionLeadershipDataV2_(missionOrgData);

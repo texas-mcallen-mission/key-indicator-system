@@ -11,10 +11,10 @@ type districtOrgData = contactEntry[]
 
 
 function convertKiDataToContactEntries_(kiData: kiDataEntry[]): contactEntry[] {
-    let output: contactEntry[] = []
+    const output: contactEntry[] = []
     
     for (const entry of kiData) {
-        let convertedEntry: contactEntry = {
+        const convertedEntry: contactEntry = {
             dateContactGenerated: '',
             areaEmail: '',
             areaName: '',
@@ -61,7 +61,7 @@ function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {
     /* After doing a ton of work, I realized that I already did all the heavy 
     lifting for this chunk of rewrite in ``sheetCore/dataManipulator.ts``
     */
-    let contactDataClass = new kiDataClass(contactData)
+    const contactDataClass = new kiDataClass(contactData)
     /* 
     I know this is bad, but I can guarantee that it'll work because *trust me bro*
     kiDataClass doesn't do any editing of keys / etc. unless you ask it to
@@ -70,7 +70,7 @@ function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {
     I just dunno how to represent that / if that's even possible 
     */
    //@ts-expect-error explained above
-    let output: missionOrgData = contactDataClass.groupDataByMultipleKeys(["zone", "district"])//, "area"])
+    const output: missionOrgData = contactDataClass.groupDataByMultipleKeys(["zone", "district"])//, "area"])
     return output
 }
 // /**
@@ -207,7 +207,7 @@ function getMissionLeadershipDataV2_(missionData:missionOrgData) {
             districts: {}
         }
 
-        let zoneData:zoneOrgData = missionData[zone]
+        const zoneData:zoneOrgData = missionData[zone]
         for (const district in zoneData) {
             const districtOutput: districtLeadershipData = {
                 dlArea: {
@@ -364,11 +364,11 @@ function collapseLeadershipDataIntoTable_(leadershipData: missionLeadershipData,
             return obj
         }
     }
-    let output: leaderData[] = []
+    const output: leaderData[] = []
     for (const contact of contactData) {
-        let zone = contact.zone
-        let district = contact.district
-        let leaderDataEntry: leaderData = {
+        const zone = contact.zone
+        const district = contact.district
+        const leaderDataEntry: leaderData = {
             areaName: contact.areaName,
             areaID: contact.areaID,
             districtLeader: fixUndef(leadershipData.zones[zone].districts[district].dlArea.dl),
