@@ -65,7 +65,7 @@ function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {
     I just dunno how to represent that / if that's even possible 
     */
    //@ts-expect-error explained above
-    let output: missionOrgData = contactDataClass.groupDataByMultipleKeys(["zone", "district", "area"])
+    let output: missionOrgData = contactDataClass.groupDataByMultipleKeys(["zone", "district"])//, "area"])
     return output
 }
 
@@ -302,7 +302,7 @@ function getMissionLeadershipDataV2_(missionData:missionOrgData) {
 
 
 interface leaderData extends kiDataEntry {
-    // areaName: string,
+    areaName: string,
     areaID:string
     districtLeader: string,
     zoneLeader1: string,
@@ -342,6 +342,7 @@ function collapseLeadershipDataIntoTable_(leadershipData: missionLeadershipData,
         let zone = contact.zone
         let district = contact.district
         let leaderDataEntry: leaderData = {
+            areaName: contact.areaName,
             areaID: contact.areaID,
             districtLeader: fixUndef(leadershipData.zones[zone].districts[district].dlArea.dl),
             zoneLeader1: fixUndef(leadershipData.zones[zone].zlArea.zl1),

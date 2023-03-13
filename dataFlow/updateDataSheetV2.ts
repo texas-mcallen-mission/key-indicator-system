@@ -62,7 +62,9 @@ function updateDataSheetV2_wrapper() {
 
     // then, we join.
     // I did a *lot* of work to get this down to four lines of code. Yay abstractions!
-    formDataClass.leftJoin(leadershipDataTable, "areaID")
+    // At first, I thought areaID would work, and then I realized we ask for area name
+    // not area email.  Ooooops
+    formDataClass.leftJoin(leadershipDataTable, "areaName")
 
     formDataClass.bulkAppendObject({ isDuplicate: false })
 
