@@ -78,6 +78,7 @@ function updateDataSheetV2_wrapper() {
             "responsePulled":true
         }
         output[itKey] = entry[itKey]
+        markAsPulled.push(output)
     }
     // stick new data at the bottom.
     dataSheet.appendData(formDataClass.end)

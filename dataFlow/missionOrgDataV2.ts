@@ -291,7 +291,7 @@ function getMissionLeadershipDataV2_(missionData:missionOrgData) {
                 }
             }
 
-            leadershipData.zones[zone].districts[district] = districtOutput
+            zoneOutput.districts[district] = districtOutput
         }
 
         leadershipData.zones[zone] = zoneOutput
