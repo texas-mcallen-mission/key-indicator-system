@@ -13,7 +13,7 @@ function run_updateDataSheet() {
 
 function run_fullUpdate() {
     updateDataSheetV2()
-    markDuplicatesV2_(constructSheetDataV3["data"].data)
+    markDuplicatesV2_(constructSheetDataV3(["data"]).data)
 }
 
 function run_shareFileSys() {
@@ -27,7 +27,7 @@ function run_markDuplicates() {
 
 function run_markAllDuplicates() {
     const allSheetData = constructSheetDataV3(["data"]);
-    markDuplicatesV2_(allSheetData,-1)
+    markDuplicatesV2_(allSheetData.data,-1)
 }
 
 function run_reportTester() {
