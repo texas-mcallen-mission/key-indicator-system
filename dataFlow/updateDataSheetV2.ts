@@ -60,13 +60,15 @@ function updateDataSheetV2() {
     const missionOrgData = getMissionOrgDataV2_(contactData)
     const leadershipDataRaw = getMissionLeadershipDataV2_(missionOrgData)
     const leadershipDataTable = collapseLeadershipDataIntoTable_(leadershipDataRaw, contactData)
-
     // then, we join.
     // I did a *lot* of work to get this down to four lines of code. Yay abstractions!
     // The stuff this relies on is in ``dataFlow/missionOrgDataV2.ts``
     // At first, I thought areaID would work, and then I realized we ask for area name
     // not area email.  Ooooops
     formDataClass.leftJoin(leadershipDataTable, "areaName")
+
+    // we may have forgotten to also add the area data back in, my bad!  Here goes that:
+    formDataClass.leftJoin(contactData,"areaName")
 
     formDataClass.bulkAppendObject({ isDuplicate: false })
 
