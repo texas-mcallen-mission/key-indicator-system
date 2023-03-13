@@ -18,13 +18,15 @@ function shareFileSystem() {
     const allSheetData: manySheetDatas = constructSheetDataV3(["contact", "zoneFilesys", "distFilesys","areaFilesys"])
 
     const cSheetData: SheetData = allSheetData.contact;
-    const contacts = getContactData(cSheetData);
-    const missionOrgData = getMissionLeadershipDataV2_(contacts);
+    let contactData = convertKiDataToContactEntries_(cSheetData.getData())
+    // const contacts = getContactData(cSheetData);
+    const missionOrgData = getMissionOrgDataV2_(contactData)
+    const missionLeadershipData = getMissionLeadershipDataV2_(missionOrgData);
 
     //List of emails with full access
     const officeEmails = [];
-    officeEmails.push(missionOrgData.apArea.areaEmail); //Add AP email
-    if (missionOrgData.hasStltArea) officeEmails.push(missionOrgData.stltArea.areaEmail); //Add STLT email if it exists
+    officeEmails.push(missionLeadershipData.apArea.areaEmail); //Add AP email
+    if (missionLeadershipData.hasStltArea) officeEmails.push(missionLeadershipData.stltArea.areaEmail); //Add STLT email if it exists
 
 
 
@@ -56,12 +58,12 @@ function shareFileSystem() {
 
 
 
-    for (const zoneName in missionOrgData.zones) {
+    for (const zoneName in missionLeadershipData.zones) {
         const zoneFolderData = allZoneFolderData[zoneName];
         const zoneFolderID = zoneFolderData.folderId;
         const zoneFolder = DriveApp.getFolderById(zoneFolderID);
 
-        const zoneOrgData = missionOrgData.zones[zoneName];
+        const zoneOrgData = missionLeadershipData.zones[zoneName];
 
         if (CONFIG.fileSystem.log_fileShare) console.log("Sharing folder for zone '" + zoneName + "'");
 

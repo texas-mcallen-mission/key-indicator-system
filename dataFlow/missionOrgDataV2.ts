@@ -73,16 +73,16 @@ function getMissionOrgDataV2_(contactData:contactEntry[]):missionOrgData {
     let output: missionOrgData = contactDataClass.groupDataByMultipleKeys(["zone", "district"])//, "area"])
     return output
 }
-/**
- * @description I used this while checking my work between the two.
- */
-function testOrgDatas() {
-    let cSheet = constructSheetDataV3(["contact"]).contact
-    let contactData = convertKiDataToContactEntries_(cSheet.getData())
-    let oldOrgData = getMissionOrgData(cSheet)
-    let newOrgData = getMissionOrgDataV2_(contactData)
-    console.log("Check This in the Debugger!")
-}
+// /**
+//  * @description I used this while checking my work between the two.
+//  */
+// function testOrgDatas() {
+//     let cSheet = constructSheetDataV3(["contact"]).contact
+//     let contactData = convertKiDataToContactEntries_(cSheet.getData())
+//     let oldOrgData = getMissionOrgData(cSheet)
+//     let newOrgData = getMissionOrgDataV2_(contactData)
+//     console.log("Check This in the Debugger!")
+// }
 
 interface missionLeadershipData {
     apArea: {
