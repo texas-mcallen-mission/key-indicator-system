@@ -54,7 +54,7 @@ const INTERNAL_CONFIG = {
                 isDuplicate: 16,
                 rrPercent: 17,
                 mpl: 18,
-                "rca-weekly": 19,
+                "RCA-weekly": 19,
             },
             requireRemote: true,
             sheetId: "",
