@@ -8,7 +8,8 @@ let sheet1Config: sheetDataEntry = {
         isDuplicate: 2,
         randomNumber: 3,
         test1: 4,
-        test2:5,
+        test2: 5,
+        topText:6
     },
     includeSoftcodedColumns: true
 };
@@ -46,7 +47,17 @@ function testEditBottom_(sheetClass: SheetData) {
     let dataClass = new kiDataClass(sheetClass.getData())
     let dataLength = dataClass.data.length
     dataClass.removeSmaller(itKey, dataLength - 2)
-    dataClass.bulkAppendObject({test2:"bottomTwoEntriesOrSo"})
+    dataClass.bulkAppendObject({ test2: "bottomTwoEntriesOrSo" })
+    sheetClass.updateRows(dataClass.end)
+}
+
+function testEditTop_(sheetClass: SheetData) {
+    let itKey = sheetClass.iterantKey
+    let entries = [{ topText: 1 }, { topText: 2 }]
+    for (let key of entries) {
+        key[itKey] = key.topText
+    }
+    sheetClass.updateRows(entries)
 }
 
 function bigTester() {
@@ -54,5 +65,5 @@ function bigTester() {
     refreshTestData_(sheetClass)
     testEditAll_(sheetClass);
     testEditBottom_(sheetClass)
-
+    // sheetClass.getSheet().
 }
