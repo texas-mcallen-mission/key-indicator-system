@@ -266,7 +266,7 @@ function markDuplicates_MenuTrigger_() {
         trigger: triggerTypes.menu,
         functionArg:allSheetData
     };
-    meta_runner_(markDuplicatesV2, meta_args)
+    meta_runner_(markDuplicatesV2_, meta_args)
 }
 
 

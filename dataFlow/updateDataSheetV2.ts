@@ -5,6 +5,7 @@
 
 /**
  * @description wrapper function for the new data flow.
+ * @global
  */
 function updateDataSheetV2() {
     /*

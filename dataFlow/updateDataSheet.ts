@@ -89,7 +89,7 @@ function updateDataSheet() {
         Logger.log("[DEBUG] Skipping marking Form Responses as having been pulled into the data sheet: dataFlow.skipMarkingPulled is set to true");
         return        
     } else {
-        markDuplicatesV2(allSheetData.data);
+        markDuplicatesV2_(allSheetData.data);
     }
 
     pushErrorMessages();  //Unimplemented
