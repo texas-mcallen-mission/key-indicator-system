@@ -7,7 +7,8 @@ let sheet1Config: sheetDataEntry = {
         isPulled: 1,
         isDuplicate: 2,
         randomNumber: 3,
-        word:4
+        test1: 4,
+        test2:5,
     },
     includeSoftcodedColumns: true
 };
@@ -26,18 +27,32 @@ function dataGenerator(entries: number):kiDataEntry[] {
     return output
 }
 
-function addData() {
-    let sheetClass = new SheetData(new RawSheetData(sheet1Config))
+function refreshTestData_(sheetClass:SheetData) {
     sheetClass.setData(dataGenerator(6000))
 }
 
-function testEditBottom() {
-    let sheetClass = new SheetData(new RawSheetData(sheet1Config))
-    let itKey = sheetClass.iterantKey
+function testEditAll_(sheetClass:SheetData) {
+    // let itKey = sheetClass.iterantKey
     let dataClass = new kiDataClass(sheetClass.getData())
 
-    dataClass.bulkAppendObject({word:"whee"})
+    dataClass.bulkAppendObject({test1:"whee"})
     
     sheetClass.updateRows(dataClass.end)
+
+}
+
+function testEditBottom_(sheetClass: SheetData) {
+    let itKey = sheetClass.iterantKey
+    let dataClass = new kiDataClass(sheetClass.getData())
+    let dataLength = dataClass.data.length
+    dataClass.removeSmaller(itKey, dataLength - 2)
+    dataClass.bulkAppendObject({test2:"bottomTwoEntriesOrSo"})
+}
+
+function bigTester() {
+    let sheetClass = new SheetData(new RawSheetData(sheet1Config))
+    refreshTestData_(sheetClass)
+    testEditAll_(sheetClass);
+    testEditBottom_(sheetClass)
 
 }
