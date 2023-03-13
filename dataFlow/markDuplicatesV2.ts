@@ -282,7 +282,8 @@ function markDuplicatesV2_(dataSheet:SheetData,weeksToMark=7) {
     if (weeksToMark == 0) {
         console.error("Marking zero day's worth of duplicates.")
     }
-    
+    // remove entries that don't have area id's
+    dataClass.popMissing("areaID")
     //@ts-expect-error I'm intentionally abusing this.  Llore.
     const aggData: two_key_grouper = dataClass.groupDataByMultipleKeys([time_key, area_id_key])
     
@@ -290,67 +291,47 @@ function markDuplicatesV2_(dataSheet:SheetData,weeksToMark=7) {
     const markAsDuplicateEntries : kiDataEntry[] = []
     const okEntries: kiDataEntry[] = []
     const itkey = dataSheet.iterantKey
+    
     // outer loop
     for(const date in aggData) {
         const dataForWeek = aggData[date]
         for (const areaID in dataForWeek) {
             const data = dataForWeek[areaID]
             // if there's nothing, skiiiip
-            if (data.length > 1) {
-                // check to see if data has corrected entries in it.
-                // If so, check and see if the most recent * not * corrected entry is the same as it was.
+            let skip = false
+            if (data.length <= 1) {
+                // skip to next in the for loop
+                continue
+            }
+            let dataModClass = new kiDataClass(data)
+            let correctedEntries = dataModClass.popStringIncludes("log", "CORRECTED_ENTRY")
+            let relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
+            // first check to see if there are corrected entries
+            // and then if there are any, whether or not we're up to date.
+            if (correctedEntries.length > 0) {
+                let latestCorrectiveEntry = getNewestCorrectedEntry_(correctedEntries)
+                // Corrected entries store some JSON data in the log that we have to use here:
+                let logData = JSON.parse(latestCorrectiveEntry["log"]);
 
-                const newestCorrectedEntry = getNewestCorrectedEntry_(data)
+                const logTimeKey = "newestTime"
 
-                for (const entry of data) {
-                    
-                    const dupeMarker: kiDataEntry = {
-                        isDuplicate:true
-                    }
-                    // row assignment.  Because it's possible to change the name we
-                    // can't hardcode the iterant key value and therefore have to
-                    // resort to not making this be part of the variable declaration.
-
-                    dupeMarker[itkey] = entry[itkey]
-                    
-                    // was having problems with the previous corrected entries getting marked as duplicate.
-                    // I think this fixes that.
-                    // let markAsDuplicate = true
-                    if (newestCorrectedEntry == null || newestCorrectedEntry[itkey] != entry[itkey]) {
-                        markAsDuplicateEntries.push(dupeMarker)
-                    }
-                    
-                }
-                const relevantEntries = getOldestAndNewestEntry(data, timestamp_key)
-                // check to see if the newest corrected entry already has that information or not
-                const correctedEntry = createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys, timestamp_key)
-
-                const correctionDupeMarker: kiDataEntry = {
-                    isDuplicate:true
-                }
-                // adds iterant key from newest corrective entry in case it needs to be marked as duplicate
-                if (newestCorrectedEntry != null) {
-                    correctionDupeMarker[itkey] = newestCorrectedEntry[itkey];
-                }
-
-                if (newestCorrectedEntry == null) {
-                    correctionEntries.push(correctedEntry)
-                    // markAsDuplicateEntries.push(correctionDupeMarker)
-                } else if (relevantEntries.newest[timestamp_key] > newestCorrectedEntry[timestamp_key]){
-                    correctionEntries.push(correctedEntry)
-                    markAsDuplicateEntries.push(correctionDupeMarker)
-                    
+                // skip if we've already made a corrected entry and it's up to date.
+                if (logData[logTimeKey] >= relevantEntries.newest.formTimestamp) {
+                    continue
                 } else {
-                    // console.log("Skipped adding correction because it was up to date")
-                    okEntries.push(correctionDupeMarker)
-                }
-
-            } else {
-                for (const entry of data) {
-                    okEntries.push(entry)
+                    markAsDuplicateEntries.push(...correctedEntries)
                 }
             }
-        }
+
+            // at this point, the only way we're here is if there's stuff that hasn't been updated.
+            const correctedEntry = createCorrectedEntry_(relevantEntries.newest, relevantEntries.oldest, areaDataKeys, timestamp_key)
+            markAsDuplicateEntries.push(...dataModClass.end)
+
+
+
+
+
+            // check for 
     }
     // WYLO 2023-03-01: okentries needs to get updated to use the new kiDataEntry format stuff as well.
     // mark duplicates- I need to figure out a better / more efficient way of doing this...

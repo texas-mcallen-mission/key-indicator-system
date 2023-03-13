@@ -56,10 +56,10 @@ function updateDataSheetV2() {
     */
    
    // load up contact data, calculate leadership data
-    const contactData = convertKiDataToContactEntries_(contactSheet.getData())
+    const contactData: contactEntry[] = convertKiDataToContactEntries_(contactSheet.getData())
     const missionOrgData = getMissionOrgDataV2_(contactData)
-    const leadershipDataRaw = getMissionLeadershipDataV2_(missionOrgData)
-    const leadershipDataTable = collapseLeadershipDataIntoTable_(leadershipDataRaw, contactData)
+    const leadershipDataRaw: missionLeadershipData = getMissionLeadershipDataV2_(missionOrgData)
+    const leadershipDataTable:leaderData[] = collapseLeadershipDataIntoTable_(leadershipDataRaw, contactData)
     // then, we join.
     // I did a *lot* of work to get this down to four lines of code. Yay abstractions!
     // The stuff this relies on is in ``dataFlow/missionOrgDataV2.ts``
