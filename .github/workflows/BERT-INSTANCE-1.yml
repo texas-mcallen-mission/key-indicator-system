@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
 
-    branches: [hotfix-sheetCore-somewhere]
+    branches: [fix-duplicates-again]
   release:
     types: [published]
   schedule:
