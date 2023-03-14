@@ -308,7 +308,7 @@ function markDuplicatesV2_(dataSheet: SheetData, weeksToMark = 7) {
             }
 
             let dataClass = new kiDataClass(data)
-            okEntries.push(dataClass.popNewestByDateString_(timestamp_key))
+            okEntries.push(dataClass.popNewestByDateString(timestamp_key))
             olderEntries.push(...dataClass.data)
 
             // at this point, the only way we're here is if there's stuff that hasn't been updated.
