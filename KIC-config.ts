@@ -18,9 +18,9 @@ const INTERNAL_CONFIG = {
 
     reportCreator: {
         docIDs: {
-            zoneTemplate: "ZONE TEMPLATE ID Goes Here",
-            distTemplate: "Stick a district template here, if ya want",
-            areaTemplate: "same as above, but for areas",
+            zoneTemplate: "1VcWNMoYRy8L0tiOCFxfNNJxerbLII_H-8LWi-uzQVQQ",
+            distTemplate: "1rSgJcDIYV6HeZnRAqfisprgMmHn95cSiF5q8P8sKGN8",
+            areaTemplate: "16z74uFfCchWNd7cPK1cBAfv6AXtMohdoF7ekmsPsa4Y",
         },
         outputDataSheetName: "Data",
         configPageSheetName: "config",
