@@ -193,8 +193,9 @@ function shareFileSystem() {
 
 
 
-
+            
             for (const areaName in distOrgData.areas) {
+                const districtThing = distOrgData[areaName].areaName
                 const areaFolderData = allAreaFolderData[areaName];
                 const areaFolderID = areaFolderData.folderId;
                 const areaFolder = DriveApp.getFolderById(areaFolderID);

@@ -259,6 +259,7 @@ const INTERNAL_CONFIG = {
 
             },
             hours: { // valid increments: any integer >= 1
+                run_markDuplicates: 1,
                 updateForm_TimeBasedTrigger: 2, // 
                 createMissingReports: 1,
                 updateAreaReportsV5:1,

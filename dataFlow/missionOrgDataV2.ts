@@ -156,7 +156,7 @@ interface manyContactEntries {
  * @param {missionOrgData} missionData
  * @return {*} 
  */
-function getMissionLeadershipDataV2_(missionData:missionOrgData) {
+function getMissionLeadershipDataV2_(missionData:missionOrgData) : missionLeadershipData {
     /* look man, I think I hate this thing as much as you do, but there's basically
     no other way that we've figured out to figure out who your district leader is
     without a *nasty* lookup search thing.
