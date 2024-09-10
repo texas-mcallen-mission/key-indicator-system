@@ -16,6 +16,7 @@ function createMissingReports() {
     const localSheetData: manySheetDatas = constructSheetDataV3();
     const fsDataEntries: manyFilesystemEntries = loadFilesystems_(localSheetData);
     const reportTemplates = {
+        "Mission" : CONFIG.reportCreator.docIDs.missionTemplate,
         "Zone": CONFIG.reportCreator.docIDs.zoneTemplate,
         "District": CONFIG.reportCreator.docIDs.distTemplate,
         "Area": CONFIG.reportCreator.docIDs.areaTemplate

@@ -223,7 +223,7 @@ type manyFilesystemEntries = {
 };
 interface filesystemEntry {
     fsData: SheetData,
-    fsScope: "Zone" | "District" | "Area",
+    fsScope: "Mission" | "Zone" | "District" | "Area",
     sheetData: filesystemData[];
     existingFolders: string[]; // name of zone / district / area the folder is for
     reportTemplate: string;

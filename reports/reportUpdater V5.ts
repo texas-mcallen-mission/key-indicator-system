@@ -76,6 +76,11 @@ function updateZoneReportsV5(shard: null | string = null) {
     singleLevelUpdater_(allData.fsData, allData.kiData, "Zone",shard)
 }
 
+function updateMissionReportsV5(shard: null | string = null) {
+    const allData = loadData()
+    singleLevelUpdater_(allData.fsData, allData.kiData, "Mission",shard)
+}
+
 
 
 /**

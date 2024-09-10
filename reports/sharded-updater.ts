@@ -11,6 +11,11 @@ function districtShardUpdater1() {
 function zoneShardUpdater1() {
     updateShard("Zone");
 }
+
+function missionShardUpdater1() {
+    updateShard("Mission")
+}
+
 function areaShardUpdater2() {
     updateShard("Area");
 }
@@ -21,6 +26,10 @@ function districtShardUpdater2() {
 
 function zoneShardUpdater2() {
     updateShard("Zone");
+}
+
+function missionShardUpdater2() {
+    updateShard("Mission")
 }
 
 // function updateShard1_Area() {
@@ -66,6 +75,7 @@ function updateShard(scope: filesystemEntry["fsScope"]) {
     // this implementation is somewhat dumb and essentially requires things to take more than a minute to update to hit shards further down the line.
 
     const scopeFunctionTargets = {
+        "Mission" : updateMissionReportsV5,
         "Zone": updateZoneReportsV5,
         "District": updateDistrictReportsV5,
         "Area": updateAreaReportsV5
@@ -124,8 +134,6 @@ function testShardLock() {
 }
 
 
-
-
 type shardLockCache = {
     [index in filesystemEntry["fsScope"]]: shardSet
 };
@@ -142,9 +150,9 @@ interface shardEntry {
 function createShardValues(): shardLockCache {
     const maxShards = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards;
     const output: shardLockCache = {
-        "Zone": {}, "District": {}, "Area": {},
+        "Mission": {}, "Zone": {}, "District": {}, "Area": {},
     };
-    for (const scope of ["Zone", "District", "Area"]) {
+    for (const scope of ["Mission", "Zone", "District", "Area"]) {
         output[scope] = {};
         for (let i = 1; i <= maxShards; i++) {
             const entry: shardEntry = {
@@ -164,7 +172,7 @@ function createShardValues(): shardLockCache {
  * @return {*}  {shardLockCache}
  */
 function updateCache(cacheOutput): shardLockCache {
-    const scopes = ["Zone", "District", "Area"];
+    const scopes = ["Mission", "Zone", "District", "Area"];
     const testScope: string = scopes[Math.floor(Math.random() * scopes.length)];
     const testShard: string = Math.floor(Math.random() * INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards).toString();
 
@@ -246,7 +254,7 @@ interface shardLockV2Args {
 class shardLockV2 {
     numberOfShards: number = INTERNAL_CONFIG.fileSystem.shardManager.number_of_shards;
     shard_prefix: "SHARDLOCK2_";
-    scopes = ["Zone", "District", "Area"];
+    scopes = ["Mission", "Zone", "District", "Area"];
     currentScope = "";
     concurrent_updates = false;
 
